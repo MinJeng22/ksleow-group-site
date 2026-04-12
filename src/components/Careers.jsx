@@ -4,7 +4,7 @@ export default function Careers() {
   return (
     <div style={{
       background: "#ffffff",
-      padding: "5rem 4vw",
+      padding: "5rem var(--px)",
       display: "flex", alignItems: "center", justifyContent: "space-between",
       gap: "2rem", flexWrap: "wrap",
       borderTop: "0.5px solid rgba(47,49,90,0.1)",

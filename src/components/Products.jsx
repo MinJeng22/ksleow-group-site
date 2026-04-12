@@ -32,7 +32,7 @@ export default function Products({ onContact }) {
   const [hovered, setHovered] = useState(null);
 
   return (
-    <section style={{ background: "#f5f5f8", padding: "6rem 4vw" }}>
+    <section style={{ background: "#f5f5f8", padding: "6rem var(--px)" }}>
       <div style={{ fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.75rem" }}>
         Our Products
       </div>

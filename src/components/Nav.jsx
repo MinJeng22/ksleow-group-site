@@ -26,7 +26,7 @@ export default function Nav({ onContact }) {
       style={{
         position: "fixed", top: 0, left: 0, right: 0, zIndex: 200,
         display: "flex", alignItems: "center", justifyContent: "space-between",
-        padding: "0.85rem 4vw",
+        padding: "0.85rem var(--px)",
         background: "rgba(255,255,255,0.97)",
         backdropFilter: "blur(14px)",
         borderBottom: "0.5px solid rgba(47,49,90,0.12)",

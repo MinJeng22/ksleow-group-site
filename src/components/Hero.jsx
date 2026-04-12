@@ -30,7 +30,7 @@ export default function Hero({ onContact }) {
           position: "relative", zIndex: 2,
           display: "flex", flexDirection: "column",
           alignItems: "center", textAlign: "center",
-          padding: "0 4vw",
+          padding: "0 var(--px)",
           opacity: visible ? 1 : 0,
           transform: visible ? "translateY(0)" : "translateY(28px)",
           transition: "opacity 1.1s ease, transform 1.1s ease",

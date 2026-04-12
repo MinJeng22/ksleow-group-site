@@ -37,7 +37,7 @@ const CASES = [
 
 export default function CaseStudies({ onContact }) {
   return (
-    <section style={{ background: "#2f315a", padding: "6rem 4vw" }}>
+    <section style={{ background: "#2f315a", padding: "6rem var(--px)" }}>
       <div style={{ marginBottom: "3rem" }}>
         <div style={{ fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.75rem" }}>
           Success Stories

@@ -16,6 +16,9 @@
   --radius: 16px;
   --radius-sm: 8px;
   --radius-pill: 50px;
+
+  /* Page horizontal whitespace — used by every section */
+  --px: clamp(20px, 7vw, 96px);
 }
 
 html { scroll-behavior: smooth; }
@@ -28,18 +31,50 @@ body {
 
 .app { overflow-x: hidden; }
 
-/* Responsive overrides */
+/* ── Grid responsive overrides ── */
 @media (max-width: 1024px) {
   .products-grid { grid-template-columns: repeat(2, 1fr) !important; }
 }
+
 @media (max-width: 900px) {
+  :root { --px: clamp(20px, 5vw, 48px); }
   .services-grid { grid-template-columns: repeat(2, 1fr) !important; }
-  .cases-grid { grid-template-columns: 1fr !important; }
-  .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .cases-grid    { grid-template-columns: 1fr !important; }
+  .stats-grid    { grid-template-columns: repeat(2, 1fr) !important; }
 }
+
 @media (max-width: 640px) {
-  .services-grid { grid-template-columns: 1fr !important; }
-  .products-grid { grid-template-columns: 1fr !important; }
-  .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
-  .partners-grid { gap: 0.75rem !important; }
+  :root { --px: 20px; }
+  .services-grid  { grid-template-columns: 1fr !important; }
+  .products-grid  { grid-template-columns: 1fr !important; }
+  .stats-grid     { grid-template-columns: repeat(2, 1fr) !important; }
+  .partners-grid  { gap: 0.75rem !important; }
+  .cases-grid     { grid-template-columns: 1fr !important; }
+}
+
+/* ── Footer responsive ── */
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 1.5fr 1fr;
+  gap: 2.5rem;
+}
+
+@media (max-width: 900px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  .footer-brand-col {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 540px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+  .footer-brand-col {
+    grid-column: auto;
+  }
 }
