@@ -57,18 +57,28 @@ export default function Hero({ onContact }) {
           transition: "opacity 1.1s ease, transform 1.1s ease",
         }}
       >
-        {/* ── Logo: icon original colour, text white, no background ──
-         * Strategy: render the logo twice with no backgrounds.
-         *   Layer 1 (base, screen blend): the gold hexagon icon is bright
-         *     and "screens" through to full opacity on the dark canvas.
-         *   Layer 2 (top, full invert + lighten): converts ALL pixels to
-         *     white. Over a dark bg this makes text white and icon white.
-         * We only want the icon in gold, so we use a single layer with
-         * CSS filter hue-rotate trick — but the simplest no-bg approach:
-         * render once with filter brightness(10) to blow out the dark navy
-         * text to white while the already-bright gold clips near-white naturally.
-         * On a dark hero bg this reads as: gold icon + white text, no box. */}
-        <div style={{ marginBottom: "2.2rem" }}>
+        {/* ── Logo: icon original colour + text white, no background box ──
+         * Two-layer technique, no backgrounds needed:
+         *   Layer 1 (bottom): full invert → everything white including text
+         *   Layer 2 (top, mix-blend-mode: lighten): original PNG sits on the
+         *     dark canvas. "lighten" keeps whichever pixel is brighter.
+         *     Gold icon pixels are bright → they win over Layer 1 white → original gold shows.
+         *     Dark navy text pixels are dark → Layer 1 white wins → text stays white.
+         * Result: gold hexagon icon at original colour, all text pure white, no box. */}
+        <div style={{ position: "relative", display: "inline-block", marginBottom: "2.2rem" }}>
+          {/* Layer 1 — makes everything white */}
+          <img
+            src={LOGO}
+            alt=""
+            aria-hidden="true"
+            style={{
+              height: logoH,
+              objectFit: "contain",
+              display: "block",
+              filter: "brightness(0) invert(1)",
+            }}
+          />
+          {/* Layer 2 — restores gold icon colour via lighten blend */}
           <img
             src={LOGO}
             alt="KSL Business Solutions"
@@ -76,12 +86,9 @@ export default function Hero({ onContact }) {
               height: logoH,
               objectFit: "contain",
               display: "block",
-              /* No background. On a dark canvas:
-                 - Gold pixels (already bright) → remain gold-ish
-                 - Dark navy text → boosted toward white by brightness
-                 Result: icon keeps warmth, text appears light/white */
-              filter: "brightness(3) saturate(0.7)",
-              mixBlendMode: "screen",
+              position: "absolute",
+              top: 0, left: 0,
+              mixBlendMode: "lighten",
             }}
           />
         </div>
@@ -107,6 +114,14 @@ export default function Hero({ onContact }) {
         }}>
           Hello.
         </h1>
+
+        <p style={{
+          fontSize: "clamp(1.05rem, 2.2vw, 1.45rem)",
+          fontWeight: 400, color: "#e8c97a",
+          fontStyle: "italic", marginBottom: "1.2rem",
+        }}>
+          Your Vision, Our Solutions.
+        </p>
 
         <p style={{
           fontSize: "clamp(0.88rem, 1.3vw, 1rem)",
