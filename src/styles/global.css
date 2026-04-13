@@ -37,13 +37,13 @@ body {
 @media (max-width: 1024px) {
   :root { --px: clamp(24px, 5vw, 60px); }
   .products-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .cases-grid    { grid-template-columns: repeat(2, 1fr) !important; }
 }
 
 /* ── Small tablet / large phone ── */
 @media (max-width: 900px) {
   :root { --px: clamp(20px, 5vw, 40px); }
   .services-grid { grid-template-columns: repeat(2, 1fr) !important; }
-  .cases-grid    { grid-template-columns: repeat(2, 1fr) !important; }
   .stats-grid    { grid-template-columns: repeat(2, 1fr) !important; }
 }
 

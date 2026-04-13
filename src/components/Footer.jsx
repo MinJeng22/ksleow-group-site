@@ -167,12 +167,12 @@ export default function Footer() {
       <div style={{
         background: "#13142a",
         padding: "1rem var(--px)",
-        display: "flex", alignItems: "center",
-        justifyContent: "space-between", flexWrap: "wrap", gap: "0.5rem",
+        textAlign: "center",
         fontSize: "0.75rem", color: "#55587a",
+        lineHeight: 1.9,
       }}>
-        <span>© {new Date().getFullYear()} KSL Business Solutions Sdn. Bhd. All rights reserved.</span>
-        <span>Mentakab, Pahang, Malaysia</span>
+        <div>© {new Date().getFullYear()} KSL Business Solutions Sdn. Bhd. All rights reserved.</div>
+        <div>Mentakab, Pahang, Malaysia</div>
       </div>
     </>
   );

@@ -84,12 +84,12 @@ export default function CaseStudies({ onContact }) {
         </p>
       </div>
 
-      {/* 2×2 responsive grid */}
+      {/* 4-col desktop → 2-col tablet → 1-col mobile (matches Products grid) */}
       <div
         className="cases-grid"
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(2, 1fr)",
+          gridTemplateColumns: "repeat(4, 1fr)",
           gap: "1.25rem",
         }}
       >

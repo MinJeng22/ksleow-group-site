@@ -57,30 +57,31 @@ export default function Hero({ onContact }) {
           transition: "opacity 1.1s ease, transform 1.1s ease",
         }}
       >
-        {/* ── Logo: icon original colour, text white ── */}
-        <div style={{ position: "relative", height: logoH, marginBottom: "2.2rem" }}>
-          {/* Layer 1: everything → white */}
-          <img
-            src={LOGO}
-            alt=""
-            aria-hidden="true"
-            style={{
-              height: logoH, objectFit: "contain", display: "block",
-              filter: "brightness(0) invert(1)",
-            }}
-          />
-          {/* Layer 2: original image on top; multiply blends dark navy → transparent
-              leaving only the gold icon visible at its original hue */}
+        {/* ── Logo: icon original colour, text white, no background ──
+         * Strategy: render the logo twice with no backgrounds.
+         *   Layer 1 (base, screen blend): the gold hexagon icon is bright
+         *     and "screens" through to full opacity on the dark canvas.
+         *   Layer 2 (top, full invert + lighten): converts ALL pixels to
+         *     white. Over a dark bg this makes text white and icon white.
+         * We only want the icon in gold, so we use a single layer with
+         * CSS filter hue-rotate trick — but the simplest no-bg approach:
+         * render once with filter brightness(10) to blow out the dark navy
+         * text to white while the already-bright gold clips near-white naturally.
+         * On a dark hero bg this reads as: gold icon + white text, no box. */}
+        <div style={{ marginBottom: "2.2rem" }}>
           <img
             src={LOGO}
             alt="KSL Business Solutions"
             style={{
-              height: logoH, objectFit: "contain", display: "block",
-              position: "absolute", top: 0, left: 0,
-              mixBlendMode: "multiply",
-              /* white bg carrier so multiply has a surface to work on */
-              background: "white",
-              borderRadius: 4,
+              height: logoH,
+              objectFit: "contain",
+              display: "block",
+              /* No background. On a dark canvas:
+                 - Gold pixels (already bright) → remain gold-ish
+                 - Dark navy text → boosted toward white by brightness
+                 Result: icon keeps warmth, text appears light/white */
+              filter: "brightness(3) saturate(0.7)",
+              mixBlendMode: "screen",
             }}
           />
         </div>

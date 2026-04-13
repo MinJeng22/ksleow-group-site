@@ -10,14 +10,18 @@ import { useEffect, useRef } from "react";
  * We also restore mouse-highlight interaction (no repulsion —
  * just a bright line to nearby particles on hover).
  * ─────────────────────────────────────────────────────────────*/
-const DENSITY     = 0.0028;   // particles per px²  (tune here)
+/* DENSITY calibrated to match old mobile look (N≈50 on a 390×844 screen).
+ * 390*844 = 329,160 px² → 50/329160 ≈ 0.000152 particles/px².
+ * MAX_N caps so huge desktop monitors never exceed ~70 particles.        */
+const DENSITY     = 0.000152;
+const MAX_N       = 70;
 const MAX_DIST    = 130;
 const MAX_DIST_SQ = MAX_DIST * MAX_DIST;
 const SPEED       = 0.38;
 const TARGET_FPS  = 40;
 const FRAME_MS    = 1000 / TARGET_FPS;
 const MAX_DPR     = 1;
-const MOUSE_R     = 150;      // px — highlight radius
+const MOUSE_R     = 150;
 const MOUSE_R_SQ  = MOUSE_R * MOUSE_R;
 
 function rand(a, b) { return Math.random() * (b - a) + a; }
@@ -61,7 +65,7 @@ export default function ParticleBackground({ paused }) {
       s.vigGrad.addColorStop(1, "rgba(0,0,0,0.52)");
 
       /* density-based count: same visual density at any screen size */
-      const N = Math.round(W * H * DENSITY);
+      const N = Math.min(MAX_N, Math.max(20, Math.round(W * H * DENSITY)));
       s.particles = Array.from({ length: N }, () => ({
         x:  rand(0, W), y: rand(0, H),
         vx: rand(-SPEED, SPEED) || SPEED,
