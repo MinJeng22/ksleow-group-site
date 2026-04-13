@@ -17,8 +17,10 @@
   --radius-sm: 8px;
   --radius-pill: 50px;
 
-  /* Page horizontal whitespace — used by every section */
-  --px: clamp(20px, 7vw, 96px);
+  /* ── Generous horizontal whitespace ──
+   * clamp(min, preferred, max)
+   * Desktop: up to 96px each side (192px total) for breathing room */
+  --px: clamp(24px, 8vw, 112px);
 }
 
 html { scroll-behavior: smooth; }
@@ -31,25 +33,35 @@ body {
 
 .app { overflow-x: hidden; }
 
-/* ── Grid responsive overrides ── */
+/* ── Tablet ── */
 @media (max-width: 1024px) {
+  :root { --px: clamp(24px, 5vw, 60px); }
   .products-grid { grid-template-columns: repeat(2, 1fr) !important; }
 }
 
+/* ── Small tablet / large phone ── */
 @media (max-width: 900px) {
-  :root { --px: clamp(20px, 5vw, 48px); }
+  :root { --px: clamp(20px, 5vw, 40px); }
   .services-grid { grid-template-columns: repeat(2, 1fr) !important; }
-  .cases-grid    { grid-template-columns: 1fr !important; }
+  .cases-grid    { grid-template-columns: repeat(2, 1fr) !important; }
   .stats-grid    { grid-template-columns: repeat(2, 1fr) !important; }
 }
 
+/* ── Mobile ── */
 @media (max-width: 640px) {
   :root { --px: 20px; }
   .services-grid  { grid-template-columns: 1fr !important; }
   .products-grid  { grid-template-columns: 1fr !important; }
+  .cases-grid     { grid-template-columns: 1fr !important; }
   .stats-grid     { grid-template-columns: repeat(2, 1fr) !important; }
   .partners-grid  { gap: 0.75rem !important; }
-  .cases-grid     { grid-template-columns: 1fr !important; }
+
+  /* Hero: on mobile centre content and remove maxWidth clamp */
+  #hero .hero-content {
+    max-width: 100% !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
 }
 
 /* ── Footer responsive ── */
@@ -64,9 +76,7 @@ body {
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
   }
-  .footer-brand-col {
-    grid-column: 1 / -1;
-  }
+  .footer-brand-col { grid-column: 1 / -1; }
 }
 
 @media (max-width: 540px) {
@@ -74,7 +84,5 @@ body {
     grid-template-columns: 1fr;
     gap: 1.75rem;
   }
-  .footer-brand-col {
-    grid-column: auto;
-  }
+  .footer-brand-col { grid-column: auto; }
 }

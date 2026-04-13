@@ -1,13 +1,31 @@
 import { useState, useEffect } from "react";
 import ParticleBackground from "./ParticleBackground";
 import { LOGO } from "../assets/assets.js";
-import { WA_LINK } from "../constants/contact.js";
+
+/* Split-logo technique:
+ * The KSL logo PNG has a gold hexagon icon + dark navy text.
+ * We render it TWICE in a stacked container:
+ *   1. Bottom layer — full invert (brightness(0) invert(1)) → everything white
+ *   2. Top layer    — clip to the TEXT portion only via CSS clip-path,
+ *                     but the icon gets its original colour back by rendering
+ *                     the original on top with mix-blend-mode:multiply + white bg.
+ *
+ * Simpler approach used here: render logo twice with different blend modes.
+ * Layer 1 (base): filter brightness(0) invert(1) → full white
+ * Layer 2 (top):  original PNG, mix-blend-mode: multiply on white → only the
+ *                 gold icon is visible (dark navy text becomes invisible on white).
+ * Combined: gold icon shows original colour, text appears white. */
 
 export default function Hero({ onContact }) {
-  const [paused, setPaused] = useState(false);
+  const [paused, setPaused]   = useState(false);
   const [visible, setVisible] = useState(false);
 
-  useEffect(() => { const t = setTimeout(() => setVisible(true), 120); return () => clearTimeout(t); }, []);
+  useEffect(() => {
+    const t = setTimeout(() => setVisible(true), 120);
+    return () => clearTimeout(t);
+  }, []);
+
+  const logoH = "clamp(90px, 13vw, 155px)";
 
   return (
     <section
@@ -17,46 +35,63 @@ export default function Hero({ onContact }) {
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
+        alignItems: "flex-start",      /* left-align on all sizes */
         justifyContent: "center",
         overflow: "hidden",
       }}
     >
       <ParticleBackground paused={paused} />
 
-      {/* centered content */}
+      {/* hero content — left-aligned, shifted up slightly */}
       <div
+        className="hero-content"
         style={{
           position: "relative", zIndex: 2,
           display: "flex", flexDirection: "column",
-          alignItems: "center", textAlign: "center",
+          alignItems: "flex-start", textAlign: "left",
           padding: "0 var(--px)",
+          maxWidth: "min(680px, 55%)",
+          marginTop: "-6vh",           /* visual upward shift */
           opacity: visible ? 1 : 0,
           transform: visible ? "translateY(0)" : "translateY(28px)",
           transition: "opacity 1.1s ease, transform 1.1s ease",
         }}
       >
-        {/* Logo — white text version via CSS filter */}
-        <div style={{ marginBottom: "2.5rem" }}>
+        {/* ── Logo: icon original colour, text white ── */}
+        <div style={{ position: "relative", height: logoH, marginBottom: "2.2rem" }}>
+          {/* Layer 1: everything → white */}
+          <img
+            src={LOGO}
+            alt=""
+            aria-hidden="true"
+            style={{
+              height: logoH, objectFit: "contain", display: "block",
+              filter: "brightness(0) invert(1)",
+            }}
+          />
+          {/* Layer 2: original image on top; multiply blends dark navy → transparent
+              leaving only the gold icon visible at its original hue */}
           <img
             src={LOGO}
             alt="KSL Business Solutions"
             style={{
-              height: "clamp(80px, 12vw, 130px)",
-              objectFit: "contain",
-              /* invert dark pixels → white, keeping gold emblem natural */
-              filter: "brightness(0) invert(1)",
+              height: logoH, objectFit: "contain", display: "block",
+              position: "absolute", top: 0, left: 0,
+              mixBlendMode: "multiply",
+              /* white bg carrier so multiply has a surface to work on */
+              background: "white",
+              borderRadius: 4,
             }}
           />
         </div>
 
-        {/* Tagline badge */}
+        {/* badge */}
         <div style={{
-          display: "inline-block",
+          display: "inline-flex", alignItems: "center",
           background: "rgba(201,168,76,0.15)",
           border: "1px solid rgba(201,168,76,0.4)",
           color: "#e8c97a",
-          fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.14em",
+          fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.13em",
           padding: "0.35rem 1.1rem", borderRadius: 50, marginBottom: "1.4rem",
           textTransform: "uppercase",
         }}>
@@ -64,16 +99,16 @@ export default function Hero({ onContact }) {
         </div>
 
         <h1 style={{
-          fontSize: "clamp(2.2rem, 5vw, 4rem)",
+          fontSize: "clamp(2.4rem, 5.5vw, 4.4rem)",
           fontWeight: 700, color: "#ffffff",
-          lineHeight: 1.1, letterSpacing: "-0.02em",
+          lineHeight: 1.08, letterSpacing: "-0.025em",
           marginBottom: "0.5rem",
         }}>
           Hello.
         </h1>
 
         <p style={{
-          fontSize: "clamp(1.1rem, 2.2vw, 1.55rem)",
+          fontSize: "clamp(1.05rem, 2.2vw, 1.5rem)",
           fontWeight: 400, color: "#e8c97a",
           fontStyle: "italic", marginBottom: "1.2rem",
         }}>
@@ -81,21 +116,21 @@ export default function Hero({ onContact }) {
         </p>
 
         <p style={{
-          fontSize: "clamp(0.9rem, 1.4vw, 1.05rem)",
+          fontSize: "clamp(0.88rem, 1.3vw, 1rem)",
           color: "rgba(255,255,255,0.65)",
-          lineHeight: 1.8, maxWidth: 580, marginBottom: "2.4rem",
+          lineHeight: 1.82, marginBottom: "2.4rem",
         }}>
-          KSL Business Solutions Sdn. Bhd. delivers comprehensive accounting software,
-          expert technical services, professional training, IT networking, and plugin
-          development — all under one roof.
+          KSL Business Solutions Sdn. Bhd. delivers comprehensive accounting
+          software, expert technical services, professional training, IT networking,
+          and plugin development — all under one roof.
         </p>
 
-        <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", justifyContent: "center" }}>
+        <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
           <button
             onClick={onContact}
             style={{
               background: "#c9a84c", color: "#1e2040",
-              padding: "0.8rem 2.2rem", borderRadius: 50,
+              padding: "0.82rem 2.2rem", borderRadius: 50,
               fontSize: "0.92rem", fontWeight: 700,
               border: "none", cursor: "pointer", fontFamily: "inherit",
               transition: "opacity 0.2s",
@@ -110,11 +145,11 @@ export default function Hero({ onContact }) {
             style={{
               background: "transparent", color: "#ffffff",
               border: "1.5px solid rgba(255,255,255,0.35)",
-              padding: "0.8rem 2.2rem", borderRadius: 50,
+              padding: "0.82rem 2.2rem", borderRadius: 50,
               fontSize: "0.92rem", fontWeight: 500,
               textDecoration: "none", transition: "border-color 0.2s",
             }}
-            onMouseOver={e => e.currentTarget.style.borderColor = "rgba(255,255,255,0.8)"}
+            onMouseOver={e => e.currentTarget.style.borderColor = "rgba(255,255,255,0.82)"}
             onMouseOut={e => e.currentTarget.style.borderColor = "rgba(255,255,255,0.35)"}
           >
             Our Services
@@ -122,19 +157,21 @@ export default function Hero({ onContact }) {
         </div>
       </div>
 
-      {/* scroll hint */}
+      {/* scroll cue */}
       <div style={{
         position: "absolute", bottom: 32, left: "50%",
         transform: "translateX(-50%)", zIndex: 2,
         display: "flex", flexDirection: "column", alignItems: "center", gap: 6,
-        opacity: 0.45,
+        opacity: 0.4, pointerEvents: "none",
       }}>
-        <div style={{ width: 1, height: 40, background: "#e8c97a",
-          animation: "scrollPulse 1.8s ease-in-out infinite" }} />
-        <style>{`@keyframes scrollPulse{0%,100%{opacity:.3;transform:scaleY(.7)}50%{opacity:1;transform:scaleY(1)}}`}</style>
+        <div style={{
+          width: 1, height: 40, background: "#e8c97a",
+          animation: "scrollPulse 1.8s ease-in-out infinite",
+        }} />
+        <style>{`@keyframes scrollPulse{0%,100%{opacity:.25;transform:scaleY(.6)}50%{opacity:1;transform:scaleY(1)}}`}</style>
       </div>
 
-      {/* pause / play button */}
+      {/* pause / play */}
       <button
         onClick={() => setPaused(p => !p)}
         title={paused ? "Play background" : "Pause background"}

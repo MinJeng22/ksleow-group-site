@@ -1,8 +1,8 @@
 const STATS = [
-  { num: "500+",  label: "Businesses Served" },
-  { num: "15+",   label: "Years in Pahang" },
-  { num: "6",     label: "Service Pillars" },
-  { num: "100%",  label: "Authorized Dealer" },
+  { num: "500+", label: "Businesses Served" },
+  { num: "8",    label: "Years in Pahang" },
+  { num: "6",    label: "Service Pillars" },
+  { num: "100%", label: "Authorized Dealer" },
 ];
 
 export default function Stats() {
