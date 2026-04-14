@@ -35,8 +35,8 @@ export default function Hero({ onContact }) {
     >
       <ParticleBackground paused={paused} />
 
-      {/* content-wrap centres the column; hero-content left-aligns within it */}
-      <div className="content-wrap" style={{ position: "relative", zIndex: 2 }}>
+      {/* content-wrap constrains width and adds side padding — same as all other sections */}
+      <div className="content-wrap" style={{ position: "relative", zIndex: 2, width: "100%" }}>
         <div
           className="hero-content"
           style={{
@@ -63,7 +63,7 @@ export default function Hero({ onContact }) {
             />
           </div>
 
-          {/* Authorized Dealer badge */}
+          {/* Badge */}
           <div style={{
             display: "inline-flex", alignItems: "center",
             background: "rgba(201,168,76,0.15)",
@@ -94,14 +94,16 @@ export default function Hero({ onContact }) {
             Your Vision, Our Solutions.
           </p>
 
+          {/* Updated company description */}
           <p style={{
             fontSize: "clamp(0.88rem, 1.3vw, 1rem)",
             color: "rgba(255,255,255,0.65)",
             lineHeight: 1.82, marginBottom: "2.4rem",
           }}>
-            KSL Business Solutions Sdn. Bhd. delivers comprehensive accounting
-            software, expert technical services, professional training, IT networking,
-            and plugin development — all under one roof.
+            K.S. Leow Group, established in 1981, provides a comprehensive suite
+            of services including accounting, secretarial, taxation, management,
+            and auditing, alongside computer hardware wholesale, technical services,
+            and training — all under one roof.
           </p>
 
           <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>

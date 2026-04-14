@@ -5,10 +5,10 @@ import { CONTACT, WA_LINK } from "../constants/contact.js";
 /* ══════════════════════════════════════════════════════════════
  * FOOTER LOGO
  * To swap: replace  src/assets/logos/logo-footer.png
- * The filter below renders it pure white on the dark footer bg.
+ * filter: brightness(0) invert(1) renders it pure white on
+ * the dark footer background.
  * ══════════════════════════════════════════════════════════════ */
 
-/* ── Inline SVG icon helper ── */
 const Icon = ({ d, size = 14 }) => (
   <svg
     width={size} height={size} viewBox="0 0 24 24"
@@ -20,7 +20,6 @@ const Icon = ({ d, size = 14 }) => (
   </svg>
 );
 
-/* Icon path strings */
 const IC = {
   mapPin:   "M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0z M12 7a3 3 0 1 0 0 6 3 3 0 0 0 0-6z",
   phone:    "M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12a19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 3.08 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 17z",
@@ -29,7 +28,6 @@ const IC = {
   whatsapp: "M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z",
 };
 
-/* ── Reusable row: icon + text, optional link ── */
 function ContactRow({ icon, href, label, external }) {
   const [hov, setHov] = useState(false);
   const Tag = href ? "a" : "div";
@@ -55,6 +53,14 @@ function ContactRow({ icon, href, label, external }) {
     </Tag>
   );
 }
+
+/* ── Gold heading shared style — matches the KSL logo gold ── */
+const footerHeading = {
+  fontSize: "0.7rem", fontWeight: 600,
+  color: "#c9a84c",                   /* gold — same as logo accent */
+  textTransform: "uppercase", letterSpacing: "0.11em",
+  marginBottom: "1.1rem",
+};
 
 export default function Footer() {
   return (
@@ -83,28 +89,15 @@ export default function Footer() {
 
             {/* ── Contact Us ── */}
             <div>
-              <h4 style={{
-                fontSize: "0.7rem", fontWeight: 600, color: "#ffffff",
-                textTransform: "uppercase", letterSpacing: "0.11em", marginBottom: "1.1rem",
-              }}>
-                Contact Us
-              </h4>
-              {/* Address with map-pin icon */}
+              <h4 style={footerHeading}>Contact Us</h4>
               <ContactRow icon={IC.mapPin} label={CONTACT.address} />
-              {/* Phone */}
-              <ContactRow icon={IC.phone} href={`tel:${CONTACT.phone}`} label={CONTACT.phone} />
-              {/* Email */}
-              <ContactRow icon={IC.mail} href={`mailto:${CONTACT.email}`} label={CONTACT.email} />
+              <ContactRow icon={IC.phone} href={`tel:${CONTACT.phone}`}    label={CONTACT.phone} />
+              <ContactRow icon={IC.mail}  href={`mailto:${CONTACT.email}`} label={CONTACT.email} />
             </div>
 
             {/* ── Services ── */}
             <div>
-              <h4 style={{
-                fontSize: "0.7rem", fontWeight: 600, color: "#ffffff",
-                textTransform: "uppercase", letterSpacing: "0.11em", marginBottom: "1.1rem",
-              }}>
-                Services
-              </h4>
+              <h4 style={footerHeading}>Services</h4>
               {[
                 "AutoCount Software",
                 "Technical Services",
@@ -121,12 +114,7 @@ export default function Footer() {
 
             {/* ── Follow Us ── */}
             <div>
-              <h4 style={{
-                fontSize: "0.7rem", fontWeight: 600, color: "#ffffff",
-                textTransform: "uppercase", letterSpacing: "0.11em", marginBottom: "1.1rem",
-              }}>
-                Follow Us
-              </h4>
+              <h4 style={footerHeading}>Follow Us</h4>
               <ContactRow icon={IC.facebook} href={CONTACT.facebook} label="Facebook" external />
               <ContactRow icon={IC.whatsapp} href={WA_LINK}          label="WhatsApp"  external />
             </div>

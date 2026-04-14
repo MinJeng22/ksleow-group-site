@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Nav from "./components/Nav";
 import Hero from "./components/Hero";
 import Stats from "./components/Stats";
-import Partners from "./components/Partners";
 import Services from "./components/Services";
 import CaseStudies from "./components/CaseStudies";
 import Products from "./components/Products";
+import Partners from "./components/Partners";
 import Careers from "./components/Careers";
 import Footer from "./components/Footer";
 import ContactModal from "./components/ContactModal";
@@ -20,10 +20,10 @@ export default function App() {
       <Nav onContact={openContact} />
       <Hero onContact={openContact} />
       <Stats />
-      <Partners />
       <Services />
       <CaseStudies onContact={openContact} />
       <Products onContact={openContact} />
+      <Partners />
       <Careers />
       <Footer onContact={openContact} />
       <ContactModal open={modalOpen} onClose={() => setModalOpen(false)} />
