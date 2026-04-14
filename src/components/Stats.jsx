@@ -7,12 +7,13 @@ const STATS = [
 
 export default function Stats() {
   return (
-    <div style={{ background: "#ffffff", borderBottom: "0.5px solid rgba(47,49,90,0.1)" }}>
     <div
-      className="content-wrap stats-grid"
+      className="stats-grid"
       style={{
+        background: "#ffffff",
         display: "grid",
         gridTemplateColumns: "repeat(4, 1fr)",
+        borderBottom: "0.5px solid rgba(47,49,90,0.1)",
       }}
     >
       {STATS.map((s, i) => (
@@ -37,7 +38,6 @@ export default function Stats() {
           </div>
         </div>
       ))}
-    </div>
     </div>
   );
 }

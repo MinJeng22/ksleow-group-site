@@ -74,8 +74,7 @@ export default function Services() {
   const [hovered, setHovered] = useState(null);
 
   return (
-    <section id="services" style={{ background: "#ffffff", padding: "6rem 0" }}>
-    <div className="content-wrap">
+    <section id="services" style={{ background: "#ffffff", padding: "6rem var(--px)" }}>
       <div style={{
         fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.12em",
         textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.75rem",
@@ -142,7 +141,6 @@ export default function Services() {
           );
         })}
       </div>
-    </div>
     </section>
   );
 }

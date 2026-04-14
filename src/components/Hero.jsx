@@ -1,11 +1,20 @@
 import { useState, useEffect } from "react";
 import ParticleBackground from "./ParticleBackground";
-import { LOGO_HERO } from "../assets/assets.js";
+import { LOGO } from "../assets/assets.js";
 
-/* ── HERO LOGO
- * To swap: replace  src/assets/logos/logo-hero.png
- * filter: brightness(0) invert(1) → renders everything pure white,
- * no background box needed on the dark animated canvas.            */
+/* Split-logo technique:
+ * The KSL logo PNG has a gold hexagon icon + dark navy text.
+ * We render it TWICE in a stacked container:
+ *   1. Bottom layer — full invert (brightness(0) invert(1)) → everything white
+ *   2. Top layer    — clip to the TEXT portion only via CSS clip-path,
+ *                     but the icon gets its original colour back by rendering
+ *                     the original on top with mix-blend-mode:multiply + white bg.
+ *
+ * Simpler approach used here: render logo twice with different blend modes.
+ * Layer 1 (base): filter brightness(0) invert(1) → full white
+ * Layer 2 (top):  original PNG, mix-blend-mode: multiply on white → only the
+ *                 gold icon is visible (dark navy text becomes invisible on white).
+ * Combined: gold icon shows original colour, text appears white. */
 
 export default function Hero({ onContact }) {
   const [paused, setPaused]   = useState(false);
@@ -26,113 +35,133 @@ export default function Hero({ onContact }) {
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
-        alignItems: "flex-start",
+        alignItems: "flex-start",      /* left-align on all sizes */
         justifyContent: "center",
         overflow: "hidden",
       }}
     >
       <ParticleBackground paused={paused} />
 
-      {/* content-wrap centres the column; hero-content left-aligns within it */}
-      <div className="content-wrap" style={{ position: "relative", zIndex: 2 }}>
-        <div
-          className="hero-content"
-          style={{
-            display: "flex", flexDirection: "column",
-            alignItems: "flex-start", textAlign: "left",
-            maxWidth: 580,
-            marginTop: "-6vh",
-            opacity: visible ? 1 : 0,
-            transform: visible ? "translateY(0)" : "translateY(28px)",
-            transition: "opacity 1.1s ease, transform 1.1s ease",
-          }}
-        >
-          {/* ── HERO LOGO — full white, no background box ──
-           * filter: brightness(0) invert(1) maps every pixel to white.
-           * Works cleanly on the dark animated canvas with no bg box.  */}
-          <div style={{ marginBottom: "2.2rem" }}>
-            <img
-              src={LOGO_HERO}
-              alt="KSL Business Solutions"
-              style={{
-                height: logoH,
-                objectFit: "contain",
-                display: "block",
-                filter: "brightness(0) invert(1)",
-              }}
-            />
-          </div>
+      {/* hero content — left-aligned, shifted up slightly */}
+      <div
+        className="hero-content"
+        style={{
+          position: "relative", zIndex: 2,
+          display: "flex", flexDirection: "column",
+          alignItems: "flex-start", textAlign: "left",
+          padding: "0 var(--px)",
+          maxWidth: "min(680px, 55%)",
+          marginTop: "-6vh",           /* visual upward shift */
+          opacity: visible ? 1 : 0,
+          transform: visible ? "translateY(0)" : "translateY(28px)",
+          transition: "opacity 1.1s ease, transform 1.1s ease",
+        }}
+      >
+        {/* ── Logo: icon original colour + text white, no background box ──
+         * Two-layer technique, no backgrounds needed:
+         *   Layer 1 (bottom): full invert → everything white including text
+         *   Layer 2 (top, mix-blend-mode: lighten): original PNG sits on the
+         *     dark canvas. "lighten" keeps whichever pixel is brighter.
+         *     Gold icon pixels are bright → they win over Layer 1 white → original gold shows.
+         *     Dark navy text pixels are dark → Layer 1 white wins → text stays white.
+         * Result: gold hexagon icon at original colour, all text pure white, no box. */}
+        <div style={{ position: "relative", display: "inline-block", marginBottom: "2.2rem" }}>
+          {/* Layer 1 — makes everything white */}
+          <img
+            src={LOGO}
+            alt=""
+            aria-hidden="true"
+            style={{
+              height: logoH,
+              objectFit: "contain",
+              display: "block",
+              filter: "brightness(0) invert(1)",
+            }}
+          />
+          {/* Layer 2 — restores gold icon colour via lighten blend */}
+          <img
+            src={LOGO}
+            alt="KSL Business Solutions"
+            style={{
+              height: logoH,
+              objectFit: "contain",
+              display: "block",
+              position: "absolute",
+              top: 0, left: 0,
+              mixBlendMode: "lighten",
+            }}
+          />
+        </div>
 
-          {/* badge */}
-          <div style={{
-            display: "inline-flex", alignItems: "center",
-            background: "rgba(201,168,76,0.15)",
-            border: "1px solid rgba(201,168,76,0.4)",
-            color: "#e8c97a",
-            fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.13em",
-            padding: "0.35rem 1.1rem", borderRadius: 50, marginBottom: "1.4rem",
-            textTransform: "uppercase",
-          }}>
-            Pahang's No. 1 AutoCount Authorized Dealer
-          </div>
+        {/* badge */}
+        <div style={{
+          display: "inline-flex", alignItems: "center",
+          background: "rgba(201,168,76,0.15)",
+          border: "1px solid rgba(201,168,76,0.4)",
+          color: "#e8c97a",
+          fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.13em",
+          padding: "0.35rem 1.1rem", borderRadius: 50, marginBottom: "1.4rem",
+          textTransform: "uppercase",
+        }}>
+          Pahang's No. 1 AutoCount Authorized Dealer
+        </div>
 
-          <h1 style={{
-            fontSize: "clamp(2.4rem, 5.5vw, 4.4rem)",
-            fontWeight: 700, color: "#ffffff",
-            lineHeight: 1.08, letterSpacing: "-0.025em",
-            marginBottom: "0.5rem",
-          }}>
-            Hello.
-          </h1>
+        <h1 style={{
+          fontSize: "clamp(2.4rem, 5.5vw, 4.4rem)",
+          fontWeight: 700, color: "#ffffff",
+          lineHeight: 1.08, letterSpacing: "-0.025em",
+          marginBottom: "0.5rem",
+        }}>
+          Hello.
+        </h1>
 
-          <p style={{
-            fontSize: "clamp(1.05rem, 2.2vw, 1.45rem)",
-            fontWeight: 400, color: "#e8c97a",
-            fontStyle: "italic", marginBottom: "1.2rem",
-          }}>
-            Your Vision, Our Solutions.
-          </p>
+        <p style={{
+          fontSize: "clamp(1.05rem, 2.2vw, 1.45rem)",
+          fontWeight: 400, color: "#e8c97a",
+          fontStyle: "italic", marginBottom: "1.2rem",
+        }}>
+          Your Vision, Our Solutions.
+        </p>
 
-          <p style={{
-            fontSize: "clamp(0.88rem, 1.3vw, 1rem)",
-            color: "rgba(255,255,255,0.65)",
-            lineHeight: 1.82, marginBottom: "2.4rem",
-          }}>
-            KSL Business Solutions Sdn. Bhd. delivers comprehensive accounting
-            software, expert technical services, professional training, IT networking,
-            and plugin development — all under one roof.
-          </p>
+        <p style={{
+          fontSize: "clamp(0.88rem, 1.3vw, 1rem)",
+          color: "rgba(255,255,255,0.65)",
+          lineHeight: 1.82, marginBottom: "2.4rem",
+        }}>
+          KSL Business Solutions Sdn. Bhd. delivers comprehensive accounting
+          software, expert technical services, professional training, IT networking,
+          and plugin development — all under one roof.
+        </p>
 
-          <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-            <button
-              onClick={onContact}
-              style={{
-                background: "#c9a84c", color: "#1e2040",
-                padding: "0.82rem 2.2rem", borderRadius: 50,
-                fontSize: "0.92rem", fontWeight: 700,
-                border: "none", cursor: "pointer", fontFamily: "inherit",
-                transition: "opacity 0.2s",
-              }}
-              onMouseOver={e => e.currentTarget.style.opacity = "0.85"}
-              onMouseOut={e => e.currentTarget.style.opacity = "1"}
-            >
-              Get in touch
-            </button>
-            <a
-              href="#services"
-              style={{
-                background: "transparent", color: "#ffffff",
-                border: "1.5px solid rgba(255,255,255,0.35)",
-                padding: "0.82rem 2.2rem", borderRadius: 50,
-                fontSize: "0.92rem", fontWeight: 500,
-                textDecoration: "none", transition: "border-color 0.2s",
-              }}
-              onMouseOver={e => e.currentTarget.style.borderColor = "rgba(255,255,255,0.82)"}
-              onMouseOut={e => e.currentTarget.style.borderColor = "rgba(255,255,255,0.35)"}
-            >
-              Our Services
-            </a>
-          </div>
+        <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+          <button
+            onClick={onContact}
+            style={{
+              background: "#c9a84c", color: "#1e2040",
+              padding: "0.82rem 2.2rem", borderRadius: 50,
+              fontSize: "0.92rem", fontWeight: 700,
+              border: "none", cursor: "pointer", fontFamily: "inherit",
+              transition: "opacity 0.2s",
+            }}
+            onMouseOver={e => e.currentTarget.style.opacity = "0.85"}
+            onMouseOut={e => e.currentTarget.style.opacity = "1"}
+          >
+            Get in touch
+          </button>
+          <a
+            href="#services"
+            style={{
+              background: "transparent", color: "#ffffff",
+              border: "1.5px solid rgba(255,255,255,0.35)",
+              padding: "0.82rem 2.2rem", borderRadius: 50,
+              fontSize: "0.92rem", fontWeight: 500,
+              textDecoration: "none", transition: "border-color 0.2s",
+            }}
+            onMouseOver={e => e.currentTarget.style.borderColor = "rgba(255,255,255,0.82)"}
+            onMouseOut={e => e.currentTarget.style.borderColor = "rgba(255,255,255,0.35)"}
+          >
+            Our Services
+          </a>
         </div>
       </div>
 

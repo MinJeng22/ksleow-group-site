@@ -5,56 +5,49 @@
 :root {
   --brand: #2f315a;
   --brand-light: #3d4075;
+  --brand-dark: #1e2040;
   --gold: #c9a84c;
   --gold-light: #e8c97a;
   --white: #ffffff;
   --light-bg: #f5f5f8;
+  --text: #1a1a2e;
   --muted: #6b6f91;
+  --border: rgba(47, 49, 90, 0.12);
+  --radius: 16px;
+  --radius-sm: 8px;
+  --radius-pill: 50px;
 
-  /* ── Horizontal outer padding (section edge → content column) ─────
-   * On wide desktop this is the "breathing room" outside the column.
-   * Adjust --content-max-w to shrink/widen the column itself.       */
-  --px: clamp(24px, 5vw, 64px);
-
-  /* ── Content column width ────────────────────────────────────────
-   * All section content is centred inside this column.
-   * Combined with --px this creates generous negative space:
-   *   1440px screen → (1440 - 1080) / 2 = 180px each side         */
-  --content-max-w: 1080px;
+  /* ── Generous horizontal whitespace ──
+   * clamp(min, preferred, max)
+   * Desktop: up to 96px each side (192px total) for breathing room */
+  --px: clamp(24px, 10vw, 140px);
 }
 
 html { scroll-behavior: smooth; }
 body {
   font-family: 'Poppins', sans-serif;
-  color: var(--brand);
+  color: var(--text);
   background: var(--white);
   overflow-x: hidden;
 }
 
 .app { overflow-x: hidden; }
 
-/* ── Content column wrapper ──────────────────────────────────────
- * Wrap every section's inner content in <div className="content-wrap">.
- * This centres the column and pads left/right with --px.
- * The section itself stays full-bleed for background colours.      */
-.content-wrap {
-  max-width: var(--content-max-w);
-  margin: 0 auto;
-  width: 100%;
-  padding-left: var(--px);
-  padding-right: var(--px);
-}
-
-/* ── Grids ── */
+/* ── Tablet ── */
 @media (max-width: 1024px) {
+  :root { --px: clamp(24px, 5vw, 60px); }
   .products-grid { grid-template-columns: repeat(2, 1fr) !important; }
   .cases-grid    { grid-template-columns: repeat(2, 1fr) !important; }
 }
+
+/* ── Small tablet / large phone ── */
 @media (max-width: 900px) {
-  :root { --px: clamp(20px, 4vw, 40px); }
+  :root { --px: clamp(20px, 5vw, 40px); }
   .services-grid { grid-template-columns: repeat(2, 1fr) !important; }
   .stats-grid    { grid-template-columns: repeat(2, 1fr) !important; }
 }
+
+/* ── Mobile ── */
 @media (max-width: 640px) {
   :root { --px: 20px; }
   .services-grid  { grid-template-columns: 1fr !important; }
@@ -62,26 +55,34 @@ body {
   .cases-grid     { grid-template-columns: 1fr !important; }
   .stats-grid     { grid-template-columns: repeat(2, 1fr) !important; }
   .partners-grid  { gap: 0.75rem !important; }
-  .hero-content   {
+
+  /* Hero: on mobile centre content and remove maxWidth clamp */
+  #hero .hero-content {
     max-width: 100% !important;
-    padding-left: 20px !important;
-    padding-right: 20px !important;
     align-items: center !important;
     text-align: center !important;
   }
 }
 
-/* ── Footer grid ── */
+/* ── Footer responsive ── */
 .footer-grid {
   display: grid;
   grid-template-columns: 2fr 1.5fr 1.5fr 1fr;
   gap: 2.5rem;
 }
+
 @media (max-width: 900px) {
-  .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
   .footer-brand-col { grid-column: 1 / -1; }
 }
+
 @media (max-width: 540px) {
-  .footer-grid { grid-template-columns: 1fr; gap: 1.75rem; }
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
   .footer-brand-col { grid-column: auto; }
 }

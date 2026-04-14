@@ -2,12 +2,13 @@ import { CONTACT } from "../constants/contact.js";
 
 export default function Careers() {
   return (
-    <div style={{ background: "#ffffff", padding: "5rem 0",
-      borderTop: "0.5px solid rgba(47,49,90,0.1)" }}>
-    <div className="content-wrap" style={{ display: "flex", alignItems: "center",
-      justifyContent: "space-between", gap: "2rem", flexWrap: "wrap" }}>
-}>
-    {/* inner already set via content-wrap */
+    <div style={{
+      background: "#ffffff",
+      padding: "5rem var(--px)",
+      display: "flex", alignItems: "center", justifyContent: "space-between",
+      gap: "2rem", flexWrap: "wrap",
+      borderTop: "0.5px solid rgba(47,49,90,0.1)",
+    }}>
       <div style={{ maxWidth: 600 }}>
         <div style={{ fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.75rem" }}>
           Join Us
