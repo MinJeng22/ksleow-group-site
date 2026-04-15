@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
 import { WA_LINK } from "../../constants/contact.js";
@@ -269,6 +269,10 @@ function ReleaseCard({ r, expanded, onToggle }) {
 
 export default function AutoCountAccountingPage({ onContact }) {
   const navigate = useNavigate();
+
+  /* Fix 5: always start at top of page when navigating here */
+  useEffect(() => { window.scrollTo({ top: 0, behavior: "instant" }); }, []);
+
   const [expanded, setExpanded] = useState(0);   /* first card open by default */
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");   /* all | features | fixes */
@@ -354,6 +358,97 @@ export default function AutoCountAccountingPage({ onContact }) {
                 <div style={{ fontSize: "0.8rem", color: "#6b6f91", lineHeight: 1.6 }}>{f.desc}</div>
               </div>
             ))}
+          </div>
+        </div>
+      </div>
+
+
+      {/* ══════════════════════════════════════════════════════════
+       * LEARN AUTOCOUNT IN 60 MINUTES — Video Section
+       * ══════════════════════════════════════════════════════════ */}
+      <div style={{ background: "#ffffff", padding: "4rem 0", borderBottom: "0.5px solid rgba(47,49,90,0.08)" }}>
+        <div className="content-wrap">
+          <div className="video-grid" style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "3.5rem",
+            alignItems: "center",
+          }}>
+            {/* Text side */}
+            <div>
+              <div style={{
+                fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.12em",
+                textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.75rem",
+              }}>
+                Free Training
+              </div>
+              <h2 style={{
+                fontSize: "clamp(1.5rem, 2.8vw, 2.2rem)", fontWeight: 700,
+                color: "#2f315a", lineHeight: 1.2, marginBottom: "1rem",
+              }}>
+                Learn AutoCount Accounting<br />in Just 60 Minutes
+              </h2>
+              <p style={{
+                fontSize: "0.95rem", color: "#6b6f91", lineHeight: 1.8,
+                marginBottom: "1.5rem", maxWidth: 440,
+              }}>
+                Skip the long manuals. AutoCount's 60-minute guide covers
+                everything you need to know to navigate AutoCount Accounting
+                with confidence — from basic setup to daily transactions.
+              </p>
+              <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+                <a
+                  href="https://youtu.be/ztmg4hvro6U?si=hojFUhwFF0gOmzA8"
+                  target="_blank" rel="noreferrer"
+                  style={{
+                    display: "inline-flex", alignItems: "center", gap: "0.5rem",
+                    background: "#2f315a", color: "#ffffff",
+                    padding: "0.75rem 1.75rem", borderRadius: 50,
+                    fontSize: "0.88rem", fontWeight: 600,
+                    textDecoration: "none", transition: "background 0.2s",
+                  }}
+                  onMouseOver={e => e.currentTarget.style.background = "#3d4075"}
+                  onMouseOut={e => e.currentTarget.style.background = "#2f315a"}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+                  Watch on YouTube
+                </a>
+                <a
+                  href="https://youtu.be/ztmg4hvro6U?si=hojFUhwFF0gOmzA8"
+                  target="_blank" rel="noreferrer"
+                  style={{
+                    display: "inline-flex", alignItems: "center", gap: "0.5rem",
+                    background: "transparent", color: "#2f315a",
+                    border: "1.5px solid rgba(47,49,90,0.25)",
+                    padding: "0.75rem 1.75rem", borderRadius: 50,
+                    fontSize: "0.88rem", fontWeight: 500,
+                    textDecoration: "none", transition: "border-color 0.2s",
+                  }}
+                  onMouseOver={e => e.currentTarget.style.borderColor = "rgba(47,49,90,0.6)"}
+                  onMouseOut={e => e.currentTarget.style.borderColor = "rgba(47,49,90,0.25)"}
+                >
+                  Free • 60 min • By AutoCount
+                </a>
+              </div>
+            </div>
+
+            {/* YouTube embed side */}
+            <div style={{ position: "relative", borderRadius: 16, overflow: "hidden", boxShadow: "0 16px 48px rgba(47,49,90,0.14)" }}>
+              {/* 16:9 responsive container */}
+              <div style={{ paddingBottom: "56.25%", position: "relative", background: "#0f1128" }}>
+                <iframe
+                  src="https://www.youtube.com/embed/ztmg4hvro6U"
+                  title="Learn AutoCount Accounting in 60 Minutes"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  style={{
+                    position: "absolute", inset: 0,
+                    width: "100%", height: "100%",
+                    border: "none",
+                  }}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -51,16 +51,18 @@ export default function Hero({ onContact }) {
         >
           {/* ── Hero Logo — full white, no background box ── */}
           <div style={{ marginBottom: "2.2rem" }}>
-            <img
-              src={LOGO_HERO}
-              alt="KSL Business Solutions"
-              style={{
-                height: logoH,
-                objectFit: "contain",
-                display: "block",
-                filter: "brightness(0) invert(1)",
-              }}
-            />
+            <a href="/" onClick={() => window.scrollTo(0, 0)} style={{ display: "inline-block" }}>
+              <img
+                src={LOGO_HERO}
+                alt="KSL Business Solutions"
+                style={{
+                  height: logoH,
+                  objectFit: "contain",
+                  display: "block",
+                  filter: "brightness(0) invert(1)",
+                }}
+              />
+            </a>
           </div>
 
           {/* Badge */}
@@ -137,20 +139,6 @@ export default function Hero({ onContact }) {
             </a>
           </div>
         </div>
-      </div>
-
-      {/* Scroll cue */}
-      <div style={{
-        position: "absolute", bottom: 32, left: "50%",
-        transform: "translateX(-50%)", zIndex: 2,
-        display: "flex", flexDirection: "column", alignItems: "center", gap: 6,
-        opacity: 0.4, pointerEvents: "none",
-      }}>
-        <div style={{
-          width: 1, height: 40, background: "#e8c97a",
-          animation: "scrollPulse 1.8s ease-in-out infinite",
-        }} />
-        <style>{`@keyframes scrollPulse{0%,100%{opacity:.25;transform:scaleY(.6)}50%{opacity:1;transform:scaleY(1)}}`}</style>
       </div>
 
       {/* Pause / Play */}
