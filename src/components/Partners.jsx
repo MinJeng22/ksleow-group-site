@@ -75,12 +75,14 @@ function PartnerSlot({ partner }) {
         </span>
       )}
     </div>
+    </div>
   );
 }
 
 export default function Partners() {
   return (
-    <div style={{ background: "#f5f5f8", padding: "3.5rem var(--px)", textAlign: "center" }}>
+    <div style={{ background: "#f5f5f8", padding: "3.5rem 0", textAlign: "center" }}>
+    <div className="content-wrap">
       <p style={{
         fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.12em",
         color: "#6b6f91", textTransform: "uppercase", marginBottom: "2rem",
@@ -99,6 +101,7 @@ export default function Partners() {
       >
         {PARTNERS.map(p => <PartnerSlot key={p.key} partner={p} />)}
       </div>
+    </div>
     </div>
   );
 }

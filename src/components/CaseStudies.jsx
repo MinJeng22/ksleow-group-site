@@ -63,7 +63,8 @@ const ICONS = [
 
 export default function CaseStudies({ onContact }) {
   return (
-    <section style={{ background: "#2f315a", padding: "6rem var(--px)" }}>
+    <section style={{ background: "#2f315a", padding: "6rem 0" }}>
+    <div className="content-wrap">
       {/* header */}
       <div style={{ marginBottom: "3rem" }}>
         <div style={{
@@ -165,6 +166,7 @@ export default function CaseStudies({ onContact }) {
       >
         Discuss Your Project
       </button>
+    </div>
     </section>
   );
 }
