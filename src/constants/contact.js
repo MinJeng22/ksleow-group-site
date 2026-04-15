@@ -5,12 +5,14 @@
  */
 
 export const CONTACT = {
-  address:   "No. 9, 2nd Floor, Taman Zabidin, Jalan Temerloh, 28400. Mentakab, Malaysia.",
-  email:     "Support@ksleow.com.my",
+  address:   "No.8-9, Ground Floor, 1st Floor, 2nd Floor, Taman Zabidin, Kampung Catin, 28400 Mentakab, Pahang, Malaysia",
+  email:     "support@ksleow.com.my",
   phone:     "017-905 2323",
   whatsapp:  "60179052323",
   facebook:  "https://www.facebook.com/ksleowbs",
-  linkedin:  "",   // add LinkedIn URL here when available
+  linkedin:  "",
+  hours:     "9:00 AM – 6:00 PM (Mon – Fri)",
+  weekend:   "Closed on Weekends",
 };
 
 export const WA_MSG = encodeURIComponent(
