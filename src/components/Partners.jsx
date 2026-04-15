@@ -26,7 +26,7 @@ const PARTNERS = [
 
 function PartnerSlot({ partner }) {
   const src = PARTNER_LOGOS[partner.key];
-  const hasReal = src && src !== "" ;
+  const hasReal = src && src !== "";
 
   return (
     <div
@@ -75,33 +75,32 @@ function PartnerSlot({ partner }) {
         </span>
       )}
     </div>
-    </div>
   );
 }
 
 export default function Partners() {
   return (
     <div style={{ background: "#f5f5f8", padding: "3.5rem 0", textAlign: "center" }}>
-    <div className="content-wrap">
-      <p style={{
-        fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.12em",
-        color: "#6b6f91", textTransform: "uppercase", marginBottom: "2rem",
-      }}>
-        Our Partners
-      </p>
-      <div
-        className="partners-grid"
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: "1.1rem",
-          flexWrap: "wrap",
-        }}
-      >
-        {PARTNERS.map(p => <PartnerSlot key={p.key} partner={p} />)}
+      <div className="content-wrap">
+        <p style={{
+          fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.12em",
+          color: "#6b6f91", textTransform: "uppercase", marginBottom: "2rem",
+        }}>
+          Our Partners
+        </p>
+        <div
+          className="partners-grid"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "1.1rem",
+            flexWrap: "wrap",
+          }}
+        >
+          {PARTNERS.map(p => <PartnerSlot key={p.key} partner={p} />)}
+        </div>
       </div>
-    </div>
     </div>
   );
 }
