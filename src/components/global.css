@@ -14,13 +14,13 @@
   /* ── Horizontal outer padding (section edge → content column) ─────
    * On wide desktop this is the "breathing room" outside the column.
    * Adjust --content-max-w to shrink/widen the column itself.       */
-  --px: clamp(20px, 3vw, 48px);
+  --px: clamp(16px, 2.5vw, 36px);
 
   /* ── Content column width ────────────────────────────────────────
    * All section content is centred inside this column.
    * Combined with --px this creates generous negative space:
    *   1440px screen → (1440 - 1080) / 2 = 180px each side         */
-  --content-max-w: 1200px;
+  --content-max-w: 1280px;
 }
 
 html { scroll-behavior: smooth; }

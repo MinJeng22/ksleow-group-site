@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
 import { WA_LINK } from "../../constants/contact.js";
+import { PRODUCT_IMAGES } from "../../assets/assets.js";
 
 /* ═══════════════════════════════════════════════════════════════
  * AUTOCOUNT ACCOUNTING — PRODUCT PAGE
@@ -275,7 +276,10 @@ export default function AutoCountAccountingPage({ onContact }) {
 
   const [expanded, setExpanded] = useState(0);   /* first card open by default */
   const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState("all");   /* all | features | fixes */
+  const [filter, setFilter] = useState("all");
+  const [compareMode, setCompareMode]  = useState(false);
+  const [compareA, setCompareA] = useState(RELEASES[RELEASES.length - 1].version); /* oldest */
+  const [compareB, setCompareB] = useState(RELEASES[0].version);                   /* newest */
 
   const filtered = RELEASES.filter(r => {
     if (!search) return true;
@@ -303,9 +307,12 @@ export default function AutoCountAccountingPage({ onContact }) {
           </button>
 
           <div style={{ display: "flex", alignItems: "flex-start", gap: "2.5rem", flexWrap: "wrap" }}>
-            {/* icon */}
-            <div style={{ width: 80, height: 80, borderRadius: 18, background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "2.2rem", flexShrink: 0 }}>
-              🧾
+            {/* icon — replace via src/assets/images/products/autocount-accounting-icon.png */}
+            <div style={{ width: 80, height: 80, borderRadius: 18, background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "2.2rem", flexShrink: 0, overflow: "hidden" }}>
+              {PRODUCT_IMAGES.autocountAccountingIcon
+                ? <img src={PRODUCT_IMAGES.autocountAccountingIcon} alt="AutoCount Accounting" style={{ width: "100%", height: "100%", objectFit: "contain", padding: 8 }} />
+                : <span>🧾</span>
+              }
             </div>
             <div style={{ flex: 1, minWidth: 260 }}>
               <div style={{ fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.5rem" }}>
@@ -364,90 +371,73 @@ export default function AutoCountAccountingPage({ onContact }) {
 
 
       {/* ══════════════════════════════════════════════════════════
-       * LEARN AUTOCOUNT IN 60 MINUTES — Video Section
+       * LEARN AUTOCOUNT IN 60 MINUTES — Vertical stacked layout
        * ══════════════════════════════════════════════════════════ */}
-      <div style={{ background: "#ffffff", padding: "4rem 0", borderBottom: "0.5px solid rgba(47,49,90,0.08)" }}>
+      <div style={{ background: "#ffffff", padding: "4.5rem 0", borderBottom: "0.5px solid rgba(47,49,90,0.08)" }}>
         <div className="content-wrap">
-          <div className="video-grid" style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "3.5rem",
-            alignItems: "center",
-          }}>
-            {/* Text side */}
-            <div>
-              <div style={{
-                fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.12em",
-                textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.75rem",
-              }}>
-                Free Training
-              </div>
-              <h2 style={{
-                fontSize: "clamp(1.5rem, 2.8vw, 2.2rem)", fontWeight: 700,
-                color: "#2f315a", lineHeight: 1.2, marginBottom: "1rem",
-              }}>
-                Learn AutoCount Accounting<br />in Just 60 Minutes
-              </h2>
-              <p style={{
-                fontSize: "0.95rem", color: "#6b6f91", lineHeight: 1.8,
-                marginBottom: "1.5rem", maxWidth: 440,
-              }}>
-                Skip the long manuals. AutoCount's 60-minute guide covers
-                everything you need to know to navigate AutoCount Accounting
-                with confidence — from basic setup to daily transactions.
-              </p>
-              <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
-                <a
-                  href="https://youtu.be/ztmg4hvro6U?si=hojFUhwFF0gOmzA8"
-                  target="_blank" rel="noreferrer"
-                  style={{
-                    display: "inline-flex", alignItems: "center", gap: "0.5rem",
-                    background: "#2f315a", color: "#ffffff",
-                    padding: "0.75rem 1.75rem", borderRadius: 50,
-                    fontSize: "0.88rem", fontWeight: 600,
-                    textDecoration: "none", transition: "background 0.2s",
-                  }}
-                  onMouseOver={e => e.currentTarget.style.background = "#3d4075"}
-                  onMouseOut={e => e.currentTarget.style.background = "#2f315a"}
-                >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
-                  Watch on YouTube
-                </a>
-                <a
-                  href="https://youtu.be/ztmg4hvro6U?si=hojFUhwFF0gOmzA8"
-                  target="_blank" rel="noreferrer"
-                  style={{
-                    display: "inline-flex", alignItems: "center", gap: "0.5rem",
-                    background: "transparent", color: "#2f315a",
-                    border: "1.5px solid rgba(47,49,90,0.25)",
-                    padding: "0.75rem 1.75rem", borderRadius: 50,
-                    fontSize: "0.88rem", fontWeight: 500,
-                    textDecoration: "none", transition: "border-color 0.2s",
-                  }}
-                  onMouseOver={e => e.currentTarget.style.borderColor = "rgba(47,49,90,0.6)"}
-                  onMouseOut={e => e.currentTarget.style.borderColor = "rgba(47,49,90,0.25)"}
-                >
-                  Free • 60 min • By AutoCount
-                </a>
-              </div>
+          {/* Section header */}
+          <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
+            <div style={{
+              fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.12em",
+              textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.6rem",
+            }}>
+              Free Training
             </div>
+            <h2 style={{
+              fontSize: "clamp(1.5rem, 2.8vw, 2.2rem)", fontWeight: 700,
+              color: "#2f315a", lineHeight: 1.2, marginBottom: "0.9rem",
+            }}>
+              Learn AutoCount Accounting in Just 60 Minutes
+            </h2>
+            <p style={{
+              fontSize: "0.95rem", color: "#6b6f91", lineHeight: 1.8,
+              maxWidth: 560, margin: "0 auto 1.5rem",
+            }}>
+              Skip the long manuals. AutoCount's 60-minute guide covers
+              everything you need to know to navigate AutoCount Accounting
+              with confidence — from basic setup to daily transactions.
+            </p>
+            <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", justifyContent: "center" }}>
+              <a
+                href="https://youtu.be/ztmg4hvro6U?si=hojFUhwFF0gOmzA8"
+                target="_blank" rel="noreferrer"
+                style={{
+                  display: "inline-flex", alignItems: "center", gap: "0.5rem",
+                  background: "#2f315a", color: "#ffffff",
+                  padding: "0.75rem 1.75rem", borderRadius: 50,
+                  fontSize: "0.88rem", fontWeight: 600,
+                  textDecoration: "none", transition: "background 0.2s",
+                }}
+                onMouseOver={e => e.currentTarget.style.background = "#3d4075"}
+                onMouseOut={e => e.currentTarget.style.background = "#2f315a"}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+                Watch on YouTube
+              </a>
+              <span style={{
+                display: "inline-flex", alignItems: "center",
+                fontSize: "0.82rem", color: "#a8abcc", fontWeight: 500,
+                padding: "0.75rem 1rem",
+              }}>
+                Free · 60 min · By AutoCount
+              </span>
+            </div>
+          </div>
 
-            {/* YouTube embed side */}
-            <div style={{ position: "relative", borderRadius: 16, overflow: "hidden", boxShadow: "0 16px 48px rgba(47,49,90,0.14)" }}>
-              {/* 16:9 responsive container */}
-              <div style={{ paddingBottom: "56.25%", position: "relative", background: "#0f1128" }}>
-                <iframe
-                  src="https://www.youtube.com/embed/ztmg4hvro6U"
-                  title="Learn AutoCount Accounting in 60 Minutes"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  style={{
-                    position: "absolute", inset: 0,
-                    width: "100%", height: "100%",
-                    border: "none",
-                  }}
-                />
-              </div>
+          {/* Full-width embed */}
+          <div style={{
+            borderRadius: 18, overflow: "hidden",
+            boxShadow: "0 20px 60px rgba(47,49,90,0.16)",
+            border: "1px solid rgba(47,49,90,0.08)",
+          }}>
+            <div style={{ paddingBottom: "56.25%", position: "relative", background: "#0f1128" }}>
+              <iframe
+                src="https://www.youtube.com/embed/ztmg4hvro6U"
+                title="Learn AutoCount Accounting in 60 Minutes"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: "none" }}
+              />
             </div>
           </div>
         </div>
@@ -456,8 +446,9 @@ export default function AutoCountAccountingPage({ onContact }) {
       {/* ── Release Notes ── */}
       <div style={{ padding: "4rem 0" }}>
         <div className="content-wrap">
-          {/* Section title + controls */}
-          <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: "1rem", flexWrap: "wrap", marginBottom: "2rem" }}>
+
+          {/* ── Title + tab switcher ── */}
+          <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: "1rem", flexWrap: "wrap", marginBottom: "1.75rem" }}>
             <div>
               <div style={{ fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.5rem" }}>
                 Changelog
@@ -469,29 +460,119 @@ export default function AutoCountAccountingPage({ onContact }) {
                 {RELEASES.length} revisions · Rev 3 → Rev 36 · Newest first
               </p>
             </div>
+            {/* Mode toggle */}
+            <div style={{ display: "flex", background: "#f0f0f5", borderRadius: 50, padding: 4, gap: 2 }}>
+              {[["browse", "Browse All"], ["compare", "Compare Versions"]].map(([mode, label]) => (
+                <button key={mode}
+                  onClick={() => setCompareMode(mode === "compare")}
+                  style={{
+                    fontSize: "0.78rem", fontWeight: 600,
+                    padding: "0.4rem 1.1rem", borderRadius: 50, border: "none",
+                    cursor: "pointer", fontFamily: "inherit",
+                    background: (compareMode ? "compare" : "browse") === mode ? "#2f315a" : "transparent",
+                    color:      (compareMode ? "compare" : "browse") === mode ? "#ffffff" : "#6b6f91",
+                    transition: "background 0.2s, color 0.2s",
+                  }}
+                >{label}</button>
+              ))}
+            </div>
+          </div>
 
-            {/* Search */}
-            <div style={{ display: "flex", gap: "0.6rem", alignItems: "center", flexWrap: "wrap" }}>
-              <div style={{ position: "relative" }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a8abcc" strokeWidth="2" style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", pointerEvents: "none" }}>
+          {/* ── COMPARE MODE ── */}
+          {compareMode && (() => {
+            const rA = RELEASES.find(r => r.version === compareA);
+            const rB = RELEASES.find(r => r.version === compareB);
+            const idxA = RELEASES.indexOf(rA);
+            const idxB = RELEASES.indexOf(rB);
+            const older = idxA > idxB ? rA : rB;
+            const newer = idxA > idxB ? rB : rA;
+            /* collect all items from older→newer (exclusive) */
+            const olderIdx = RELEASES.indexOf(older);
+            const newerIdx = RELEASES.indexOf(newer);
+            const between = RELEASES.slice(newerIdx, olderIdx + 1);
+            const allFeatures = between.flatMap(r => r.features.map(f => ({ ver: r.version, rev: r.rev, text: f })));
+            const allFixes    = between.flatMap(r => r.fixes.map(f    => ({ ver: r.version, rev: r.rev, text: f })));
+            return (
+              <div>
+                {/* Selectors */}
+                <div style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", gap: "1rem", alignItems: "center", marginBottom: "2rem" }}>
+                  <div>
+                    <label style={{ fontSize: "0.68rem", fontWeight: 600, color: "#6b6f91", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "0.4rem" }}>From version</label>
+                    <select value={compareA} onChange={e => setCompareA(e.target.value)}
+                      style={{ width: "100%", height: 40, borderRadius: 10, border: "1px solid rgba(47,49,90,0.2)", padding: "0 0.85rem", fontSize: "0.88rem", fontFamily: "inherit", color: "#2f315a", background: "#ffffff", cursor: "pointer" }}>
+                      {RELEASES.slice().reverse().map(r => <option key={r.version} value={r.version}>{r.version} ({r.rev})</option>)}
+                    </select>
+                  </div>
+                  <div style={{ textAlign: "center", fontSize: "1.3rem", color: "#c9a84c", marginTop: "1.2rem" }}>→</div>
+                  <div>
+                    <label style={{ fontSize: "0.68rem", fontWeight: 600, color: "#6b6f91", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "0.4rem" }}>To version</label>
+                    <select value={compareB} onChange={e => setCompareB(e.target.value)}
+                      style={{ width: "100%", height: 40, borderRadius: 10, border: "1px solid rgba(47,49,90,0.2)", padding: "0 0.85rem", fontSize: "0.88rem", fontFamily: "inherit", color: "#2f315a", background: "#ffffff", cursor: "pointer" }}>
+                      {RELEASES.map(r => <option key={r.version} value={r.version}>{r.version} ({r.rev})</option>)}
+                    </select>
+                  </div>
+                </div>
+
+                {/* Summary bar */}
+                <div style={{ display: "flex", gap: "1rem", marginBottom: "1.5rem", flexWrap: "wrap" }}>
+                  {[
+                    { label: "Revisions covered", val: between.length, bg: "rgba(47,49,90,0.06)", col: "#2f315a" },
+                    { label: "New features",       val: allFeatures.length, bg: "rgba(47,49,90,0.06)", col: "#2f315a" },
+                    { label: "Bug fixes",          val: allFixes.length,    bg: "rgba(201,168,76,0.1)", col: "#8a6a10" },
+                  ].map(s => (
+                    <div key={s.label} style={{ flex: 1, minWidth: 120, background: s.bg, borderRadius: 12, padding: "1rem 1.25rem" }}>
+                      <div style={{ fontSize: "1.6rem", fontWeight: 700, color: s.col, lineHeight: 1 }}>{s.val}</div>
+                      <div style={{ fontSize: "0.72rem", fontWeight: 600, color: "#6b6f91", textTransform: "uppercase", letterSpacing: "0.07em", marginTop: 4 }}>{s.label}</div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Changelog between the two versions */}
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem" }}>
+                  <div style={{ background: "#ffffff", borderRadius: 14, padding: "1.4rem", border: "1px solid rgba(47,49,90,0.1)" }}>
+                    <div style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#2f315a", marginBottom: "1rem" }}>New Features ({allFeatures.length})</div>
+                    {allFeatures.length === 0 && <div style={{ fontSize: "0.82rem", color: "#a8abcc" }}>No new features in this range.</div>}
+                    {allFeatures.map((f, i) => (
+                      <div key={i} style={{ display: "flex", gap: "0.55rem", alignItems: "flex-start", marginBottom: "0.65rem" }}>
+                        <span style={{ fontSize: "0.6rem", fontWeight: 700, letterSpacing: "0.06em", padding: "0.2rem 0.5rem", borderRadius: 50, background: "rgba(47,49,90,0.08)", color: "#2f315a", flexShrink: 0, marginTop: 2 }}>{f.rev}</span>
+                        <span style={{ fontSize: "0.83rem", color: "#444", lineHeight: 1.6 }}>{f.text}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div style={{ background: "#ffffff", borderRadius: 14, padding: "1.4rem", border: "1px solid rgba(47,49,90,0.1)" }}>
+                    <div style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#8a6a10", marginBottom: "1rem" }}>Bug Fixes ({allFixes.length})</div>
+                    {allFixes.length === 0 && <div style={{ fontSize: "0.82rem", color: "#a8abcc" }}>No bug fixes in this range.</div>}
+                    {allFixes.map((f, i) => (
+                      <div key={i} style={{ display: "flex", gap: "0.55rem", alignItems: "flex-start", marginBottom: "0.65rem" }}>
+                        <span style={{ fontSize: "0.6rem", fontWeight: 700, letterSpacing: "0.06em", padding: "0.2rem 0.5rem", borderRadius: 50, background: "rgba(201,168,76,0.12)", color: "#8a6a10", flexShrink: 0, marginTop: 2 }}>{f.rev}</span>
+                        <span style={{ fontSize: "0.83rem", color: "#444", lineHeight: 1.6 }}>{f.text}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
+
+          {/* ── BROWSE MODE ── */}
+          {!compareMode && <>
+            {/* Search + collapse */}
+            <div style={{ display: "flex", gap: "0.6rem", alignItems: "center", flexWrap: "wrap", marginBottom: "1.5rem" }}>
+              <div style={{ position: "relative", flex: 1, maxWidth: 280 }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a8abcc" strokeWidth="2"
+                  style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", pointerEvents: "none" }}>
                   <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
                 </svg>
-                <input
-                  type="text"
-                  placeholder="Search version or keyword…"
-                  value={search}
-                  onChange={e => setSearch(e.target.value)}
-                  style={{ paddingLeft: 30, paddingRight: 12, height: 36, borderRadius: 50, border: "1px solid rgba(47,49,90,0.18)", fontSize: "0.82rem", fontFamily: "inherit", color: "#2f315a", outline: "none", width: 220 }}
+                <input type="text" placeholder="Search version or keyword…"
+                  value={search} onChange={e => setSearch(e.target.value)}
+                  style={{ width: "100%", paddingLeft: 30, paddingRight: 12, height: 36, borderRadius: 50, border: "1px solid rgba(47,49,90,0.18)", fontSize: "0.82rem", fontFamily: "inherit", color: "#2f315a", outline: "none" }}
                 />
               </div>
-              <button
-                onClick={() => { setExpanded(null); }}
-                style={{ fontSize: "0.78rem", color: "#6b6f91", background: "transparent", border: "1px solid rgba(47,49,90,0.15)", borderRadius: 50, padding: "0.35rem 0.9rem", cursor: "pointer", fontFamily: "inherit" }}
-              >
+              <button onClick={() => setExpanded(null)}
+                style={{ fontSize: "0.78rem", color: "#6b6f91", background: "transparent", border: "1px solid rgba(47,49,90,0.15)", borderRadius: 50, padding: "0.35rem 0.9rem", cursor: "pointer", fontFamily: "inherit" }}>
                 Collapse all
               </button>
             </div>
-          </div>
 
           {/* Release cards */}
           <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
@@ -509,6 +590,8 @@ export default function AutoCountAccountingPage({ onContact }) {
               />
             ))}
           </div>
+
+          </>}
 
           {/* Official link */}
           <div style={{ marginTop: "2.5rem", padding: "1.25rem 1.5rem", borderRadius: 12, background: "rgba(47,49,90,0.04)", border: "1px solid rgba(47,49,90,0.08)", display: "flex", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>

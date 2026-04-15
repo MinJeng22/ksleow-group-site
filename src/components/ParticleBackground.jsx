@@ -1,18 +1,16 @@
 import { useEffect, useRef } from "react";
 
-/* ─── Density normalisation ───────────────────────────────────
- * The problem: a fixed particle count (e.g. 50) looks dense on
- * a 390px mobile screen but sparse on a 1440px desktop because
- * the same particles are spread over 13× the area.
+/* ─── Calibrated density (N≈50 on 390×844 mobile) ─────────────
+ * DENSITY = 50 / (390×844) ≈ 0.000152 particles/px²
+ * MAX_N caps at 70 so large screens stay smooth.
  *
- * Fix: calculate N dynamically so particle density (particles
- * per 100×100 px tile) stays constant on every screen size.
- * We also restore mouse-highlight interaction (no repulsion —
- * just a bright line to nearby particles on hover).
+ * JUMP-FIX: The resize() handler was reinitialising all particles
+ * whenever the viewport height changed — on mobile/tablet this
+ * fires on every scroll because the browser chrome (address bar)
+ * shows/hides, causing particles to teleport.
+ * Fix: debounce resize, and only reinitialise if the canvas
+ * WIDTH changes (not height-only changes caused by scrolling).
  * ─────────────────────────────────────────────────────────────*/
-/* DENSITY calibrated to match old mobile look (N≈50 on a 390×844 screen).
- * 390*844 = 329,160 px² → 50/329160 ≈ 0.000152 particles/px².
- * MAX_N caps so huge desktop monitors never exceed ~70 particles.        */
 const DENSITY     = 0.000152;
 const MAX_N       = 70;
 const MAX_DIST    = 130;
@@ -26,6 +24,16 @@ const MOUSE_R_SQ  = MOUSE_R * MOUSE_R;
 
 function rand(a, b) { return Math.random() * (b - a) + a; }
 
+/* Particle radius scales with screen width:
+ * mobile (< 640px) → 0.8–1.6  (finer, more delicate)
+ * tablet (640–1024) → 1.0–1.9
+ * desktop (> 1024) → 1.3–2.4  (original)               */
+function particleRadius(W) {
+  if (W < 640)  return rand(0.8, 1.6);
+  if (W < 1024) return rand(1.0, 1.9);
+  return rand(1.3, 2.4);
+}
+
 export default function ParticleBackground({ paused }) {
   const canvasRef = useRef(null);
   const stateRef  = useRef({
@@ -34,9 +42,11 @@ export default function ParticleBackground({ paused }) {
     frameId: null,
     lastTs: 0,
     W: 0, H: 0,
+    lastW: 0,           /* track width separately to detect real resizes */
     bgGrad: null,
     vigGrad: null,
     mx: -9999, my: -9999,
+    resizeTimer: null,  /* debounce handle */
   });
 
   useEffect(() => { stateRef.current.pausedRef = paused; }, [paused]);
@@ -47,14 +57,13 @@ export default function ParticleBackground({ paused }) {
     const s   = stateRef.current;
     const ctx = canvas.getContext("2d", { alpha: false });
 
-    function resize() {
+    /* ── Full canvas init (only when WIDTH changes or first run) ── */
+    function initCanvas(W, H) {
       const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
-      const W   = canvas.offsetWidth;
-      const H   = canvas.offsetHeight;
       canvas.width  = W * dpr;
       canvas.height = H * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      s.W = W; s.H = H;
+      s.W = W; s.H = H; s.lastW = W;
 
       s.bgGrad = ctx.createLinearGradient(0, 0, W * 0.5, H);
       s.bgGrad.addColorStop(0, "#0f1128");
@@ -64,16 +73,55 @@ export default function ParticleBackground({ paused }) {
       s.vigGrad.addColorStop(0, "rgba(0,0,0,0)");
       s.vigGrad.addColorStop(1, "rgba(0,0,0,0.52)");
 
-      /* density-based count: same visual density at any screen size */
       const N = Math.min(MAX_N, Math.max(20, Math.round(W * H * DENSITY)));
       s.particles = Array.from({ length: N }, () => ({
         x:  rand(0, W), y: rand(0, H),
         vx: rand(-SPEED, SPEED) || SPEED,
         vy: rand(-SPEED, SPEED) || SPEED,
-        r:  rand(1.3, 2.4),
+        r:  particleRadius(W),
       }));
     }
 
+    /* ── Height-only resize: just update canvas height & gradients,
+     *    DO NOT reinitialise particles (prevents jump on mobile scroll) ── */
+    function updateHeightOnly(W, H) {
+      const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
+      canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      s.H = H;
+
+      /* rebuild gradients for new height */
+      s.bgGrad = ctx.createLinearGradient(0, 0, W * 0.5, H);
+      s.bgGrad.addColorStop(0, "#0f1128");
+      s.bgGrad.addColorStop(1, "#07080f");
+
+      s.vigGrad = ctx.createRadialGradient(W/2, H/2, H*0.2, W/2, H/2, H*0.82);
+      s.vigGrad.addColorStop(0, "rgba(0,0,0,0)");
+      s.vigGrad.addColorStop(1, "rgba(0,0,0,0.52)");
+
+      /* clamp existing particles to new height — no jump */
+      for (const p of s.particles) {
+        if (p.y > H) p.y = H;
+      }
+    }
+
+    /* ── Debounced resize handler ── */
+    function onResize() {
+      clearTimeout(s.resizeTimer);
+      s.resizeTimer = setTimeout(() => {
+        const W = canvas.offsetWidth;
+        const H = canvas.offsetHeight;
+        if (W !== s.lastW) {
+          /* Genuine width change (orientation flip, window resize): full reinit */
+          initCanvas(W, H);
+        } else {
+          /* Height-only change (mobile browser chrome appearing/hiding): soft update */
+          updateHeightOnly(W, H);
+        }
+      }, 80); /* 80ms debounce — ignores rapid transient changes */
+    }
+
+    /* ── Draw loop ── */
     function draw(ts) {
       if (ts - s.lastTs < FRAME_MS) { s.frameId = requestAnimationFrame(draw); return; }
       s.lastTs = ts;
@@ -94,7 +142,7 @@ export default function ParticleBackground({ paused }) {
         }
       }
 
-      /* ── particle-to-particle lines (4 alpha buckets, batched) ── */
+      /* particle-to-particle lines — 4 alpha buckets batched */
       const BUCKETS = 4;
       const paths   = Array.from({ length: BUCKETS }, () => new Path2D());
       for (let i = 0; i < particles.length - 1; i++) {
@@ -116,10 +164,9 @@ export default function ParticleBackground({ paused }) {
         ctx.stroke(paths[b]);
       }
 
-      /* ── mouse highlight lines (separate pass, brighter gold) ── */
+      /* mouse highlight lines */
       const hasMouse = mx > -999 && my > -999;
       if (hasMouse) {
-        const mousePath = new Path2D();
         for (let i = 0; i < particles.length; i++) {
           const dx = particles[i].x - mx, dy = particles[i].y - my;
           const dSq = dx*dx + dy*dy;
@@ -135,7 +182,7 @@ export default function ParticleBackground({ paused }) {
         }
       }
 
-      /* ── dots (single batch) ── */
+      /* dots — single batch */
       ctx.fillStyle = "rgba(201,168,76,0.88)";
       ctx.beginPath();
       for (let i = 0; i < particles.length; i++) {
@@ -158,15 +205,16 @@ export default function ParticleBackground({ paused }) {
     }
     function onMouseLeave() { s.mx = -9999; s.my = -9999; }
 
-    resize();
-    window.addEventListener("resize", resize);
+    initCanvas(canvas.offsetWidth, canvas.offsetHeight);
+    window.addEventListener("resize", onResize);
     canvas.addEventListener("mousemove", onMouseMove);
     canvas.addEventListener("mouseleave", onMouseLeave);
     s.frameId = requestAnimationFrame(draw);
 
     return () => {
       cancelAnimationFrame(s.frameId);
-      window.removeEventListener("resize", resize);
+      clearTimeout(s.resizeTimer);
+      window.removeEventListener("resize", onResize);
       canvas.removeEventListener("mousemove", onMouseMove);
       canvas.removeEventListener("mouseleave", onMouseLeave);
     };
