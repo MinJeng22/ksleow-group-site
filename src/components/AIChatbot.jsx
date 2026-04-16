@@ -17,13 +17,6 @@ import { useState, useRef, useEffect } from "react";
 
 /* ── CONFIG — set your Cloudflare Worker URL here ── */
 const WORKER_URL = "https://ksl-omni.chiaminjeng.workers.dev";
-/* ── SYSTEM PROMPT — customise the AI's persona ── */
-const SYSTEM_PROMPT = `You are a helpful assistant for KSL Business Solutions Sdn. Bhd., 
-specialising in AutoCount Accounting plugins, especially the Sales2DO plugin. 
-Answer questions about installing, configuring, and using the Sales2DO plugin. 
-Keep answers concise and practical. If asked about unrelated topics, politely 
-redirect to Sales2DO or KSL Business Solutions services.`;
-
 /* ── Compress image client-side before upload ── */
 async function compressImage(file, maxSizeKB = 1024) {
   return new Promise((resolve) => {
@@ -252,7 +245,6 @@ export default function AIChatbot() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          systemPrompt: SYSTEM_PROMPT,
           messages: [
             ...messages
               .filter(m => (m.text || m.imagePreview) && !m.streaming && !m.error)
