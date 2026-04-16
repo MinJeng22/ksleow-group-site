@@ -1,4 +1,4 @@
-import { LOGO } from "../assets/assets.js";
+import { LOGO_NAV } from "../assets/assets.js";
 import { CONTACT, WA_LINK } from "../constants/contact.js";
 
 export default function ContactModal({ open, onClose }) {
@@ -26,7 +26,7 @@ export default function ContactModal({ open, onClose }) {
       >
         <style>{`@keyframes modalIn{from{opacity:0;transform:scale(0.9)}to{opacity:1;transform:scale(1)}}`}</style>
 
-        <img src={LOGO} alt="KSL Business Solutions" style={{ height: 38, marginBottom: "1.5rem", objectFit: "contain" }} />
+        <img src={LOGO_NAV} alt="KSL Business Solutions" style={{ height: 38, marginBottom: "1.5rem", objectFit: "contain" }} />
 
         <h2 style={{ fontSize: "1.4rem", fontWeight: 700, color: "#2f315a", marginBottom: "0.45rem" }}>
           Get in Touch
