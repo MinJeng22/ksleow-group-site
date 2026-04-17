@@ -1,7 +1,7 @@
 const STATS = [
   { num: "500+", label: "Businesses Served" },
-  { num: "40+",  label: "Years in Pahang" },
-  { num: "8",    label: "Service Pillars" },
+  { num: "40+", label: "Years in Pahang" },
+  { num: "6", label: "Service Pillars" },
   { num: "100%", label: "Authorized Dealer" },
 ];
 
