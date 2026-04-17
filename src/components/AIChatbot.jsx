@@ -68,30 +68,30 @@ async function uploadImage(file) {
 /* ── Icons ── */
 const SendIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+    <line x1="22" y1="2" x2="11" y2="13" /><polygon points="22 2 15 22 11 13 2 9 22 2" />
   </svg>
 );
 const ImageIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
-    <polyline points="21 15 16 10 5 21"/>
+    <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" />
+    <polyline points="21 15 16 10 5 21" />
   </svg>
 );
 const BotIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="2" y="3" width="20" height="13" rx="2"/>
-    <path d="M8 21h8M12 17v4"/>
-    <path d="M9 9h1M14 9h1M9 12c0 0 1.5 2 3 2s3-2 3-2"/>
+    <rect x="2" y="3" width="20" height="13" rx="2" />
+    <path d="M8 21h8M12 17v4" />
+    <path d="M9 9h1M14 9h1M9 12c0 0 1.5 2 3 2s3-2 3-2" />
   </svg>
 );
 const CloseIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
   </svg>
 );
 const XIcon = () => (
   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
   </svg>
 );
 
@@ -110,11 +110,11 @@ function Message({ msg }) {
       {!isUser && (
         <div style={{
           width: 28, height: 28, borderRadius: "50%",
-          background: "#2f315a", color: "#c9a84c",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          flexShrink: 0,
+          overflow: "hidden", flexShrink: 0,
+          border: "1px solid rgba(47,49,90,0.1)",
         }}>
-          <BotIcon />
+          <img src="/ksl-logo-circle.png" alt="KSL"
+            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
         </div>
       )}
 
@@ -170,15 +170,15 @@ export default function AIChatbot() {
       text: "Hello! I'm the exclusive assistant for the Sales2DO plugin by KSL Business Solutions. Ask me anything about installation, features, pricing, or licensing. 😊",
     },
   ]);
-  const [input, setInput]     = useState("");
+  const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
 
-  const bottomRef  = useRef(null);
-  const fileRef    = useRef(null);
-  const inputRef   = useRef(null);
-  const abortRef   = useRef(null);
+  const bottomRef = useRef(null);
+  const fileRef = useRef(null);
+  const inputRef = useRef(null);
+  const abortRef = useRef(null);
 
   useEffect(() => {
     if (open) setTimeout(() => inputRef.current?.focus(), 100);
@@ -327,13 +327,13 @@ export default function AIChatbot() {
         <div style={{
           position: "fixed",
           /* Mobile (<640px): full screen overlay */
-          bottom:  window.innerWidth < 640 ? 0     : 92,
-          right:   window.innerWidth < 640 ? 0     : 28,
-          left:    window.innerWidth < 640 ? 0     : "auto",
-          top:     window.innerWidth < 640 ? 0     : "auto",
+          bottom: window.innerWidth < 640 ? 0 : 92,
+          right: window.innerWidth < 640 ? 0 : 28,
+          left: window.innerWidth < 640 ? 0 : "auto",
+          top: window.innerWidth < 640 ? 0 : "auto",
           zIndex: 600,
-          width:   window.innerWidth < 640 ? "100vw" : "min(380px, calc(100vw - 32px))",
-          height:  window.innerWidth < 640 ? "100dvh" : "min(560px, calc(100vh - 120px))",
+          width: window.innerWidth < 640 ? "100vw" : "min(380px, calc(100vw - 32px))",
+          height: window.innerWidth < 640 ? "100dvh" : "min(560px, calc(100vh - 120px))",
           background: "#ffffff",
           borderRadius: window.innerWidth < 640 ? 0 : 20,
           boxShadow: "0 24px 72px rgba(47,49,90,0.22), 0 0 0 1px rgba(47,49,90,0.08)",
@@ -352,12 +352,11 @@ export default function AIChatbot() {
           }}>
             <div style={{
               width: 36, height: 36, borderRadius: "50%",
-              background: "rgba(201,168,76,0.2)",
+              overflow: "hidden", flexShrink: 0,
               border: "1px solid rgba(201,168,76,0.4)",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              color: "#c9a84c",
             }}>
-              <BotIcon />
+              <img src="/ksl-logo-circle.png" alt="KSL"
+                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
             </div>
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: "0.9rem", fontWeight: 700, color: "#ffffff", lineHeight: 1.2 }}>
@@ -434,7 +433,7 @@ export default function AIChatbot() {
                 display: "flex", alignItems: "center", justifyContent: "center",
                 flexShrink: 0, transition: "border-color 0.2s, color 0.2s",
               }}
-              onMouseOver={e => { if (!loading) { e.currentTarget.style.borderColor = "#2f315a"; e.currentTarget.style.color = "#2f315a"; }}}
+              onMouseOver={e => { if (!loading) { e.currentTarget.style.borderColor = "#2f315a"; e.currentTarget.style.color = "#2f315a"; } }}
               onMouseOut={e => { e.currentTarget.style.borderColor = "rgba(47,49,90,0.18)"; e.currentTarget.style.color = "#6b6f91"; }}
             >
               <ImageIcon />
@@ -508,21 +507,34 @@ export default function AIChatbot() {
           bottom: 28,
           right: 28,
           zIndex: 600,
-          width: 52,
-          height: 52,
+          width: 56,
+          height: 56,
           borderRadius: "50%",
-          background: open ? "#1e2040" : "#2f315a",
-          border: "2px solid rgba(201,168,76,0.5)",
+          /* When open on mobile (fullscreen): hide FAB — header already has close button */
+          display: (open && window.innerWidth < 640) ? "none" : "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          /* When showing X (open): dark bg + gold border */
+          background: open ? "#2f315a" : "transparent",
+          border: open ? "2px solid rgba(201,168,76,0.5)" : "none",
           color: "#c9a84c",
           cursor: "pointer",
-          display: "flex", alignItems: "center", justifyContent: "center",
+          padding: 0,
+          overflow: "hidden",
           boxShadow: "0 6px 24px rgba(47,49,90,0.35)",
-          transition: "background 0.2s, transform 0.2s",
+          transition: "transform 0.2s",
         }}
         onMouseOver={e => e.currentTarget.style.transform = "scale(1.08)"}
         onMouseOut={e => e.currentTarget.style.transform = "scale(1)"}
       >
-        {open ? <CloseIcon /> : <BotIcon />}
+        {open
+          ? <CloseIcon />
+          : <img
+            src="/ksl-logo-circle.png"
+            alt="KSL Business Solutions"
+            style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "50%", display: "block" }}
+          />
+        }
       </button>
 
       <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
