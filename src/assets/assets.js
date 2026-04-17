@@ -20,12 +20,12 @@
  */
 
 /* ── HERO LOGO  (src/assets/logos/logo-hero.png) ── */
-import logoHero   from "./logos/logo-hero.png";
+import logoHero from "./logos/logo-hero.png";
 export const LOGO_HERO = logoHero;
 
 /* ── NAV LOGO   (src/assets/logos/logo-nav.png) ── */
-import logoNav    from "./logos/logo-nav.png";
-export const LOGO_NAV  = logoNav;
+import logoNav from "./logos/logo-nav.png";
+export const LOGO_NAV = logoNav;
 
 /* ── FOOTER LOGO (src/assets/logos/logo-footer.png) ── */
 import logoFooter from "./logos/logo-footer.png";
@@ -44,15 +44,15 @@ export const PARTNER_LOGOS = { partner1, partner2, partner3, partner4, partner5,
 
 /* ── CASE STUDY IMAGES  (src/assets/images/) ── */
 import caseNetworking from "./images/case-networking.jpg";
-import casePlugin     from "./images/case-plugin.jpg";
-import caseErp        from "./images/case-erp.jpg";
-import caseWarehouse  from "./images/case-warehouse.jpg";
+import casePlugin from "./images/case-plugin.jpg";
+import caseErp from "./images/case-erp.jpg";
+import caseWarehouse from "./images/case-warehouse.jpg";
 
 export const CASE_IMAGES = {
   networking: caseNetworking,
-  plugin:     casePlugin,
-  erp:        caseErp,
-  warehouse:  caseWarehouse,
+  plugin: casePlugin,
+  erp: caseErp,
+  warehouse: caseWarehouse,
 };
 
 /* ══════════════════════════════════════════════════════════════
@@ -70,16 +70,16 @@ export const CASE_IMAGES = {
  *               src/components/Products.jsx  (product card)
  * ══════════════════════════════════════════════════════════════ */
 
-// import autocountAccountingIcon from "./images/products/autocount-accounting-icon.png";
+import autocountAccountingIcon from "./images/products/autocount-accounting-icon.png";
 // import autocountAccounting     from "./images/products/autocount-accounting.png";
 // import autocountPos            from "./images/products/autocount-pos.png";
 // import autocountPayroll        from "./images/products/autocount-payroll.png";
 // import feedmePOS               from "./images/products/feedme-pos.png";
 
 export const PRODUCT_IMAGES = {
-  autocountAccountingIcon: null,   /* ← AutoCount Accounting 2.2 icon (hero page) */
-  autocountAccounting:     null,   /* ← product card image */
-  autocountPos:            null,
-  autocountPayroll:        null,
-  feedmePOS:               null,
+  autocountAccountingIcon: autocountAccountingIcon,   /* ← AutoCount Accounting 2.2 icon (hero page) */
+  autocountAccounting: null,   /* ← product card image */
+  autocountPos: null,
+  autocountPayroll: null,
+  feedmePOS: null,
 };

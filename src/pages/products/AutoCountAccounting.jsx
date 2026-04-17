@@ -24,31 +24,77 @@ import { PRODUCT_IMAGES } from "../../assets/assets.js";
  * ═══════════════════════════════════════════════════════════════ */
 const RELEASES = [
   {
-    version: "2.2.25.36", rev: "Rev 36", date: "2026-01-07",
+    version: "2.2.25.36", rev: "Rev 36", date: "2026-01-08",
     dbVer: "2.2.91", server: "2.2.13.11",
     features: [
-      "New e-Invoice 1.1 format support for LHDN submission",
-      "Batch e-Invoice cancellation from document listing",
-      "Enhanced multi-currency revaluation report",
+      "Enhance Audit Trail to record Bank Reconciliation activities",
+      "Enhance Audit Trail to record edit YTD Balance Maintenance activities",
+      "Support transactions exceeding RM10,000 to prompt warning if not submitted as regular e-Invoice",
+      "Support auto email validated e-Invoice to Tax Entity Email and Branch Email",
+      "Add View Flow function at Credit Note and Purchase Return",
+      "Add Keep Email Message and Attachment file History function",
+      "Enhance Self-Bill Copy From Document to add related Supplier Document Number",
+      "Add warning message to indicate ARDN does not support e-Invoice",
+      "New 1 Account Plus Edition",
+      "New AutoCount Chatbot",
+      "Allow Stock User Type to access Self-Billed e-Invoice function",
+      "Enhance Cash Sale Request e-Invoice — allow user to request e-Invoice if not included in Consolidated e-Invoice",
+      "Add Home Currency for HKD and GBP",
+      "Rename Access Right Bank Book Manager to Bank Book Analysis",
+      "Add foreign key constraints to e-Invoice and Withholding Tax tables",
+      "Improve prompt message when saving a Tax Entity that already exists",
+      "Support Local Email Sending for POS Frontend without depending on AutoCount Server",
     ],
     fixes: [
-      "Fixed credit note amount rounding on tax invoice",
-      "Resolved slow loading on large customer statement",
-      "Fixed print preview crash on dual-monitor setups",
+      "Fix User Maintenance — editing Direct Access Right not recorded in Audit Trail",
+      "Fix Check BOM Material Inquiry shows incorrect result with Include Outstanding PO SO AO and Calculate All UOMs",
+      "Fix Serial Number input form keeps loading Cost column and not following saved layout",
+      "Fix incorrect GST term in warning message when editing SST-processed transaction",
+      "Fix View Flow does not display transfer link for Purchase Invoice to Purchase Return",
+      "Fix View Flow displays incorrect color for transfer line from Invoice to CN",
+      "Fix AR CN preview in e-Invoice format shows QR code before e-Invoice submission",
+      "Fix Open Server Mailing List attachment error due to invalid attachment file name",
+      "Fix Debtor and Creditor Statement not showing Balance amount when row data is 0 or null",
+      "Fix Filter by Current Location not working when View then Edit transaction",
+      "Fix unable to open Further description in Find stock item",
+      "Fix some reports not displaying past year historical price after year end",
+      "Fix date field in Purge Data not auto-tabbing to month/year after entering day",
+      "Fix Plugin Manager's Menu Install AutoCount POS 5.1 Server not working correctly",
+      "Fix Transaction Summary in Journal Transaction Detail with Summary report shows incorrect values",
+      "Fix some System Report binding data not showing in 2.2.25.34",
+      "Fix Stock Item Inquiry prompts error when right-clicking on Stock Level Grid",
+      "Fix Print Bar Code preview always shows only 1 barcode regardless of quantity",
+      "Fix Rebuild serial number prompts Timeout expired error",
+      "Fix AR Monthly Sales Analysis Report shows incorrect Withholding Tax value",
+      "Fix Purchase Agent Listing Report shows wrong caption Sales Agent instead of Purchase Agent",
+      "Fix Print Bar Code incorrect icon for Delete Button",
+      "Fix AutoCount Management Studio Fix Partial Transfer miscalculates transferred quantity",
+      "Fix Self-Billed Currency Exchange Rate field editable for MYR after clear cache",
+      "Fix Consolidated e-Invoice Final Total decimal format inconsistent with other columns",
+      "Fix Upgrade Account Book from 1.9 to 2.2 hits error — Column TaxCode does not belong to table GLDTL",
+      "Fix Unable to Merge Tax Entity — mismatching BEGIN and COMMIT statement count",
     ],
   },
   {
     version: "2.2.25.34", rev: "Rev 34", date: "2025-10-10",
     dbVer: "2.2.90", server: "2.2.13.9",
     features: [
-      "e-Invoice self-billed support for import purchases",
-      "New consolidated e-Invoice monthly submission mode",
-      "AR/AP ageing report now supports custom date buckets",
+      "Update System Report and User Report to save and open as XML",
+      "Add new Export Service Tax Code (SVE) for SST02 column 18a",
+      "Add purge data function for Import Supplier e-Invoice from MyInvois Portal",
+      "Enhance to copy Debtor Maintenance Sales Tax Exemption No to Detail at transaction",
+      "Enhance Financial Report to split AccNo and AccDesc into 2 columns when using Export Function",
+      "Add Audit Trail Record in Philippines BIR Setting",
+      "Support Posting Account Group Maintenance for POS only packages",
     ],
     fixes: [
-      "Fixed bank reconciliation discrepancy on forex transactions",
-      "Resolved stock transfer negative quantity issue",
-      "Fixed missing tax code on recurring journal entries",
+      "Fix report system/user report not differentiated by blue color under Malay Language",
+      "Fix Post to Adjustment from Stock Take — Value was either too large or too small for Int32",
+      "Fix e-Invoice sales transaction Listing save layout not working on some e-Invoice fields",
+      "Fix Period Lock Manage Exception missing Consolidated and Self-Billed e-Invoice Document",
+      "Fix Sales/Purchase Auto Price not working after Year End due to IPHIST and Past Year",
+      "Fix Unable to Change Code for Debtor — error related to column SGEInvoicePeppolFormat",
+      "Fix After Reset IPHIST in Studio, price history report has duplicate AQ and POS records",
     ],
   },
   {
@@ -168,7 +214,7 @@ const RELEASES = [
 /* ── Feature pill colours by type ── */
 const TAG = {
   feature: { bg: "rgba(47,49,90,0.08)", color: "#2f315a", label: "New" },
-  fix:     { bg: "rgba(201,168,76,0.12)", color: "#8a6a10", label: "Fix" },
+  fix: { bg: "rgba(201,168,76,0.12)", color: "#8a6a10", label: "Fix" },
 };
 
 function ReleaseBadge({ type }) {
@@ -229,7 +275,7 @@ function ReleaseCard({ r, expanded, onToggle }) {
         {/* chevron */}
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a8abcc" strokeWidth="2"
           style={{ flexShrink: 0, transform: expanded ? "rotate(180deg)" : "rotate(0)", transition: "transform 0.25s" }}>
-          <polyline points="6 9 12 15 18 9"/>
+          <polyline points="6 9 12 15 18 9" />
         </svg>
       </button>
 
@@ -277,7 +323,7 @@ export default function AutoCountAccountingPage({ onContact }) {
   const [expanded, setExpanded] = useState(0);   /* first card open by default */
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
-  const [compareMode, setCompareMode]  = useState(false);
+  const [compareMode, setCompareMode] = useState(false);
   const [compareA, setCompareA] = useState(RELEASES[RELEASES.length - 1].version); /* oldest */
   const [compareB, setCompareB] = useState(RELEASES[0].version);                   /* newest */
 
@@ -355,9 +401,9 @@ export default function AutoCountAccountingPage({ onContact }) {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1.5rem" }}>
             {[
               { icon: "✅", title: "SST & e-Invoice", desc: "Fully compliant with LHDN MyInvois and Malaysia SST requirements" },
-              { icon: "☁️", title: "Cloud-Connected", desc: "Real-time sync across branches with AutoCount cloud server" },
-              { icon: "🔗", title: "Integrated", desc: "Seamlessly linked with AutoCount POS and Cloud Payroll modules" },
-              { icon: "🛠️", title: "Supported Locally", desc: "KSL provides installation, training, and on-site support in Pahang" },
+              { icon: "🎯", title: "Prompt Technical Support", desc: "Fast response times and expert troubleshooting from the KSL team during business days to keep your operations running smoothly." },
+              { icon: "🔗", title: "Integrated", desc: "Seamlessly linked with AutoCount POS, Cloud Payroll modules, and your custom ERP systems." },
+              { icon: "⚙️", title: "Highly Extensible", desc: "Fully supports C# & .NET plugins, custom fields, and scripting to adapt to your unique business workflows." },
             ].map((f, i) => (
               <div key={i} style={{ padding: "1.25rem", borderRadius: 12, background: "#f8f8fb", border: "1px solid rgba(47,49,90,0.07)" }}>
                 <div style={{ fontSize: "1.6rem", marginBottom: "0.6rem" }}>{f.icon}</div>
@@ -411,7 +457,7 @@ export default function AutoCountAccountingPage({ onContact }) {
                 onMouseOver={e => e.currentTarget.style.background = "#3d4075"}
                 onMouseOut={e => e.currentTarget.style.background = "#2f315a"}
               >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21" /></svg>
                 Watch on YouTube
               </a>
               <span style={{
@@ -470,7 +516,7 @@ export default function AutoCountAccountingPage({ onContact }) {
                     padding: "0.4rem 1.1rem", borderRadius: 50, border: "none",
                     cursor: "pointer", fontFamily: "inherit",
                     background: (compareMode ? "compare" : "browse") === mode ? "#2f315a" : "transparent",
-                    color:      (compareMode ? "compare" : "browse") === mode ? "#ffffff" : "#6b6f91",
+                    color: (compareMode ? "compare" : "browse") === mode ? "#ffffff" : "#6b6f91",
                     transition: "background 0.2s, color 0.2s",
                   }}
                 >{label}</button>
@@ -491,7 +537,7 @@ export default function AutoCountAccountingPage({ onContact }) {
             const newerIdx = RELEASES.indexOf(newer);
             const between = RELEASES.slice(newerIdx, olderIdx + 1);
             const allFeatures = between.flatMap(r => r.features.map(f => ({ ver: r.version, rev: r.rev, text: f })));
-            const allFixes    = between.flatMap(r => r.fixes.map(f    => ({ ver: r.version, rev: r.rev, text: f })));
+            const allFixes = between.flatMap(r => r.fixes.map(f => ({ ver: r.version, rev: r.rev, text: f })));
             return (
               <div>
                 {/* Selectors */}
@@ -517,8 +563,8 @@ export default function AutoCountAccountingPage({ onContact }) {
                 <div style={{ display: "flex", gap: "1rem", marginBottom: "1.5rem", flexWrap: "wrap" }}>
                   {[
                     { label: "Revisions covered", val: between.length, bg: "rgba(47,49,90,0.06)", col: "#2f315a" },
-                    { label: "New features",       val: allFeatures.length, bg: "rgba(47,49,90,0.06)", col: "#2f315a" },
-                    { label: "Bug fixes",          val: allFixes.length,    bg: "rgba(201,168,76,0.1)", col: "#8a6a10" },
+                    { label: "New features", val: allFeatures.length, bg: "rgba(47,49,90,0.06)", col: "#2f315a" },
+                    { label: "Bug fixes", val: allFixes.length, bg: "rgba(201,168,76,0.1)", col: "#8a6a10" },
                   ].map(s => (
                     <div key={s.label} style={{ flex: 1, minWidth: 120, background: s.bg, borderRadius: 12, padding: "1rem 1.25rem" }}>
                       <div style={{ fontSize: "1.6rem", fontWeight: 700, color: s.col, lineHeight: 1 }}>{s.val}</div>
@@ -561,7 +607,7 @@ export default function AutoCountAccountingPage({ onContact }) {
               <div style={{ position: "relative", flex: 1, maxWidth: 280 }}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a8abcc" strokeWidth="2"
                   style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", pointerEvents: "none" }}>
-                  <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                  <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
                 </svg>
                 <input type="text" placeholder="Search version or keyword…"
                   value={search} onChange={e => setSearch(e.target.value)}
@@ -574,22 +620,22 @@ export default function AutoCountAccountingPage({ onContact }) {
               </button>
             </div>
 
-          {/* Release cards */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-            {filtered.length === 0 && (
-              <div style={{ textAlign: "center", padding: "3rem", color: "#a8abcc", fontSize: "0.9rem" }}>
-                No releases match "{search}"
-              </div>
-            )}
-            {filtered.map((r, i) => (
-              <ReleaseCard
-                key={r.version}
-                r={r}
-                expanded={expanded === i}
-                onToggle={() => setExpanded(expanded === i ? null : i)}
-              />
-            ))}
-          </div>
+            {/* Release cards */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+              {filtered.length === 0 && (
+                <div style={{ textAlign: "center", padding: "3rem", color: "#a8abcc", fontSize: "0.9rem" }}>
+                  No releases match "{search}"
+                </div>
+              )}
+              {filtered.map((r, i) => (
+                <ReleaseCard
+                  key={r.version}
+                  r={r}
+                  expanded={expanded === i}
+                  onToggle={() => setExpanded(expanded === i ? null : i)}
+                />
+              ))}
+            </div>
 
           </>}
 
