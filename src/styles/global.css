@@ -59,7 +59,10 @@ body {
   .cases-grid    { grid-template-columns: 1fr !important; }
   .stats-grid    { grid-template-columns: repeat(2, 1fr) !important; }
   .video-grid    { grid-template-columns: 1fr !important; }
-  .case-2col     { grid-template-columns: 1fr !important; }
+  .case-2col           { grid-template-columns: 1fr !important; }
+  /* AutoCount Accounting page */
+  .ac-features-grid    { grid-template-columns: repeat(2, 1fr) !important; }
+  .release-detail-grid { grid-template-columns: 1fr !important; }
 
   /* Hero mobile: hide spacer, centre everything */
   .hero-spacer     { display: none !important; }
@@ -75,6 +78,10 @@ body {
   .hero-badge {
     align-self: center !important;
     margin-top: 0.75rem !important;
+    /* Force centre regardless of parent flex direction */
+    display: flex !important;
+    justify-content: center !important;
+    width: 100% !important;
   }
 
   /* Text block: centre on mobile */

@@ -214,7 +214,7 @@ const RELEASES = [
 /* ── Feature pill colours by type ── */
 const TAG = {
   feature: { bg: "rgba(47,49,90,0.08)", color: "#2f315a", label: "New" },
-  fix: { bg: "rgba(201,168,76,0.12)", color: "#8a6a10", label: "Fix" },
+  fix:     { bg: "rgba(201,168,76,0.12)", color: "#8a6a10", label: "Fix" },
 };
 
 function ReleaseBadge({ type }) {
@@ -275,14 +275,14 @@ function ReleaseCard({ r, expanded, onToggle }) {
         {/* chevron */}
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a8abcc" strokeWidth="2"
           style={{ flexShrink: 0, transform: expanded ? "rotate(180deg)" : "rotate(0)", transition: "transform 0.25s" }}>
-          <polyline points="6 9 12 15 18 9" />
+          <polyline points="6 9 12 15 18 9"/>
         </svg>
       </button>
 
       {/* Expanded body */}
       {expanded && (
         <div style={{ padding: "0 1.4rem 1.4rem", borderTop: "0.5px solid rgba(47,49,90,0.08)" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem", marginTop: "1.1rem" }}>
+          <div className="release-detail-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem", marginTop: "1.1rem" }}>
             {/* New Features */}
             <div>
               <div style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#2f315a", marginBottom: "0.65rem" }}>
@@ -323,7 +323,7 @@ export default function AutoCountAccountingPage({ onContact }) {
   const [expanded, setExpanded] = useState(0);   /* first card open by default */
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
-  const [compareMode, setCompareMode] = useState(false);
+  const [compareMode, setCompareMode]  = useState(false);
   const [compareA, setCompareA] = useState(RELEASES[RELEASES.length - 1].version); /* oldest */
   const [compareB, setCompareB] = useState(RELEASES[0].version);                   /* newest */
 
@@ -398,7 +398,7 @@ export default function AutoCountAccountingPage({ onContact }) {
       {/* ── Feature highlights ── */}
       <div style={{ background: "#ffffff", padding: "3rem 0", borderBottom: "0.5px solid rgba(47,49,90,0.08)" }}>
         <div className="content-wrap">
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1.5rem" }}>
+          <div className="ac-features-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1.5rem" }}>
             {[
               { icon: "✅", title: "SST & e-Invoice", desc: "Fully compliant with LHDN MyInvois and Malaysia SST requirements" },
               { icon: "🎯", title: "Prompt Technical Support", desc: "Fast response times and expert troubleshooting from the KSL team during business days to keep your operations running smoothly." },
@@ -457,7 +457,7 @@ export default function AutoCountAccountingPage({ onContact }) {
                 onMouseOver={e => e.currentTarget.style.background = "#3d4075"}
                 onMouseOut={e => e.currentTarget.style.background = "#2f315a"}
               >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21" /></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
                 Watch on YouTube
               </a>
               <span style={{
@@ -516,7 +516,7 @@ export default function AutoCountAccountingPage({ onContact }) {
                     padding: "0.4rem 1.1rem", borderRadius: 50, border: "none",
                     cursor: "pointer", fontFamily: "inherit",
                     background: (compareMode ? "compare" : "browse") === mode ? "#2f315a" : "transparent",
-                    color: (compareMode ? "compare" : "browse") === mode ? "#ffffff" : "#6b6f91",
+                    color:      (compareMode ? "compare" : "browse") === mode ? "#ffffff" : "#6b6f91",
                     transition: "background 0.2s, color 0.2s",
                   }}
                 >{label}</button>
@@ -537,7 +537,7 @@ export default function AutoCountAccountingPage({ onContact }) {
             const newerIdx = RELEASES.indexOf(newer);
             const between = RELEASES.slice(newerIdx, olderIdx + 1);
             const allFeatures = between.flatMap(r => r.features.map(f => ({ ver: r.version, rev: r.rev, text: f })));
-            const allFixes = between.flatMap(r => r.fixes.map(f => ({ ver: r.version, rev: r.rev, text: f })));
+            const allFixes    = between.flatMap(r => r.fixes.map(f    => ({ ver: r.version, rev: r.rev, text: f })));
             return (
               <div>
                 {/* Selectors */}
@@ -563,8 +563,8 @@ export default function AutoCountAccountingPage({ onContact }) {
                 <div style={{ display: "flex", gap: "1rem", marginBottom: "1.5rem", flexWrap: "wrap" }}>
                   {[
                     { label: "Revisions covered", val: between.length, bg: "rgba(47,49,90,0.06)", col: "#2f315a" },
-                    { label: "New features", val: allFeatures.length, bg: "rgba(47,49,90,0.06)", col: "#2f315a" },
-                    { label: "Bug fixes", val: allFixes.length, bg: "rgba(201,168,76,0.1)", col: "#8a6a10" },
+                    { label: "New features",       val: allFeatures.length, bg: "rgba(47,49,90,0.06)", col: "#2f315a" },
+                    { label: "Bug fixes",          val: allFixes.length,    bg: "rgba(201,168,76,0.1)", col: "#8a6a10" },
                   ].map(s => (
                     <div key={s.label} style={{ flex: 1, minWidth: 120, background: s.bg, borderRadius: 12, padding: "1rem 1.25rem" }}>
                       <div style={{ fontSize: "1.6rem", fontWeight: 700, color: s.col, lineHeight: 1 }}>{s.val}</div>
@@ -607,7 +607,7 @@ export default function AutoCountAccountingPage({ onContact }) {
               <div style={{ position: "relative", flex: 1, maxWidth: 280 }}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a8abcc" strokeWidth="2"
                   style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", pointerEvents: "none" }}>
-                  <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+                  <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
                 </svg>
                 <input type="text" placeholder="Search version or keyword…"
                   value={search} onChange={e => setSearch(e.target.value)}
@@ -620,22 +620,22 @@ export default function AutoCountAccountingPage({ onContact }) {
               </button>
             </div>
 
-            {/* Release cards */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-              {filtered.length === 0 && (
-                <div style={{ textAlign: "center", padding: "3rem", color: "#a8abcc", fontSize: "0.9rem" }}>
-                  No releases match "{search}"
-                </div>
-              )}
-              {filtered.map((r, i) => (
-                <ReleaseCard
-                  key={r.version}
-                  r={r}
-                  expanded={expanded === i}
-                  onToggle={() => setExpanded(expanded === i ? null : i)}
-                />
-              ))}
-            </div>
+          {/* Release cards */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+            {filtered.length === 0 && (
+              <div style={{ textAlign: "center", padding: "3rem", color: "#a8abcc", fontSize: "0.9rem" }}>
+                No releases match "{search}"
+              </div>
+            )}
+            {filtered.map((r, i) => (
+              <ReleaseCard
+                key={r.version}
+                r={r}
+                expanded={expanded === i}
+                onToggle={() => setExpanded(expanded === i ? null : i)}
+              />
+            ))}
+          </div>
 
           </>}
 
