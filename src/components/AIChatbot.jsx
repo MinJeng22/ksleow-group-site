@@ -532,10 +532,9 @@ export default function AIChatbot() {
             width: "100%", height: "100%",
             borderRadius: "50%",
             backgroundImage: "url(/ksl-logo-circle.png)",
-            backgroundSize: "80%",        /* scale logo to fill, no white edges */
+            backgroundSize: "100%",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
-            backgroundColor: "#c9a84c",   /* gold fill behind logo */
           }} />
         }
       </button>
