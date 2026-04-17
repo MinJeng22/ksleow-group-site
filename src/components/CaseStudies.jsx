@@ -102,7 +102,7 @@ export default function CaseStudies({ onContact }) {
           return (
             <div
               key={c.key}
-              onClick={c.key === "plugin" ? () => navigate("/cases/sales2do") : undefined}
+              onClick={c.key === "plugin" ? () => navigate("/apps/sales2do") : undefined}
               style={{
                 borderRadius: 16, overflow: "hidden",
                 background: "rgba(255,255,255,0.05)",

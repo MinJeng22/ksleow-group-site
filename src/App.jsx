@@ -11,11 +11,11 @@ import Products      from "./components/Products";
 import Partners      from "./components/Partners";
 import Careers       from "./components/Careers";
 import Footer        from "./components/Footer";
+import BackToTop     from "./components/BackToTop";
 
 import AutoCountAccountingPage from "./pages/products/AutoCountAccounting";
-import Sales2DOPage from "./pages/cases/Sales2DO";
+import Sales2DOPage            from "./pages/apps/Sales2DO";
 
-import BackToTop from "./components/BackToTop";
 import "./styles/global.css";
 
 function Home({ onContact }) {
@@ -45,7 +45,7 @@ export default function App() {
         <Routes>
           <Route path="/"                              element={<Home onContact={openContact} />} />
           <Route path="/products/autocount-accounting" element={<AutoCountAccountingPage onContact={openContact} />} />
-          <Route path="/cases/sales2do"                   element={<Sales2DOPage onContact={openContact} />} />
+          <Route path="/apps/sales2do"                 element={<Sales2DOPage onContact={openContact} />} />
         </Routes>
 
         <ContactModal open={modalOpen} onClose={() => setModalOpen(false)} />
