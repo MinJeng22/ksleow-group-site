@@ -75,6 +75,10 @@ body {
   .hero-badge {
     align-self: center !important;
     margin-top: 0.75rem !important;
+    /* Force centre regardless of parent flex direction */
+    display: flex !important;
+    justify-content: center !important;
+    width: 100% !important;
   }
 
   /* Text block: centre on mobile */
