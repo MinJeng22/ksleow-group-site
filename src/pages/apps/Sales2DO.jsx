@@ -22,8 +22,8 @@ const IMAGE_SLOTS = {
   copy3: null,
   outstanding: null,
   settings: null,
-  licenseOnline: imgLicenseOnline,
-  licenseOffline: imgLicenseOffline,
+  licenseOnline: null,
+  licenseOffline: null,
 };
 
 const S = {
