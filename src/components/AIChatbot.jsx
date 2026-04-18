@@ -136,13 +136,7 @@ function Message({ msg }) {
             whiteSpace: "pre-wrap", wordBreak: "break-word",
           }}>
             {msg.text}
-            {msg.streaming && (
-              <span style={{
-                display: "inline-block", width: 8, height: 14,
-                background: "#2f315a", marginLeft: 3, borderRadius: 2,
-                animation: "blink 0.75s step-end infinite",
-              }} />
-            )}
+
           </div>
         )}
 
@@ -326,7 +320,6 @@ export default function AIChatbot() {
       {open && (
         <div style={{
           position: "fixed",
-          /* Mobile (<640px): full screen overlay */
           bottom: window.innerWidth < 640 ? 0 : 92,
           right: window.innerWidth < 640 ? 0 : 28,
           left: window.innerWidth < 640 ? 0 : "auto",
@@ -340,7 +333,6 @@ export default function AIChatbot() {
           display: "flex",
           flexDirection: "column",
           overflow: "hidden",
-          animation: "chatSlideUp 0.3s cubic-bezier(0.34,1.56,0.64,1)",
         }}>
 
           {/* Header */}
@@ -528,14 +520,17 @@ export default function AIChatbot() {
       >
         {open
           ? <CloseIcon />
-          : <div style={{
-            width: "100%", height: "100%",
-            borderRadius: "50%",
-            backgroundImage: "url(/ksl-logo-circle.png)",
-            backgroundSize: "100%",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-          }} />
+          : <img
+            src="/ksl-logo-circle.png"
+            alt="KSL"
+            style={{
+              width: "105%", height: "105%",
+              objectFit: "cover",
+              borderRadius: "50%",
+              display: "block",
+              flexShrink: 0,
+            }}
+          />
         }
       </button>
 

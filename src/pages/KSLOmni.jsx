@@ -10,7 +10,7 @@ import Footer from "../components/Footer";
  * ══════════════════════════════════════════════════════════════ */
 
 const WORKER_URL = "https://ksl-omni.chiaminjeng.workers.dev";
-const PAGE_URL   = "https://ksl-business-solutions-site.vercel.app/omni";
+const PAGE_URL = "https://ksl-business-solutions-site.vercel.app/omni";
 
 /* ── Image compression ── */
 async function compressImage(file, maxSizeKB = 1024) {
@@ -56,31 +56,31 @@ async function uploadImage(file) {
 /* ── Icons ── */
 const SendIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+    <line x1="22" y1="2" x2="11" y2="13" /><polygon points="22 2 15 22 11 13 2 9 22 2" />
   </svg>
 );
 const ImageIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
-    <polyline points="21 15 16 10 5 21"/>
+    <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" />
+    <polyline points="21 15 16 10 5 21" />
   </svg>
 );
 const XIcon = () => (
   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
   </svg>
 );
 const QRIcon = () => (
   <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
-    <rect x="3" y="14" width="7" height="7" rx="1"/>
-    <path d="M14 14h1v1h-1zM18 14h3v1h-1v2h1v1h-3v-1h1v-2h-1zM14 18h3v3h-1v-2h-2z"/>
+    <rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" />
+    <rect x="3" y="14" width="7" height="7" rx="1" />
+    <path d="M14 14h1v1h-1zM18 14h3v1h-1v2h1v1h-3v-1h1v-2h-1zM14 18h3v3h-1v-2h-2z" />
   </svg>
 );
 const TrashIcon = () => (
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
-    <path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+    <polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+    <path d="M10 11v6M14 11v6" /><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
   </svg>
 );
 
@@ -209,13 +209,7 @@ function Message({ msg }) {
             whiteSpace: "pre-wrap", wordBreak: "break-word",
           }}>
             {msg.text}
-            {msg.streaming && (
-              <span style={{
-                display: "inline-block", width: 8, height: 15,
-                background: "#2f315a", marginLeft: 3, borderRadius: 2,
-                animation: "blink 0.75s step-end infinite",
-              }} />
-            )}
+
           </div>
         )}
         {msg.error && (
@@ -241,16 +235,16 @@ export default function KSLOmniPage({ onContact }) {
       text: "Hello! I'm the KSL Omni assistant, powered by Gemini AI. I specialise in answering questions about the Sales2DO plugin — installation, features, pricing, and licensing. How can I help you today? 😊",
     },
   ]);
-  const [input, setInput]         = useState("");
-  const [loading, setLoading]     = useState(false);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
-  const [showQR, setShowQR]       = useState(false);
+  const [showQR, setShowQR] = useState(false);
 
   const bottomRef = useRef(null);
-  const fileRef   = useRef(null);
-  const inputRef  = useRef(null);
-  const abortRef  = useRef(null);
+  const fileRef = useRef(null);
+  const inputRef = useRef(null);
+  const abortRef = useRef(null);
 
   useEffect(() => { window.scrollTo({ top: 0, behavior: "instant" }); }, []);
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
@@ -316,7 +310,7 @@ export default function KSLOmniPage({ onContact }) {
 
       if (!res.ok) throw new Error(`Server error ${res.status}`);
 
-      const reader  = res.body.getReader();
+      const reader = res.body.getReader();
       const decoder = new TextDecoder();
       let accumulated = "";
 
@@ -382,8 +376,10 @@ export default function KSLOmniPage({ onContact }) {
                 border: "2px solid rgba(201,168,76,0.5)",
               }}>
                 <img src="/ksl-logo-circle.png" alt="KSL Omni"
-                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block",
-                    backgroundSize: "105%", backgroundPosition: "center" }} />
+                  style={{
+                    width: "100%", height: "100%", objectFit: "cover", display: "block",
+                    backgroundSize: "105%", backgroundPosition: "center"
+                  }} />
               </div>
               <div>
                 <div style={{ fontSize: "0.65rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.25rem" }}>
@@ -438,7 +434,7 @@ export default function KSLOmniPage({ onContact }) {
 
       {/* ── Chat area ── */}
       <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-        <div className="content-wrap" style={{ flex: 1, display: "flex", flexDirection: "column", padding: "2rem var(--px)" }}>
+        <div className="content-wrap" style={{ flex: 1, display: "flex", flexDirection: "column", padding: "1.5rem var(--px) 2rem" }}>
           <div style={{
             flex: 1,
             background: "#ffffff",
@@ -447,13 +443,14 @@ export default function KSLOmniPage({ onContact }) {
             boxShadow: "0 4px 24px rgba(47,49,90,0.07)",
             display: "flex", flexDirection: "column",
             overflow: "hidden",
-            minHeight: "60vh",
+            /* On mobile: fill viewport height minus hero */
+            minHeight: "calc(100dvh - 220px)",
           }}>
 
             {/* Messages */}
             <div style={{
               flex: 1, overflowY: "auto",
-              padding: "1.5rem 1.75rem",
+              padding: "1.25rem 1.25rem",
               display: "flex", flexDirection: "column",
             }}>
               {messages.map((msg, i) => <Message key={i} msg={msg} />)}
@@ -486,9 +483,9 @@ export default function KSLOmniPage({ onContact }) {
 
             {/* Input row */}
             <div style={{
-              padding: "1rem 1.25rem",
+              padding: "0.75rem 1rem",
               borderTop: "0.5px solid rgba(47,49,90,0.08)",
-              display: "flex", alignItems: "flex-end", gap: "0.6rem",
+              display: "flex", alignItems: "flex-end", gap: "0.5rem",
               flexShrink: 0,
               background: "#fafafa",
             }}>
@@ -505,7 +502,7 @@ export default function KSLOmniPage({ onContact }) {
                   display: "flex", alignItems: "center", justifyContent: "center",
                   flexShrink: 0, transition: "border-color 0.2s, color 0.2s",
                 }}
-                onMouseOver={e => { if (!loading) { e.currentTarget.style.borderColor = "#2f315a"; e.currentTarget.style.color = "#2f315a"; }}}
+                onMouseOver={e => { if (!loading) { e.currentTarget.style.borderColor = "#2f315a"; e.currentTarget.style.color = "#2f315a"; } }}
                 onMouseOut={e => { e.currentTarget.style.borderColor = "rgba(47,49,90,0.18)"; e.currentTarget.style.color = "#6b6f91"; }}
               >
                 <ImageIcon />
