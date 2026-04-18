@@ -17,64 +17,10 @@ import { useState, useRef, useEffect } from "react";
 
 /* ── CONFIG — set your Cloudflare Worker URL here ── */
 const WORKER_URL = "https://ksl-omni.chiaminjeng.workers.dev";
-/* ── Compress image client-side before upload ── */
-async function compressImage(file, maxSizeKB = 1024) {
-  return new Promise((resolve) => {
-    const img = new Image();
-    const url = URL.createObjectURL(file);
-    img.onload = () => {
-      URL.revokeObjectURL(url);
-      const canvas = document.createElement("canvas");
-      let { width, height } = img;
-      const maxDim = 1280;
-      if (width > maxDim || height > maxDim) {
-        if (width > height) { height = Math.round(height * maxDim / width); width = maxDim; }
-        else { width = Math.round(width * maxDim / height); height = maxDim; }
-      }
-      canvas.width = width; canvas.height = height;
-      canvas.getContext("2d").drawImage(img, 0, 0, width, height);
-      canvas.toBlob((blob) => resolve(blob || file), "image/jpeg", 0.82);
-    };
-    img.onerror = () => { URL.revokeObjectURL(url); resolve(file); };
-    img.src = url;
-  });
-}
-
-/* ── Upload image → GCS via Worker signed URL ── */
-async function uploadImage(file) {
-  const compressed = await compressImage(file);
-  const ext = "jpg";
-
-  // Step 1: get signed URL from worker
-  const res = await fetch(`${WORKER_URL}/signed-url`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ ext, size: compressed.size }),
-  });
-  if (!res.ok) throw new Error("Failed to get upload URL");
-  const { signedUrl, gsPath } = await res.json();
-
-  // Step 2: PUT directly to GCS (image never touches Worker)
-  const putRes = await fetch(signedUrl, {
-    method: "PUT",
-    headers: { "Content-Type": "image/jpeg" },
-    body: compressed,
-  });
-  if (!putRes.ok) throw new Error("Image upload failed");
-
-  return gsPath; // e.g. "gs://your-bucket/uploads/abc123.jpg"
-}
-
 /* ── Icons ── */
 const SendIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <line x1="22" y1="2" x2="11" y2="13" /><polygon points="22 2 15 22 11 13 2 9 22 2" />
-  </svg>
-);
-const ImageIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" />
-    <polyline points="21 15 16 10 5 21" />
   </svg>
 );
 const BotIcon = () => (
@@ -86,11 +32,6 @@ const BotIcon = () => (
 );
 const CloseIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-  </svg>
-);
-const XIcon = () => (
-  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
     <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
   </svg>
 );
@@ -119,12 +60,6 @@ function Message({ msg }) {
       )}
 
       <div style={{ maxWidth: "78%", display: "flex", flexDirection: "column", gap: "0.3rem", alignItems: isUser ? "flex-end" : "flex-start" }}>
-        {/* Image preview */}
-        {msg.imagePreview && (
-          <img src={msg.imagePreview} alt="uploaded"
-            style={{ maxWidth: 180, borderRadius: 10, border: "1px solid rgba(47,49,90,0.12)" }} />
-        )}
-
         {/* Text bubble */}
         {(msg.text || msg.streaming) && (
           <div style={{
@@ -166,11 +101,8 @@ export default function AIChatbot() {
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [imageFile, setImageFile] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
 
   const bottomRef = useRef(null);
-  const fileRef = useRef(null);
   const inputRef = useRef(null);
   const abortRef = useRef(null);
 
@@ -182,58 +114,20 @@ export default function AIChatbot() {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  function pickImage(e) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setImageFile(file);
-    const reader = new FileReader();
-    reader.onload = ev => setImagePreview(ev.target.result);
-    reader.readAsDataURL(file);
-    e.target.value = "";
+  /* image upload removed */
+  function _unused(e) { // placeholder
   }
-
-  function removeImage() { setImageFile(null); setImagePreview(null); }
 
   async function sendMessage() {
     const text = input.trim();
-    if ((!text && !imageFile) || loading) return;
+    if (!text || loading) return;
 
     setInput("");
     setLoading(true);
-
-    // Add user message
-    const userMsg = {
-      role: "user",
-      text: text || "",
-      imagePreview: imagePreview || null,
-    };
-    setMessages(prev => [...prev, userMsg]);
-    setImageFile(null);
-    setImagePreview(null);
-
-    // Add empty streaming assistant message
-    const assistantIdx = messages.length + 1;
+    setMessages(prev => [...prev, { role: "user", text }]);
     setMessages(prev => [...prev, { role: "assistant", text: "", streaming: true }]);
 
     try {
-      let gsPath = null;
-
-      // Upload image if present
-      if (imageFile) {
-        try {
-          gsPath = await uploadImage(imageFile);
-        } catch {
-          setMessages(prev => {
-            const next = [...prev];
-            next[next.length - 1] = { role: "assistant", text: "", error: "Image upload failed. Please try again.", streaming: false };
-            return next;
-          });
-          setLoading(false);
-          return;
-        }
-      }
-
-      // Call Worker for streaming response
       abortRef.current = new AbortController();
       const res = await fetch(`${WORKER_URL}/chat`, {
         method: "POST",
@@ -241,13 +135,9 @@ export default function AIChatbot() {
         body: JSON.stringify({
           messages: [
             ...messages
-              .filter(m => (m.text || m.imagePreview) && !m.streaming && !m.error)
-              .map(m => ({
-                role: m.role,
-                text: m.text || "",
-                gsPath: null,
-              })),
-            { role: "user", text, gsPath },
+              .filter(m => m.text && !m.streaming && !m.error)
+              .map(m => ({ role: m.role, text: m.text })),
+            { role: "user", text },
           ],
         }),
         signal: abortRef.current.signal,
@@ -378,33 +268,6 @@ export default function AIChatbot() {
             <div ref={bottomRef} />
           </div>
 
-          {/* Image preview strip */}
-          {imagePreview && (
-            <div style={{
-              padding: "0.5rem 1rem 0",
-              display: "flex", alignItems: "center", gap: "0.5rem",
-              borderTop: "0.5px solid rgba(47,49,90,0.08)",
-            }}>
-              <div style={{ position: "relative" }}>
-                <img src={imagePreview} alt="preview"
-                  style={{ width: 52, height: 52, objectFit: "cover", borderRadius: 8, border: "1px solid rgba(47,49,90,0.15)" }} />
-                <button
-                  onClick={removeImage}
-                  style={{
-                    position: "absolute", top: -6, right: -6,
-                    width: 18, height: 18, borderRadius: "50%",
-                    background: "#2f315a", border: "none", color: "#ffffff",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    cursor: "pointer", padding: 0,
-                  }}
-                >
-                  <XIcon />
-                </button>
-              </div>
-              <span style={{ fontSize: "0.75rem", color: "#6b6f91" }}>Image attached</span>
-            </div>
-          )}
-
           {/* Input row */}
           <div style={{
             padding: "0.75rem 0.85rem",
@@ -412,26 +275,6 @@ export default function AIChatbot() {
             display: "flex", alignItems: "flex-end", gap: "0.5rem",
             flexShrink: 0,
           }}>
-            {/* Image upload button */}
-            <button
-              onClick={() => fileRef.current?.click()}
-              disabled={loading}
-              title="Attach screenshot"
-              style={{
-                width: 36, height: 36, borderRadius: "50%",
-                background: "transparent",
-                border: "1px solid rgba(47,49,90,0.18)",
-                color: "#6b6f91", cursor: loading ? "not-allowed" : "pointer",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                flexShrink: 0, transition: "border-color 0.2s, color 0.2s",
-              }}
-              onMouseOver={e => { if (!loading) { e.currentTarget.style.borderColor = "#2f315a"; e.currentTarget.style.color = "#2f315a"; } }}
-              onMouseOut={e => { e.currentTarget.style.borderColor = "rgba(47,49,90,0.18)"; e.currentTarget.style.color = "#6b6f91"; }}
-            >
-              <ImageIcon />
-            </button>
-            <input ref={fileRef} type="file" accept="image/*" onChange={pickImage} style={{ display: "none" }} />
-
             {/* Text input */}
             <textarea
               ref={inputRef}
@@ -462,13 +305,13 @@ export default function AIChatbot() {
             {/* Send button */}
             <button
               onClick={sendMessage}
-              disabled={loading || (!input.trim() && !imageFile)}
+              disabled={loading || !input.trim()}
               style={{
                 width: 36, height: 36, borderRadius: "50%",
-                background: (loading || (!input.trim() && !imageFile)) ? "rgba(47,49,90,0.15)" : "#2f315a",
+                background: (loading || !input.trim()) ? "rgba(47,49,90,0.15)" : "#2f315a",
                 border: "none",
-                color: (loading || (!input.trim() && !imageFile)) ? "#a8abcc" : "#ffffff",
-                cursor: (loading || (!input.trim() && !imageFile)) ? "not-allowed" : "pointer",
+                color: (loading || !input.trim()) ? "#a8abcc" : "#ffffff",
+                cursor: (loading || !input.trim()) ? "not-allowed" : "pointer",
                 display: "flex", alignItems: "center", justifyContent: "center",
                 flexShrink: 0, transition: "background 0.2s",
               }}
