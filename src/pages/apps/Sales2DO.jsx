@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
 import { WA_LINK } from "../../constants/contact.js";
 import AIChatbot from "../../components/AIChatbot.jsx";
+import acPluginIcon from "../../assets/images/apps/ac-plugin-icon.png";
 
 /* ══════════════════════════════════════════════════════════════
  * SALES2DO PLUGIN — PAGE
@@ -137,9 +138,10 @@ export default function Sales2DOPage({ onContact }) {
               width: 76, height: 76, borderRadius: 18,
               overflow: "hidden", flexShrink: 0,
               border: "1px solid rgba(255,255,255,0.15)",
-              background: "rgba(255,255,255,0.1)",
-              display: "flex", alignItems: "center", justifyContent: "center", fontSize: "2rem",
-            }}>🔌</div>
+            }}>
+              <img src={acPluginIcon} alt="Sales2DO Plugin"
+                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            </div>
 
             <div style={{ flex: 1, minWidth: 260 }}>
               <div style={{ fontSize: "0.68rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.5rem" }}>
