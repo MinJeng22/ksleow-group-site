@@ -45,15 +45,15 @@ export default function Products({ onContact }) {
   const navigate = useNavigate();
 
   return (
-    <section style={{ background: "#f5f5f8", padding: "6rem 0" }}>
+    <section style={{ background: "#2f315a", padding: "6rem 0" }}>
       <div className="content-wrap">
         <div style={{ fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.75rem" }}>
           Our Products
         </div>
-        <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.6rem)", fontWeight: 700, color: "#2f315a", lineHeight: 1.2, marginBottom: "0.75rem" }}>
+        <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.6rem)", fontWeight: 700, color: "#ffffff", lineHeight: 1.2, marginBottom: "0.75rem" }}>
           Software We Specialize In
         </h2>
-        <p style={{ fontSize: "1rem", color: "#6b6f91", lineHeight: 1.75, maxWidth: 540, marginBottom: "3rem" }}>
+        <p style={{ fontSize: "1rem", color: "rgba(255,255,255,0.6)", lineHeight: 1.75, maxWidth: 540, marginBottom: "3rem" }}>
           We are certified partners for Malaysia's leading accounting and business software solutions.
         </p>
 

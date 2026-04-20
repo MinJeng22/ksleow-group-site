@@ -65,7 +65,7 @@ const ICONS = [
 export default function CaseStudies({ onContact }) {
   const navigate = useNavigate();
   return (
-    <section style={{ background: "#2f315a", padding: "6rem 0" }}>
+    <section style={{ background: "#f5f5f8", padding: "6rem 0" }}>
     <div className="content-wrap">
       {/* header */}
       <div style={{ marginBottom: "3rem" }}>
@@ -77,11 +77,11 @@ export default function CaseStudies({ onContact }) {
         </div>
         <h2 style={{
           fontSize: "clamp(1.8rem, 3vw, 2.6rem)", fontWeight: 700,
-          color: "#ffffff", lineHeight: 1.2, marginBottom: "0.75rem",
+          color: "#2f315a", lineHeight: 1.2, marginBottom: "0.75rem",
         }}>
           Case Studies
         </h2>
-        <p style={{ fontSize: "1rem", color: "rgba(255,255,255,0.55)", lineHeight: 1.78, maxWidth: 540 }}>
+        <p style={{ fontSize: "1rem", color: "#6b6f91", lineHeight: 1.78, maxWidth: 540 }}>
           Real projects, real results — see how we have helped Pahang businesses
           modernise their operations with the right technology.
         </p>
@@ -107,8 +107,8 @@ export default function CaseStudies({ onContact }) {
               onClick={!isEmpty && c.key === "plugin" ? () => navigate("/apps/sales2do") : undefined}
               style={{
                 borderRadius: 16, overflow: "hidden",
-                background: isEmpty ? "rgba(255,255,255,0.02)" : "rgba(255,255,255,0.05)",
-                border: `1px solid ${isEmpty ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.1)"}`,
+                background: isEmpty ? "rgba(47,49,90,0.02)" : "#ffffff",
+                border: `1px solid ${isEmpty ? "rgba(47,49,90,0.04)" : "rgba(47,49,90,0.1)"}`,
                 cursor: !isEmpty && c.key === "plugin" ? "pointer" : "default",
                 transition: "border-color 0.2s",
                 minHeight: isEmpty ? 200 : "auto",
@@ -136,10 +136,10 @@ export default function CaseStudies({ onContact }) {
                     <div style={{ fontSize: "0.67rem", fontWeight: 600, letterSpacing: "0.1em", color: "#c9a84c", textTransform: "uppercase", marginBottom: "0.5rem" }}>
                       {c.tag}
                     </div>
-                    <h3 style={{ fontSize: "0.93rem", fontWeight: 600, color: "#ffffff", lineHeight: 1.45, marginBottom: "0.55rem" }}>
+                    <h3 style={{ fontSize: "0.93rem", fontWeight: 600, color: "#2f315a", lineHeight: 1.45, marginBottom: "0.55rem" }}>
                       {c.title}
                     </h3>
-                    <p style={{ fontSize: "0.81rem", color: "rgba(255,255,255,0.52)", lineHeight: 1.72 }}>
+                    <p style={{ fontSize: "0.81rem", color: "#6b6f91", lineHeight: 1.72 }}>
                       {c.desc}
                     </p>
                   </div>
@@ -154,14 +154,14 @@ export default function CaseStudies({ onContact }) {
         onClick={onContact}
         style={{
           marginTop: "2.5rem",
-          border: "1.5px solid rgba(255,255,255,0.28)", color: "rgba(255,255,255,0.82)",
+          border: "1.5px solid rgba(47,49,90,0.28)", color: "rgba(47,49,90,0.7)",
           padding: "0.72rem 1.9rem", borderRadius: 50,
           fontSize: "0.85rem", fontWeight: 500,
           background: "transparent", cursor: "pointer", fontFamily: "inherit",
           transition: "border-color 0.2s, color 0.2s",
         }}
-        onMouseOver={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.72)"; e.currentTarget.style.color = "#ffffff"; }}
-        onMouseOut={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.28)"; e.currentTarget.style.color = "rgba(255,255,255,0.82)"; }}
+        onMouseOver={e => { e.currentTarget.style.borderColor = "#2f315a"; e.currentTarget.style.color = "#2f315a"; }}
+        onMouseOut={e => { e.currentTarget.style.borderColor = "rgba(47,49,90,0.28)"; e.currentTarget.style.color = "rgba(47,49,90,0.7)"; }}
       >
         Discuss Your Project
       </button>
