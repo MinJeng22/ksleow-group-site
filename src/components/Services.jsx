@@ -66,8 +66,7 @@ const SERVICES = [
 
 /* ── Badge row — used for both Authorized Dealer and Certified By ── */
 function BadgeRow({ badge }) {
-  const isDealer = badge.label.toLowerCase().includes("dealer") || badge.label.toLowerCase().includes("authorized");
-  const labelColor = isDealer ? "#c9a84c" : "#6b6f91";
+const labelColor = "#6b6f91";
 
   /* Filter out logos whose src starts with /cert- (placeholders — hide until file exists) */
   const visibleLogos = badge.logos.filter(l => !l.src.startsWith("/cert-"));
