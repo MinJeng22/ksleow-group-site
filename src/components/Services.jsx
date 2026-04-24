@@ -1,79 +1,36 @@
 import { useState } from "react";
 import { SERVICE_CONTACTS } from "../constants/contact.js";
 
-/* ══════════════════════════════════════════════════════════════
- * SERVICES DATA
- * key → matches SERVICE_CONTACTS key in contact.js
- * ══════════════════════════════════════════════════════════════ */
 const SERVICES = [
   {
     key: "taxation",
     title: "Taxation & Accounting",
     desc: "Full-scope accounting and tax services — bookkeeping, financial statements, corporate and individual tax filing, SST compliance, e-Invoice readiness, and LHDN liaison.",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20">
-        <rect x="3" y="3" width="18" height="18" rx="2"/>
-        <path d="M9 9h6M9 12h6M9 15h4"/>
-      </svg>
-    ),
   },
   {
     key: "secretarial",
     title: "Secretarial & Management",
     desc: "Company incorporation, SSM annual returns, board resolutions, corporate secretarial compliance, business process consulting, management reporting, and strategic advisory.",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20">
-        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-        <polyline points="14 2 14 8 20 8"/>
-        <line x1="16" y1="13" x2="8" y2="13"/>
-        <line x1="16" y1="17" x2="8" y2="17"/>
-      </svg>
-    ),
   },
   {
     key: "auditing",
     title: "Auditing",
     desc: "Independent financial audits and assurance services. Present accurate, credible financials to stakeholders, banks, and regulatory bodies with confidence.",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20">
-        <path d="M9 11l3 3L22 4"/>
-        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
-      </svg>
-    ),
   },
   {
     key: "hardware",
     title: "Computer Hardware & Technical",
     desc: "Computer hardware wholesale, IT infrastructure, networking solutions, and on-site technical support for SMEs across Pahang.",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20">
-        <rect x="2" y="3" width="20" height="14" rx="2"/>
-        <line x1="8" y1="21" x2="16" y2="21"/>
-        <line x1="12" y1="17" x2="12" y2="21"/>
-      </svg>
-    ),
   },
   {
     key: "training",
     title: "Professional Training",
     desc: "Hands-on training programs for AutoCount software and accounting workflows. We equip your team with the skills to manage accounts efficiently.",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20">
-        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-      </svg>
-    ),
   },
   {
     key: "accounting_pos",
     title: "Accounting & POS System Support",
     desc: "Authorized AutoCount dealer for Pahang. Full installation, configuration, licensing, training, and ongoing support for AutoCount Accounting and POS software.",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20">
-        <rect x="2" y="3" width="20" height="14" rx="2"/>
-        <path d="M8 21h8M12 17v4"/>
-        <path d="M7 8h.01M12 8h.01M17 8h.01M7 12h.01M12 12h.01M17 12h.01"/>
-      </svg>
-    ),
   },
 ];
 
@@ -85,53 +42,57 @@ function ServiceCard({ service }) {
     `Hi, I would like to enquire about your ${service.title} service. Thank you.`
   )}`;
 
+  const isHardware = service.key === "hardware";
+
   return (
-    <div
-      style={{
-        perspective: "1000px",
-        height: 260,
-      }}
-    >
+    <div style={{ perspective: "1000px", height: 260 }}>
       <div style={{
-        position: "relative",
-        width: "100%",
-        height: "100%",
+        position: "relative", width: "100%", height: "100%",
         transformStyle: "preserve-3d",
         transition: "transform 0.55s cubic-bezier(0.4,0.2,0.2,1)",
         transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
       }}>
 
-        {/* ── FRONT — Service info ── */}
+        {/* ── FRONT ── */}
         <div style={{
           position: "absolute", inset: 0,
-          backfaceVisibility: "hidden",
-          WebkitBackfaceVisibility: "hidden",
-          borderRadius: 18,
-          background: "#f5f5f8",
+          backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden",
+          borderRadius: 18, background: "#f5f5f8",
           border: "1px solid rgba(47,49,90,0.09)",
           padding: "1.4rem",
           display: "flex", flexDirection: "column",
         }}>
-          {/* Top row: icon + button */}
+          {/* Top row */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "1rem" }}>
-            <div style={{
-              width: 44, height: 44, borderRadius: 11,
-              background: "#2f315a",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              color: "#ffffff", flexShrink: 0,
-            }}>
-              {service.icon}
-            </div>
+
+            {/* Hardware: Authorized Dealer + logos | Others: empty spacer */}
+            {isHardware ? (
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.35rem" }}>
+                <div style={{
+                  fontSize: "0.56rem", fontWeight: 700, letterSpacing: "0.1em",
+                  textTransform: "uppercase", color: "#c9a84c",
+                }}>
+                  Authorized Dealer
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.65rem" }}>
+                  <img src="/sunmi-logo.png" alt="Sunmi"
+                    style={{ height: 18, maxWidth: 70, objectFit: "contain" }} />
+                  <img src="/mdot-logo.png" alt="Mdot"
+                    style={{ height: 16, maxWidth: 50, objectFit: "contain" }} />
+                </div>
+              </div>
+            ) : (
+              <div />
+            )}
+
             <button
               onClick={() => setFlipped(true)}
               style={{
                 display: "inline-flex", alignItems: "center", gap: "0.35rem",
                 background: "transparent",
                 border: "1px solid rgba(47,49,90,0.18)",
-                borderRadius: 50,
-                padding: "0.35rem 0.9rem",
-                fontSize: "0.75rem", fontWeight: 600,
-                color: "#2f315a",
+                borderRadius: 50, padding: "0.35rem 0.9rem",
+                fontSize: "0.75rem", fontWeight: 600, color: "#2f315a",
                 cursor: "pointer", fontFamily: "inherit",
                 transition: "background 0.18s, color 0.18s, border-color 0.18s",
               }}
@@ -161,24 +122,18 @@ function ServiceCard({ service }) {
         {/* ── BACK — Business card ── */}
         <div style={{
           position: "absolute", inset: 0,
-          backfaceVisibility: "hidden",
-          WebkitBackfaceVisibility: "hidden",
+          backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden",
           transform: "rotateY(180deg)",
-          borderRadius: 18,
-          background: "#eef0f8",
+          borderRadius: 18, background: "#eef0f8",
           border: "1px solid rgba(47,49,90,0.12)",
           padding: "1.4rem",
           display: "flex", flexDirection: "column",
-          justifyContent: "space-between",
-          overflow: "hidden",
+          justifyContent: "space-between", overflow: "hidden",
         }}>
 
-          {/* Back button */}
+          {/* Back header */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{
-              fontSize: "0.62rem", fontWeight: 700, letterSpacing: "0.12em",
-              textTransform: "uppercase", color: "#2f315a",
-            }}>
+            <span style={{ fontSize: "0.62rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#2f315a" }}>
               {contact.label || service.title}
             </span>
             <button
@@ -187,8 +142,7 @@ function ServiceCard({ service }) {
                 background: "transparent", border: "1px solid rgba(47,49,90,0.2)",
                 borderRadius: 50, padding: "0.25rem 0.7rem",
                 fontSize: "0.7rem", fontWeight: 600, color: "#2f315a",
-                cursor: "pointer", fontFamily: "inherit",
-                transition: "background 0.2s",
+                cursor: "pointer", fontFamily: "inherit", transition: "background 0.2s",
               }}
               onMouseOver={e => e.currentTarget.style.background = "rgba(47,49,90,0.08)"}
               onMouseOut={e => e.currentTarget.style.background = "transparent"}
@@ -199,7 +153,6 @@ function ServiceCard({ service }) {
 
           {/* Contact details */}
           <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", gap: "0.65rem", margin: "0.75rem 0" }}>
-            {/* Phone */}
             <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
               <div style={{ width: 28, height: 28, borderRadius: 7, background: "rgba(47,49,90,0.08)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2f315a" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -209,7 +162,6 @@ function ServiceCard({ service }) {
               <span style={{ fontSize: "0.82rem", color: "#2f315a", fontWeight: 600 }}>{contact.phone || "017-905 2323"}</span>
             </div>
 
-            {/* Email */}
             <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
               <div style={{ width: 28, height: 28, borderRadius: 7, background: "rgba(47,49,90,0.08)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2f315a" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -220,7 +172,6 @@ function ServiceCard({ service }) {
               <span style={{ fontSize: "0.78rem", color: "#2f315a", fontWeight: 400, wordBreak: "break-all" }}>{contact.email || "support@ksleow.com.my"}</span>
             </div>
 
-            {/* Address */}
             <div style={{ display: "flex", alignItems: "flex-start", gap: "0.6rem" }}>
               <div style={{ width: 28, height: 28, borderRadius: 7, background: "rgba(47,49,90,0.08)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2f315a" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -236,9 +187,7 @@ function ServiceCard({ service }) {
 
           {/* CTA buttons */}
           <div style={{ display: "flex", gap: "0.5rem" }}>
-            <a
-              href={waLink}
-              target="_blank" rel="noreferrer"
+            <a href={waLink} target="_blank" rel="noreferrer"
               style={{
                 flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: "0.4rem",
                 background: "#c9a84c", color: "#1e2040",
@@ -252,8 +201,7 @@ function ServiceCard({ service }) {
               <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
               WhatsApp
             </a>
-            <a
-              href={`mailto:${contact.email || "support@ksleow.com.my"}`}
+            <a href={`mailto:${contact.email || "support@ksleow.com.my"}`}
               style={{
                 flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: "0.4rem",
                 background: "rgba(47,49,90,0.08)", color: "#2f315a",
@@ -269,7 +217,6 @@ function ServiceCard({ service }) {
             </a>
           </div>
         </div>
-
       </div>
     </div>
   );
@@ -279,36 +226,21 @@ function ServiceCard({ service }) {
 export default function Services() {
   return (
     <>
-      <style>{`
-        @keyframes cardFlip { from { opacity: 0; } to { opacity: 1; } }
-      `}</style>
+      <style>{`@keyframes cardFlip { from { opacity: 0; } to { opacity: 1; } }`}</style>
       <section id="services" style={{ background: "#ffffff", padding: "6rem 0" }}>
         <div className="content-wrap">
-          <div style={{
-            fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.12em",
-            textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.75rem",
-          }}>
+          <div style={{ fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.75rem" }}>
             What we do
           </div>
-          <h2 style={{
-            fontSize: "clamp(1.8rem, 3vw, 2.6rem)", fontWeight: 700,
-            color: "#2f315a", lineHeight: 1.2, marginBottom: "0.75rem",
-          }}>
+          <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.6rem)", fontWeight: 700, color: "#2f315a", lineHeight: 1.2, marginBottom: "0.75rem" }}>
             Our Service Offerings
           </h2>
-          <p style={{
-            fontSize: "1rem", color: "#6b6f91", lineHeight: 1.75,
-            maxWidth: 540, marginBottom: "3rem",
-          }}>
+          <p style={{ fontSize: "1rem", color: "#6b6f91", lineHeight: 1.75, maxWidth: 540, marginBottom: "3rem" }}>
             Taxation, accounting, secretarial, management, auditing, hardware
             wholesale, technical services, and training — all under one roof
             since 1981.
           </p>
-
-          <div
-            className="services-grid"
-            style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.1rem" }}
-          >
+          <div className="services-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.1rem" }}>
             {SERVICES.map(s => (
               <ServiceCard key={s.key} service={s} />
             ))}
