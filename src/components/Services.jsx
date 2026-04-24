@@ -21,18 +21,58 @@ const SERVICES = [
     key: "hardware",
     title: "Computer Hardware & Technical",
     desc: "Computer hardware wholesale, IT infrastructure, networking solutions, and on-site technical support for SMEs across Pahang.",
-  },
-  {
-    key: "training",
-    title: "Professional Training",
-    desc: "Hands-on training programs for AutoCount software and accounting workflows. We equip your team with the skills to manage accounts efficiently.",
+    dealer: {
+      label: "Authorized Dealer",
+      logos: [
+        { src: "/sunmi-logo.png", alt: "Sunmi", h: 22 },
+        { src: "/mdot-logo.png",  alt: "Mdot",  h: 20 },
+      ],
+    },
   },
   {
     key: "accounting_pos",
     title: "Accounting & POS System Support",
-    desc: "Authorized AutoCount dealer for Pahang. Full installation, configuration, licensing, training, and ongoing support for AutoCount Accounting and POS software.",
+    desc: "Authorized AutoCount and FeedMe dealer for Pahang. Full installation, configuration, licensing, training, and ongoing support for AutoCount Accounting, POS, and FeedMe Smart POS.",
+    dealer: {
+      label: "Authorized Dealer",
+      logos: [
+        { src: "/autocount-logo.png", alt: "AutoCount", h: 22 },
+        { src: "/feedme-logo.png",    alt: "FeedMe",    h: 22 },
+      ],
+    },
   },
 ];
+
+/* ── Authorized Dealer badge with logos ── */
+function DealerBadge({ dealer }) {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+      <div style={{
+        fontSize: "0.58rem", fontWeight: 700, letterSpacing: "0.1em",
+        textTransform: "uppercase", color: "#c9a84c",
+      }}>
+        {dealer.label}
+      </div>
+      <div style={{ display: "flex", alignItems: "center", gap: "0" }}>
+        {dealer.logos.map((logo, i) => (
+          <div key={logo.alt} style={{ display: "flex", alignItems: "center" }}>
+            <img
+              src={logo.src} alt={logo.alt}
+              style={{ height: logo.h, maxWidth: 80, objectFit: "contain" }}
+            />
+            {i < dealer.logos.length - 1 && (
+              <div style={{
+                width: 1, height: 18,
+                background: "rgba(47,49,90,0.2)",
+                margin: "0 0.6rem",
+              }} />
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 /* ── Flip card ── */
 function ServiceCard({ service }) {
@@ -41,8 +81,6 @@ function ServiceCard({ service }) {
   const waLink = `https://wa.me/${contact.whatsapp || "60179052323"}?text=${encodeURIComponent(
     `Hi, I would like to enquire about your ${service.title} service. Thank you.`
   )}`;
-
-  const isHardware = service.key === "hardware";
 
   return (
     <div style={{ perspective: "1000px", height: 260 }}>
@@ -64,37 +102,21 @@ function ServiceCard({ service }) {
         }}>
           {/* Top row */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "1rem" }}>
-
-            {/* Hardware: Authorized Dealer + logos | Others: empty spacer */}
-            {isHardware ? (
-              <div style={{ display: "flex", flexDirection: "column", gap: "0.35rem" }}>
-                <div style={{
-                  fontSize: "0.56rem", fontWeight: 700, letterSpacing: "0.1em",
-                  textTransform: "uppercase", color: "#c9a84c",
-                }}>
-                  Authorized Dealer
-                </div>
-                <div style={{ display: "flex", alignItems: "center", gap: "0.65rem" }}>
-                  <img src="/sunmi-logo.png" alt="Sunmi"
-                    style={{ height: 18, maxWidth: 70, objectFit: "contain" }} />
-                  <img src="/mdot-logo.png" alt="Mdot"
-                    style={{ height: 16, maxWidth: 50, objectFit: "contain" }} />
-                </div>
-              </div>
-            ) : (
-              <div />
-            )}
-
+            {service.dealer
+              ? <DealerBadge dealer={service.dealer} />
+              : <div />
+            }
             <button
               onClick={() => setFlipped(true)}
               style={{
-                display: "inline-flex", alignItems: "center", gap: "0.35rem",
+                display: "inline-flex", alignItems: "center",
                 background: "transparent",
                 border: "1px solid rgba(47,49,90,0.18)",
                 borderRadius: 50, padding: "0.35rem 0.9rem",
                 fontSize: "0.75rem", fontWeight: 600, color: "#2f315a",
                 cursor: "pointer", fontFamily: "inherit",
                 transition: "background 0.18s, color 0.18s, border-color 0.18s",
+                flexShrink: 0, marginLeft: "0.5rem",
               }}
               onMouseOver={e => {
                 e.currentTarget.style.background = "#2f315a";
@@ -130,8 +152,6 @@ function ServiceCard({ service }) {
           display: "flex", flexDirection: "column",
           justifyContent: "space-between", overflow: "hidden",
         }}>
-
-          {/* Back header */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <span style={{ fontSize: "0.62rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#2f315a" }}>
               {contact.label || service.title}
@@ -151,7 +171,6 @@ function ServiceCard({ service }) {
             </button>
           </div>
 
-          {/* Contact details */}
           <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", gap: "0.65rem", margin: "0.75rem 0" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
               <div style={{ width: 28, height: 28, borderRadius: 7, background: "rgba(47,49,90,0.08)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
@@ -161,7 +180,6 @@ function ServiceCard({ service }) {
               </div>
               <span style={{ fontSize: "0.82rem", color: "#2f315a", fontWeight: 600 }}>{contact.phone || "017-905 2323"}</span>
             </div>
-
             <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
               <div style={{ width: 28, height: 28, borderRadius: 7, background: "rgba(47,49,90,0.08)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2f315a" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -171,7 +189,6 @@ function ServiceCard({ service }) {
               </div>
               <span style={{ fontSize: "0.78rem", color: "#2f315a", fontWeight: 400, wordBreak: "break-all" }}>{contact.email || "support@ksleow.com.my"}</span>
             </div>
-
             <div style={{ display: "flex", alignItems: "flex-start", gap: "0.6rem" }}>
               <div style={{ width: 28, height: 28, borderRadius: 7, background: "rgba(47,49,90,0.08)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2f315a" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -185,7 +202,6 @@ function ServiceCard({ service }) {
             </div>
           </div>
 
-          {/* CTA buttons */}
           <div style={{ display: "flex", gap: "0.5rem" }}>
             <a href={waLink} target="_blank" rel="noreferrer"
               style={{
@@ -203,7 +219,7 @@ function ServiceCard({ service }) {
             </a>
             <a href={`mailto:${contact.email || "support@ksleow.com.my"}`}
               style={{
-                flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: "0.4rem",
+                flex: 1, display: "flex", alignItems: "center", justifyContent: "center",
                 background: "rgba(47,49,90,0.08)", color: "#2f315a",
                 border: "1px solid rgba(47,49,90,0.18)",
                 borderRadius: 50, padding: "0.5rem 0",
@@ -222,7 +238,6 @@ function ServiceCard({ service }) {
   );
 }
 
-/* ── Section ── */
 export default function Services() {
   return (
     <>
