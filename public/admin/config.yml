@@ -62,6 +62,8 @@ collections:
       - file: src/content/services.json
         name: services
         label: Services Section
+        media_folder: "/public/uploads/services"
+        public_folder: "/uploads/services"
         fields:
           - { name: eyebrow, label: Eyebrow (small gold text), widget: string }
           - { name: heading, label: Section heading,           widget: string }
@@ -94,6 +96,8 @@ collections:
       - file: src/content/products.json
         name: products
         label: Products Section
+        media_folder: "/public/uploads/products"
+        public_folder: "/uploads/products"
         fields:
           - { name: eyebrow, label: Eyebrow,         widget: string }
           - { name: heading, label: Section heading, widget: string }
@@ -114,6 +118,8 @@ collections:
       - file: src/content/caseStudies.json
         name: caseStudies
         label: Case Studies Section
+        media_folder: "/public/uploads/case-studies"
+        public_folder: "/uploads/case-studies"
         fields:
           - { name: eyebrow,  label: Eyebrow,         widget: string }
           - { name: heading,  label: Section heading, widget: string }
@@ -136,6 +142,8 @@ collections:
       - file: src/content/partners.json
         name: partners
         label: Partners Section
+        media_folder: "/public/uploads/partners"
+        public_folder: "/uploads/partners"
         fields:
           - { name: eyebrow, label: Eyebrow text, widget: string }
           - name: items
