@@ -6,7 +6,7 @@
     {
       "name": "AutoCount Accounting",
       "desc": "Malaysia's leading cloud and desktop accounting software. Full SST and e-Invoice ready.",
-      "image": "/uploads/autocount-accounting-icon.png",
+      "image": "/uploads/products/autocount-02-1024x352.png",
       "placeholder": "🧾",
       "gradient": "linear-gradient(135deg, #2f315a 0%, #4a4d85 100%)",
       "route": "/products/autocount-accounting"
