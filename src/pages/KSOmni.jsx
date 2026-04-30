@@ -72,6 +72,13 @@ const QRIcon = () => (
     <path d="M14 14h1v1h-1zM18 14h2v2h-2zM14 19h3v2h-1v-1h-2zM21 19v2h-1v-1" />
   </svg>
 );
+const ImageIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+    <circle cx="8.5" cy="8.5" r="1.5" />
+    <polyline points="21 15 16 10 5 21" />
+  </svg>
+);
 
 /* ── Parse **bold** markdown into <strong> elements ── */
 function renderText(text) {
@@ -99,6 +106,17 @@ function Message({ msg }) {
         </div>
       )}
       <div style={{ maxWidth: "78%", display: "flex", flexDirection: "column", gap: "0.25rem", alignItems: isUser ? "flex-end" : "flex-start" }}>
+        {msg.imageUrl && (
+          <img
+            src={msg.imageUrl}
+            alt="Attached"
+            style={{
+              maxWidth: 220, maxHeight: 220, borderRadius: 12,
+              objectFit: "cover", border: "1.5px solid rgba(47,49,90,0.12)",
+              display: "block",
+            }}
+          />
+        )}
         {(msg.text) && (
           <div style={{
             background: isUser ? "#2f315a" : "#f0f0f6",
@@ -142,10 +160,11 @@ export default function KSLOmniPage({ onContact }) {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [showQR, setShowQR] = useState(false);
+  const [pendingImage, setPendingImage] = useState(null); // { file, previewUrl, gsUri }
+  const [uploading, setUploading] = useState(false);
+  const [isDragOver, setIsDragOver] = useState(false);
 
-  /* ── Read Machine ID from URL query param (?mid=XXXX) ──
-   * AutoCount Plugin passes this when launching the page.
-   * Also preserved in QR code so mobile carries over the same ID. */
+  /* ── Read Machine ID from URL query param (?mid=XXXX) ── */
   const [machineId] = useState(() => {
     const params = new URLSearchParams(window.location.search);
     return params.get("mid") || null;
@@ -153,16 +172,15 @@ export default function KSLOmniPage({ onContact }) {
 
   const inputRef = useRef(null);
   const abortRef = useRef(null);
-
   const chatScrollRef = useRef(null);
+  const fileInputRef = useRef(null);
 
-  /* Scroll chat container to bottom — never touches the page scroll */
+  /* Scroll chat container to bottom */
   function scrollChatToBottom() {
     const el = chatScrollRef.current;
     if (el) el.scrollTop = el.scrollHeight;
   }
 
-  /* Scroll only when a new message appears (not on every streaming update) */
   const prevMsgLen = useRef(0);
   useEffect(() => {
     if (messages.length !== prevMsgLen.current) {
@@ -171,24 +189,69 @@ export default function KSLOmniPage({ onContact }) {
     }
   }, [messages.length]);
 
-  /* Focus input on mount and after AI finishes */
   useEffect(() => { setTimeout(() => inputRef.current?.focus(), 200); }, []);
   useEffect(() => {
     if (!loading) setTimeout(() => inputRef.current?.focus(), 50);
   }, [loading]);
 
+  function clearPendingImage() {
+    if (pendingImage?.previewUrl) URL.revokeObjectURL(pendingImage.previewUrl);
+    setPendingImage(null);
+  }
+
   function clearChat() {
     abortRef.current?.abort();
+    if (pendingImage?.previewUrl) URL.revokeObjectURL(pendingImage.previewUrl);
+    setPendingImage(null);
     setMessages([{ role: "assistant", text: "Chat cleared. How can I help you today? 😊" }]);
     setInput("");
   }
 
+  async function handleImageFile(file) {
+    if (!file?.type.startsWith("image/")) return;
+    if (pendingImage?.previewUrl) URL.revokeObjectURL(pendingImage.previewUrl);
+    const previewUrl = URL.createObjectURL(file);
+    setPendingImage({ file, previewUrl, gsUri: null });
+    try {
+      setUploading(true);
+      const formData = new FormData();
+      formData.append("file", file);
+      if (machineId) formData.append("machine_id", machineId);
+      const res = await fetch(`${WORKER_URL}/upload`, { method: "POST", body: formData });
+      const data = await res.json();
+      if (data.gsUri) {
+        setPendingImage(prev => prev ? { ...prev, gsUri: data.gsUri } : null);
+      }
+    } catch (err) {
+      console.error("Image upload error:", err);
+    } finally {
+      setUploading(false);
+    }
+  }
+
+  function handleDrop(e) {
+    e.preventDefault();
+    setIsDragOver(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file) handleImageFile(file);
+  }
+
   async function sendMessage() {
     const text = input.trim();
-    if (!text || loading) return;
+    const image = pendingImage;
+    if ((!text && !image) || loading) return;
+
     setInput("");
+    setPendingImage(null);
     setLoading(true);
-    setMessages(prev => [...prev, { role: "user", text }]);
+
+    /* Text sent to the API — append gsUri so the agent can reference the image */
+    const apiText = text
+      ? text + (image?.gsUri ? ` [image:${image.gsUri}]` : "")
+      : `(Image attached)${image?.gsUri ? ` [image:${image.gsUri}]` : ""}`;
+
+    const userMsg = { role: "user", text, ...(image?.previewUrl ? { imageUrl: image.previewUrl } : {}) };
+    setMessages(prev => [...prev, userMsg]);
     setMessages(prev => [...prev, { role: "assistant", text: "", streaming: true }]);
 
     try {
@@ -201,10 +264,8 @@ export default function KSLOmniPage({ onContact }) {
             ...messages
               .filter(m => m.text && !m.streaming && !m.error)
               .map(m => ({ role: m.role, text: m.text })),
-            { role: "user", text },
+            { role: "user", text: apiText },
           ],
-          /* Pass Machine ID so Cloudflare Worker / Conversational Agent
-             can include it in system context for feedback tool calls */
           machine_id: machineId || undefined,
         }),
         signal: abortRef.current.signal,
@@ -254,13 +315,56 @@ export default function KSLOmniPage({ onContact }) {
     if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); }
   }
 
+  const canSend = !loading && (!!input.trim() || !!pendingImage);
+
+  /* ── Shared image preview thumbnail ── */
+  const ImagePreview = () => pendingImage ? (
+    <div style={{ display: "flex", alignItems: "flex-start", paddingBottom: "0.5rem" }}>
+      <div style={{ position: "relative", display: "inline-block" }}>
+        <img
+          src={pendingImage.previewUrl}
+          alt="Preview"
+          style={{
+            height: 72, width: "auto", maxWidth: 120,
+            borderRadius: 10, objectFit: "cover",
+            border: "1.5px solid rgba(47,49,90,0.15)",
+            display: "block",
+            opacity: uploading ? 0.6 : 1,
+            transition: "opacity 0.2s",
+          }}
+        />
+        {uploading && (
+          <div style={{
+            position: "absolute", inset: 0, display: "flex",
+            alignItems: "center", justifyContent: "center",
+            background: "rgba(47,49,90,0.3)", borderRadius: 10,
+          }}>
+            <div style={{ width: 18, height: 18, border: "2px solid rgba(255,255,255,0.4)", borderTopColor: "#fff", borderRadius: "50%", animation: "spin 0.7s linear infinite" }} />
+          </div>
+        )}
+        <button
+          onClick={clearPendingImage}
+          style={{
+            position: "absolute", top: -7, right: -7,
+            width: 20, height: 20, borderRadius: "50%",
+            background: "#2f315a", color: "#fff",
+            border: "2px solid #fff", cursor: "pointer",
+            fontSize: "0.65rem", fontWeight: 700,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            padding: 0, lineHeight: 1,
+          }}
+        >×</button>
+      </div>
+    </div>
+  ) : null;
+
   /* ══════════════════════════════════════════════════════════
    * MOBILE: fullscreen chat — no Nav/Hero/Footer
    * ══════════════════════════════════════════════════════════ */
   if (isMobile) {
     return (
       <div style={{ position: "fixed", inset: 0, zIndex: 300, display: "flex", flexDirection: "column", background: "#ffffff" }}>
-        <style>{`@keyframes fadeIn{from{opacity:0}to{opacity:1}} @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}`}</style>
+        <style>{`@keyframes fadeIn{from{opacity:0}to{opacity:1}} @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}} @keyframes spin{to{transform:rotate(360deg)}}`}</style>
 
         {/* Mobile header */}
         <div style={{
@@ -293,51 +397,77 @@ export default function KSLOmniPage({ onContact }) {
           {messages.map((msg, i) => <Message key={i} msg={msg} />)}
         </div>
 
-        {/* Input row */}
-        <div style={{
-          borderTop: "0.5px solid rgba(47,49,90,0.1)",
-          padding: "0.6rem 0.75rem",
-          paddingBottom: "max(0.6rem, env(safe-area-inset-bottom))",
-          background: "#fafafa",
-          display: "flex", alignItems: "flex-end", gap: "0.5rem",
-          flexShrink: 0,
-        }}>
-          <textarea
-            ref={inputRef}
-            value={input}
-            onChange={e => setInput(e.target.value)}
-            onKeyDown={handleKey}
-            placeholder="Ask about Sales2DO…"
-            disabled={loading}
-            rows={1}
-            style={{
-              flex: 1, padding: "0.6rem 0.85rem",
-              borderRadius: 20, border: "1px solid rgba(47,49,90,0.18)",
-              fontSize: "0.9rem", fontFamily: "inherit",
-              resize: "none", outline: "none", lineHeight: 1.5,
-              maxHeight: 100, overflowY: "auto",
-              background: "#ffffff", color: "#2f315a",
-            }}
-          />
-          <button
-            onClick={sendMessage}
-            disabled={loading || !input.trim()}
-            style={{
-              width: 40, height: 40, borderRadius: "50%", flexShrink: 0,
-              background: (loading || !input.trim()) ? "rgba(47,49,90,0.12)" : "#2f315a",
-              border: "none",
-              color: (loading || !input.trim()) ? "#a8abcc" : "#ffffff",
-              cursor: (loading || !input.trim()) ? "not-allowed" : "pointer",
-              display: "flex", alignItems: "center", justifyContent: "center",
-            }}
-          >
-            {loading
-              ? <div style={{ width: 15, height: 15, border: "2px solid rgba(255,255,255,0.3)", borderTopColor: "#fff", borderRadius: "50%", animation: "spin 0.7s linear infinite" }} />
-              : <SendIcon />
-            }
-          </button>
+        {/* Input area */}
+        <div
+          onDrop={handleDrop}
+          onDragOver={e => { e.preventDefault(); setIsDragOver(true); }}
+          onDragLeave={() => setIsDragOver(false)}
+          style={{
+            borderTop: `0.5px solid ${isDragOver ? "rgba(47,49,90,0.3)" : "rgba(47,49,90,0.1)"}`,
+            padding: "0.6rem 0.75rem",
+            paddingBottom: "max(0.6rem, env(safe-area-inset-bottom))",
+            background: isDragOver ? "rgba(47,49,90,0.04)" : "#fafafa",
+            flexShrink: 0,
+            transition: "background 0.15s, border-color 0.15s",
+          }}
+        >
+          <ImagePreview />
+          <div style={{ display: "flex", alignItems: "flex-end", gap: "0.5rem" }}>
+            <button
+              onClick={() => !loading && fileInputRef.current?.click()}
+              title="Attach image"
+              disabled={loading}
+              style={{
+                width: 36, height: 36, borderRadius: "50%", flexShrink: 0,
+                background: pendingImage ? "rgba(47,49,90,0.1)" : "transparent",
+                border: "1px solid rgba(47,49,90,0.18)",
+                color: pendingImage ? "#2f315a" : "#9298ba",
+                cursor: loading ? "default" : "pointer",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                transition: "all 0.15s",
+              }}
+            ><ImageIcon /></button>
+            <textarea
+              ref={inputRef}
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              onKeyDown={handleKey}
+              placeholder="Ask about Sales2DO…"
+              disabled={loading}
+              rows={1}
+              style={{
+                flex: 1, padding: "0.6rem 0.85rem",
+                borderRadius: 20, border: "1px solid rgba(47,49,90,0.18)",
+                fontSize: "0.9rem", fontFamily: "inherit",
+                resize: "none", outline: "none", lineHeight: 1.5,
+                maxHeight: 100, overflowY: "auto",
+                background: "#ffffff", color: "#2f315a",
+              }}
+            />
+            <button
+              onClick={sendMessage}
+              disabled={!canSend}
+              style={{
+                width: 40, height: 40, borderRadius: "50%", flexShrink: 0,
+                background: canSend ? "#2f315a" : "rgba(47,49,90,0.12)",
+                border: "none",
+                color: canSend ? "#ffffff" : "#a8abcc",
+                cursor: canSend ? "pointer" : "not-allowed",
+                display: "flex", alignItems: "center", justifyContent: "center",
+              }}
+            >
+              {loading
+                ? <div style={{ width: 15, height: 15, border: "2px solid rgba(255,255,255,0.3)", borderTopColor: "#fff", borderRadius: "50%", animation: "spin 0.7s linear infinite" }} />
+                : <SendIcon />
+              }
+            </button>
+          </div>
         </div>
-        <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
+
+        <input
+          ref={fileInputRef} type="file" accept="image/*" style={{ display: "none" }}
+          onChange={e => { const f = e.target.files?.[0]; if (f) handleImageFile(f); e.target.value = ""; }}
+        />
         {showQR && <QRModal onClose={() => setShowQR(false)} machineId={machineId} />}
       </div>
     );
@@ -410,52 +540,78 @@ export default function KSLOmniPage({ onContact }) {
               {messages.map((msg, i) => <Message key={i} msg={msg} />)}
             </div>
 
-            {/* Input row */}
-            <div style={{
-              padding: "0.75rem 1rem", borderTop: "0.5px solid rgba(47,49,90,0.08)",
-              display: "flex", alignItems: "flex-end", gap: "0.5rem",
-              flexShrink: 0, background: "#fafafa",
-            }}>
-              <textarea
-                ref={inputRef}
-                value={input}
-                onChange={e => setInput(e.target.value)}
-                onKeyDown={handleKey}
-                placeholder="Ask about Sales2DO plugin — installation, pricing, features, activation…"
-                disabled={loading}
-                rows={1}
-                style={{
-                  flex: 1, padding: "0.65rem 1rem", borderRadius: 14,
-                  border: "1px solid rgba(47,49,90,0.18)",
-                  fontSize: "0.9rem", fontFamily: "inherit",
-                  resize: "none", outline: "none", lineHeight: 1.55,
-                  maxHeight: 120, overflowY: "auto",
-                  background: loading ? "#f0f0f5" : "#ffffff", color: "#2f315a",
-                  transition: "border-color 0.2s",
-                }}
-                onFocus={e => e.currentTarget.style.borderColor = "#2f315a"}
-                onBlur={e => e.currentTarget.style.borderColor = "rgba(47,49,90,0.18)"}
-              />
-              <button
-                onClick={sendMessage}
-                disabled={loading || !input.trim()}
-                style={{
-                  width: 40, height: 40, borderRadius: "50%",
-                  background: (loading || !input.trim()) ? "rgba(47,49,90,0.12)" : "#2f315a",
-                  border: "none",
-                  color: (loading || !input.trim()) ? "#a8abcc" : "#ffffff",
-                  cursor: (loading || !input.trim()) ? "not-allowed" : "pointer",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  flexShrink: 0, transition: "background 0.2s",
-                }}
-                onMouseOver={e => { if (!loading && input.trim()) e.currentTarget.style.background = "#3d4075"; }}
-                onMouseOut={e => { if (!loading && input.trim()) e.currentTarget.style.background = "#2f315a"; }}
-              >
-                {loading
-                  ? <div style={{ width: 15, height: 15, border: "2px solid rgba(255,255,255,0.3)", borderTopColor: "#fff", borderRadius: "50%", animation: "spin 0.7s linear infinite" }} />
-                  : <SendIcon />
-                }
-              </button>
+            {/* Input area */}
+            <div
+              onDrop={handleDrop}
+              onDragOver={e => { e.preventDefault(); setIsDragOver(true); }}
+              onDragLeave={() => setIsDragOver(false)}
+              style={{
+                padding: "0.75rem 1rem",
+                borderTop: `0.5px solid ${isDragOver ? "rgba(47,49,90,0.3)" : "rgba(47,49,90,0.08)"}`,
+                background: isDragOver ? "rgba(47,49,90,0.04)" : "#fafafa",
+                flexShrink: 0,
+                transition: "background 0.15s, border-color 0.15s",
+              }}
+            >
+              <ImagePreview />
+              <div style={{ display: "flex", alignItems: "flex-end", gap: "0.5rem" }}>
+                <button
+                  onClick={() => !loading && fileInputRef.current?.click()}
+                  title="Attach image"
+                  disabled={loading}
+                  style={{
+                    width: 36, height: 36, borderRadius: "50%", flexShrink: 0,
+                    background: pendingImage ? "rgba(47,49,90,0.1)" : "transparent",
+                    border: "1px solid rgba(47,49,90,0.18)",
+                    color: pendingImage ? "#2f315a" : "#9298ba",
+                    cursor: loading ? "default" : "pointer",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    transition: "all 0.15s",
+                  }}
+                  onMouseOver={e => { if (!loading) e.currentTarget.style.color = "#2f315a"; }}
+                  onMouseOut={e => { if (!pendingImage) e.currentTarget.style.color = "#9298ba"; }}
+                ><ImageIcon /></button>
+                <textarea
+                  ref={inputRef}
+                  value={input}
+                  onChange={e => setInput(e.target.value)}
+                  onKeyDown={handleKey}
+                  placeholder="Ask about Sales2DO plugin — installation, pricing, features, activation…"
+                  disabled={loading}
+                  rows={1}
+                  style={{
+                    flex: 1, padding: "0.65rem 1rem", borderRadius: 14,
+                    border: "1px solid rgba(47,49,90,0.18)",
+                    fontSize: "0.9rem", fontFamily: "inherit",
+                    resize: "none", outline: "none", lineHeight: 1.55,
+                    maxHeight: 120, overflowY: "auto",
+                    background: loading ? "#f0f0f5" : "#ffffff", color: "#2f315a",
+                    transition: "border-color 0.2s",
+                  }}
+                  onFocus={e => e.currentTarget.style.borderColor = "#2f315a"}
+                  onBlur={e => e.currentTarget.style.borderColor = "rgba(47,49,90,0.18)"}
+                />
+                <button
+                  onClick={sendMessage}
+                  disabled={!canSend}
+                  style={{
+                    width: 40, height: 40, borderRadius: "50%",
+                    background: canSend ? "#2f315a" : "rgba(47,49,90,0.12)",
+                    border: "none",
+                    color: canSend ? "#ffffff" : "#a8abcc",
+                    cursor: canSend ? "pointer" : "not-allowed",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    flexShrink: 0, transition: "background 0.2s",
+                  }}
+                  onMouseOver={e => { if (canSend) e.currentTarget.style.background = "#3d4075"; }}
+                  onMouseOut={e => { if (canSend) e.currentTarget.style.background = "#2f315a"; }}
+                >
+                  {loading
+                    ? <div style={{ width: 15, height: 15, border: "2px solid rgba(255,255,255,0.3)", borderTopColor: "#fff", borderRadius: "50%", animation: "spin 0.7s linear infinite" }} />
+                    : <SendIcon />
+                  }
+                </button>
+              </div>
             </div>
 
             <div style={{ padding: "0.5rem 1.25rem 0.75rem", fontSize: "0.68rem", color: "#c8cadd", textAlign: "center" }}>
@@ -465,6 +621,10 @@ export default function KSLOmniPage({ onContact }) {
         </div>
       </div>
 
+      <input
+        ref={fileInputRef} type="file" accept="image/*" style={{ display: "none" }}
+        onChange={e => { const f = e.target.files?.[0]; if (f) handleImageFile(f); e.target.value = ""; }}
+      />
       <Footer />
       {showQR && <QRModal onClose={() => setShowQR(false)} machineId={machineId} />}
     </div>
