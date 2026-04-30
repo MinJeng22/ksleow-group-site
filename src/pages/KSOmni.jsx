@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 
-const WORKER_URL = "ksl-omni.kslbs.workers.dev";
+const WORKER_URL = "https://ksl-omni.kslbs.workers.dev";
 const PAGE_URL = "https://ksl-business-solutions-site.vercel.app/omni";
 
 /* ── QR Code modal — includes machineId in URL if present ── */
