@@ -238,6 +238,40 @@ export default {
     if (url.pathname === "/oauth")    return oauthRedirect(env, request);
     if (url.pathname === "/callback") return oauthCallback(env, request);
 
+    /* ── Route: POST /upload ──
+     * Accepts { image_base64 } (JPEG, base64-encoded).
+     * Generates a GCS signed URL server-side, PUTs the image to GCS
+     * from inside the Worker (no browser→GCS CORS setup required),
+     * and returns { gsPath } for use in subsequent /chat calls.
+     * The GCS bucket lifecycle rule deletes the file after 1 day. */
+    if (url.pathname === "/upload" && request.method === "POST") {
+      if (!checkRateLimit(ip)) {
+        return json({ error: "Rate limit exceeded. Please wait a moment." }, 429, env);
+      }
+      try {
+        const { image_base64 } = await request.json();
+        if (!image_base64) return json({ error: "Missing image_base64" }, 400, env);
+
+        // Generate a signed PUT URL (always JPEG — frontend converts via canvas)
+        const { signedUrl, gsPath } = await generateSignedUrl(env, "jpg");
+
+        // Decode base64 → binary and PUT to GCS from the Worker
+        const binary = Uint8Array.from(atob(image_base64), c => c.charCodeAt(0));
+        const putRes = await fetch(signedUrl, {
+          method: "PUT",
+          headers: { "Content-Type": "image/jpeg" },
+          body: binary,
+        });
+        if (!putRes.ok) {
+          const errText = await putRes.text();
+          return json({ error: `GCS upload failed (${putRes.status}): ${errText}` }, 502, env);
+        }
+        return json({ gsPath }, 200, env);
+      } catch (err) {
+        return json({ error: "Upload failed: " + err.message }, 500, env);
+      }
+    }
+
     /* ── Route: POST /signed-url ── */
     if (url.pathname === "/signed-url" && request.method === "POST") {
       if (!checkRateLimit(ip)) {
@@ -264,7 +298,8 @@ export default {
 
       const { systemPrompt, messages } = body;
 
-      // Build Vertex AI contents array
+      // Build Vertex AI contents array.
+      // Images are referenced by GCS path — uploaded once via POST /upload.
       const contents = messages.map(m => {
         const parts = [];
         if (m.gsPath) {
