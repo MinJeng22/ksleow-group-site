@@ -84,13 +84,23 @@ function ServiceCard({ service }) {
   const [flipped, setFlipped] = useState(false);
   const contact = SERVICE_CONTACTS[service.key] || {};
   const office  = (service.officeKey && OFFICES[service.officeKey]) || null;
-  const waLink = `https://wa.me/${contact.whatsapp || "60179052323"}?text=${encodeURIComponent(
-    `Hi, I would like to enquire about your ${service.title} service. Thank you.`
-  )}`;
+  const waNumber  = contact.whatsapp || "60179052323";
+  const waMessage = `Hi, I would like to enquire about your ${service.title} service. Thank you.`;
+  const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
   const emailHref = `mailto:${contact.email || "support@ksleow.com.my"}`;
 
+  // QR code points to the same WhatsApp link — scan with phone to open chat
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=140x140&margin=2&bgcolor=ffffff&color=2f315a&data=${encodeURIComponent(waLink)}`;
+
+  // Clean address (drop redundant building/street prefix & postal code so it fits)
+  const cleanAddress = (contact.address || "Taman Zabidin, Mentakab, Pahang")
+    .replace("No.8-9, Ground Floor, ", "")
+    .replace("No.8-9, 1st Floor, ", "")
+    .replace("No.8-9, 2nd Floor, ", "")
+    .replace("Kampung Catin, 28400 ", "");
+
   return (
-    <div style={{ perspective: "1000px", height: 280 }}>
+    <div style={{ perspective: "1000px", height: 320 }}>
       <div style={{
         position: "relative", width: "100%", height: "100%",
         transformStyle: "preserve-3d",
@@ -148,7 +158,15 @@ function ServiceCard({ service }) {
           </div>
         </div>
 
-        {/* ── BACK — Business card. Click anywhere to flip back; WA / Email links stop propagation. ── */}
+        {/* ══════════════════════════════════════════════════════════════
+         * BACK — premium business card design.
+         * Layout:
+         *   • Decorative gold geometric shapes in the upper-right corner
+         *   • Top header strip: small office logo + tagline + company name
+         *   • Two-column body: contact details (left) | QR code panel (right)
+         *   • Bottom: WhatsApp + Email CTA buttons
+         * Click anywhere on the back to flip; CTAs and QR stop propagation.
+         * ══════════════════════════════════════════════════════════════ */}
         <div
           onClick={() => setFlipped(false)}
           style={{
@@ -157,33 +175,40 @@ function ServiceCard({ service }) {
             transform: "rotateY(180deg)",
             borderRadius: 18, overflow: "hidden",
             cursor: "pointer",
-            background: "linear-gradient(150deg, #2f315a 0%, #1f2148 60%, #161734 100%)",
+            background: "linear-gradient(135deg, #2a2c52 0%, #1d1f44 100%)",
             border: "1px solid rgba(201,168,76,0.25)",
             display: "flex", flexDirection: "column",
             color: "#ffffff",
-            boxShadow: "0 8px 28px rgba(15,17,40,0.18)",
+            boxShadow: "0 10px 32px rgba(15,17,40,0.22)",
           }}
         >
-          {/* Decorative gold corner accent */}
-          <div style={{
-            position: "absolute", top: 0, right: 0,
-            width: 78, height: 78,
-            background: "radial-gradient(circle at 100% 0%, rgba(201,168,76,0.35) 0%, rgba(201,168,76,0) 60%)",
-            pointerEvents: "none",
-          }} />
+          {/* Decorative gold geometric layers (stacked triangles) */}
+          <svg
+            viewBox="0 0 340 320" preserveAspectRatio="none"
+            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none" }}
+            aria-hidden="true"
+          >
+            {/* Big light-gold filled triangle (right) */}
+            <polygon points="340,0 200,0 340,140" fill="rgba(201,168,76,0.55)" />
+            {/* Smaller darker tan triangle overlapping (creates depth) */}
+            <polygon points="340,0 235,0 340,105" fill="rgba(201,168,76,0.85)" />
+            {/* Slim navy chevron knocking back into the gold */}
+            <polygon points="340,0 260,0 340,80" fill="rgba(31,33,72,0.7)" />
+            {/* Subtle bottom-left gold accent line */}
+            <polygon points="0,320 0,260 80,320" fill="rgba(201,168,76,0.25)" />
+          </svg>
 
-          {/* Header — Office badge */}
+          {/* Top header strip — office identity (sits above the gold accents thanks to z-index) */}
           <div style={{
-            padding: "1rem 1.25rem 0.85rem",
-            borderBottom: "1px solid rgba(255,255,255,0.07)",
-            display: "flex", alignItems: "center", gap: "0.75rem",
-            position: "relative",
+            position: "relative", zIndex: 1,
+            padding: "0.95rem 1.15rem 0.7rem",
+            display: "flex", alignItems: "center", gap: "0.65rem",
+            maxWidth: "65%",
           }}>
-            {/* Office logo (circle frame) — fallback to monogram if no logo set */}
             <div style={{
-              width: 42, height: 42, borderRadius: "50%",
+              width: 32, height: 32, borderRadius: 7,
               background: "rgba(255,255,255,0.06)",
-              border: "1px solid rgba(201,168,76,0.4)",
+              border: "1px solid rgba(201,168,76,0.45)",
               display: "flex", alignItems: "center", justifyContent: "center",
               flexShrink: 0, overflow: "hidden",
             }}>
@@ -191,56 +216,87 @@ function ServiceCard({ service }) {
                 <img src={office.logo} alt={office.name}
                   style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
               ) : (
-                <span style={{ color: "#c9a84c", fontWeight: 800, fontSize: "0.85rem", letterSpacing: "0.04em" }}>
-                  KSL
-                </span>
+                <span style={{ color: "#c9a84c", fontWeight: 800, fontSize: "0.7rem", letterSpacing: "0.04em" }}>KSL</span>
               )}
             </div>
-            <div style={{ minWidth: 0, flex: 1 }}>
+            <div style={{ minWidth: 0 }}>
               <div style={{
-                fontSize: "0.55rem", fontWeight: 700, letterSpacing: "0.16em",
-                textTransform: "uppercase", color: "#c9a84c", marginBottom: 2,
+                fontSize: "0.5rem", fontWeight: 700, letterSpacing: "0.18em",
+                textTransform: "uppercase", color: "#e8c97a", marginBottom: 1,
               }}>
-                {office?.tagline || "K.S. Leow Group"}
+                {service.title}
               </div>
               <div style={{
-                fontSize: "0.78rem", fontWeight: 700, color: "#ffffff",
-                lineHeight: 1.2, whiteSpace: "nowrap",
-                overflow: "hidden", textOverflow: "ellipsis",
+                fontSize: "0.7rem", fontWeight: 700, color: "#ffffff",
+                lineHeight: 1.25,
               }}>
-                {office?.name || contact.label || service.title}
+                {office?.name || "K.S. Leow Group"}
               </div>
             </div>
           </div>
 
-          {/* Contact details */}
+          {/* Two-column body: contacts (left) + QR code (right) */}
           <div style={{
-            flex: 1, padding: "0.9rem 1.25rem",
-            display: "flex", flexDirection: "column", justifyContent: "center", gap: "0.55rem",
+            position: "relative", zIndex: 1,
+            flex: 1,
+            padding: "0.4rem 1.15rem 0.5rem",
+            display: "flex", gap: "0.85rem",
+            alignItems: "stretch",
           }}>
-            <ContactLine
-              icon={<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6.29 6.29l1-1a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />}
-              label={contact.phone || "017-905 2323"}
-              bold
-            />
-            <ContactLine
-              icon={<><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></>}
-              label={contact.email || "support@ksleow.com.my"}
-            />
-            <ContactLine
-              icon={<><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></>}
-              label={(contact.address || "Taman Zabidin, Mentakab, Pahang")
-                .replace("No.8-9, Ground Floor, ", "")
-                .replace("No.8-9, 1st Floor, ", "")
-                .replace("No.8-9, 2nd Floor, ", "")
-                .replace("Kampung Catin, 28400 ", "")}
-              small
-            />
+            {/* Left: contact details */}
+            <div style={{
+              flex: 1, minWidth: 0,
+              display: "flex", flexDirection: "column", justifyContent: "center", gap: "0.5rem",
+            }}>
+              <ContactLine
+                icon={<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6.29 6.29l1-1a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />}
+                label={contact.phone || "017-905 2323"}
+                bold
+              />
+              <ContactLine
+                icon={<><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></>}
+                label={contact.email || "support@ksleow.com.my"}
+              />
+              <ContactLine
+                icon={<><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></>}
+                label={cleanAddress}
+                small
+              />
+            </div>
+
+            {/* Right: QR code panel */}
+            <div
+              onClick={e => e.stopPropagation()}
+              style={{
+                flexShrink: 0,
+                alignSelf: "center",
+                display: "flex", flexDirection: "column", alignItems: "center", gap: 4,
+              }}
+            >
+              <div style={{
+                background: "#ffffff",
+                padding: 4,
+                borderRadius: 8,
+                boxShadow: "0 2px 10px rgba(0,0,0,0.18)",
+                lineHeight: 0,
+              }}>
+                <img src={qrUrl} alt="WhatsApp QR code"
+                  width={84} height={84}
+                  style={{ display: "block", borderRadius: 4 }} />
+              </div>
+              <div style={{
+                fontSize: "0.5rem", fontWeight: 700, letterSpacing: "0.14em",
+                textTransform: "uppercase", color: "#e8c97a",
+              }}>
+                Scan to chat
+              </div>
+            </div>
           </div>
 
-          {/* CTA buttons — stopPropagation so clicking them doesn't flip the card */}
+          {/* Bottom CTA buttons */}
           <div style={{
-            padding: "0 1.25rem 1.1rem",
+            position: "relative", zIndex: 1,
+            padding: "0.55rem 1.15rem 1rem",
             display: "flex", gap: "0.5rem",
           }}>
             <a href={waLink} target="_blank" rel="noreferrer"
@@ -248,9 +304,9 @@ function ServiceCard({ service }) {
               style={{
                 flex: 1, display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "0.4rem",
                 background: "#c9a84c", color: "#1e2040",
-                borderRadius: 50, padding: "0.55rem 0",
-                fontSize: "0.76rem", fontWeight: 700,
-                textDecoration: "none", transition: "background 0.2s, transform 0.15s",
+                borderRadius: 50, padding: "0.5rem 0",
+                fontSize: "0.74rem", fontWeight: 700,
+                textDecoration: "none", transition: "background 0.2s",
               }}
               onMouseOver={e => { e.currentTarget.style.background = "#e8c97a"; }}
               onMouseOut={e => { e.currentTarget.style.background = "#c9a84c"; }}
@@ -263,13 +319,13 @@ function ServiceCard({ service }) {
               style={{
                 flex: 1, display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "0.4rem",
                 background: "rgba(255,255,255,0.06)", color: "#ffffff",
-                border: "1px solid rgba(255,255,255,0.2)",
-                borderRadius: 50, padding: "0.55rem 0",
-                fontSize: "0.76rem", fontWeight: 600,
+                border: "1px solid rgba(255,255,255,0.22)",
+                borderRadius: 50, padding: "0.5rem 0",
+                fontSize: "0.74rem", fontWeight: 600,
                 textDecoration: "none", transition: "background 0.2s, border-color 0.2s",
               }}
-              onMouseOver={e => { e.currentTarget.style.background = "rgba(255,255,255,0.12)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)"; }}
-              onMouseOut={e => { e.currentTarget.style.background = "rgba(255,255,255,0.06)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)"; }}
+              onMouseOver={e => { e.currentTarget.style.background = "rgba(255,255,255,0.12)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.35)"; }}
+              onMouseOut={e => { e.currentTarget.style.background = "rgba(255,255,255,0.06)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.22)"; }}
             >
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
@@ -287,24 +343,25 @@ function ServiceCard({ service }) {
 /* Single contact line on the back of the card — icon chip + label */
 function ContactLine({ icon, label, bold = false, small = false }) {
   return (
-    <div style={{ display: "flex", alignItems: "flex-start", gap: "0.65rem" }}>
+    <div style={{ display: "flex", alignItems: "flex-start", gap: "0.55rem" }}>
       <div style={{
-        width: 26, height: 26, borderRadius: 7,
+        width: 22, height: 22, borderRadius: 6,
         background: "rgba(201,168,76,0.15)",
-        border: "1px solid rgba(201,168,76,0.3)",
+        border: "1px solid rgba(201,168,76,0.32)",
         display: "flex", alignItems: "center", justifyContent: "center",
         flexShrink: 0, marginTop: 1,
       }}>
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#e8c97a" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#e8c97a" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
           {icon}
         </svg>
       </div>
       <span style={{
-        fontSize: small ? "0.72rem" : "0.8rem",
-        color: small ? "rgba(255,255,255,0.7)" : "#ffffff",
+        fontSize: small ? "0.7rem" : "0.78rem",
+        color: small ? "rgba(255,255,255,0.72)" : "#ffffff",
         fontWeight: bold ? 700 : 500,
-        lineHeight: 1.5,
+        lineHeight: 1.45,
         wordBreak: "break-word",
+        minWidth: 0,
       }}>
         {label}
       </span>
