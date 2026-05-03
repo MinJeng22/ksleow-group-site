@@ -586,30 +586,17 @@ export default function KSLOmniPage() {
           style={{ display: "none" }}
         />
 
-        {/* Input row */}
+        {/* Gemini-style input box (mobile) — textarea on top, action row below */}
         <div style={{
-          borderTop: "0.5px solid rgba(47,49,90,0.1)",
-          padding: "0.6rem 0.75rem",
-          paddingBottom: "max(0.6rem, env(safe-area-inset-bottom))",
-          background: "#fafafa",
-          display: "flex", alignItems: "flex-end", gap: "0.5rem",
+          margin: "0.6rem 0.75rem",
+          marginBottom: "max(0.6rem, env(safe-area-inset-bottom))",
+          padding: "0.65rem 0.8rem 0.5rem",
+          background: "#f0f0f6",
+          border: "1px solid rgba(47,49,90,0.1)",
+          borderRadius: 22,
+          display: "flex", flexDirection: "column", gap: "0.35rem",
           flexShrink: 0,
         }}>
-          {/* Upload image button */}
-          <button
-            onClick={openFilePicker}
-            disabled={loading || attachedImage?.uploading}
-            title="Upload image"
-            aria-label="Upload image"
-            style={{
-              width: 40, height: 40, borderRadius: "50%", flexShrink: 0,
-              background: "rgba(47,49,90,0.08)",
-              border: "1px solid rgba(47,49,90,0.12)",
-              color: (loading || attachedImage?.uploading) ? "#a8abcc" : "#2f315a",
-              cursor: (loading || attachedImage?.uploading) ? "not-allowed" : "pointer",
-              display: "flex", alignItems: "center", justifyContent: "center",
-            }}
-          ><ImageUploadIcon /></button>
           <textarea
             ref={inputRef}
             value={input}
@@ -620,31 +607,49 @@ export default function KSLOmniPage() {
             disabled={loading}
             rows={1}
             style={{
-              flex: 1, padding: "0.6rem 0.85rem",
-              borderRadius: 20, border: "1px solid rgba(47,49,90,0.18)",
-              fontSize: "0.9rem", fontFamily: "inherit",
-              resize: "none", outline: "none", lineHeight: 1.5,
-              maxHeight: 100, overflowY: "auto",
-              background: "#ffffff", color: "#2f315a",
+              width: "100%",
+              padding: "0.4rem 0.25rem",
+              border: "none", outline: "none",
+              background: "transparent",
+              fontSize: "0.95rem", fontFamily: "inherit",
+              resize: "none", lineHeight: 1.5,
+              maxHeight: 120, overflowY: "auto",
+              color: "#2f315a",
             }}
           />
-          <button
-            onClick={sendMessage}
-            disabled={loading || attachedImage?.uploading || (!input.trim() && !attachedImage?.gsPath)}
-            style={{
-              width: 40, height: 40, borderRadius: "50%", flexShrink: 0,
-              background: (loading || attachedImage?.uploading || (!input.trim() && !attachedImage?.gsPath)) ? "rgba(47,49,90,0.12)" : "#2f315a",
-              border: "none",
-              color: (loading || attachedImage?.uploading || (!input.trim() && !attachedImage?.gsPath)) ? "#a8abcc" : "#ffffff",
-              cursor:  (loading || attachedImage?.uploading || (!input.trim() && !attachedImage?.gsPath)) ? "not-allowed" : "pointer",
-              display: "flex", alignItems: "center", justifyContent: "center",
-            }}
-          >
-            {loading
-              ? <div style={{ width: 15, height: 15, border: "2px solid rgba(255,255,255,0.3)", borderTopColor: "#fff", borderRadius: "50%", animation: "spin 0.7s linear infinite" }} />
-              : <SendIcon />
-            }
-          </button>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <button
+              onClick={openFilePicker}
+              disabled={loading || attachedImage?.uploading}
+              title="Upload image"
+              aria-label="Upload image"
+              style={{
+                width: 34, height: 34, borderRadius: "50%", flexShrink: 0,
+                background: "transparent",
+                border: "1px solid rgba(47,49,90,0.18)",
+                color: (loading || attachedImage?.uploading) ? "#a8abcc" : "#2f315a",
+                cursor: (loading || attachedImage?.uploading) ? "not-allowed" : "pointer",
+                display: "flex", alignItems: "center", justifyContent: "center",
+              }}
+            ><ImageUploadIcon /></button>
+            <button
+              onClick={sendMessage}
+              disabled={loading || attachedImage?.uploading || (!input.trim() && !attachedImage?.gsPath)}
+              style={{
+                width: 34, height: 34, borderRadius: "50%", flexShrink: 0,
+                background: (loading || attachedImage?.uploading || (!input.trim() && !attachedImage?.gsPath)) ? "rgba(47,49,90,0.18)" : "#2f315a",
+                border: "none",
+                color: (loading || attachedImage?.uploading || (!input.trim() && !attachedImage?.gsPath)) ? "#a8abcc" : "#ffffff",
+                cursor:  (loading || attachedImage?.uploading || (!input.trim() && !attachedImage?.gsPath)) ? "not-allowed" : "pointer",
+                display: "flex", alignItems: "center", justifyContent: "center",
+              }}
+            >
+              {loading
+                ? <div style={{ width: 14, height: 14, border: "2px solid rgba(255,255,255,0.3)", borderTopColor: "#fff", borderRadius: "50%", animation: "spin 0.7s linear infinite" }} />
+                : <SendIcon />
+              }
+            </button>
+          </div>
         </div>
         {showQR && <QRModal onClose={() => setShowQR(false)} machineId={machineId} />}
       </div>
@@ -656,40 +661,24 @@ export default function KSLOmniPage() {
    * input falls to the bottom once the conversation starts.
    * ══════════════════════════════════════════════════════════ */
 
-  /* Reusable input row — same controls in both layouts. The `centered`
-   * variant uses a larger pill shape that matches Gemini's home screen. */
+  /* Reusable Gemini-style input box — textarea on top, action row below.
+   * Same component in centered (empty state) and bottom (active chat) layouts. */
   function InputRow({ centered = false }) {
-    const disabled    = loading || attachedImage?.uploading || (!input.trim() && !attachedImage?.gsPath);
-    const uploadBusy  = loading || attachedImage?.uploading;
+    const sendDisabled = loading || attachedImage?.uploading || (!input.trim() && !attachedImage?.gsPath);
+    const uploadBusy   = loading || attachedImage?.uploading;
     return (
       <div style={{
-        padding: centered ? "0.85rem 1rem" : "0.75rem 1rem",
-        borderTop: centered ? "none" : "0.5px solid rgba(47,49,90,0.08)",
-        background: centered ? "transparent" : "#fafafa",
-        display: "flex", alignItems: "flex-end", gap: "0.5rem",
+        margin: centered ? "0" : "0.75rem 1rem",
+        padding: "0.75rem 0.85rem 0.55rem",
+        background: "#f0f0f6",
+        border: "1px solid rgba(47,49,90,0.1)",
+        borderRadius: 24,
+        boxShadow: centered ? "0 2px 12px rgba(47,49,90,0.05)" : "none",
+        display: "flex", flexDirection: "column", gap: "0.4rem",
         flexShrink: 0,
+        transition: "border-color 0.2s, box-shadow 0.2s",
       }}>
-        {/* Upload image button */}
-        <button
-          onClick={openFilePicker}
-          disabled={uploadBusy}
-          title="Upload image"
-          aria-label="Upload image"
-          style={{
-            width: centered ? 48 : 40, height: centered ? 48 : 40,
-            borderRadius: "50%",
-            background: uploadBusy ? "rgba(47,49,90,0.06)" : "rgba(47,49,90,0.08)",
-            border: "1px solid rgba(47,49,90,0.12)",
-            color: uploadBusy ? "#a8abcc" : "#2f315a",
-            cursor: uploadBusy ? "not-allowed" : "pointer",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            flexShrink: 0, transition: "background 0.2s",
-          }}
-          onMouseOver={e => { if (!uploadBusy) e.currentTarget.style.background = "rgba(47,49,90,0.14)"; }}
-          onMouseOut={e => { if (!uploadBusy) e.currentTarget.style.background = "rgba(47,49,90,0.08)"; }}
-        >
-          <ImageUploadIcon />
-        </button>
+        {/* Top: textarea with no visible border, blends into the container */}
         <textarea
           ref={inputRef}
           value={input}
@@ -700,49 +689,69 @@ export default function KSLOmniPage() {
           disabled={loading}
           rows={1}
           style={{
-            flex: 1,
-            padding: centered ? "0.85rem 1.15rem" : "0.65rem 1rem",
-            borderRadius: centered ? 24 : 14,
-            border: centered ? "1px solid rgba(47,49,90,0.15)" : "1px solid rgba(47,49,90,0.18)",
-            fontSize: centered ? "0.95rem" : "0.9rem",
-            fontFamily: "inherit",
-            resize: "none", outline: "none", lineHeight: 1.55,
-            maxHeight: centered ? 160 : 120, overflowY: "auto",
-            background: loading ? "#f0f0f5" : "#ffffff",
+            width: "100%",
+            padding: "0.45rem 0.3rem",
+            border: "none", outline: "none",
+            background: "transparent",
             color: "#2f315a",
-            boxShadow: centered ? "0 2px 12px rgba(47,49,90,0.06)" : "none",
-            transition: "border-color 0.2s, box-shadow 0.2s",
+            fontSize: centered ? "1rem" : "0.95rem",
+            fontFamily: "inherit",
+            resize: "none", lineHeight: 1.55,
+            maxHeight: centered ? 180 : 140, overflowY: "auto",
           }}
-          onFocus={e => { e.currentTarget.style.borderColor = "#2f315a"; }}
-          onBlur={e => { e.currentTarget.style.borderColor = centered ? "rgba(47,49,90,0.15)" : "rgba(47,49,90,0.18)"; }}
         />
-        <button
-          onClick={sendMessage}
-          disabled={disabled}
-          style={{
-            width: centered ? 48 : 40, height: centered ? 48 : 40,
-            borderRadius: "50%",
-            background: disabled ? "rgba(47,49,90,0.12)" : "#2f315a",
-            border: "none",
-            color: disabled ? "#a8abcc" : "#ffffff",
-            cursor:  disabled ? "not-allowed" : "pointer",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            flexShrink: 0, transition: "background 0.2s",
-          }}
-          onMouseOver={e => { if (!disabled) e.currentTarget.style.background = "#3d4075"; }}
-          onMouseOut={e => { if (!disabled) e.currentTarget.style.background = "#2f315a"; }}
-        >
-          {loading
-            ? <div style={{ width: 15, height: 15, border: "2px solid rgba(255,255,255,0.3)", borderTopColor: "#fff", borderRadius: "50%", animation: "spin 0.7s linear infinite" }} />
-            : <SendIcon />
-          }
-        </button>
+
+        {/* Bottom action row: upload (left) + send (right) */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <button
+            onClick={openFilePicker}
+            disabled={uploadBusy}
+            title="Upload image"
+            aria-label="Upload image"
+            style={{
+              width: 36, height: 36, borderRadius: "50%",
+              background: "transparent",
+              border: "1px solid rgba(47,49,90,0.18)",
+              color: uploadBusy ? "#a8abcc" : "#2f315a",
+              cursor: uploadBusy ? "not-allowed" : "pointer",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              flexShrink: 0, transition: "background 0.2s",
+            }}
+            onMouseOver={e => { if (!uploadBusy) e.currentTarget.style.background = "rgba(47,49,90,0.08)"; }}
+            onMouseOut={e => { if (!uploadBusy) e.currentTarget.style.background = "transparent"; }}
+          >
+            <ImageUploadIcon />
+          </button>
+
+          <button
+            onClick={sendMessage}
+            disabled={sendDisabled}
+            title="Send"
+            aria-label="Send"
+            style={{
+              width: 36, height: 36, borderRadius: "50%",
+              background: sendDisabled ? "rgba(47,49,90,0.18)" : "#2f315a",
+              border: "none",
+              color: sendDisabled ? "#a8abcc" : "#ffffff",
+              cursor: sendDisabled ? "not-allowed" : "pointer",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              flexShrink: 0, transition: "background 0.2s",
+            }}
+            onMouseOver={e => { if (!sendDisabled) e.currentTarget.style.background = "#3d4075"; }}
+            onMouseOut={e => { if (!sendDisabled) e.currentTarget.style.background = "#2f315a"; }}
+          >
+            {loading
+              ? <div style={{ width: 14, height: 14, border: "2px solid rgba(255,255,255,0.3)", borderTopColor: "#fff", borderRadius: "50%", animation: "spin 0.7s linear infinite" }} />
+              : <SendIcon />
+            }
+          </button>
+        </div>
       </div>
     );
   }
 
   return (
-    <div style={{ background: "#f5f5f8", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+    <div style={{ background: "#f5f5f8", minHeight: "100vh", display: "flex", flexDirection: "column", paddingTop: 65 }}>
       <style>{`
         @keyframes fadeIn{from{opacity:0}to{opacity:1}}
         @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
@@ -759,7 +768,7 @@ export default function KSLOmniPage() {
         style={{ display: "none" }}
       />
 
-      {/* Site navigation (Logo + Services + Contact Us) */}
+      {/* Site navigation (Logo + Services + Contact Us) — fixed at top, page padded above */}
       <Nav />
 
       {/* Chatbot header — navy bar with KS Omni branding + Back / QR / Clear actions */}
