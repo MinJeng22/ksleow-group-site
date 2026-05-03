@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 
-const WORKER_URL = "https://ksl-omni.chiaminjeng.workers.dev";
+const WORKER_URL = "https://ksl-omni.kslbs.workers.dev";
 const PAGE_URL   = "https://ksl-business-solutions-site.vercel.app/omni";
 
 /* Max original file size before canvas conversion. */
@@ -95,6 +95,13 @@ const QRIcon = () => (
 const BackIcon = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
     <line x1="19" y1="12" x2="5" y2="12" /><polyline points="12 19 5 12 12 5" />
+  </svg>
+);
+const ImageUploadIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+    <circle cx="8.5" cy="8.5" r="1.5" />
+    <polyline points="21 15 16 10 5 21" />
   </svg>
 );
 const CloseSmallIcon = () => (
@@ -193,7 +200,7 @@ function Message({ msg }) {
  * Mirrors Gemini's home screen: small lighter top line + large gradient prompt. */
 function EmptyGreeting() {
   return (
-    <div style={{ textAlign: "center", animation: "fadeIn 0.4s ease", marginBottom: "2rem" }}>
+    <div style={{ textAlign: "left", width: "100%", maxWidth: 720, animation: "fadeIn 0.4s ease", marginBottom: "1.5rem" }}>
       <div style={{
         fontSize: "clamp(1.75rem, 3.5vw, 2.4rem)",
         fontWeight: 500,
@@ -285,6 +292,43 @@ export default function KSLOmniPage() {
     navigate("/");
   }
 
+  /* ── Shared image upload pipeline (paste OR file picker) ──
+   * Validates size, converts to JPEG, POSTs to /upload, stores gsPath. */
+  async function uploadImageFile(file) {
+    if (!file || !file.type?.startsWith("image/")) {
+      setPasteError("Only image files are supported.");
+      return;
+    }
+    if (file.size > MAX_IMAGE_BYTES) {
+      setPasteError(`Image too large (${(file.size / 1024 / 1024).toFixed(1)} MB). Max 5 MB.`);
+      return;
+    }
+    setPasteError("");
+    setAttachedImage(null);
+
+    try {
+      const dataUrl = await toJpegDataUrl(file);
+      const base64  = dataUrl.split(",")[1] ?? "";
+      const sizeKb  = Math.round(base64.length * 0.75 / 1024);
+
+      setAttachedImage({ gsPath: null, dataUrl, sizeKb, uploading: true });
+
+      const res = await fetch(`${WORKER_URL}/upload`, {
+        method:  "POST",
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify({ image_base64: base64 }),
+      });
+      if (!res.ok) throw new Error(`Upload error ${res.status}`);
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+
+      setAttachedImage({ gsPath: data.gsPath, dataUrl, sizeKb, uploading: false });
+    } catch (err) {
+      setAttachedImage(null);
+      setPasteError(`Failed to upload image: ${err.message}`);
+    }
+  }
+
   /* ── Capture image from clipboard paste ── */
   async function handlePaste(e) {
     const items = e.clipboardData?.items;
@@ -293,42 +337,22 @@ export default function KSLOmniPage() {
       if (item.kind !== "file" || !item.type.startsWith("image/")) continue;
       const file = item.getAsFile();
       if (!file) continue;
-      if (file.size > MAX_IMAGE_BYTES) {
-        setPasteError(`Image too large (${(file.size / 1024 / 1024).toFixed(1)} MB). Max 5 MB.`);
-        e.preventDefault();
-        return;
-      }
       e.preventDefault();
-      setPasteError("");
-      setAttachedImage(null);
-
-      try {
-        /* 1. Convert to JPEG via canvas (required format for GCS signed URL) */
-        const dataUrl = await toJpegDataUrl(file);
-        const base64  = dataUrl.split(",")[1] ?? "";
-        const sizeKb  = Math.round(base64.length * 0.75 / 1024); // decoded size
-
-        /* 2. Show chip with spinner immediately so the user knows something is happening */
-        setAttachedImage({ gsPath: null, dataUrl, sizeKb, uploading: true });
-
-        /* 3. POST base64 to worker → worker generates signed URL → PUTs to GCS */
-        const res = await fetch(`${WORKER_URL}/upload`, {
-          method:  "POST",
-          headers: { "Content-Type": "application/json" },
-          body:    JSON.stringify({ image_base64: base64 }),
-        });
-        if (!res.ok) throw new Error(`Upload error ${res.status}`);
-        const data = await res.json();
-        if (data.error) throw new Error(data.error);
-
-        /* 4. Image is on GCS — store the path reference, drop the base64 */
-        setAttachedImage({ gsPath: data.gsPath, dataUrl, sizeKb, uploading: false });
-      } catch (err) {
-        setAttachedImage(null);
-        setPasteError(`Failed to upload image: ${err.message}`);
-      }
+      await uploadImageFile(file);
       return;
     }
+  }
+
+  /* ── Trigger hidden file input from the upload button ── */
+  const fileInputRef = useRef(null);
+  function openFilePicker() {
+    if (loading || attachedImage?.uploading) return;
+    fileInputRef.current?.click();
+  }
+  async function handleFileSelected(e) {
+    const file = e.target.files?.[0];
+    if (file) await uploadImageFile(file);
+    e.target.value = ""; // allow selecting the same file again later
   }
 
   async function sendMessage() {
@@ -553,6 +577,15 @@ export default function KSLOmniPage() {
 
         <AttachmentChip />
 
+        {/* Hidden file input for the upload button */}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          onChange={handleFileSelected}
+          style={{ display: "none" }}
+        />
+
         {/* Input row */}
         <div style={{
           borderTop: "0.5px solid rgba(47,49,90,0.1)",
@@ -562,6 +595,21 @@ export default function KSLOmniPage() {
           display: "flex", alignItems: "flex-end", gap: "0.5rem",
           flexShrink: 0,
         }}>
+          {/* Upload image button */}
+          <button
+            onClick={openFilePicker}
+            disabled={loading || attachedImage?.uploading}
+            title="Upload image"
+            aria-label="Upload image"
+            style={{
+              width: 40, height: 40, borderRadius: "50%", flexShrink: 0,
+              background: "rgba(47,49,90,0.08)",
+              border: "1px solid rgba(47,49,90,0.12)",
+              color: (loading || attachedImage?.uploading) ? "#a8abcc" : "#2f315a",
+              cursor: (loading || attachedImage?.uploading) ? "not-allowed" : "pointer",
+              display: "flex", alignItems: "center", justifyContent: "center",
+            }}
+          ><ImageUploadIcon /></button>
           <textarea
             ref={inputRef}
             value={input}
@@ -611,7 +659,8 @@ export default function KSLOmniPage() {
   /* Reusable input row — same controls in both layouts. The `centered`
    * variant uses a larger pill shape that matches Gemini's home screen. */
   function InputRow({ centered = false }) {
-    const disabled = loading || attachedImage?.uploading || (!input.trim() && !attachedImage?.gsPath);
+    const disabled    = loading || attachedImage?.uploading || (!input.trim() && !attachedImage?.gsPath);
+    const uploadBusy  = loading || attachedImage?.uploading;
     return (
       <div style={{
         padding: centered ? "0.85rem 1rem" : "0.75rem 1rem",
@@ -620,6 +669,27 @@ export default function KSLOmniPage() {
         display: "flex", alignItems: "flex-end", gap: "0.5rem",
         flexShrink: 0,
       }}>
+        {/* Upload image button */}
+        <button
+          onClick={openFilePicker}
+          disabled={uploadBusy}
+          title="Upload image"
+          aria-label="Upload image"
+          style={{
+            width: centered ? 48 : 40, height: centered ? 48 : 40,
+            borderRadius: "50%",
+            background: uploadBusy ? "rgba(47,49,90,0.06)" : "rgba(47,49,90,0.08)",
+            border: "1px solid rgba(47,49,90,0.12)",
+            color: uploadBusy ? "#a8abcc" : "#2f315a",
+            cursor: uploadBusy ? "not-allowed" : "pointer",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            flexShrink: 0, transition: "background 0.2s",
+          }}
+          onMouseOver={e => { if (!uploadBusy) e.currentTarget.style.background = "rgba(47,49,90,0.14)"; }}
+          onMouseOut={e => { if (!uploadBusy) e.currentTarget.style.background = "rgba(47,49,90,0.08)"; }}
+        >
+          <ImageUploadIcon />
+        </button>
         <textarea
           ref={inputRef}
           value={input}
@@ -679,6 +749,15 @@ export default function KSLOmniPage() {
         @keyframes spin{to{transform:rotate(360deg)}}
         @keyframes typingPulse{0%,80%,100%{opacity:0.3;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
       `}</style>
+
+      {/* Hidden file input shared by both desktop & mobile InputRow upload buttons */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        onChange={handleFileSelected}
+        style={{ display: "none" }}
+      />
 
       {/* Site navigation (Logo + Services + Contact Us) */}
       <Nav />
