@@ -1,9 +1,20 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
+import SectionSidebar from "../../components/SectionSidebar.jsx";
 import { WA_LINK } from "../../constants/contact.js";
 import AIChatbot from "../../components/AIChatbot.jsx";
 import acPluginIcon from "../../assets/images/apps/ac-plugin-icon.png";
+
+/* Sales2DO sidebar anchor items */
+const S2D_SIDEBAR_ITEMS = [
+  { id: "demo",        label: "Demo Video"       },
+  { id: "overview",    label: "Overview"         },
+  { id: "copy",        label: "Copy Methods"     },
+  { id: "outstanding", label: "Outstanding DO"   },
+  { id: "settings",    label: "Settings"         },
+  { id: "license",     label: "License"          },
+];
 
 /* ══════════════════════════════════════════════════════════════
  * SALES2DO PLUGIN — PAGE
@@ -121,10 +132,13 @@ export default function Sales2DOPage({ onContact }) {
   return (
     <div style={{ background: "#f5f5f8", minHeight: "100vh" }}>
 
+      {/* Floating section sidebar — desktop only (≥1280px) */}
+      <SectionSidebar items={S2D_SIDEBAR_ITEMS} />
+
       {/* ── Hero ── */}
       <div style={{ background: "#2f315a", paddingTop: "3rem", paddingBottom: "3rem" }}>
         <div className="content-wrap">
-          <button onClick={() => navigate(-1)} style={{
+          <button onClick={() => navigate("/")} style={{
             display: "inline-flex", alignItems: "center", gap: 6,
             background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)",
             color: "rgba(255,255,255,0.75)", padding: "0.4rem 1rem", borderRadius: 50,
@@ -188,7 +202,7 @@ export default function Sales2DOPage({ onContact }) {
       </div>
 
       {/* ── Demo Video ── */}
-      <div style={{ background: "#ffffff", padding: "3.5rem 0", borderBottom: "0.5px solid rgba(47,49,90,0.08)" }}>
+      <div id="demo" style={{ background: "#ffffff", padding: "3.5rem 0", borderBottom: "0.5px solid rgba(47,49,90,0.08)", scrollMarginTop: 24 }}>
         <div className="content-wrap">
           <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
             <div style={S.label}>Watch It In Action</div>
@@ -215,7 +229,7 @@ export default function Sales2DOPage({ onContact }) {
       </div>
 
       {/* ── Plugin Purpose ── */}
-      <div style={{ background: "#f5f5f8", ...S.section }}>
+      <div id="overview" style={{ background: "#f5f5f8", ...S.section, scrollMarginTop: 24 }}>
         <div className="content-wrap">
           <div style={S.label}>Overview</div>
           <h2 style={S.h2}>Plugin Purpose</h2>
@@ -232,7 +246,7 @@ export default function Sales2DOPage({ onContact }) {
       </div>
 
       {/* ── Copy Sales into DO ── */}
-      <div style={{ background: "#ffffff", ...S.section }}>
+      <div id="copy" style={{ background: "#ffffff", ...S.section, scrollMarginTop: 24 }}>
         <div className="content-wrap">
           <div style={S.label}>Usage</div>
           <h2 style={S.h2}>Copy Sales into Delivery Order</h2>
@@ -288,7 +302,7 @@ export default function Sales2DOPage({ onContact }) {
       </div>
 
       {/* ── Outstanding Delivery Order ── */}
-      <div style={{ background: "#f5f5f8", ...S.section }}>
+      <div id="outstanding" style={{ background: "#f5f5f8", ...S.section, scrollMarginTop: 24 }}>
         <div className="content-wrap">
           <div style={S.label}>Monitoring</div>
           <h2 style={S.h2}>Outstanding Delivery Order</h2>
@@ -357,7 +371,7 @@ export default function Sales2DOPage({ onContact }) {
       </div>
 
       {/* ── Plugin Settings ── */}
-      <div style={{ background: "#ffffff", ...S.section }}>
+      <div id="settings" style={{ background: "#ffffff", ...S.section, scrollMarginTop: 24 }}>
         <div className="content-wrap">
           <div style={S.label}>Configuration</div>
           <h2 style={S.h2}>Sales2DO Plugin Settings</h2>
@@ -407,7 +421,7 @@ export default function Sales2DOPage({ onContact }) {
       </div>
 
       {/* ── Activate Plugin License ── */}
-      <div style={{ background: "#f5f5f8", ...S.section }}>
+      <div id="license" style={{ background: "#f5f5f8", ...S.section, scrollMarginTop: 24 }}>
         <div className="content-wrap">
           <div style={S.label}>Activation</div>
           <h2 style={S.h2}>Activate Plugin License</h2>

@@ -509,13 +509,13 @@ export default function KSLOmniPage() {
         </div>
 
         {/* Messages OR empty greeting.
-         * When empty: justify content to flex-end so the greeting sits just
-         * above the input box with comfortable left/right padding. */}
+         * When empty: vertically center, but the greeting block itself stays
+         * left-aligned (textAlign: left inside EmptyGreeting). */}
         <div ref={chatScrollRef} style={{
           flex: 1, overflowY: "auto",
-          padding: isEmpty ? "1rem 1.25rem 0.5rem" : "1rem",
+          padding: isEmpty ? "1rem 1.25rem 1rem" : "1rem",
           display: "flex", flexDirection: "column",
-          justifyContent: isEmpty ? "flex-end" : "flex-start",
+          justifyContent: isEmpty ? "center" : "flex-start",
         }}>
           {isEmpty
             ? <EmptyGreeting />
