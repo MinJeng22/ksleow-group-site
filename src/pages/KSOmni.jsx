@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 
 const WORKER_URL = "https://ksl-omni.chiaminjeng.workers.dev";
@@ -187,24 +188,32 @@ function Message({ msg }) {
   );
 }
 
-/* ── Gemini-style empty-state greeting (shown until user sends first msg) ── */
+/* ── Gemini-style two-line greeting ──
+ * Rendered above the centered input box on the empty state.
+ * Mirrors Gemini's home screen: small lighter top line + large gradient prompt. */
 function EmptyGreeting() {
   return (
-    <div style={{
-      flex: 1, display: "flex", flexDirection: "column",
-      alignItems: "center", justifyContent: "center",
-      padding: "1.5rem", textAlign: "center",
-      animation: "fadeIn 0.4s ease",
-    }}>
-      <div style={{ width: 64, height: 64, borderRadius: "50%", overflow: "hidden", border: "2px solid rgba(201,168,76,0.5)", marginBottom: "1.25rem" }}>
-        <img src="/ksl-logo-circle.png" alt="KS Omni" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+    <div style={{ textAlign: "center", animation: "fadeIn 0.4s ease", marginBottom: "2rem" }}>
+      <div style={{
+        fontSize: "clamp(1.75rem, 3.5vw, 2.4rem)",
+        fontWeight: 500,
+        color: "#a8abcc",
+        lineHeight: 1.2,
+        marginBottom: "0.25rem",
+      }}>
+        Hello
       </div>
-      <div style={{ fontSize: "0.7rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.5rem" }}>
-        Ask KS Omni
+      <div style={{
+        fontSize: "clamp(1.75rem, 3.5vw, 2.4rem)",
+        fontWeight: 600,
+        background: "linear-gradient(90deg, #2f315a 0%, #c9a84c 100%)",
+        WebkitBackgroundClip: "text",
+        WebkitTextFillColor: "transparent",
+        backgroundClip: "text",
+        lineHeight: 1.2,
+      }}>
+        How can I help you today?
       </div>
-      <h2 style={{ fontSize: "clamp(1.5rem, 3vw, 2.1rem)", fontWeight: 600, color: "#2f315a", lineHeight: 1.25, marginBottom: "0.5rem" }}>
-        Hello, how can I assist you today?
-      </h2>
     </div>
   );
 }
@@ -595,8 +604,73 @@ export default function KSLOmniPage() {
   }
 
   /* ══════════════════════════════════════════════════════════
-   * DESKTOP: clean chat layout — no Nav, slim header, footer
+   * DESKTOP: site Nav at top, Gemini-style centered empty state,
+   * input falls to the bottom once the conversation starts.
    * ══════════════════════════════════════════════════════════ */
+
+  /* Reusable input row — same controls in both layouts. The `centered`
+   * variant uses a larger pill shape that matches Gemini's home screen. */
+  function InputRow({ centered = false }) {
+    const disabled = loading || attachedImage?.uploading || (!input.trim() && !attachedImage?.gsPath);
+    return (
+      <div style={{
+        padding: centered ? "0.85rem 1rem" : "0.75rem 1rem",
+        borderTop: centered ? "none" : "0.5px solid rgba(47,49,90,0.08)",
+        background: centered ? "transparent" : "#fafafa",
+        display: "flex", alignItems: "flex-end", gap: "0.5rem",
+        flexShrink: 0,
+      }}>
+        <textarea
+          ref={inputRef}
+          value={input}
+          onChange={e => setInput(e.target.value)}
+          onKeyDown={handleKey}
+          onPaste={handlePaste}
+          placeholder="Ask KS Omni."
+          disabled={loading}
+          rows={1}
+          style={{
+            flex: 1,
+            padding: centered ? "0.85rem 1.15rem" : "0.65rem 1rem",
+            borderRadius: centered ? 24 : 14,
+            border: centered ? "1px solid rgba(47,49,90,0.15)" : "1px solid rgba(47,49,90,0.18)",
+            fontSize: centered ? "0.95rem" : "0.9rem",
+            fontFamily: "inherit",
+            resize: "none", outline: "none", lineHeight: 1.55,
+            maxHeight: centered ? 160 : 120, overflowY: "auto",
+            background: loading ? "#f0f0f5" : "#ffffff",
+            color: "#2f315a",
+            boxShadow: centered ? "0 2px 12px rgba(47,49,90,0.06)" : "none",
+            transition: "border-color 0.2s, box-shadow 0.2s",
+          }}
+          onFocus={e => { e.currentTarget.style.borderColor = "#2f315a"; }}
+          onBlur={e => { e.currentTarget.style.borderColor = centered ? "rgba(47,49,90,0.15)" : "rgba(47,49,90,0.18)"; }}
+        />
+        <button
+          onClick={sendMessage}
+          disabled={disabled}
+          style={{
+            width: centered ? 48 : 40, height: centered ? 48 : 40,
+            borderRadius: "50%",
+            background: disabled ? "rgba(47,49,90,0.12)" : "#2f315a",
+            border: "none",
+            color: disabled ? "#a8abcc" : "#ffffff",
+            cursor:  disabled ? "not-allowed" : "pointer",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            flexShrink: 0, transition: "background 0.2s",
+          }}
+          onMouseOver={e => { if (!disabled) e.currentTarget.style.background = "#3d4075"; }}
+          onMouseOut={e => { if (!disabled) e.currentTarget.style.background = "#2f315a"; }}
+        >
+          {loading
+            ? <div style={{ width: 15, height: 15, border: "2px solid rgba(255,255,255,0.3)", borderTopColor: "#fff", borderRadius: "50%", animation: "spin 0.7s linear infinite" }} />
+            : <SendIcon />
+          }
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div style={{ background: "#f5f5f8", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <style>{`
@@ -606,16 +680,19 @@ export default function KSLOmniPage() {
         @keyframes typingPulse{0%,80%,100%{opacity:0.3;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
       `}</style>
 
-      {/* Slim header — replaces previous Nav + Hero */}
+      {/* Site navigation (Logo + Services + Contact Us) */}
+      <Nav />
+
+      {/* Slim chatbot header — KS Omni branding + chat actions (QR / Clear) */}
       <div style={{ background: "#ffffff", borderBottom: "0.5px solid rgba(47,49,90,0.1)" }}>
-        <div className="content-wrap" style={{ padding: "0.85rem var(--px)", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem", flexWrap: "wrap" }}>
+        <div className="content-wrap" style={{ padding: "0.7rem var(--px)", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem", flexWrap: "wrap" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "0.7rem" }}>
-            <div style={{ width: 36, height: 36, borderRadius: "50%", overflow: "hidden", border: "1.5px solid rgba(201,168,76,0.45)" }}>
+            <div style={{ width: 32, height: 32, borderRadius: "50%", overflow: "hidden", border: "1.5px solid rgba(201,168,76,0.45)" }}>
               <img src="/ksl-logo-circle.png" alt="KS Omni" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
             </div>
             <div>
-              <div style={{ fontSize: "0.95rem", fontWeight: 700, color: "#2f315a", lineHeight: 1.15 }}>KS Omni</div>
-              <div style={{ fontSize: "0.68rem", color: "#6b6f91", display: "flex", alignItems: "center", gap: 4 }}>
+              <div style={{ fontSize: "0.9rem", fontWeight: 700, color: "#2f315a", lineHeight: 1.15 }}>KS Omni</div>
+              <div style={{ fontSize: "0.65rem", color: "#6b6f91", display: "flex", alignItems: "center", gap: 4 }}>
                 <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#4ade80", display: "inline-block" }} />
                 Powered by Gemini AI
               </div>
@@ -633,65 +710,32 @@ export default function KSLOmniPage() {
             border: "1px solid rgba(47,49,90,0.09)",
             boxShadow: "0 4px 24px rgba(47,49,90,0.07)",
             display: "flex", flexDirection: "column", overflow: "hidden",
-            minHeight: "calc(100dvh - 280px)",
+            minHeight: "calc(100dvh - 320px)",
           }}>
-            <div ref={chatScrollRef} style={{ flex: 1, overflowY: "auto", padding: isEmpty ? 0 : "1.5rem 1.75rem", display: "flex", flexDirection: "column" }}>
-              {isEmpty
-                ? <EmptyGreeting />
-                : messages.map((msg, i) => <Message key={i} msg={msg} />)
-              }
-            </div>
-
-            <AttachmentChip />
-
-            {/* Input row */}
-            <div style={{
-              padding: "0.75rem 1rem", borderTop: "0.5px solid rgba(47,49,90,0.08)",
-              display: "flex", alignItems: "flex-end", gap: "0.5rem",
-              flexShrink: 0, background: "#fafafa",
-            }}>
-              <textarea
-                ref={inputRef}
-                value={input}
-                onChange={e => setInput(e.target.value)}
-                onKeyDown={handleKey}
-                onPaste={handlePaste}
-                placeholder="Ask KS Omni."
-                disabled={loading}
-                rows={1}
-                style={{
-                  flex: 1, padding: "0.65rem 1rem", borderRadius: 14,
-                  border: "1px solid rgba(47,49,90,0.18)",
-                  fontSize: "0.9rem", fontFamily: "inherit",
-                  resize: "none", outline: "none", lineHeight: 1.55,
-                  maxHeight: 120, overflowY: "auto",
-                  background: loading ? "#f0f0f5" : "#ffffff", color: "#2f315a",
-                  transition: "border-color 0.2s",
-                }}
-                onFocus={e => e.currentTarget.style.borderColor = "#2f315a"}
-                onBlur={e => e.currentTarget.style.borderColor = "rgba(47,49,90,0.18)"}
-              />
-              <button
-                onClick={sendMessage}
-                disabled={loading || attachedImage?.uploading || (!input.trim() && !attachedImage?.gsPath)}
-                style={{
-                  width: 40, height: 40, borderRadius: "50%",
-                  background: (loading || attachedImage?.uploading || (!input.trim() && !attachedImage?.gsPath)) ? "rgba(47,49,90,0.12)" : "#2f315a",
-                  border: "none",
-                  color: (loading || attachedImage?.uploading || (!input.trim() && !attachedImage?.gsPath)) ? "#a8abcc" : "#ffffff",
-                  cursor:  (loading || attachedImage?.uploading || (!input.trim() && !attachedImage?.gsPath)) ? "not-allowed" : "pointer",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  flexShrink: 0, transition: "background 0.2s",
-                }}
-                onMouseOver={e => { if (!loading && !attachedImage?.uploading && (input.trim() || attachedImage?.gsPath)) e.currentTarget.style.background = "#3d4075"; }}
-                onMouseOut={e => { if (!loading && !attachedImage?.uploading && (input.trim() || attachedImage?.gsPath)) e.currentTarget.style.background = "#2f315a"; }}
-              >
-                {loading
-                  ? <div style={{ width: 15, height: 15, border: "2px solid rgba(255,255,255,0.3)", borderTopColor: "#fff", borderRadius: "50%", animation: "spin 0.7s linear infinite" }} />
-                  : <SendIcon />
-                }
-              </button>
-            </div>
+            {isEmpty ? (
+              /* ── Gemini-style centered empty state ── */
+              <div style={{
+                flex: 1, display: "flex", flexDirection: "column",
+                alignItems: "center", justifyContent: "center",
+                padding: "2rem 1.5rem",
+                animation: "fadeIn 0.4s ease",
+              }}>
+                <EmptyGreeting />
+                <div style={{ width: "100%", maxWidth: 720 }}>
+                  <AttachmentChip />
+                  <InputRow centered />
+                </div>
+              </div>
+            ) : (
+              /* ── Active chat: messages scroll, input pinned bottom ── */
+              <>
+                <div ref={chatScrollRef} style={{ flex: 1, overflowY: "auto", padding: "1.5rem 1.75rem", display: "flex", flexDirection: "column" }}>
+                  {messages.map((msg, i) => <Message key={i} msg={msg} />)}
+                </div>
+                <AttachmentChip />
+                <InputRow />
+              </>
+            )}
 
             <div style={{ padding: "0.5rem 1.25rem 0.75rem", fontSize: "0.68rem", color: "#c8cadd", textAlign: "center" }}>
               AI responses may be inaccurate. Contact KSL for official support. · Enter to send, Shift+Enter for new line. · Paste an image with Ctrl+V.
