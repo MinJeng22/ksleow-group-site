@@ -837,7 +837,7 @@ export default function KSLOmniPage() {
             )}
 
             <div style={{ padding: "0.5rem 1.25rem 0.75rem", fontSize: "0.68rem", color: "#c8cadd", textAlign: "center" }}>
-              AI responses may be inaccurate. Contact KSL for official support. · Enter to send, Shift+Enter for new line. · Paste an image with Ctrl+V.
+              AI responses may be inaccurate. · Enter to send, Shift+Enter for new line. · Paste an image with Ctrl+V.
             </div>
           </div>
         </div>

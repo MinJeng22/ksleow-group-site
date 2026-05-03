@@ -338,7 +338,7 @@ export default function AIChatbot() {
 
           {/* Disclaimer */}
           <div style={{ padding: "0 0.85rem 0.6rem", fontSize: "0.65rem", color: "#c8cadd", textAlign: "center" }}>
-            AI responses may be inaccurate. Contact KSL for official support.
+            AI responses may be inaccurate.
           </div>
         </div>
       )}
@@ -356,8 +356,9 @@ export default function AIChatbot() {
           width: 52,    /* matches BackToTop size exactly */
           height: 52,
           borderRadius: "50%",
-          /* When open on mobile (fullscreen): hide FAB — header already has close button */
-          display: (open && window.innerWidth < 640) ? "none" : "flex",
+          /* Hide FAB whenever the chat panel is open — chat header already has a close
+           * button. Avoids the FAB overlapping the input row at the bottom of the panel. */
+          display: open ? "none" : "flex",
           alignItems: "center",
           justifyContent: "center",
           background: "#2f315a",

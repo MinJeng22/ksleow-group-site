@@ -135,44 +135,58 @@ export default function Sales2DOPage({ onContact }) {
             onMouseOut={e => e.currentTarget.style.background = "rgba(255,255,255,0.1)"}
           >← Back</button>
 
-          <div style={{ display: "flex", alignItems: "flex-start", gap: "2rem", flexWrap: "wrap" }}>
-            <div style={{
-              width: 76, height: 76, borderRadius: 18,
-              overflow: "hidden", flexShrink: 0,
-              border: "1px solid rgba(255,255,255,0.15)",
-            }}>
-              <img src={acPluginIcon} alt="Sales2DO Plugin"
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+          <div style={{ display: "flex", alignItems: "center", gap: "2.5rem", flexWrap: "wrap" }}>
+            {/* Left: icon + copy + buttons */}
+            <div style={{ display: "flex", alignItems: "flex-start", gap: "2rem", flex: 1, minWidth: 280 }}>
+              <div style={{
+                width: 76, height: 76, borderRadius: 18,
+                overflow: "hidden", flexShrink: 0,
+                border: "1px solid rgba(255,255,255,0.15)",
+              }}>
+                <img src={acPluginIcon} alt="Sales2DO Plugin"
+                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+              </div>
+
+              <div style={{ flex: 1, minWidth: 240 }}>
+                <div style={{ fontSize: "0.68rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.5rem" }}>
+                  AutoCount Plugin
+                </div>
+                <h1 style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", fontWeight: 700, color: "#ffffff", lineHeight: 1.15, marginBottom: "0.9rem" }}>
+                  Sales2DO Plugin
+                </h1>
+                <p style={{ fontSize: "1rem", color: "rgba(255,255,255,0.65)", lineHeight: 1.78, maxWidth: 580, marginBottom: "1.5rem" }}>
+                  Bridges the gap for companies operating with a Sales-to-DO workflow. Generate
+                  Delivery Orders directly from existing Invoices or Cash Sales.
+                </p>
+                <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+                  <a href="/Sales2DO.app" download="Sales2DO.app"
+                    style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", background: "#c9a84c", color: "#1e2040", padding: "0.72rem 1.9rem", borderRadius: 50, fontSize: "0.9rem", fontWeight: 700, textDecoration: "none", transition: "opacity 0.2s" }}
+                    onMouseOver={e => e.currentTarget.style.opacity = "0.85"}
+                    onMouseOut={e => e.currentTarget.style.opacity = "1"}
+                  >
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                    Download Now
+                  </a>
+                  <a href={WA_LINK} target="_blank" rel="noreferrer"
+                    style={{ background: "rgba(255,255,255,0.1)", color: "#ffffff", border: "1px solid rgba(255,255,255,0.25)", padding: "0.72rem 1.9rem", borderRadius: 50, fontSize: "0.9rem", fontWeight: 500, textDecoration: "none", transition: "background 0.2s" }}
+                    onMouseOver={e => e.currentTarget.style.background = "rgba(255,255,255,0.18)"}
+                    onMouseOut={e => e.currentTarget.style.background = "rgba(255,255,255,0.1)"}
+                  >WhatsApp Us</a>
+                </div>
+              </div>
             </div>
 
-            <div style={{ flex: 1, minWidth: 260 }}>
-              <div style={{ fontSize: "0.68rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.5rem" }}>
-                AutoCount Plugin
-              </div>
-              <h1 style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", fontWeight: 700, color: "#ffffff", lineHeight: 1.15, marginBottom: "0.9rem" }}>
-                Sales2DO Plugin
-              </h1>
-              <p style={{ fontSize: "1rem", color: "rgba(255,255,255,0.65)", lineHeight: 1.78, maxWidth: 580, marginBottom: "1.5rem" }}>
-                Bridges the gap for companies operating with a Sales-to-DO workflow. Generate
-                Delivery Orders directly from existing Invoices or Cash Sales.
-              </p>
-              <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-                <a href="/Sales2DO.app" download="Sales2DO.app"
-                  style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", background: "#c9a84c", color: "#1e2040", padding: "0.72rem 1.9rem", borderRadius: 50, fontSize: "0.9rem", fontWeight: 700, textDecoration: "none", transition: "opacity 0.2s" }}
-                  onMouseOver={e => e.currentTarget.style.opacity = "0.85"}
-                  onMouseOut={e => e.currentTarget.style.opacity = "1"}
-                >
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
-                  </svg>
-                  Download Now
-                </a>
-                <a href={WA_LINK} target="_blank" rel="noreferrer"
-                  style={{ background: "rgba(255,255,255,0.1)", color: "#ffffff", border: "1px solid rgba(255,255,255,0.25)", padding: "0.72rem 1.9rem", borderRadius: 50, fontSize: "0.9rem", fontWeight: 500, textDecoration: "none", transition: "background 0.2s" }}
-                  onMouseOver={e => e.currentTarget.style.background = "rgba(255,255,255,0.18)"}
-                  onMouseOut={e => e.currentTarget.style.background = "rgba(255,255,255,0.1)"}
-                >WhatsApp Us</a>
-              </div>
+            {/* Right: product showcase image — desktop only (hidden via .product-hero-image media query) */}
+            <div className="product-hero-image" style={{
+              flex: "0 1 460px", maxWidth: 500,
+              borderRadius: 14, overflow: "hidden",
+              border: "1px solid rgba(255,255,255,0.15)",
+              boxShadow: "0 18px 48px rgba(0,0,0,0.35)",
+            }}>
+              <img src={imgOutstanding} alt="Sales2DO Outstanding Delivery Order dashboard"
+                style={{ width: "100%", height: "auto", display: "block" }} />
             </div>
           </div>
         </div>
