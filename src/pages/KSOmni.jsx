@@ -1,35 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 
 const WORKER_URL = "https://ksl-omni.kslbs.workers.dev";
 const PAGE_URL   = "https://ksl-business-solutions-site.vercel.app/omni";
 
-/* Max original file size before canvas conversion. */
+/* Max upload size — applies to the original file. */
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
-
-/**
- * Convert any pasted image (PNG, WebP, GIF, …) to a JPEG data URL via canvas.
- * JPEG is required by the GCS signed URL the worker generates (content-type is
- * hardcoded to image/jpeg in the V4 signing canonical request).
- */
-function toJpegDataUrl(file, quality = 0.85) {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    const objectUrl = URL.createObjectURL(file);
-    img.onload = () => {
-      const canvas = document.createElement("canvas");
-      canvas.width  = img.naturalWidth;
-      canvas.height = img.naturalHeight;
-      canvas.getContext("2d").drawImage(img, 0, 0);
-      URL.revokeObjectURL(objectUrl);
-      resolve(canvas.toDataURL("image/jpeg", quality));
-    };
-    img.onerror = () => { URL.revokeObjectURL(objectUrl); reject(new Error("Failed to decode image")); };
-    img.src = objectUrl;
-  });
-}
 
 /* ── QR Code modal ── */
 function QRModal({ onClose, machineId }) {
@@ -245,7 +222,7 @@ export default function KSLOmniPage() {
   const [input, setInput]                  = useState("");
   const [loading, setLoading]              = useState(false);
   const [showQR, setShowQR]                = useState(false);
-  const [attachedImage, setAttachedImage]  = useState(null);   /* { gsPath, dataUrl, sizeKb, uploading } */
+  const [attachedImage, setAttachedImage]  = useState(null);   /* { gsUri, dataUrl, sizeKb, uploading } */
   const [pasteError, setPasteError]        = useState("");
 
   /* Machine ID read from URL (?mid=XXXX) — passed to worker silently, not shown in UI */
@@ -293,7 +270,9 @@ export default function KSLOmniPage() {
   }
 
   /* ── Shared image upload pipeline (paste OR file picker) ──
-   * Validates size, converts to JPEG, POSTs to /upload, stores gsPath. */
+   * Worker expects multipart/form-data with `file` + optional `machine_id`.
+   * Returns { success, gsUri }. The gsUri is later embedded inline in the
+   * user message text as `[image:gs://...]` for the chat call. */
   async function uploadImageFile(file) {
     if (!file || !file.type?.startsWith("image/")) {
       setPasteError("Only image files are supported.");
@@ -307,22 +286,32 @@ export default function KSLOmniPage() {
     setAttachedImage(null);
 
     try {
-      const dataUrl = await toJpegDataUrl(file);
-      const base64  = dataUrl.split(",")[1] ?? "";
-      const sizeKb  = Math.round(base64.length * 0.75 / 1024);
-
-      setAttachedImage({ gsPath: null, dataUrl, sizeKb, uploading: true });
-
-      const res = await fetch(`${WORKER_URL}/upload`, {
-        method:  "POST",
-        headers: { "Content-Type": "application/json" },
-        body:    JSON.stringify({ image_base64: base64 }),
+      // Local preview via data URL (no canvas re-encoding — keeps original quality)
+      const dataUrl = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload  = () => resolve(reader.result);
+        reader.onerror = () => reject(new Error("Failed to read file"));
+        reader.readAsDataURL(file);
       });
+      const sizeKb = Math.round(file.size / 1024);
+
+      setAttachedImage({ gsUri: null, dataUrl, sizeKb, uploading: true });
+
+      // Multipart upload — browser sets the correct Content-Type with boundary
+      const formData = new FormData();
+      // Ensure the file has a name with an extension so the worker can detect mime
+      const named = file.name && file.name.includes(".")
+        ? file
+        : new File([file], `paste-${Date.now()}.${(file.type.split("/")[1] || "png")}`, { type: file.type });
+      formData.append("file", named);
+      if (machineId) formData.append("machine_id", machineId);
+
+      const res = await fetch(`${WORKER_URL}/upload`, { method: "POST", body: formData });
       if (!res.ok) throw new Error(`Upload error ${res.status}`);
       const data = await res.json();
-      if (data.error) throw new Error(data.error);
+      if (data.error || !data.gsUri) throw new Error(data.error || "No gsUri in response");
 
-      setAttachedImage({ gsPath: data.gsPath, dataUrl, sizeKb, uploading: false });
+      setAttachedImage({ gsUri: data.gsUri, dataUrl, sizeKb, uploading: false });
     } catch (err) {
       setAttachedImage(null);
       setPasteError(`Failed to upload image: ${err.message}`);
@@ -357,7 +346,7 @@ export default function KSLOmniPage() {
 
   async function sendMessage() {
     const text = input.trim();
-    const hasImage = attachedImage?.gsPath && !attachedImage?.uploading;
+    const hasImage = attachedImage?.gsUri && !attachedImage?.uploading;
     if ((!text && !hasImage) || loading || attachedImage?.uploading) return;
 
     /* Snapshot the attached image, then clear input + preview */
@@ -371,28 +360,25 @@ export default function KSLOmniPage() {
     const userMsg = {
       role: "user",
       text,
-      ...(img?.gsPath ? { gsPath: img.gsPath, imagePreviewUrl: img.dataUrl } : {}),
+      ...(img?.gsUri ? { gsUri: img.gsUri, imagePreviewUrl: img.dataUrl } : {}),
     };
     setMessages(prev => [...prev, userMsg]);
     setMessages(prev => [...prev, { role: "assistant", text: "", streaming: true }]);
 
     try {
       abortRef.current = new AbortController();
+
+      /* Worker only inspects the LAST user message and looks for [image:gs://...]
+       * embedded in its text. Build that text now. */
+      const apiText = img?.gsUri
+        ? (text ? `${text} [image:${img.gsUri}]` : `(Image attached) [image:${img.gsUri}]`)
+        : text;
+
       const res = await fetch(`${WORKER_URL}/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          messages: [
-            ...messages
-              .filter(m => (m.text || m.gsPath) && !m.streaming && !m.error)
-              .map(m => ({
-                role: m.role,
-                text: m.text || "",
-                ...(m.gsPath ? { gsPath: m.gsPath } : {}),
-                /* imagePreviewUrl intentionally omitted — display-only */
-              })),
-            { role: "user", text, ...(img?.gsPath ? { gsPath: img.gsPath } : {}) },
-          ],
+          messages: [{ role: "user", text: apiText }],
           ...(machineId ? { machine_id: machineId } : {}),
         }),
         signal: abortRef.current.signal,
@@ -634,13 +620,13 @@ export default function KSLOmniPage() {
             ><ImageUploadIcon /></button>
             <button
               onClick={sendMessage}
-              disabled={loading || attachedImage?.uploading || (!input.trim() && !attachedImage?.gsPath)}
+              disabled={loading || attachedImage?.uploading || (!input.trim() && !attachedImage?.gsUri)}
               style={{
                 width: 34, height: 34, borderRadius: "50%", flexShrink: 0,
-                background: (loading || attachedImage?.uploading || (!input.trim() && !attachedImage?.gsPath)) ? "rgba(47,49,90,0.18)" : "#2f315a",
+                background: (loading || attachedImage?.uploading || (!input.trim() && !attachedImage?.gsUri)) ? "rgba(47,49,90,0.18)" : "#2f315a",
                 border: "none",
-                color: (loading || attachedImage?.uploading || (!input.trim() && !attachedImage?.gsPath)) ? "#a8abcc" : "#ffffff",
-                cursor:  (loading || attachedImage?.uploading || (!input.trim() && !attachedImage?.gsPath)) ? "not-allowed" : "pointer",
+                color: (loading || attachedImage?.uploading || (!input.trim() && !attachedImage?.gsUri)) ? "#a8abcc" : "#ffffff",
+                cursor:  (loading || attachedImage?.uploading || (!input.trim() && !attachedImage?.gsUri)) ? "not-allowed" : "pointer",
                 display: "flex", alignItems: "center", justifyContent: "center",
               }}
             >
@@ -664,7 +650,7 @@ export default function KSLOmniPage() {
   /* Reusable Gemini-style input box — textarea on top, action row below.
    * Same component in centered (empty state) and bottom (active chat) layouts. */
   function InputRow({ centered = false }) {
-    const sendDisabled = loading || attachedImage?.uploading || (!input.trim() && !attachedImage?.gsPath);
+    const sendDisabled = loading || attachedImage?.uploading || (!input.trim() && !attachedImage?.gsUri);
     const uploadBusy   = loading || attachedImage?.uploading;
     return (
       <div style={{
@@ -751,7 +737,7 @@ export default function KSLOmniPage() {
   }
 
   return (
-    <div style={{ background: "#f5f5f8", minHeight: "100vh", display: "flex", flexDirection: "column", paddingTop: 65 }}>
+    <div style={{ background: "#f5f5f8", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <style>{`
         @keyframes fadeIn{from{opacity:0}to{opacity:1}}
         @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
@@ -767,9 +753,6 @@ export default function KSLOmniPage() {
         onChange={handleFileSelected}
         style={{ display: "none" }}
       />
-
-      {/* Site navigation (Logo + Services + Contact Us) — fixed at top, page padded above */}
-      <Nav />
 
       {/* Chatbot header — navy bar with KS Omni branding + Back / QR / Clear actions */}
       <div style={{ background: "#2f315a", borderBottom: "1px solid rgba(0,0,0,0.2)" }}>
