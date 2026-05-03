@@ -762,22 +762,22 @@ export default function KSLOmniPage() {
       {/* Site navigation (Logo + Services + Contact Us) */}
       <Nav />
 
-      {/* Slim chatbot header — KS Omni branding + chat actions (QR / Clear) */}
-      <div style={{ background: "#ffffff", borderBottom: "0.5px solid rgba(47,49,90,0.1)" }}>
-        <div className="content-wrap" style={{ padding: "0.7rem var(--px)", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem", flexWrap: "wrap" }}>
+      {/* Chatbot header — navy bar with KS Omni branding + Back / QR / Clear actions */}
+      <div style={{ background: "#2f315a", borderBottom: "1px solid rgba(0,0,0,0.2)" }}>
+        <div className="content-wrap" style={{ padding: "0.85rem var(--px)", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem", flexWrap: "wrap" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "0.7rem" }}>
-            <div style={{ width: 32, height: 32, borderRadius: "50%", overflow: "hidden", border: "1.5px solid rgba(201,168,76,0.45)" }}>
+            <div style={{ width: 36, height: 36, borderRadius: "50%", overflow: "hidden", border: "1.5px solid rgba(201,168,76,0.5)" }}>
               <img src="/ksl-logo-circle.png" alt="KS Omni" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
             </div>
             <div>
-              <div style={{ fontSize: "0.9rem", fontWeight: 700, color: "#2f315a", lineHeight: 1.15 }}>KS Omni</div>
-              <div style={{ fontSize: "0.65rem", color: "#6b6f91", display: "flex", alignItems: "center", gap: 4 }}>
+              <div style={{ fontSize: "0.95rem", fontWeight: 700, color: "#ffffff", lineHeight: 1.15 }}>KS Omni</div>
+              <div style={{ fontSize: "0.68rem", color: "rgba(255,255,255,0.6)", display: "flex", alignItems: "center", gap: 4 }}>
                 <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#4ade80", display: "inline-block" }} />
                 Powered by Gemini AI
               </div>
             </div>
           </div>
-          <HeaderActions variant="light" />
+          <HeaderActions variant="dark" />
         </div>
       </div>
 
