@@ -2,6 +2,7 @@ import { useState } from "react";
 import { LOGO_FOOTER } from "../assets/assets.js";
 import { CONTACT, WA_LINK } from "../constants/contact.js";
 import footer from "../content/footer.json";
+import branding from "../content/branding.json";
 
 const Icon = ({ d, size = 14 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24"
@@ -53,8 +54,8 @@ export default function Footer() {
 
             {/* Brand */}
             <div className="footer-brand-col">
-              <img src={LOGO_FOOTER} alt="KSL Business Solutions"
-                style={{ height: 46, objectFit: "contain", display: "block", marginBottom: "1.1rem", filter: "brightness(0) invert(1)" }} />
+              <img src={branding.footerLogo || LOGO_FOOTER} alt="KSL Business Solutions"
+                style={{ height: 46, objectFit: "contain", display: "block", marginBottom: "1.1rem", filter: branding.footerLogo ? "none" : "brightness(0) invert(1)" }} />
               <p style={{ fontSize: "0.83rem", color: "#7b7fa8", lineHeight: 1.82, maxWidth: 300 }}>
                 {footer.tagline}
               </p>

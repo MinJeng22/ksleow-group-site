@@ -23,7 +23,7 @@ public_folder: /uploads
 
 site_url: https://ksleow.com
 display_url: https://ksleow.com
-logo_url: /ksl-logo-circle.png
+logo_url: /logo-nav.png
 
 collections:
   # ── Single-file collection: one form per homepage section ──
@@ -32,6 +32,17 @@ collections:
     editor:
       preview: false
     files:
+      # ───────── Brand Logos ─────────
+      - file: src/content/branding.json
+        name: branding
+        label: Brand Logos (Nav, Hero, Footer)
+        media_folder: "/public/uploads/branding"
+        public_folder: "/uploads/branding"
+        fields:
+          - { name: navLogo,    label: "Navigation bar logo (leave empty to use bundled default)", widget: image, required: false }
+          - { name: heroLogo,   label: "Hero (homepage banner) logo (leave empty to use bundled default)", widget: image, required: false }
+          - { name: footerLogo, label: "Footer logo (leave empty to use bundled default)",         widget: image, required: false }
+
       # ───────── Hero ─────────
       - file: src/content/hero.json
         name: hero
@@ -171,11 +182,11 @@ collections:
         fields:
           - { name: tagline,         label: Brand tagline,      widget: text }
           - { name: contactHeading,  label: Contact heading,    widget: string, default: "Contact Us" }
-          - { name: servicesHeading, label: Services heading,   widget: string, default: "Services" }
+          - { name: servicesHeading, label: Office heading,     widget: string, default: "Our Office" }
           - { name: followHeading,   label: Follow Us heading,  widget: string, default: "Follow Us" }
           - name: services
-            label: Services list
+            label: Office / Company list
             widget: list
-            field: { name: name, label: Service, widget: string }
+            field: { name: name, label: Company name, widget: string }
           - { name: copyrightLine,   label: Copyright line (year is added automatically), widget: string }
           - { name: locationLine,    label: Location line,      widget: string }

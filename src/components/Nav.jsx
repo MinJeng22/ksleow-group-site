@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { LOGO_NAV } from "../assets/assets.js";
+import branding from "../content/branding.json";
 
 /* ── NAV LOGO
  * To swap: replace  src/assets/logos/logo-nav.png
@@ -29,10 +30,11 @@ export default function Nav({ onContact }) {
   return (
     <nav style={{
       position: "fixed", top: 0, left: 0, right: 0, zIndex: 200,
-      background: "rgba(255,255,255,0.97)",
-      backdropFilter: "blur(14px)",
-      borderBottom: "0.5px solid rgba(47,49,90,0.12)",
-      boxShadow: "0 2px 24px rgba(47,49,90,0.06)",
+      background: "rgba(255,255,255,0.65)",
+      backdropFilter: "blur(18px)",
+      WebkitBackdropFilter: "blur(18px)",
+      borderBottom: "0.5px solid rgba(47,49,90,0.08)",
+      boxShadow: "0 2px 24px rgba(47,49,90,0.04)",
       transform: visible ? "translateY(0)" : "translateY(-100%)",
       opacity: visible ? 1 : 0,
       transition: "transform 0.45s cubic-bezier(0.4,0,0.2,1), opacity 0.45s ease",
@@ -49,7 +51,7 @@ export default function Nav({ onContact }) {
           style={{ display: "inline-block", lineHeight: 0 }}
         >
           <img
-            src={LOGO_NAV}
+            src={branding.navLogo || LOGO_NAV}
             alt="KSL Business Solutions"
             style={{ height: 40, objectFit: "contain" }}
           />

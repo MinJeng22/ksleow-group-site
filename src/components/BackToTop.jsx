@@ -16,7 +16,7 @@ export default function BackToTop() {
       title="Back to top"
       style={{
         position: "fixed",
-        bottom: 92,   /* AI FAB (height 52) at bottom 28 → top at 80; +12px gap = 92 */
+        bottom: 28,   /* lower slot — KS Omni FAB sits above this */
         right: 28,
         zIndex: 500,
         width: 52,    /* identical to AI FAB */

@@ -508,8 +508,15 @@ export default function KSLOmniPage() {
             }}><TrashIcon /></button>
         </div>
 
-        {/* Messages OR empty greeting */}
-        <div ref={chatScrollRef} style={{ flex: 1, overflowY: "auto", padding: isEmpty ? 0 : "1rem", display: "flex", flexDirection: "column" }}>
+        {/* Messages OR empty greeting.
+         * When empty: justify content to flex-end so the greeting sits just
+         * above the input box with comfortable left/right padding. */}
+        <div ref={chatScrollRef} style={{
+          flex: 1, overflowY: "auto",
+          padding: isEmpty ? "1rem 1.25rem 0.5rem" : "1rem",
+          display: "flex", flexDirection: "column",
+          justifyContent: isEmpty ? "flex-end" : "flex-start",
+        }}>
           {isEmpty
             ? <EmptyGreeting />
             : messages.map((msg, i) => <Message key={i} msg={msg} />)

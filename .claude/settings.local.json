@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s -o /dev/null -w \"HOMEPAGE: %{http_code}\\\\n\" http://localhost:5173/)",
+      "Bash(curl -s -o /dev/null -w \"ADMIN:    %{http_code}\\\\n\" http://localhost:5173/admin/)",
+      "Bash(curl -s -o /dev/null -w \"CONFIG:   %{http_code}\\\\n\" http://localhost:5173/admin/config.yml)",
+      "Bash(curl -s http://localhost:5173/)",
+      "Bash(npm run *)"
+    ]
+  }
+}

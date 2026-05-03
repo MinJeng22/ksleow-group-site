@@ -39,7 +39,7 @@ body {
 
 /* ── Tablet (768–1024) — more breathing room on sides ── */
 @media (max-width: 1024px) {
-  :root { --px: clamp(32px, 5vw, 64px); }
+  :root { --px: clamp(56px, 7vw, 96px); }
   .products-grid { grid-template-columns: repeat(2, 1fr) !important; }
   .cases-grid    { grid-template-columns: repeat(2, 1fr) !important; }
   .services-grid { grid-template-columns: repeat(2, 1fr) !important; }
@@ -47,7 +47,7 @@ body {
 
 /* ── Small tablet (640–900) ── */
 @media (max-width: 900px) {
-  :root { --px: clamp(28px, 5vw, 52px); }
+  :root { --px: clamp(48px, 7vw, 80px); }
   .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
 }
 

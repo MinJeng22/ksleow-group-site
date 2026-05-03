@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import ParticleBackground from "./ParticleBackground";
 import { LOGO_HERO } from "../assets/assets.js";
 import hero from "../content/hero.json";
+import branding from "../content/branding.json";
 
 export default function Hero({ onContact }) {
   const [paused, setPaused]   = useState(false);
@@ -63,13 +64,14 @@ export default function Hero({ onContact }) {
         <div style={{ marginBottom: "1.1rem" }}>
           <a href="/" onClick={() => window.scrollTo(0, 0)} style={{ display: "inline-block" }}>
             <img
-              src={LOGO_HERO}
+              src={branding.heroLogo || LOGO_HERO}
               alt="KSL Business Solutions"
               style={{
                 height: logoH,
                 objectFit: "contain",
                 display: "block",
-                filter: "brightness(0) invert(1)",
+                /* Don't invert when admin uploaded a custom logo (likely already on dark) */
+                filter: branding.heroLogo ? "none" : "brightness(0) invert(1)",
               }}
             />
           </a>
