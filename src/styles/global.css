@@ -37,6 +37,11 @@ body {
 /* ── Partners — visible ── */
 /* .partners-section { display: none !important; } */
 
+/* AutoCount page: floating section sidebar — hidden on screens narrower than 1280px */
+@media (max-width: 1279px) {
+  .ac-sidebar { display: none !important; }
+}
+
 /* ── Tablet (768–1024) — more breathing room on sides ── */
 @media (max-width: 1024px) {
   :root { --px: clamp(56px, 7vw, 96px); }
@@ -51,6 +56,8 @@ body {
   .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
   /* Product page hero showcase image — hide on tablet & mobile */
   .product-hero-image { display: none !important; }
+  /* Release note: stack New Features / Bug Fixes vertically on tablet & mobile */
+  .release-detail-grid { grid-template-columns: 1fr !important; }
 }
 
 /* ── Mobile (< 640) ── */
@@ -64,7 +71,6 @@ body {
   .case-2col           { grid-template-columns: 1fr !important; }
   /* AutoCount Accounting page */
   .ac-features-grid    { grid-template-columns: repeat(2, 1fr) !important; }
-  /* release-detail-grid stays 1fr 1fr — side by side even on mobile */
 
   /* Hero mobile: hide spacer, centre everything */
   .hero-spacer     { display: none !important; }

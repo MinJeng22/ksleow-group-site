@@ -122,7 +122,7 @@ export default function Sales2DOPage({ onContact }) {
     <div style={{ background: "#f5f5f8", minHeight: "100vh" }}>
 
       {/* ── Hero ── */}
-      <div style={{ background: "#2f315a", paddingTop: "7rem", paddingBottom: "4rem" }}>
+      <div style={{ background: "#2f315a", paddingTop: "3rem", paddingBottom: "3rem" }}>
         <div className="content-wrap">
           <button onClick={() => navigate(-1)} style={{
             display: "inline-flex", alignItems: "center", gap: 6,
@@ -179,15 +179,37 @@ export default function Sales2DOPage({ onContact }) {
             </div>
 
             {/* Right: product showcase image — desktop only (hidden via .product-hero-image media query) */}
-            <div className="product-hero-image" style={{
-              flex: "0 1 460px", maxWidth: 500,
-              borderRadius: 14, overflow: "hidden",
-              border: "1px solid rgba(255,255,255,0.15)",
-              boxShadow: "0 18px 48px rgba(0,0,0,0.35)",
-            }}>
+            <div className="product-hero-image" style={{ flex: "0 1 460px", maxWidth: 500 }}>
               <img src={imgOutstanding} alt="Sales2DO Outstanding Delivery Order dashboard"
                 style={{ width: "100%", height: "auto", display: "block" }} />
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Demo Video ── */}
+      <div style={{ background: "#ffffff", padding: "3.5rem 0", borderBottom: "0.5px solid rgba(47,49,90,0.08)" }}>
+        <div className="content-wrap">
+          <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
+            <div style={S.label}>Watch It In Action</div>
+            <h2 style={S.h2}>Demo Video</h2>
+            <p style={{ ...S.body, maxWidth: 640, margin: "0.5rem auto 0" }}>
+              See how Sales2DO turns a few clicks inside AutoCount Accounting into a fully-formed Delivery Order.
+            </p>
+          </div>
+          <div style={{
+            position: "relative", width: "100%", maxWidth: 960, margin: "0 auto",
+            paddingBottom: "56.25%" /* 16:9 */, height: 0,
+            background: "#000", borderRadius: 14, overflow: "hidden",
+            boxShadow: "0 18px 48px rgba(47,49,90,0.18)",
+          }}>
+            <iframe
+              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+              title="Sales2DO demo video"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: 0 }}
+            />
           </div>
         </div>
       </div>

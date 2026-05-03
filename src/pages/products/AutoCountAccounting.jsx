@@ -1010,6 +1010,227 @@ function ReleaseCard({ r, expanded, onToggle }) {
   );
 }
 
+/* ══════════════════════════════════════════════════════════════
+ * Comparing 5 Editions of Accounting 2.2 — feature matrix
+ * ──────────────────────────────────────────────────────────────
+ * Marker codes:
+ *   "●" = included module
+ *   "+" = optional / paid add-on
+ *   "−" = not available in this edition
+ * Order of editions (columns): Account Plus | Express Plus | Basic | Pro | Premium
+ * ══════════════════════════════════════════════════════════════ */
+const EDITIONS = ["Account Plus", "Express Plus", "Basic", "Pro", "Premium"];
+const EDITION_TABLE = {
+  defaultAccountBook: ["3", "3", "5", "5", "5"],
+  sections: [
+    {
+      name: "Modules",
+      rows: [
+        ["Plug-In",                            ["●", "●", "●", "●", "●"]],
+        ["SST, Project, Multi-Currency",       ["●", "●", "●", "●", "●"]],
+        ["GL, AR, AP, Recurrence GL",          ["●", "●", "●", "●", "●"]],
+        ["Budget & Advanced Financial Report", ["+", "+", "●", "●", "●"]],
+        ["Formula, UDF",                       ["+", "+", "●", "●", "●"]],
+        ["Simple Sales",                       ["●", "●", "●", "●", "●"]],
+        ["Simple Purchase",                    ["●", "●", "●", "●", "●"]],
+        ["Simple Stock",                       ["−", "●", "●", "●", "●"]],
+        ["Complete Sales",                     ["+", "+", "●", "●", "●"]],
+        ["Complete Purchase",                  ["+", "+", "●", "●", "●"]],
+        ["Complete Stock",                     ["+", "+", "●", "●", "●"]],
+        ["Basic Multi-UOM",                    ["+", "+", "●", "●", "●"]],
+        ["Activity Stream",                    ["+", "+", "+", "●", "●"]],
+        ["Advanced Multi-UOM",                 ["+", "+", "+", "●", "●"]],
+        ["Advanced Quotation",                 ["+", "+", "+", "●", "●"]],
+        ["Consignment",                        ["+", "+", "+", "●", "●"]],
+        ["FOC Quantity",                       ["+", "+", "+", "●", "●"]],
+        ["Landing Cost",                       ["+", "+", "+", "●", "●"]],
+        ["Multi Location",                     ["+", "+", "+", "●", "●"]],
+        ["Recurrence (Sales & Purchase)",      ["+", "+", "+", "●", "●"]],
+        ["Scripting",                          ["+", "+", "+", "●", "●"]],
+        ["Advance Item",                       ["+", "+", "+", "+", "●"]],
+        ["Filter by salesman",                 ["+", "+", "+", "+", "●"]],
+        ["Item Batch",                         ["+", "+", "+", "+", "●"]],
+        ["Item Package / Item Template",       ["+", "+", "+", "+", "●"]],
+        ["Multi-Dimensional Analysis",         ["+", "+", "+", "+", "●"]],
+        ["Remote Credit Control",              ["+", "+", "+", "+", "●"]],
+        ["Stock Assembly",                     ["+", "+", "+", "+", "●"]],
+      ],
+    },
+    {
+      name: "Optional Module",
+      rows: [
+        ["Intelligent Costing",                ["+", "+", "+", "+", "+"]],
+        ["Advanced Multi-Currency",            ["+", "+", "+", "+", "+"]],
+        ["API",                                ["+", "+", "+", "+", "+"]],
+        ["Bonus Point",                        ["+", "+", "+", "+", "+"]],
+        ["Consolidated Financial Report",      ["+", "+", "+", "+", "+"]],
+        ["Department",                         ["+", "+", "+", "+", "+"]],
+        ["Export Account",                     ["+", "+", "+", "+", "+"]],
+        ["Export Stock",                       ["+", "+", "+", "+", "+"]],
+        ["Filter by account",                  ["+", "+", "+", "+", "+"]],
+        ["Import Third Party Xml",             ["+", "+", "+", "+", "+"]],
+        ["Multi-Dimensional Price Book",       ["+", "+", "+", "+", "+"]],
+        ["Multi-Level Assembly",               ["+", "+", "+", "+", "+"]],
+        ["Serial Number",                      ["+", "+", "+", "+", "+"]],
+        ["Stock Disassembly",                  ["+", "+", "+", "+", "+"]],
+        ["Unrealized Gain/Loss",               ["+", "+", "+", "+", "+"]],
+        ["Sales Order Processing",             ["+", "+", "+", "+", "+"]],
+        ["Assembly Order Processing",          ["+", "+", "+", "+", "+"]],
+      ],
+    },
+    {
+      name: "POS Counter",
+      rows: [
+        ["POS A",      ["+", "+", "+", "+", "+"]],
+        ["POS B",      ["+", "+", "+", "+", "+"]],
+        ["POS Branch", ["+", "+", "+", "+", "+"]],
+      ],
+    },
+    {
+      name: "POS Modules",
+      rows: [
+        ["POS Serial Number",  ["+", "+", "+", "+", "+"]],
+        ["POS Item Batch",     ["+", "+", "+", "+", "+"]],
+        ["POS Item Package",   ["+", "+", "+", "+", "+"]],
+      ],
+    },
+  ],
+};
+
+function EditionMarker({ value }) {
+  if (value === "●") {
+    return <span style={{ display: "inline-block", width: 11, height: 11, borderRadius: "50%", background: "#7AB317" }} />;
+  }
+  if (value === "+") {
+    return <span style={{ color: "#7AB317", fontWeight: 700, fontSize: "1.1rem", lineHeight: 1 }}>+</span>;
+  }
+  return <span style={{ color: "#9aa", fontWeight: 700, fontSize: "1.1rem", lineHeight: 1 }}>−</span>;
+}
+
+function EditionsTable() {
+  const cellPad = "0.7rem 0.85rem";
+  return (
+    <div style={{ background: "#ffffff", borderRadius: 14, border: "1px solid rgba(47,49,90,0.08)", overflow: "hidden", boxShadow: "0 4px 20px rgba(47,49,90,0.05)" }}>
+      <div style={{ overflowX: "auto" }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.84rem" }}>
+          <thead>
+            <tr style={{ background: "#7AB317" }}>
+              <th style={{ padding: cellPad, textAlign: "left", color: "#ffffff", fontWeight: 600, minWidth: 220 }}></th>
+              {EDITIONS.map(e => (
+                <th key={e} style={{ padding: cellPad, color: "#ffffff", fontWeight: 700, textAlign: "center", minWidth: 110 }}>{e}</th>
+              ))}
+            </tr>
+            <tr style={{ background: "#fafafb", borderBottom: "1px solid rgba(47,49,90,0.08)" }}>
+              <td style={{ padding: cellPad, color: "#2f315a", fontWeight: 500 }}>Default Account Book</td>
+              {EDITION_TABLE.defaultAccountBook.map((v, i) => (
+                <td key={i} style={{ padding: cellPad, color: "#2f315a", fontWeight: 600, textAlign: "center" }}>{v}</td>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {EDITION_TABLE.sections.map((section, si) => (
+              <React.Fragment key={section.name}>
+                <tr style={{ background: "#eaeaef" }}>
+                  <td colSpan={EDITIONS.length + 1} style={{ padding: "0.55rem 0.85rem", color: "#6b6f91", fontSize: "0.7rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                    {section.name}
+                  </td>
+                </tr>
+                {section.rows.map(([rowName, values], ri) => (
+                  <tr key={rowName} style={{ background: ri % 2 === 0 ? "#ffffff" : "#fafafb", borderBottom: "1px solid rgba(47,49,90,0.05)" }}>
+                    <td style={{ padding: cellPad, color: "#2f315a" }}>{rowName}</td>
+                    {values.map((v, vi) => (
+                      <td key={vi} style={{ padding: cellPad, textAlign: "center" }}>
+                        <EditionMarker value={v} />
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </React.Fragment>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════
+ * Floating section sidebar (right rail) — anchor links to each
+ * major section. Hidden on screens < 1280px via the .ac-sidebar
+ * media query in global.css.
+ * ══════════════════════════════════════════════════════════════ */
+const SIDEBAR_ITEMS = [
+  { id: "features",  label: "Features"        },
+  { id: "training",  label: "60-Min Training" },
+  { id: "editions",  label: "Edition Compare" },
+  { id: "releases",  label: "Release Notes"   },
+];
+
+function SectionSidebar() {
+  const [active, setActive] = useState("features");
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        });
+      },
+      { rootMargin: "-40% 0px -55% 0px" }
+    );
+    SIDEBAR_ITEMS.forEach(s => {
+      const el = document.getElementById(s.id);
+      if (el) obs.observe(el);
+    });
+    return () => obs.disconnect();
+  }, []);
+
+  function go(id) {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  return (
+    <nav className="ac-sidebar" style={{
+      position: "fixed",
+      top: "50%", right: 24,
+      transform: "translateY(-50%)",
+      zIndex: 150,
+      display: "flex", flexDirection: "column", gap: 6,
+      background: "rgba(255,255,255,0.92)",
+      backdropFilter: "blur(10px)",
+      border: "1px solid rgba(47,49,90,0.1)",
+      borderRadius: 14,
+      padding: "0.75rem 0.5rem",
+      boxShadow: "0 8px 28px rgba(47,49,90,0.12)",
+    }}>
+      {SIDEBAR_ITEMS.map(s => {
+        const isActive = active === s.id;
+        return (
+          <button key={s.id} onClick={() => go(s.id)}
+            style={{
+              display: "flex", alignItems: "center", gap: 8,
+              padding: "0.45rem 0.85rem",
+              border: "none", background: isActive ? "rgba(201,168,76,0.15)" : "transparent",
+              color: isActive ? "#a17f1e" : "#6b6f91",
+              fontWeight: isActive ? 700 : 500,
+              fontSize: "0.78rem",
+              borderRadius: 8, cursor: "pointer",
+              fontFamily: "inherit",
+              textAlign: "left",
+              transition: "background 0.18s, color 0.18s",
+            }}
+            onMouseOver={e => { if (!isActive) e.currentTarget.style.background = "rgba(47,49,90,0.05)"; }}
+            onMouseOut={e => { if (!isActive) e.currentTarget.style.background = "transparent"; }}
+          >
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: isActive ? "#c9a84c" : "#cfd0e0", flexShrink: 0 }} />
+            {s.label}
+          </button>
+        );
+      })}
+    </nav>
+  );
+}
+
 export default function AutoCountAccountingPage({ onContact }) {
   const navigate = useNavigate();
 
@@ -1036,8 +1257,11 @@ export default function AutoCountAccountingPage({ onContact }) {
   return (
     <div style={{ background: "#f5f5f8", minHeight: "100vh" }}>
 
+      {/* Floating section sidebar — desktop only (≥1280px), hidden via media query otherwise */}
+      <SectionSidebar />
+
       {/* ── Hero banner ── */}
-      <div style={{ background: "#2f315a", paddingTop: "7rem", paddingBottom: "4rem" }}>
+      <div style={{ background: "#2f315a", paddingTop: "3rem", paddingBottom: "3rem" }}>
         <div className="content-wrap">
           <button
             onClick={() => navigate(-1)}
@@ -1093,12 +1317,7 @@ export default function AutoCountAccountingPage({ onContact }) {
 
             {/* Right: product showcase image — desktop only (hidden via .product-hero-image media query) */}
             {PRODUCT_IMAGES.autocountInterface && (
-              <div className="product-hero-image" style={{
-                flex: "0 1 420px", maxWidth: 460,
-                borderRadius: 14, overflow: "hidden",
-                border: "1px solid rgba(255,255,255,0.15)",
-                boxShadow: "0 18px 48px rgba(0,0,0,0.35)",
-              }}>
+              <div className="product-hero-image" style={{ flex: "0 1 420px", maxWidth: 460 }}>
                 <img src={PRODUCT_IMAGES.autocountInterface} alt="AutoCount Accounting interface"
                   style={{ width: "100%", height: "auto", display: "block" }} />
               </div>
@@ -1108,7 +1327,7 @@ export default function AutoCountAccountingPage({ onContact }) {
       </div>
 
       {/* ── Feature highlights ── */}
-      <div style={{ background: "#ffffff", padding: "3rem 0", borderBottom: "0.5px solid rgba(47,49,90,0.08)" }}>
+      <div id="features" style={{ background: "#ffffff", padding: "3rem 0", borderBottom: "0.5px solid rgba(47,49,90,0.08)", scrollMarginTop: 24 }}>
         <div className="content-wrap">
           <div className="ac-features-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1.5rem" }}>
             {[
@@ -1131,7 +1350,7 @@ export default function AutoCountAccountingPage({ onContact }) {
       {/* ══════════════════════════════════════════════════════════
        * LEARN AUTOCOUNT IN 60 MINUTES — Vertical stacked layout
        * ══════════════════════════════════════════════════════════ */}
-      <div style={{ background: "#ffffff", padding: "4.5rem 0", borderBottom: "0.5px solid rgba(47,49,90,0.08)" }}>
+      <div id="training" style={{ background: "#ffffff", padding: "4.5rem 0", borderBottom: "0.5px solid rgba(47,49,90,0.08)", scrollMarginTop: 24 }}>
         <div className="content-wrap">
           {/* Section header */}
           <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
@@ -1201,8 +1420,40 @@ export default function AutoCountAccountingPage({ onContact }) {
         </div>
       </div>
 
+      {/* ══════════════════════════════════════════════════════════
+       * COMPARING 5 EDITIONS OF ACCOUNTING 2.2
+       * ══════════════════════════════════════════════════════════ */}
+      <div id="editions" style={{ background: "#f5f5f8", padding: "4.5rem 0", borderBottom: "0.5px solid rgba(47,49,90,0.08)", scrollMarginTop: 24 }}>
+        <div className="content-wrap">
+          <div style={{ textAlign: "center", marginBottom: "2rem" }}>
+            <div style={{ fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#7AB317", marginBottom: "0.6rem" }}>
+              Modules Available in Each Edition
+            </div>
+            <h2 style={{ fontSize: "clamp(1.5rem, 2.8vw, 2.2rem)", fontWeight: 700, color: "#2f315a", lineHeight: 1.2, marginBottom: "1rem" }}>
+              Comparing 5 Editions of Accounting 2.2
+            </h2>
+            <div style={{ display: "inline-flex", gap: "1.5rem", flexWrap: "wrap", justifyContent: "center", fontSize: "0.78rem", color: "#6b6f91" }}>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+                <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#7AB317", display: "inline-block" }} />
+                = included module
+              </span>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+                <span style={{ color: "#7AB317", fontWeight: 700, fontSize: "1rem", lineHeight: 1 }}>+</span>
+                = available optional (add-on) module
+              </span>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+                <span style={{ color: "#9aa", fontWeight: 700, fontSize: "1rem", lineHeight: 1 }}>−</span>
+                = module not available
+              </span>
+            </div>
+          </div>
+
+          <EditionsTable />
+        </div>
+      </div>
+
       {/* ── Release Notes ── */}
-      <div style={{ padding: "4rem 0" }}>
+      <div id="releases" style={{ padding: "4rem 0", scrollMarginTop: 24 }}>
         <div className="content-wrap">
 
           {/* ── Title + tab switcher ── */}
