@@ -42,17 +42,19 @@ body {
   .ac-sidebar { display: none !important; }
 }
 
-/* ── Tablet (768–1024) — more breathing room on sides ── */
+/* ── Tablet (768–1024) — moderate side breathing room without wasting space ── */
 @media (max-width: 1024px) {
-  :root { --px: clamp(56px, 7vw, 96px); }
+  :root { --px: clamp(28px, 4vw, 56px); }
   .products-grid { grid-template-columns: repeat(2, 1fr) !important; }
   .cases-grid    { grid-template-columns: repeat(2, 1fr) !important; }
   .services-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  /* Product pages: tighten vertical rhythm so data-heavy sections fit more on screen */
+  .ac-section-tight { padding-top: 2.75rem !important; padding-bottom: 2.75rem !important; }
 }
 
 /* ── Small tablet (640–900) ── */
 @media (max-width: 900px) {
-  :root { --px: clamp(48px, 7vw, 80px); }
+  :root { --px: clamp(24px, 4vw, 48px); }
   .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
   /* Product page hero showcase image — hide on tablet & mobile */
   .product-hero-image { display: none !important; }

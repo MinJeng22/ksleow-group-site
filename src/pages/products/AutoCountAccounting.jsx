@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
+import SectionSidebar from "../../components/SectionSidebar.jsx";
 import { WA_LINK } from "../../constants/contact.js";
 import { PRODUCT_IMAGES } from "../../assets/assets.js";
 
@@ -1154,82 +1155,13 @@ function EditionsTable() {
   );
 }
 
-/* ══════════════════════════════════════════════════════════════
- * Floating section sidebar (right rail) — anchor links to each
- * major section. Hidden on screens < 1280px via the .ac-sidebar
- * media query in global.css.
- * ══════════════════════════════════════════════════════════════ */
-const SIDEBAR_ITEMS = [
+/* AutoCount sidebar anchor items */
+const AC_SIDEBAR_ITEMS = [
   { id: "features",  label: "Features"        },
   { id: "training",  label: "60-Min Training" },
   { id: "editions",  label: "Edition Compare" },
   { id: "releases",  label: "Release Notes"   },
 ];
-
-function SectionSidebar() {
-  const [active, setActive] = useState("features");
-
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) setActive(entry.target.id);
-        });
-      },
-      { rootMargin: "-40% 0px -55% 0px" }
-    );
-    SIDEBAR_ITEMS.forEach(s => {
-      const el = document.getElementById(s.id);
-      if (el) obs.observe(el);
-    });
-    return () => obs.disconnect();
-  }, []);
-
-  function go(id) {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-
-  return (
-    <nav className="ac-sidebar" style={{
-      position: "fixed",
-      top: "50%", right: 24,
-      transform: "translateY(-50%)",
-      zIndex: 150,
-      display: "flex", flexDirection: "column", gap: 6,
-      background: "rgba(255,255,255,0.92)",
-      backdropFilter: "blur(10px)",
-      border: "1px solid rgba(47,49,90,0.1)",
-      borderRadius: 14,
-      padding: "0.75rem 0.5rem",
-      boxShadow: "0 8px 28px rgba(47,49,90,0.12)",
-    }}>
-      {SIDEBAR_ITEMS.map(s => {
-        const isActive = active === s.id;
-        return (
-          <button key={s.id} onClick={() => go(s.id)}
-            style={{
-              display: "flex", alignItems: "center", gap: 8,
-              padding: "0.45rem 0.85rem",
-              border: "none", background: isActive ? "rgba(201,168,76,0.15)" : "transparent",
-              color: isActive ? "#a17f1e" : "#6b6f91",
-              fontWeight: isActive ? 700 : 500,
-              fontSize: "0.78rem",
-              borderRadius: 8, cursor: "pointer",
-              fontFamily: "inherit",
-              textAlign: "left",
-              transition: "background 0.18s, color 0.18s",
-            }}
-            onMouseOver={e => { if (!isActive) e.currentTarget.style.background = "rgba(47,49,90,0.05)"; }}
-            onMouseOut={e => { if (!isActive) e.currentTarget.style.background = "transparent"; }}
-          >
-            <span style={{ width: 6, height: 6, borderRadius: "50%", background: isActive ? "#c9a84c" : "#cfd0e0", flexShrink: 0 }} />
-            {s.label}
-          </button>
-        );
-      })}
-    </nav>
-  );
-}
 
 export default function AutoCountAccountingPage({ onContact }) {
   const navigate = useNavigate();
@@ -1258,13 +1190,13 @@ export default function AutoCountAccountingPage({ onContact }) {
     <div style={{ background: "#f5f5f8", minHeight: "100vh" }}>
 
       {/* Floating section sidebar — desktop only (≥1280px), hidden via media query otherwise */}
-      <SectionSidebar />
+      <SectionSidebar items={AC_SIDEBAR_ITEMS} />
 
       {/* ── Hero banner ── */}
       <div style={{ background: "#2f315a", paddingTop: "3rem", paddingBottom: "3rem" }}>
         <div className="content-wrap">
           <button
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/")}
             style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "rgba(255,255,255,0.75)", padding: "0.4rem 1rem", borderRadius: 50, fontSize: "0.8rem", cursor: "pointer", fontFamily: "inherit", marginBottom: "2rem", transition: "background 0.2s" }}
             onMouseOver={e => e.currentTarget.style.background = "rgba(255,255,255,0.18)"}
             onMouseOut={e => e.currentTarget.style.background = "rgba(255,255,255,0.1)"}
@@ -1327,7 +1259,7 @@ export default function AutoCountAccountingPage({ onContact }) {
       </div>
 
       {/* ── Feature highlights ── */}
-      <div id="features" style={{ background: "#ffffff", padding: "3rem 0", borderBottom: "0.5px solid rgba(47,49,90,0.08)", scrollMarginTop: 24 }}>
+      <div id="features" className="ac-section-tight" style={{ background: "#ffffff", padding: "3rem 0", borderBottom: "0.5px solid rgba(47,49,90,0.08)", scrollMarginTop: 24 }}>
         <div className="content-wrap">
           <div className="ac-features-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1.5rem" }}>
             {[
@@ -1350,7 +1282,7 @@ export default function AutoCountAccountingPage({ onContact }) {
       {/* ══════════════════════════════════════════════════════════
        * LEARN AUTOCOUNT IN 60 MINUTES — Vertical stacked layout
        * ══════════════════════════════════════════════════════════ */}
-      <div id="training" style={{ background: "#ffffff", padding: "4.5rem 0", borderBottom: "0.5px solid rgba(47,49,90,0.08)", scrollMarginTop: 24 }}>
+      <div id="training" className="ac-section-tight" style={{ background: "#ffffff", padding: "4.5rem 0", borderBottom: "0.5px solid rgba(47,49,90,0.08)", scrollMarginTop: 24 }}>
         <div className="content-wrap">
           {/* Section header */}
           <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
@@ -1423,7 +1355,7 @@ export default function AutoCountAccountingPage({ onContact }) {
       {/* ══════════════════════════════════════════════════════════
        * COMPARING 5 EDITIONS OF ACCOUNTING 2.2
        * ══════════════════════════════════════════════════════════ */}
-      <div id="editions" style={{ background: "#f5f5f8", padding: "4.5rem 0", borderBottom: "0.5px solid rgba(47,49,90,0.08)", scrollMarginTop: 24 }}>
+      <div id="editions" className="ac-section-tight" style={{ background: "#f5f5f8", padding: "4.5rem 0", borderBottom: "0.5px solid rgba(47,49,90,0.08)", scrollMarginTop: 24 }}>
         <div className="content-wrap">
           <div style={{ textAlign: "center", marginBottom: "2rem" }}>
             <div style={{ fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#7AB317", marginBottom: "0.6rem" }}>
@@ -1453,7 +1385,7 @@ export default function AutoCountAccountingPage({ onContact }) {
       </div>
 
       {/* ── Release Notes ── */}
-      <div id="releases" style={{ padding: "4rem 0", scrollMarginTop: 24 }}>
+      <div id="releases" className="ac-section-tight" style={{ padding: "4rem 0", scrollMarginTop: 24 }}>
         <div className="content-wrap">
 
           {/* ── Title + tab switcher ── */}
