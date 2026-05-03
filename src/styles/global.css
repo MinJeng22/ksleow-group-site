@@ -49,6 +49,8 @@ body {
 @media (max-width: 900px) {
   :root { --px: clamp(48px, 7vw, 80px); }
   .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  /* Product page hero showcase image — hide on tablet & mobile */
+  .product-hero-image { display: none !important; }
 }
 
 /* ── Mobile (< 640) ── */

@@ -149,22 +149,6 @@ collections:
               - { name: image, label: Cover image (optional), widget: image, required: false }
               - { name: route, label: Internal link (optional), widget: string, required: false }
 
-      # ───────── Partners ─────────
-      - file: src/content/partners.json
-        name: partners
-        label: Partners Section
-        media_folder: "/public/uploads/partners"
-        public_folder: "/uploads/partners"
-        fields:
-          - { name: eyebrow, label: Eyebrow text, widget: string }
-          - name: items
-            label: Partner Logos
-            widget: list
-            min: 1
-            fields:
-              - { name: name, label: Partner name (shown if no logo), widget: string }
-              - { name: logo, label: Logo image,                       widget: image, required: false }
-
       # ───────── Careers ─────────
       - file: src/content/careers.json
         name: careers

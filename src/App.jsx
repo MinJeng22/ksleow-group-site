@@ -8,7 +8,6 @@ import Stats         from "./components/Stats";
 import Services      from "./components/Services";
 import CaseStudies   from "./components/CaseStudies";
 import Products      from "./components/Products";
-import Partners      from "./components/Partners";
 import Careers       from "./components/Careers";
 import Footer        from "./components/Footer";
 import BackToTop     from "./components/BackToTop";
@@ -27,7 +26,6 @@ function Home({ onContact }) {
       <Services />
       <Products onContact={onContact} />
       <CaseStudies onContact={onContact} />
-      <Partners />
       <Careers />
       <Footer />
     </>

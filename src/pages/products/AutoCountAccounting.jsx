@@ -1048,45 +1048,61 @@ export default function AutoCountAccountingPage({ onContact }) {
             ← Back
           </button>
 
-          <div style={{ display: "flex", alignItems: "flex-start", gap: "2.5rem", flexWrap: "wrap" }}>
-            {/* icon — replace via src/assets/images/products/autocount-accounting-icon.png */}
-            <div style={{ width: 80, height: 80, borderRadius: 18, background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "2.2rem", flexShrink: 0, overflow: "hidden" }}>
-              {PRODUCT_IMAGES.autocountAccountingIcon
-                ? <img src={PRODUCT_IMAGES.autocountAccountingIcon} alt="AutoCount Accounting" style={{ width: "100%", height: "100%", objectFit: "contain", padding: 8 }} />
-                : <span>🧾</span>
-              }
-            </div>
-            <div style={{ flex: 1, minWidth: 260 }}>
-              <div style={{ fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.5rem" }}>
-                Software We Specialize In
+          <div style={{ display: "flex", alignItems: "center", gap: "2.5rem", flexWrap: "wrap" }}>
+            {/* Left: icon + copy + buttons */}
+            <div style={{ display: "flex", alignItems: "flex-start", gap: "2rem", flex: 1, minWidth: 280 }}>
+              {/* icon — replace via src/assets/images/products/autocount-accounting-icon.png */}
+              <div style={{ width: 80, height: 80, borderRadius: 18, background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "2.2rem", flexShrink: 0, overflow: "hidden" }}>
+                {PRODUCT_IMAGES.autocountAccountingIcon
+                  ? <img src={PRODUCT_IMAGES.autocountAccountingIcon} alt="AutoCount Accounting" style={{ width: "100%", height: "100%", objectFit: "contain", padding: 8 }} />
+                  : <span>🧾</span>
+                }
               </div>
-              <h1 style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", fontWeight: 700, color: "#ffffff", lineHeight: 1.15, marginBottom: "1rem" }}>
-                AutoCount Accounting 2.2
-              </h1>
-              <p style={{ fontSize: "1rem", color: "rgba(255,255,255,0.65)", lineHeight: 1.78, maxWidth: 600, marginBottom: "1.5rem" }}>
-                Malaysia's leading SME accounting software — cloud-connected, SST & e-Invoice compliant,
-                and deeply integrated with AutoCount POS and Payroll. As an authorized dealer,
-                KSL Business Solutions provides full installation, configuration, training, and ongoing support.
-              </p>
-              <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-                <button
-                  onClick={onContact}
-                  style={{ background: "#c9a84c", color: "#1e2040", padding: "0.75rem 2rem", borderRadius: 50, fontSize: "0.9rem", fontWeight: 700, border: "none", cursor: "pointer", fontFamily: "inherit", transition: "opacity 0.2s" }}
-                  onMouseOver={e => e.currentTarget.style.opacity = "0.85"}
-                  onMouseOut={e => e.currentTarget.style.opacity = "1"}
-                >
-                  Get a Quote
-                </button>
-                <a
-                  href={WA_LINK} target="_blank" rel="noreferrer"
-                  style={{ background: "rgba(255,255,255,0.1)", color: "#ffffff", border: "1px solid rgba(255,255,255,0.25)", padding: "0.75rem 2rem", borderRadius: 50, fontSize: "0.9rem", fontWeight: 500, textDecoration: "none", transition: "background 0.2s" }}
-                  onMouseOver={e => e.currentTarget.style.background = "rgba(255,255,255,0.18)"}
-                  onMouseOut={e => e.currentTarget.style.background = "rgba(255,255,255,0.1)"}
-                >
-                  WhatsApp Us
-                </a>
+              <div style={{ flex: 1, minWidth: 240 }}>
+                <div style={{ fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.5rem" }}>
+                  Software We Specialize In
+                </div>
+                <h1 style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", fontWeight: 700, color: "#ffffff", lineHeight: 1.15, marginBottom: "1rem" }}>
+                  AutoCount Accounting 2.2
+                </h1>
+                <p style={{ fontSize: "1rem", color: "rgba(255,255,255,0.65)", lineHeight: 1.78, maxWidth: 600, marginBottom: "1.5rem" }}>
+                  Malaysia's leading SME accounting software — cloud-connected, SST & e-Invoice compliant,
+                  and deeply integrated with AutoCount POS and Payroll. As an authorized dealer,
+                  KSL Business Solutions provides full installation, configuration, training, and ongoing support.
+                </p>
+                <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+                  <button
+                    onClick={onContact}
+                    style={{ background: "#c9a84c", color: "#1e2040", padding: "0.75rem 2rem", borderRadius: 50, fontSize: "0.9rem", fontWeight: 700, border: "none", cursor: "pointer", fontFamily: "inherit", transition: "opacity 0.2s" }}
+                    onMouseOver={e => e.currentTarget.style.opacity = "0.85"}
+                    onMouseOut={e => e.currentTarget.style.opacity = "1"}
+                  >
+                    Get a Quote
+                  </button>
+                  <a
+                    href={WA_LINK} target="_blank" rel="noreferrer"
+                    style={{ background: "rgba(255,255,255,0.1)", color: "#ffffff", border: "1px solid rgba(255,255,255,0.25)", padding: "0.75rem 2rem", borderRadius: 50, fontSize: "0.9rem", fontWeight: 500, textDecoration: "none", transition: "background 0.2s" }}
+                    onMouseOver={e => e.currentTarget.style.background = "rgba(255,255,255,0.18)"}
+                    onMouseOut={e => e.currentTarget.style.background = "rgba(255,255,255,0.1)"}
+                  >
+                    WhatsApp Us
+                  </a>
+                </div>
               </div>
             </div>
+
+            {/* Right: product showcase image — desktop only (hidden via .product-hero-image media query) */}
+            {PRODUCT_IMAGES.autocountInterface && (
+              <div className="product-hero-image" style={{
+                flex: "0 1 420px", maxWidth: 460,
+                borderRadius: 14, overflow: "hidden",
+                border: "1px solid rgba(255,255,255,0.15)",
+                boxShadow: "0 18px 48px rgba(0,0,0,0.35)",
+              }}>
+                <img src={PRODUCT_IMAGES.autocountInterface} alt="AutoCount Accounting interface"
+                  style={{ width: "100%", height: "auto", display: "block" }} />
+              </div>
+            )}
           </div>
         </div>
       </div>
