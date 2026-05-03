@@ -34,16 +34,15 @@ function Home({ onContact }) {
   );
 }
 
-/* Routes that should NOT show the site Nav (their own page provides the header). */
-const NO_NAV_ROUTES = ["/omni"];
-
+/* The site Nav is shown ONLY on the homepage. Every other route (including
+ * /omni, product pages, app pages) provides its own page header. */
 function AppShell({ openContact, modalOpen, setModalOpen }) {
   const { pathname } = useLocation();
-  const hideNav = NO_NAV_ROUTES.includes(pathname);
+  const showNav = pathname === "/";
 
   return (
     <div className="app">
-      {!hideNav && <Nav onContact={openContact} />}
+      {showNav && <Nav onContact={openContact} />}
 
       <Routes>
         <Route path="/"                              element={<Home onContact={openContact} />} />

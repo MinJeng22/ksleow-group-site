@@ -350,7 +350,7 @@ export default function AIChatbot() {
         title="AutoCount Plugin Assistant"
         style={{
           position: "fixed",
-          bottom: 28,
+          bottom: 92,   /* upper slot — sits above BackToTop (which is at 28) */
           right: 28,
           zIndex: 600,
           width: 52,    /* matches BackToTop size exactly */
@@ -360,32 +360,19 @@ export default function AIChatbot() {
           display: (open && window.innerWidth < 640) ? "none" : "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: open ? "#2f315a" : "transparent",
+          background: "#2f315a",
           border: "2px solid rgba(201,168,76,0.5)",  /* gold border always visible */
           color: "#c9a84c",
           cursor: "pointer",
           padding: 0,
-          overflow: "hidden",
+          fontSize: 26, fontWeight: 700, fontFamily: "inherit", lineHeight: 1,
           boxShadow: "0 6px 24px rgba(47,49,90,0.35)",
-          transition: "transform 0.2s",
+          transition: "transform 0.2s, background 0.2s",
         }}
-        onMouseOver={e => e.currentTarget.style.transform = "scale(1.08)"}
-        onMouseOut={e => e.currentTarget.style.transform = "scale(1)"}
+        onMouseOver={e => { e.currentTarget.style.transform = "scale(1.08)"; e.currentTarget.style.background = "#3d4075"; }}
+        onMouseOut={e => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.background = "#2f315a"; }}
       >
-        {open
-          ? <CloseIcon />
-          : <img
-            src="/ksl-logo-circle.png"
-            alt="KSL"
-            style={{
-              width: "105%", height: "105%",
-              objectFit: "cover",
-              borderRadius: "50%",
-              display: "block",
-              flexShrink: 0,
-            }}
-          />
-        }
+        {open ? <CloseIcon /> : "?"}
       </button>
 
       <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
