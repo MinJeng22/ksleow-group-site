@@ -1,0 +1,22 @@
+{
+  "items": [
+    {
+      "key": "ksl_bs",
+      "name": "KSL BUSINESS SOLUTIONS SDN. BHD.",
+      "tagline": "Software, Hardware & IT Solutions",
+      "logo": ""
+    },
+    {
+      "key": "ksl_tax",
+      "name": "K.S. LEOW TAX CONSULTANT SDN. BHD.",
+      "tagline": "Taxation & Accounting Services",
+      "logo": ""
+    },
+    {
+      "key": "ksl_mgmt",
+      "name": "K.S LEOW MANAGEMENT SERVICES CO. SDN. BHD.",
+      "tagline": "Secretarial, Management & Audit",
+      "logo": ""
+    }
+  ]
+}

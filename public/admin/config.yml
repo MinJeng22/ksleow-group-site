@@ -69,6 +69,23 @@ collections:
               - { name: num,   label: Number / Value, widget: string }
               - { name: label, label: Caption,        widget: string }
 
+      # ───────── Offices (companies that back each service card) ─────────
+      - file: src/content/offices.json
+        name: offices
+        label: Offices / Companies (shown on service card backs)
+        media_folder: "/public/uploads/offices"
+        public_folder: "/uploads/offices"
+        fields:
+          - name: items
+            label: Companies
+            widget: list
+            min: 1
+            fields:
+              - { name: key,     label: "Internal key (referenced by service cards — keep stable)", widget: string }
+              - { name: name,    label: Company full name (UPPERCASE), widget: string }
+              - { name: tagline, label: Short tagline shown above the name, widget: string, required: false }
+              - { name: logo,    label: Company logo (shown on card back), widget: image, required: false }
+
       # ───────── Services ─────────
       - file: src/content/services.json
         name: services
@@ -87,6 +104,14 @@ collections:
               - { name: key,        label: Internal key (no spaces, links to contact info), widget: string }
               - { name: title,      label: Card title,                   widget: string }
               - { name: desc,       label: Card description,             widget: text }
+              - name: officeKey
+                label: "Office / Company shown on card back"
+                widget: select
+                required: false
+                options:
+                  - { label: "KSL Business Solutions Sdn. Bhd.",         value: ksl_bs }
+                  - { label: "K.S. Leow Tax Consultant Sdn. Bhd.",       value: ksl_tax }
+                  - { label: "K.S Leow Management Services Co. Sdn. Bhd.", value: ksl_mgmt }
               - name: badgeType
                 label: Badge type
                 widget: select

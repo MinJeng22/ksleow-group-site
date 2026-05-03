@@ -7,6 +7,7 @@
       "key": "taxation",
       "title": "Taxation & Accounting",
       "desc": "Full-scope accounting and tax services — bookkeeping, financial statements, corporate and individual tax filing, SST compliance, e-Invoice readiness, and LHDN liaison.",
+      "officeKey": "ksl_tax",
       "badgeType": "certified",
       "badgeLabel": "Certified By",
       "logos": [
@@ -18,6 +19,7 @@
       "key": "secretarial",
       "title": "Secretarial & Management",
       "desc": "Company incorporation, SSM annual returns, board resolutions, corporate secretarial compliance, business process consulting, management reporting, and strategic advisory.",
+      "officeKey": "ksl_mgmt",
       "badgeType": "certified",
       "badgeLabel": "Certified By",
       "logos": [
@@ -29,6 +31,7 @@
       "key": "auditing",
       "title": "Auditing",
       "desc": "Independent financial audits and assurance services. Present accurate, credible financials to stakeholders, banks, and regulatory bodies with confidence.",
+      "officeKey": "ksl_mgmt",
       "badgeType": "certified",
       "badgeLabel": "Certified By",
       "logos": [
@@ -40,6 +43,7 @@
       "key": "hardware",
       "title": "Computer Hardware & Technical",
       "desc": "Computer hardware wholesale, IT infrastructure, networking solutions, and on-site technical support for SMEs across Pahang.",
+      "officeKey": "ksl_bs",
       "badgeType": "dealer",
       "badgeLabel": "Authorized Dealer",
       "logos": [
@@ -51,6 +55,7 @@
       "key": "accounting_pos",
       "title": "Software Training & Support",
       "desc": "Authorized AutoCount and FeedMe dealer for Pahang. Full installation, configuration, licensing, training, and ongoing support for AutoCount Accounting, POS, and FeedMe Smart POS.",
+      "officeKey": "ksl_bs",
       "badgeType": "dealer",
       "badgeLabel": "Authorized Dealer",
       "logos": [
