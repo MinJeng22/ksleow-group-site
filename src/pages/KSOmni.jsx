@@ -642,7 +642,7 @@ export default function KSLOmniPage() {
   /* Reusable Gemini-style input box — image preview + textarea on top,
    * action row below. Same component in centered (empty state) and
    * bottom (active chat) layouts. */
-  function InputRow({ centered = false }) {
+  function renderInputRow(centered = false) {
     const sendDisabled = loading || attachedImage?.uploading || (!input.trim() && !attachedImage?.gsUri);
     const uploadBusy   = loading || attachedImage?.uploading;
     return (
@@ -823,7 +823,7 @@ export default function KSLOmniPage() {
               }}>
                 <EmptyGreeting />
                 <div style={{ width: "100%", maxWidth: 720 }}>
-                  <InputRow centered />
+                  {renderInputRow(true)}
                 </div>
               </div>
             ) : (
@@ -832,7 +832,7 @@ export default function KSLOmniPage() {
                 <div ref={chatScrollRef} style={{ flex: 1, overflowY: "auto", padding: "1.5rem 1.75rem", display: "flex", flexDirection: "column" }}>
                   {messages.map((msg, i) => <Message key={i} msg={msg} />)}
                 </div>
-                <InputRow />
+                {renderInputRow()}
               </>
             )}
 
