@@ -191,18 +191,16 @@ function ServiceCard({ service }) {
             boxShadow: "0 10px 32px rgba(15,17,40,0.22)",
           }}
         >
-          {/* Decorative background — admins upload the card back image via CMS
-           * (Brand Logos → Service card back background image). When unset,
-           * the card just shows the solid navy background above. */}
-          {branding.serviceCardBack && (
-            <div style={{
-              position: "absolute", inset: 0,
-              backgroundImage: `url(${branding.serviceCardBack})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              pointerEvents: "none",
-            }} aria-hidden="true" />
-          )}
+          {/* Decorative background — defaults to the bundled SVG geometric pattern
+           * at /service-card-back.svg. Admins can override per CMS via
+           * Brand Logos → Service card back background image. */}
+          <div style={{
+            position: "absolute", inset: 0,
+            backgroundImage: `url(${branding.serviceCardBack || "/service-card-back.svg"})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            pointerEvents: "none",
+          }} aria-hidden="true" />
 
           {/* Top header strip — office identity (sits above the gold accents thanks to z-index) */}
           <div style={{
