@@ -2,6 +2,7 @@ import { useState } from "react";
 import { SERVICE_CONTACTS } from "../constants/contact.js";
 import servicesContent from "../content/services.json";
 import officesContent  from "../content/offices.json";
+import branding        from "../content/branding.json";
 
 /* Office lookup by key for the card-back business card */
 const OFFICES = Object.fromEntries(
@@ -100,7 +101,7 @@ function ServiceCard({ service }) {
     .replace("Kampung Catin, 28400 ", "");
 
   return (
-    <div style={{ perspective: "1000px", height: 320 }}>
+    <div style={{ perspective: "1000px", height: 260 }}>
       <div style={{
         position: "relative", width: "100%", height: "100%",
         transformStyle: "preserve-3d",
@@ -141,7 +142,15 @@ function ServiceCard({ service }) {
           <h3 style={{ fontSize: "0.97rem", fontWeight: 700, color: "#2f315a", marginBottom: "0.55rem", lineHeight: 1.3 }}>
             {service.title}
           </h3>
-          <p style={{ fontSize: "0.85rem", color: "#6b6f91", lineHeight: 1.72, flex: 1 }}>
+          <p style={{
+            fontSize: "0.83rem", color: "#6b6f91", lineHeight: 1.6,
+            flex: 1, margin: 0,
+            /* Clamp to 3 lines so the front stays compact */
+            display: "-webkit-box",
+            WebkitLineClamp: 3,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+          }}>
             {service.desc}
           </p>
 
@@ -149,7 +158,7 @@ function ServiceCard({ service }) {
           <div style={{
             display: "inline-flex", alignItems: "center", gap: "0.35rem",
             marginTop: "0.6rem",
-            fontSize: "0.7rem", color: "#a8abcc", fontWeight: 500,
+            fontSize: "0.68rem", color: "#a8abcc", fontWeight: 500,
           }}>
             Tap for contact
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -182,20 +191,18 @@ function ServiceCard({ service }) {
             boxShadow: "0 10px 32px rgba(15,17,40,0.22)",
           }}
         >
-          {/* Decorative geometric layers — solid tan triangle on the right plus two
-           * semi-transparent blue parallelograms parallel to its hypotenuse. */}
-          <svg
-            viewBox="0 0 340 320" preserveAspectRatio="none"
-            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none" }}
-            aria-hidden="true"
-          >
-            {/* Solid tan/beige triangle in the upper-right */}
-            <polygon points="245,0 340,0 340,320 305,320" fill="#d8a86a" />
-            {/* Wider semi-transparent blue parallelogram (parallel to tan's hypotenuse) */}
-            <polygon points="180,0 230,0 305,320 255,320" fill="rgba(70,92,160,0.55)" />
-            {/* Narrower lighter parallelogram tucked inside the wider one */}
-            <polygon points="218,0 248,0 320,320 290,320" fill="rgba(110,135,200,0.42)" />
-          </svg>
+          {/* Decorative background — admins upload the card back image via CMS
+           * (Brand Logos → Service card back background image). When unset,
+           * the card just shows the solid navy background above. */}
+          {branding.serviceCardBack && (
+            <div style={{
+              position: "absolute", inset: 0,
+              backgroundImage: `url(${branding.serviceCardBack})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              pointerEvents: "none",
+            }} aria-hidden="true" />
+          )}
 
           {/* Top header strip — office identity (sits above the gold accents thanks to z-index) */}
           <div style={{
@@ -205,18 +212,18 @@ function ServiceCard({ service }) {
             maxWidth: "65%",
           }}>
             <div style={{
-              width: 32, height: 32, borderRadius: 7,
-              background: "rgba(255,255,255,0.06)",
+              width: 34, height: 34, borderRadius: 7,
+              background: "#ffffff",
               border: "1px solid rgba(201,168,76,0.45)",
               display: "flex", alignItems: "center", justifyContent: "center",
               flexShrink: 0, overflow: "hidden",
+              padding: 3,
             }}>
-              {office?.logo ? (
-                <img src={office.logo} alt={office.name}
-                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-              ) : (
-                <span style={{ color: "#c9a84c", fontWeight: 800, fontSize: "0.7rem", letterSpacing: "0.04em" }}>KSL</span>
-              )}
+              <img
+                src={office?.logo || "/favicon.png"}
+                alt={office?.name || "K.S. Leow Group"}
+                style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}
+              />
             </div>
             <div style={{ minWidth: 0 }}>
               <div style={{

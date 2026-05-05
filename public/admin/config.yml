@@ -42,6 +42,7 @@ collections:
           - { name: navLogo,    label: "Navigation bar logo (leave empty to use bundled default)", widget: image, required: false }
           - { name: heroLogo,   label: "Hero (homepage banner) logo (leave empty to use bundled default)", widget: image, required: false }
           - { name: footerLogo, label: "Footer logo (leave empty to use bundled default)",         widget: image, required: false }
+          - { name: serviceCardBack, label: "Service card back background image (geometric pattern)", widget: image, required: false }
 
       # ───────── Hero ─────────
       - file: src/content/hero.json
