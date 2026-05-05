@@ -175,27 +175,26 @@ function ServiceCard({ service }) {
             transform: "rotateY(180deg)",
             borderRadius: 18, overflow: "hidden",
             cursor: "pointer",
-            background: "linear-gradient(135deg, #2a2c52 0%, #1d1f44 100%)",
-            border: "1px solid rgba(201,168,76,0.25)",
+            background: "#1d2050",
+            border: "1px solid rgba(201,168,76,0.2)",
             display: "flex", flexDirection: "column",
             color: "#ffffff",
             boxShadow: "0 10px 32px rgba(15,17,40,0.22)",
           }}
         >
-          {/* Decorative gold geometric layers (stacked triangles) */}
+          {/* Decorative geometric layers — solid tan triangle on the right plus two
+           * semi-transparent blue parallelograms parallel to its hypotenuse. */}
           <svg
             viewBox="0 0 340 320" preserveAspectRatio="none"
             style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none" }}
             aria-hidden="true"
           >
-            {/* Big light-gold filled triangle (right) */}
-            <polygon points="340,0 200,0 340,140" fill="rgba(201,168,76,0.55)" />
-            {/* Smaller darker tan triangle overlapping (creates depth) */}
-            <polygon points="340,0 235,0 340,105" fill="rgba(201,168,76,0.85)" />
-            {/* Slim navy chevron knocking back into the gold */}
-            <polygon points="340,0 260,0 340,80" fill="rgba(31,33,72,0.7)" />
-            {/* Subtle bottom-left gold accent line */}
-            <polygon points="0,320 0,260 80,320" fill="rgba(201,168,76,0.25)" />
+            {/* Solid tan/beige triangle in the upper-right */}
+            <polygon points="245,0 340,0 340,320 305,320" fill="#d8a86a" />
+            {/* Wider semi-transparent blue parallelogram (parallel to tan's hypotenuse) */}
+            <polygon points="180,0 230,0 305,320 255,320" fill="rgba(70,92,160,0.55)" />
+            {/* Narrower lighter parallelogram tucked inside the wider one */}
+            <polygon points="218,0 248,0 320,320 290,320" fill="rgba(110,135,200,0.42)" />
           </svg>
 
           {/* Top header strip — office identity (sits above the gold accents thanks to z-index) */}
