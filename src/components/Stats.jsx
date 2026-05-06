@@ -92,7 +92,7 @@ export default function Stats() {
             }}
           >
             <div style={{ fontSize: "2.2rem", fontWeight: 700, color: "#2f315a", lineHeight: 1 }}>
-              <CountUp raw={s.num} />
+              {s.animate === false ? s.num : <CountUp raw={s.num} />}
             </div>
             <div style={{
               fontSize: "0.7rem", fontWeight: 600, color: "#6b6f91",
