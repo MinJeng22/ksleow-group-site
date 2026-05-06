@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
 import SectionSidebar from "../../components/SectionSidebar.jsx";
+import DownloadAutoCountModal from "../../components/DownloadAutoCountModal.jsx";
 import { WA_LINK } from "../../constants/contact.js";
 import { PRODUCT_IMAGES } from "../../assets/assets.js";
 
@@ -1175,6 +1176,7 @@ export default function AutoCountAccountingPage({ onContact }) {
   const [compareMode, setCompareMode] = useState(false);
   const [compareA, setCompareA] = useState(RELEASES[RELEASES.length - 1].version); /* oldest */
   const [compareB, setCompareB] = useState(RELEASES[0].version);                   /* newest */
+  const [downloadOpen, setDownloadOpen] = useState(false);
 
   const filtered = RELEASES.filter(r => {
     if (!search) return true;
@@ -1228,12 +1230,17 @@ export default function AutoCountAccountingPage({ onContact }) {
                 </p>
                 <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
                   <button
-                    onClick={onContact}
-                    style={{ background: "#c9a84c", color: "#1e2040", padding: "0.75rem 2rem", borderRadius: 50, fontSize: "0.9rem", fontWeight: 700, border: "none", cursor: "pointer", fontFamily: "inherit", transition: "opacity 0.2s" }}
+                    onClick={() => setDownloadOpen(true)}
+                    style={{ background: "#c9a84c", color: "#1e2040", padding: "0.75rem 2rem", borderRadius: 50, fontSize: "0.9rem", fontWeight: 700, border: "none", cursor: "pointer", fontFamily: "inherit", transition: "opacity 0.2s", display: "inline-flex", alignItems: "center", gap: "0.5rem" }}
                     onMouseOver={e => e.currentTarget.style.opacity = "0.85"}
                     onMouseOut={e => e.currentTarget.style.opacity = "1"}
                   >
-                    Get a Quote
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                      <polyline points="7 10 12 15 17 10" />
+                      <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                    Download AutoCount
                   </button>
                   <a
                     href={WA_LINK} target="_blank" rel="noreferrer"
@@ -1581,6 +1588,10 @@ export default function AutoCountAccountingPage({ onContact }) {
       </div>
 
       <Footer />
+
+      {/* Gated download flow — collects lead details, sends SMS OTP, then
+       * reveals the AutoCount download URL after verification. */}
+      <DownloadAutoCountModal open={downloadOpen} onClose={() => setDownloadOpen(false)} />
     </div>
   );
 }
