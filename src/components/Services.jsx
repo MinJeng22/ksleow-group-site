@@ -35,14 +35,14 @@ function BadgeRow({ badge }) {
   const showPlaceholder = visibleLogos.length === 0;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.4rem", width: "100%" }}>
       <div style={{
         fontSize: "0.58rem", fontWeight: 700, letterSpacing: "0.1em",
-        textTransform: "uppercase", color: labelColor,
+        textTransform: "uppercase", color: labelColor, textAlign: "center",
       }}>
         {badge.label}
       </div>
-      <div style={{ display: "flex", alignItems: "center", gap: "0" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0" }}>
         {showPlaceholder ? (
           /* Placeholder slots until real logos are added */
           [0, 1].map(i => (
@@ -131,8 +131,8 @@ function ServiceCard({ service }) {
             e.currentTarget.style.boxShadow = "none";
           }}
         >
-          {/* Top row */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "1rem" }}>
+          {/* Top row — badge centered horizontally */}
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "flex-start", marginBottom: "1rem" }}>
             {(service.dealer || service.certified)
               ? <BadgeRow badge={service.dealer || service.certified} />
               : <div />
@@ -185,18 +185,18 @@ function ServiceCard({ service }) {
             borderRadius: 18, overflow: "hidden",
             cursor: "pointer",
             background: "#20255a",
-            border: "1px solid rgba(201,168,76,0.2)",
+            border: "none",
             display: "flex", flexDirection: "column",
             color: "#ffffff",
             boxShadow: "0 10px 32px rgba(15,17,40,0.22)",
           }}
         >
-          {/* Decorative background — defaults to the bundled SVG geometric pattern
-           * at /service-card-back.svg. Admins can override per CMS via
-           * Brand Logos → Service card back background image. */}
+          {/* Decorative background — defaults to the PNG at /service-card-back.png.
+           * Place your image at:  public/service-card-back.png
+           * Admins can also override via CMS → Brand Logos → Service card back. */}
           <div style={{
             position: "absolute", inset: 0,
-            backgroundImage: `url(${branding.serviceCardBack || "/service-card-back.svg"})`,
+            backgroundImage: `url(${branding.serviceCardBack || "/service-card-back.png"})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             pointerEvents: "none",
@@ -207,7 +207,6 @@ function ServiceCard({ service }) {
             position: "relative", zIndex: 1,
             padding: "0.95rem 1.15rem 0.7rem",
             display: "flex", alignItems: "center", gap: "0.65rem",
-            maxWidth: "65%",
           }}>
             <div style={{
               width: 36, height: 36,

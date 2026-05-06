@@ -197,6 +197,8 @@ collections:
           - name: services
             label: Office / Company list
             widget: list
-            field: { name: name, label: Company name, widget: string }
+            fields:
+              - { name: name, label: Company name (UPPERCASE), widget: string }
+              - { name: brn,  label: "Business Registration No. (e.g. 198101004546 (70661-A))", widget: string, required: false }
           - { name: copyrightLine,   label: Copyright line (year is added automatically), widget: string }
           - { name: locationLine,    label: Location line,      widget: string }

@@ -2,9 +2,9 @@
   "tagline": "K.S. Leow Group — established 1981. Pahang's leading AutoCount Authorized Dealer and full-service professional firm.",
   "servicesHeading": "Our Office",
   "services": [
-    "K.S LEOW MANAGEMENT SERVICES CO. SDN. BHD.",
-    "K.S. LEOW TAX CONSULTANT SDN. BHD.",
-    "KSL BUSINESS SOLUTIONS SDN. BHD."
+    { "name": "K.S LEOW MANAGEMENT SERVICES CO. SDN. BHD.", "brn": "198101004546 (70661-A)" },
+    { "name": "K.S. LEOW TAX CONSULTANT SDN. BHD.",         "brn": "198201006003 (85757-A)" },
+    { "name": "KSL BUSINESS SOLUTIONS SDN. BHD.",           "brn": "202401005119 (1550969-M)" }
   ],
   "contactHeading": "Contact Us",
   "followHeading": "Follow Us",
