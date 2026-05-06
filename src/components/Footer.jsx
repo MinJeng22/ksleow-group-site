@@ -78,9 +78,23 @@ export default function Footer() {
             {/* Office / Services */}
             <div>
               <h4 style={H4}>{footer.servicesHeading}</h4>
-              {(footer.services || []).map(s => (
-                <ContactRow key={s} icon={null} label={s} />
-              ))}
+              {(footer.services || []).map((s, i) => {
+                /* Backward compatible: accept either a plain string or { name, brn } */
+                const name = typeof s === "string" ? s : s.name;
+                const brn  = typeof s === "string" ? null : s.brn;
+                return (
+                  <div key={i} style={{ marginBottom: "0.9rem" }}>
+                    <div style={{ fontSize: "0.83rem", color: "#a8abcc", lineHeight: 1.45 }}>
+                      {name}
+                    </div>
+                    {brn && (
+                      <div style={{ fontSize: "0.72rem", color: "#7b7fa8", lineHeight: 1.5, marginTop: 2, letterSpacing: "0.02em" }}>
+                        {brn}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
 
             {/* Follow */}
