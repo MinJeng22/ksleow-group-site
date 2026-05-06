@@ -67,8 +67,9 @@ collections:
             widget: list
             min: 1
             fields:
-              - { name: num,   label: Number / Value, widget: string }
-              - { name: label, label: Caption,        widget: string }
+              - { name: num,     label: Number / Value, widget: string }
+              - { name: label,   label: Caption,        widget: string }
+              - { name: animate, label: "Animate from 0 to value when scrolled into view", widget: boolean, default: true, required: false }
 
       # ───────── Offices (companies that back each service card) ─────────
       - file: src/content/offices.json

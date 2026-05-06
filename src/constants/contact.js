@@ -14,8 +14,11 @@ export const CONTACT = {
   email:    "support@ksleow.com.my",
   phone:    "017-905 2323",
   whatsapp: "60179052323",
-  facebook: "https://www.facebook.com/ksleowbs",
-  linkedin: "",
+  facebook:  "https://www.facebook.com/ksleowbs",
+  instagram: "https://www.instagram.com/ksleowbs",
+  youtube:   "https://www.youtube.com/@ksleowbs",
+  linkedin:  "",
+  mapsUrl:   "https://maps.app.goo.gl/9WmvATAcFRusdXZb8",
   hours:    "9:00 AM – 6:00 PM (Mon – Fri)",
   weekend:  "Closed on Weekends",
 };
