@@ -4,7 +4,8 @@ import { useState, useRef, useEffect } from "react";
  * AIChatbot — Sales2DO Plugin AI Assistant
  * ──────────────────────────────────────────────────────────────
  * SETUP (one-time):
- *   1. Deploy the Cloudflare Worker in  cloudflare-worker.js
+ *   1. Deploy the Cloudflare Worker (code is maintained directly in
+ *      the Cloudflare dashboard, not in this repo).
  *   2. Set your Worker URL in WORKER_URL below
  *
  * FEATURES:
