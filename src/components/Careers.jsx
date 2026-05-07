@@ -60,14 +60,16 @@ export default function Careers() {
               padding: "0.82rem 2.2rem", borderRadius: 50,
               fontSize: "0.9rem", fontWeight: 600,
               textDecoration: "none", whiteSpace: "nowrap",
-              transition: "background 0.2s, color 0.2s",
+              transition: "background 0.2s, color 0.2s, border-color 0.2s",
             }}
             onMouseOver={e => {
-              e.currentTarget.style.background = "#2f315a";
-              e.currentTarget.style.color = "#ffffff";
+              e.currentTarget.style.background = "#c9a84c";
+              e.currentTarget.style.borderColor = "#c9a84c";
+              e.currentTarget.style.color = "#1e2040";
             }}
             onMouseOut={e => {
               e.currentTarget.style.background = "transparent";
+              e.currentTarget.style.borderColor = "#2f315a";
               e.currentTarget.style.color = "#2f315a";
             }}
           >
