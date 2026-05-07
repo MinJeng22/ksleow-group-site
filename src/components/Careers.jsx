@@ -34,20 +34,46 @@ export default function Careers() {
           </p>
         </div>
 
-        <a
-          href={`mailto:${CONTACT.email}`}
-          style={{
-            background: "#2f315a", color: "#ffffff",
-            padding: "0.82rem 2.2rem", borderRadius: 50,
-            fontSize: "0.9rem", fontWeight: 600,
-            textDecoration: "none", whiteSpace: "nowrap",
-            transition: "background 0.2s",
-          }}
-          onMouseOver={e => e.currentTarget.style.background = "#3d4075"}
-          onMouseOut={e => e.currentTarget.style.background = "#2f315a"}
-        >
-          {careers.buttonLabel}
-        </a>
+        <div style={{ display: "flex", gap: "0.85rem", flexWrap: "wrap" }}>
+          {/* Primary — career enquiry */}
+          <a
+            href={`mailto:${CONTACT.email}?subject=Career Enquiry`}
+            style={{
+              background: "#2f315a", color: "#ffffff",
+              padding: "0.82rem 2.2rem", borderRadius: 50,
+              fontSize: "0.9rem", fontWeight: 600,
+              textDecoration: "none", whiteSpace: "nowrap",
+              transition: "background 0.2s",
+            }}
+            onMouseOver={e => e.currentTarget.style.background = "#3d4075"}
+            onMouseOut={e => e.currentTarget.style.background = "#2f315a"}
+          >
+            {careers.careerButtonLabel || careers.buttonLabel || "Join Our Team"}
+          </a>
+
+          {/* Secondary — partnership enquiry */}
+          <a
+            href={`mailto:${careers.partnerEmail || CONTACT.email}?subject=Partnership Enquiry`}
+            style={{
+              background: "transparent", color: "#2f315a",
+              border: "1.5px solid #2f315a",
+              padding: "0.82rem 2.2rem", borderRadius: 50,
+              fontSize: "0.9rem", fontWeight: 600,
+              textDecoration: "none", whiteSpace: "nowrap",
+              transition: "background 0.2s, color 0.2s",
+            }}
+            onMouseOver={e => {
+              e.currentTarget.style.background = "#2f315a";
+              e.currentTarget.style.color = "#ffffff";
+            }}
+            onMouseOut={e => {
+              e.currentTarget.style.background = "transparent";
+              e.currentTarget.style.color = "#2f315a";
+            }}
+          >
+            {careers.partnerButtonLabel || "Partner with Us"}
+          </a>
+        </div>
       </div>
     </div>
   );

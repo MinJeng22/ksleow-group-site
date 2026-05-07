@@ -181,10 +181,12 @@ collections:
         name: careers
         label: Careers Section
         fields:
-          - { name: eyebrow,     label: Eyebrow,        widget: string }
-          - { name: heading,     label: Heading / Quote, widget: string }
-          - { name: body,        label: Body paragraph,  widget: text }
-          - { name: buttonLabel, label: Button label,    widget: string }
+          - { name: eyebrow,           label: Eyebrow,                        widget: string }
+          - { name: heading,           label: Heading / Quote,                widget: string }
+          - { name: body,              label: Body paragraph,                 widget: text }
+          - { name: careerButtonLabel, label: Career button label,            widget: string, default: "Join Our Team" }
+          - { name: partnerButtonLabel,label: Partner button label,           widget: string, default: "Partner with Us" }
+          - { name: partnerEmail,      label: Partner enquiry email address,  widget: string, default: "partner@ksleow.com.my", required: false }
 
       # ───────── Footer ─────────
       - file: src/content/footer.json
