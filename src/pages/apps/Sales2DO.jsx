@@ -399,7 +399,7 @@ export default function Sales2DOPage({ onContact }) {
                 <div style={{ fontSize: "0.68rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.5rem" }}>AutoCount Plugin</div>
                 <h1 style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", fontWeight: 700, color: "#fff", lineHeight: 1.15, marginBottom: "0.9rem" }}>Sales2DO Plugin</h1>
                 <p style={{ fontSize: "1rem", color: "rgba(255,255,255,0.65)", lineHeight: 1.78, maxWidth: 580, marginBottom: "1.5rem" }}>
-                  Bridges the gap for companies operating with a Sales-to-DO workflow. Generate Delivery Orders directly from existing Invoices or Cash Sales.
+                  In AutoCount Accounting's standard business workflow, the process typically flows from Delivery Orders (DO) to Sales (Invoices or Cash Sales). However, for companies that operate with a Sales-to-DO workflow, the Sales2DO plugin bridges this gap. It enables users to generate a DO directly from existing Invoices or Cash Sales via integrated "Copy to DO" and "Copy from Invoice / Cash Sale" functions.
                 </p>
                 <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
                   <a href="/Sales2DO.app" download="Sales2DO.app"
@@ -427,17 +427,11 @@ export default function Sales2DOPage({ onContact }) {
         </div>
       </div>
 
-      {/* ── Overview + Video Guide (merged) ── */}
+      {/* ── Overview + Video Guide ── */}
       <div id="overview" style={{ background: "#fff", ...S.section, scrollMarginTop: 24 }}>
         <div className="content-wrap">
-          <div style={S.label}>Overview</div>
-          <h2 style={S.h2}>Plugin Purpose</h2>
-          <p style={{ ...S.body, maxWidth: 780, marginBottom: "3rem" }}>
-            Bridges the gap for companies operating with a Sales-to-DO workflow. Generate Delivery Orders directly from existing Invoices or Cash Sales.
-          </p>
-
           <div style={{ ...S.label, marginBottom: "0.5rem" }}>Video Tutorial</div>
-          <h3 style={{ ...S.h3, fontSize: "1.2rem", marginBottom: "1.5rem" }}>See It In Action</h3>
+          <h2 style={{ ...S.h2, marginBottom: "1.5rem" }}>See It In Action</h2>
           <VideoGuide />
         </div>
       </div>
