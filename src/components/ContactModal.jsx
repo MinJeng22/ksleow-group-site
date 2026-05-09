@@ -29,7 +29,7 @@ export default function ContactModal({ open, onClose }) {
         <img src={LOGO} alt="KSL Business Solutions" style={{ height: 38, marginBottom: "1.5rem", objectFit: "contain" }} />
 
         <h2 style={{ fontSize: "1.4rem", fontWeight: 700, color: "#2f315a", marginBottom: "0.45rem" }}>
-          Get in Touch
+          Contact Us
         </h2>
         <p style={{ fontSize: "0.88rem", color: "#6b6f91", marginBottom: "1.75rem", lineHeight: 1.68 }}>
           Reach out and our team will get back to you as soon as possible.

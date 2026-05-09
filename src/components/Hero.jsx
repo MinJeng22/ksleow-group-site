@@ -106,7 +106,7 @@ export default function Hero({ onContact }) {
           }}
         >
           <h1 style={{
-            fontSize: "clamp(2.4rem, 5.5vw, 4.4rem)",
+            fontSize: "clamp(1.75rem, 5.5vw, 4.4rem)",
             fontWeight: 700, color: "#ffffff",
             lineHeight: 1.08, letterSpacing: "-0.025em",
             marginBottom: "0.5rem",
