@@ -209,14 +209,14 @@ function VideoGuide() {
       const fireSwap = () => {
         setActive(toSlot);
         setIdx(toIdx);
-        /* After CSS opacity transition (0.3s), pause the old slot and
-         * preload the next-next segment into it for the next swap. */
-        setTimeout(() => {
+        /* Instant cut — pause the old slot and preload next-next on the
+         * idle slot right away, on the next animation frame. */
+        requestAnimationFrame(() => {
           try { fromVid.pause(); } catch { /* ignore */ }
           const nextNext = (toIdx + 1) % N;
           ensureSrc(fromVid, VIDEO_SEGMENTS[nextNext].src);
           busyRef.current = false;
-        }, 380);
+        });
       };
 
       /* Wait until the inactive video has actually painted a frame. */
@@ -264,9 +264,12 @@ function VideoGuide() {
       <style>{`
         .vg-grid { display: grid; grid-template-columns: 58% 1fr; gap: 2.5rem; align-items: start; }
         @media (max-width: 760px) { .vg-grid { grid-template-columns: 1fr; gap: 1.25rem; } }
-        .vg-text { transition: opacity 0.28s ease, transform 0.28s ease; }
-        .vg-in   { opacity: 1; transform: translateY(0); }
-        .vg-out  { opacity: 0; transform: translateY(5px); }
+        /* Pure opacity fade — no transform — to avoid layout jitter. */
+        .vg-text-wrap { min-height: 360px; }
+        @media (max-width: 760px) { .vg-text-wrap { min-height: 0; } }
+        .vg-text { transition: opacity 0.22s ease; }
+        .vg-in   { opacity: 1; }
+        .vg-out  { opacity: 0; }
         .vg-arrow {
           position: absolute; top: 50%; transform: translateY(-50%);
           width: 42px; height: 42px; border-radius: 50%;
@@ -307,7 +310,10 @@ function VideoGuide() {
         <div>
           {/* 16 : 9 container */}
           <div style={{ position: "relative", width: "100%", paddingBottom: "56.25%", height: 0, background: "#000", borderRadius: 14, overflow: "hidden", boxShadow: "0 12px 36px rgba(47,49,90,0.18)" }}>
-            {/* Slot A */}
+            {/* Slot A — instant z-index/opacity swap (no fade) so we never
+                blend two videos against the black backdrop. requestVideoFrameCallback
+                guarantees the new slot has painted before the swap, so the cut is
+                imperceptible. */}
             <video
               ref={aRef}
               muted playsInline
@@ -316,8 +322,7 @@ function VideoGuide() {
                 position: "absolute", inset: 0,
                 width: "100%", height: "100%",
                 objectFit: "contain",
-                opacity: active === "a" ? 1 : 0,
-                transition: "opacity 0.3s ease",
+                visibility: active === "a" ? "visible" : "hidden",
                 zIndex: active === "a" ? 2 : 1,
               }}
             />
@@ -330,8 +335,7 @@ function VideoGuide() {
                 position: "absolute", inset: 0,
                 width: "100%", height: "100%",
                 objectFit: "contain",
-                opacity: active === "b" ? 1 : 0,
-                transition: "opacity 0.3s ease",
+                visibility: active === "b" ? "visible" : "hidden",
                 zIndex: active === "b" ? 2 : 1,
               }}
             />
@@ -351,23 +355,25 @@ function VideoGuide() {
           </div>
         </div>
 
-        {/* ── Right: text description ── */}
-        <div className={`vg-text ${textIn ? "vg-in" : "vg-out"}`} style={{ paddingTop: "0.25rem" }}>
-          <div style={{ ...S.label, marginBottom: "0.35rem" }}>{seg.group}</div>
-          <h3 style={{ fontSize: "1.1rem", fontWeight: 700, color: "#2f315a", lineHeight: 1.3, marginBottom: "0.6rem" }}>{seg.title}</h3>
-          <p style={{ ...S.body, color: "#6b6f91", fontStyle: "italic", marginBottom: "1.1rem" }}>{seg.desc}</p>
-          {seg.steps.map((step, i) => (
-            <div key={i} style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start", marginBottom: "0.8rem" }}>
-              <StepNum n={i + 1} color="#c9a84c" />
-              <div style={{ ...S.body, paddingTop: 4, flex: 1 }}>{step}</div>
+        {/* ── Right: text description (min-height locked to prevent layout jitter) ── */}
+        <div className="vg-text-wrap" style={{ paddingTop: "0.25rem" }}>
+          <div className={`vg-text ${textIn ? "vg-in" : "vg-out"}`}>
+            <div style={{ ...S.label, marginBottom: "0.35rem" }}>{seg.group}</div>
+            <h3 style={{ fontSize: "1.1rem", fontWeight: 700, color: "#2f315a", lineHeight: 1.3, marginBottom: "0.6rem" }}>{seg.title}</h3>
+            <p style={{ ...S.body, color: "#6b6f91", fontStyle: "italic", marginBottom: "1.1rem" }}>{seg.desc}</p>
+            {seg.steps.map((step, i) => (
+              <div key={i} style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start", marginBottom: "0.8rem" }}>
+                <StepNum n={i + 1} color="#c9a84c" />
+                <div style={{ ...S.body, paddingTop: 4, flex: 1 }}>{step}</div>
+              </div>
+            ))}
+            <div style={{ marginTop: "1.25rem", fontSize: "0.7rem", color: "#a8abcc", fontWeight: 500 }}>
+              {idx + 1} / {VIDEO_SEGMENTS.length}
+              {idx < VIDEO_SEGMENTS.length - 1
+                ? <span style={{ marginLeft: 6 }}>— Next: {VIDEO_SEGMENTS[idx + 1].title}</span>
+                : <span style={{ marginLeft: 6 }}>— End of guide</span>
+              }
             </div>
-          ))}
-          <div style={{ marginTop: "1.25rem", fontSize: "0.7rem", color: "#a8abcc", fontWeight: 500 }}>
-            {idx + 1} / {VIDEO_SEGMENTS.length}
-            {idx < VIDEO_SEGMENTS.length - 1
-              ? <span style={{ marginLeft: 6 }}>— Next: {VIDEO_SEGMENTS[idx + 1].title}</span>
-              : <span style={{ marginLeft: 6 }}>— End of guide</span>
-            }
           </div>
         </div>
       </div>
