@@ -1,59 +1,72 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
 import SectionSidebar from "../../components/SectionSidebar.jsx";
 import { WA_LINK } from "../../constants/contact.js";
 import AIChatbot from "../../components/AIChatbot.jsx";
 import acPluginIcon from "../../assets/images/apps/ac-plugin-icon.png";
+import imgOutstanding from "../../assets/images/apps/sales2do/outstanding.png";
 
 /* Sales2DO sidebar anchor items */
 const S2D_SIDEBAR_ITEMS = [
-  { id: "demo",        label: "Demo Video"       },
-  { id: "overview",    label: "Overview"         },
-  { id: "copy",        label: "Copy Methods"     },
-  { id: "outstanding", label: "Outstanding DO"   },
-  { id: "settings",    label: "Settings"         },
-  { id: "license",     label: "License"          },
+  { id: "video-guide", label: "Video Guide"    },
+  { id: "overview",    label: "Overview"       },
+  { id: "outstanding", label: "Outstanding DO" },
+  { id: "settings",    label: "Settings"       },
+  { id: "license",     label: "License"        },
 ];
 
-/* ══════════════════════════════════════════════════════════════
- * SALES2DO PLUGIN — PAGE
- *
- * IMAGE SLOTS — drop files into src/assets/images/apps/sales2do/
- * then uncomment the import and replace null with the variable.
- *
- *   workflowDiagram — Plugin Purpose workflow diagram
- *   copy1           — Right-click menu on Invoice row
- *   copy2           — Invoice View ribbon Copy To button
- *   copy3           — DO Entry ribbon Copy From buttons
- *   outstanding     — Outstanding Delivery Order dashboard
- *   settings        — Plugin Settings screen
- *   licenseOnline   — License Control Get Online button
- *   licenseOffline  — License Control Machine ID field
- *   aiAssistant     — AI Assistant & Feedback navigation
- * ══════════════════════════════════════════════════════════════ */
-
-// import imgWorkflow    from "../../assets/images/apps/sales2do/workflow.png";
-import imgCopy1       from "../../assets/images/apps/sales2do/copy1.png";
-import imgCopy2       from "../../assets/images/apps/sales2do/copy2.png";
-import imgCopy3       from "../../assets/images/apps/sales2do/copy3.png";
-import imgOutstanding from "../../assets/images/apps/sales2do/outstanding.png";
-import imgSettings    from "../../assets/images/apps/sales2do/settings.png";
-import imgAIAssistant   from "../../assets/images/apps/sales2do/ai-assistant.png";
-import imgLicenseOnline  from "../../assets/images/apps/sales2do/license-online.png";
-import imgLicenseOffline from "../../assets/images/apps/sales2do/license-offline.png";
-
-const IMAGE_SLOTS = {
-  workflowDiagram: null,
-  copy1: imgCopy1,
-  copy2: imgCopy2,
-  copy3: imgCopy3,
-  outstanding: imgOutstanding,
-  settings: imgSettings,
-  aiAssistant: imgAIAssistant,
-  licenseOnline: imgLicenseOnline,
-  licenseOffline: imgLicenseOffline,
-};
+/* ── Video segment data ── */
+const VIDEO_SEGMENTS = [
+  {
+    src: "/videos/sales2do/copy-to-do-method1.mp4",
+    group: "3 Ways to Copy a Sales Document",
+    title: "Method 1 — Via Right-Click Menu",
+    desc: "The quickest method when working in the listing screen. Right-click directly on any row.",
+    steps: [
+      <span key="1a">Go to <strong>Sales → Invoice</strong> or <strong>Sales → Cash Sale</strong> to open the listing screen.</span>,
+      <span key="1b">Locate the document you wish to copy.</span>,
+      <span key="1c">Right-click on the row and select <strong>"Copy to a new Delivery Order"</strong>.</span>,
+      <span key="1d">A new Delivery Order entry screen opens with all details pre-filled.</span>,
+    ],
+  },
+  {
+    src: "/videos/sales2do/copy-to-do-method2.mp4",
+    group: "3 Ways to Copy a Sales Document",
+    title: 'Method 2 — Via the "Copy To" Icon',
+    desc: "Works when you already have a document open in View Mode and want to convert it.",
+    steps: [
+      <span key="2a">Open any Invoice or Cash Sale document in <strong>View Mode</strong>.</span>,
+      <span key="2b">On the top ribbon under the <strong>Home</strong> tab, locate the <strong>Copy</strong> group.</span>,
+      <span key="2c">Click <strong>"Copy to a new Delivery Order"</strong>.</span>,
+      <span key="2d">A Delivery Order is generated and pre-filled from the viewed document.</span>,
+    ],
+  },
+  {
+    src: "/videos/sales2do/copy-to-do-method3.mp4",
+    group: "3 Ways to Copy a Sales Document",
+    title: 'Method 3 — Via the "Copy From" Icon in DO Entry',
+    desc: "Start a new Delivery Order first, then pull in items from one or multiple sales documents.",
+    steps: [
+      <span key="3a">Go to <strong>Sales → Delivery Order</strong> and create a new entry.</span>,
+      <span key="3b">On the top ribbon, click <strong>"Copy from Invoice"</strong> or <strong>"Copy from Cash Sale"</strong>.</span>,
+      <span key="3c">A search window appears — select the source document(s) and click <strong>OK</strong>.</span>,
+      <span key="3d">Items are automatically populated into the Delivery Order.</span>,
+    ],
+  },
+  {
+    src: "/videos/sales2do/ks-omni.mp4",
+    group: "AI Assistant and Feedback",
+    title: "KS-Omni — Built-in AI Support Portal",
+    desc: "If you're facing an issue or have a suggestion, Sales2DO comes with a built-in AI and feedback portal.",
+    steps: [
+      <span key="4a">Navigate to <strong>Sales2DO → AI Assistant and Feedback</strong> from the top navigation bar.</span>,
+      <span key="4b">The KS-Omni portal opens in your browser.</span>,
+      <span key="4c">Ask the AI assistant any question — error messages, configuration steps, or usage tips.</span>,
+      <span key="4d">Use the <strong>Feedback</strong> tab to send suggestions or bug reports directly to the KSL team.</span>,
+    ],
+  },
+];
 
 /* ── Shared styles ── */
 const S = {
@@ -69,30 +82,6 @@ const S = {
   body: { fontSize: "0.92rem", color: "#555", lineHeight: 1.82 },
   section: { padding: "4rem 0", borderBottom: "0.5px solid rgba(47,49,90,0.08)" },
 };
-
-/* ── Screenshot slot ── */
-function ImgSlot({ src, alt, caption, maxWidth = 860, maxHeight = 480 }) {
-  return (
-    <div style={{ margin: "1.25rem 0 0.5rem" }}>
-      <div style={{
-        maxWidth, margin: "0 auto", borderRadius: 10,
-        border: "1px solid rgba(47,49,90,0.1)", overflow: "hidden",
-        background: src ? "transparent" : "#f0f0f5",
-        minHeight: src ? "auto" : 140,
-        display: "flex", alignItems: "center", justifyContent: "center",
-      }}>
-        {src
-          ? <img src={src} alt={alt || ""} style={{ width: "100%", display: "block", maxHeight, objectFit: "contain", objectPosition: "top" }} />
-          : <div style={{ padding: "1.75rem", textAlign: "center" }}>
-            <div style={{ fontSize: "1.6rem", opacity: 0.25, marginBottom: "0.4rem" }}>🖼️</div>
-            <div style={{ fontSize: "0.72rem", color: "#a8abcc", fontWeight: 500 }}>{alt || "Screenshot placeholder"}</div>
-          </div>
-        }
-      </div>
-      {caption && <p style={{ fontSize: "0.75rem", color: "#a8abcc", textAlign: "center", fontStyle: "italic", marginTop: "0.35rem" }}>{caption}</p>}
-    </div>
-  );
-}
 
 function StepNum({ n, color = "#2f315a" }) {
   return (
@@ -124,6 +113,147 @@ function BulletList({ items }) {
   );
 }
 
+/* ── Video Guide component ── */
+function VideoGuide() {
+  const [idx, setIdx]           = useState(0);
+  const [textVisible, setTextVisible] = useState(true);
+  const videoRef = useRef(null);
+  const seg = VIDEO_SEGMENTS[idx];
+
+  /* Reload + autoplay whenever the active segment changes */
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.load();
+    v.play().catch(() => { /* Autoplay blocked by browser policy — OK */ });
+    /* Fade text in on segment change */
+    setTextVisible(false);
+    const t = setTimeout(() => setTextVisible(true), 80);
+    return () => clearTimeout(t);
+  }, [idx]);
+
+  const next = () => setIdx(i => (i + 1) % VIDEO_SEGMENTS.length);
+
+  /* Which group tab is active? */
+  const isCopyGroup = idx <= 2;
+
+  return (
+    <>
+      <style>{`
+        .vg-layout {
+          display: grid;
+          grid-template-columns: 58% 1fr;
+          gap: 2.5rem;
+          align-items: start;
+        }
+        @media (max-width: 760px) {
+          .vg-layout { grid-template-columns: 1fr; gap: 1.5rem; }
+        }
+        .vg-text-panel {
+          transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+        .vg-text-visible   { opacity: 1;   transform: translateY(0); }
+        .vg-text-invisible { opacity: 0;   transform: translateY(6px); }
+      `}</style>
+
+      {/* Group tabs */}
+      <div style={{ display: "flex", gap: "0.6rem", flexWrap: "wrap", marginBottom: "1.75rem" }}>
+        {[
+          { label: "3 Ways to Copy a Sales Document", start: 0 },
+          { label: "AI Assistant and Feedback",       start: 3 },
+        ].map(({ label, start }) => {
+          const active = (start === 0 ? isCopyGroup : !isCopyGroup);
+          return (
+            <button key={label} onClick={() => setIdx(start)} style={{
+              padding: "0.45rem 1.2rem", borderRadius: 50, border: "none",
+              background: active ? "#2f315a" : "rgba(47,49,90,0.08)",
+              color: active ? "#ffffff" : "#6b6f91",
+              fontSize: "0.82rem", fontWeight: 600,
+              cursor: "pointer", fontFamily: "inherit",
+              transition: "background 0.2s, color 0.2s",
+            }}>{label}</button>
+          );
+        })}
+      </div>
+
+      <div className="vg-layout">
+        {/* ── Left: video player ── */}
+        <div>
+          <div style={{
+            borderRadius: 14, overflow: "hidden",
+            background: "#000",
+            boxShadow: "0 12px 36px rgba(47,49,90,0.16)",
+            lineHeight: 0,
+          }}>
+            <video
+              ref={videoRef}
+              muted
+              playsInline
+              autoPlay
+              onEnded={next}
+              style={{ width: "100%", display: "block", maxHeight: 480, objectFit: "contain" }}
+            >
+              <source src={seg.src} type="video/mp4" />
+            </video>
+          </div>
+
+          {/* Segment dot indicators — click to jump */}
+          <div style={{ display: "flex", gap: 8, justifyContent: "center", marginTop: "1rem", alignItems: "center" }}>
+            {VIDEO_SEGMENTS.map((s, i) => (
+              <button
+                key={i}
+                onClick={() => setIdx(i)}
+                title={s.title}
+                style={{
+                  width: i === idx ? 22 : 8,
+                  height: 8,
+                  borderRadius: 4,
+                  border: "none",
+                  background: i === idx ? "#c9a84c" : "rgba(47,49,90,0.2)",
+                  cursor: "pointer",
+                  padding: 0,
+                  transition: "width 0.3s, background 0.3s",
+                }}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* ── Right: text description ── */}
+        <div
+          className={`vg-text-panel ${textVisible ? "vg-text-visible" : "vg-text-invisible"}`}
+          style={{ paddingTop: "0.5rem" }}
+        >
+          <div style={{ ...S.label, marginBottom: "0.4rem" }}>{seg.group}</div>
+          <h3 style={{ fontSize: "1.15rem", fontWeight: 700, color: "#2f315a", lineHeight: 1.3, marginBottom: "0.65rem" }}>
+            {seg.title}
+          </h3>
+          <p style={{ ...S.body, color: "#6b6f91", marginBottom: "1.25rem", fontStyle: "italic" }}>
+            {seg.desc}
+          </p>
+          <div>
+            {seg.steps.map((step, i) => (
+              <div key={i} style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start", marginBottom: "0.85rem" }}>
+                <StepNum n={i + 1} color="#c9a84c" />
+                <div style={{ ...S.body, paddingTop: 4, flex: 1 }}>{step}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Progress label */}
+          <div style={{ marginTop: "1.5rem", fontSize: "0.72rem", color: "#a8abcc", fontWeight: 500 }}>
+            {idx + 1} / {VIDEO_SEGMENTS.length}
+            {idx < VIDEO_SEGMENTS.length - 1
+              ? <span style={{ marginLeft: 6 }}>— Next: {VIDEO_SEGMENTS[idx + 1].title}</span>
+              : <span style={{ marginLeft: 6 }}>— End of guide</span>
+            }
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
 export default function Sales2DOPage({ onContact }) {
   const navigate = useNavigate();
   useEffect(() => { window.scrollTo({ top: 0, behavior: "instant" }); }, []);
@@ -150,7 +280,6 @@ export default function Sales2DOPage({ onContact }) {
           >← Back</button>
 
           <div style={{ display: "flex", alignItems: "center", gap: "2.5rem", flexWrap: "wrap" }}>
-            {/* Left: icon + copy + buttons */}
             <div style={{ display: "flex", alignItems: "flex-start", gap: "2rem", flex: 1, minWidth: 280 }}>
               <div style={{
                 width: 76, height: 76, borderRadius: 18,
@@ -192,7 +321,6 @@ export default function Sales2DOPage({ onContact }) {
               </div>
             </div>
 
-            {/* Right: product showcase image — desktop only (hidden via .product-hero-image media query) */}
             <div className="product-hero-image" style={{ flex: "0 1 460px", maxWidth: 500 }}>
               <img src={imgOutstanding} alt="Sales2DO Outstanding Delivery Order dashboard"
                 style={{ width: "100%", height: "auto", display: "block" }} />
@@ -201,40 +329,24 @@ export default function Sales2DOPage({ onContact }) {
         </div>
       </div>
 
-      {/* ── Demo Video ── */}
-      <div id="demo" style={{ background: "#ffffff", padding: "3.5rem 0", borderBottom: "0.5px solid rgba(47,49,90,0.08)", scrollMarginTop: 24 }}>
+      {/* ── Video Guide ── */}
+      <div id="video-guide" style={{ background: "#ffffff", padding: "4rem 0", borderBottom: "0.5px solid rgba(47,49,90,0.08)", scrollMarginTop: 24 }}>
         <div className="content-wrap">
-          <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
-            <div style={S.label}>Watch It In Action</div>
-            <h2 style={S.h2}>Demo Video</h2>
-            <p style={{ ...S.body, maxWidth: 640, margin: "0.5rem auto 0" }}>
-              See how Sales2DO turns a few clicks inside AutoCount Accounting into a fully-formed Delivery Order.
-            </p>
-          </div>
-          <div style={{
-            position: "relative", width: "100%", maxWidth: 960, margin: "0 auto",
-            paddingBottom: "56.25%" /* 16:9 */, height: 0,
-            background: "#000", borderRadius: 14, overflow: "hidden",
-            boxShadow: "0 18px 48px rgba(47,49,90,0.18)",
-          }}>
-            <iframe
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-              title="Sales2DO demo video"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: 0 }}
-            />
-          </div>
+          <div style={S.label}>Video Guide</div>
+          <h2 style={{ ...S.h2, marginBottom: "0.5rem" }}>See It In Action</h2>
+          <p style={{ ...S.body, color: "#6b6f91", maxWidth: 600, marginBottom: "2rem" }}>
+            Watch each feature explained step by step. Videos play automatically and advance to the next segment.
+          </p>
+          <VideoGuide />
         </div>
       </div>
 
-      {/* ── Plugin Purpose ── */}
+      {/* ── Plugin Purpose (Overview) ── */}
       <div id="overview" style={{ background: "#f5f5f8", ...S.section, scrollMarginTop: 24 }}>
         <div className="content-wrap">
           <div style={S.label}>Overview</div>
           <h2 style={S.h2}>Plugin Purpose</h2>
-          <ImgSlot src={IMAGE_SLOTS.workflowDiagram} alt="Sales2DO workflow diagram" caption="Standard DO → Sales workflow vs Sales → DO workflow enabled by Sales2DO" />
-          <p style={{ ...S.body, maxWidth: 780, marginTop: "1.5rem" }}>
+          <p style={{ ...S.body, maxWidth: 780, marginTop: "0.5rem" }}>
             In AutoCount Accounting's standard business workflow, the process typically flows from{" "}
             <strong>Delivery Orders (DO)</strong> to <strong>Sales</strong> (Invoices or Cash Sales).
             However, for companies that operate with a <strong>Sales-to-DO workflow</strong>, the
@@ -245,121 +357,64 @@ export default function Sales2DOPage({ onContact }) {
         </div>
       </div>
 
-      {/* ── Copy Sales into DO ── */}
-      <div id="copy" style={{ background: "#ffffff", ...S.section, scrollMarginTop: 24 }}>
-        <div className="content-wrap">
-          <div style={S.label}>Usage</div>
-          <h2 style={S.h2}>Copy Sales into Delivery Order</h2>
-          <p style={{ ...S.body, marginBottom: "2rem" }}>
-            There are <strong>3 ways</strong> to copy a Sales document into a new Delivery Order:
-          </p>
-
-          {/* Method 1 */}
-          <div style={{ marginBottom: "2.5rem" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.6rem" }}>
-              <StepNum n={1} color="#c9a84c" />
-              <h3 style={{ ...S.h3, marginBottom: 0 }}>Via Right-Click Menu</h3>
-            </div>
-            <ImgSlot src={IMAGE_SLOTS.copy1} alt="Right-click menu" caption='Method 1 — Right-click → "Copy to a new Delivery Order"' />
-            <BulletList items={[
-              "Go to Sales > Invoice or Sales > Cash Sale to open the listing screen.",
-              "Locate the document you wish to copy.",
-              'Right-click on the specific row in the grid and select "Copy to a new Delivery Order".',
-              "A new Delivery Order entry screen will open with all details copied over.",
-            ]} />
-          </div>
-
-          {/* Method 2 */}
-          <div style={{ marginBottom: "2.5rem" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.6rem" }}>
-              <StepNum n={2} color="#c9a84c" />
-              <h3 style={{ ...S.h3, marginBottom: 0 }}>Via the "Copy To" Icon in Invoices or Cash Sales View Screen</h3>
-            </div>
-            <ImgSlot src={IMAGE_SLOTS.copy2} alt="Copy To icon in Invoice view ribbon" caption='Method 2 — Home tab → Copy group → "Copy to a new Delivery Order"' />
-            <BulletList items={[
-              "Open any existing Invoice or Cash Sale document in View Mode.",
-              "On the top ribbon menu under the Home tab, look for the Copy group.",
-              'Click the "Copy to a new Delivery Order" button.',
-              "A new Delivery Order will be generated based on the viewed document.",
-            ]} />
-          </div>
-
-          {/* Method 3 */}
-          <div style={{ marginBottom: "1rem" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.6rem" }}>
-              <StepNum n={3} color="#c9a84c" />
-              <h3 style={{ ...S.h3, marginBottom: 0 }}>Via the "Copy From" Icon in the DO Entry Screen</h3>
-            </div>
-            <ImgSlot src={IMAGE_SLOTS.copy3} alt="Copy From icon in DO Entry screen ribbon" caption='Method 3 — DO Entry ribbon → "Copy from Invoice" or "Copy from Cash Sale"' />
-            <BulletList items={[
-              "Go to Sales > Delivery Order and click Create a New Delivery Order.",
-              'On the top ribbon menu, click either "Copy from Invoice" or "Copy from Cash Sale".',
-              "A search window will appear. Select the desired source document(s) and click OK.",
-              "The items will be populated into your current Delivery Order.",
-            ]} />
-          </div>
-        </div>
-      </div>
+      {/* ══════════════════════════════════════════════════════════════
+       * TEXT GUIDE — Outstanding DO / Settings / License
+       * ══════════════════════════════════════════════════════════════ */}
 
       {/* ── Outstanding Delivery Order ── */}
-      <div id="outstanding" style={{ background: "#f5f5f8", ...S.section, scrollMarginTop: 24 }}>
+      <div id="outstanding" style={{ background: "#ffffff", ...S.section, scrollMarginTop: 24 }}>
         <div className="content-wrap">
           <div style={S.label}>Monitoring</div>
           <h2 style={S.h2}>Outstanding Delivery Order</h2>
-          <ImgSlot src={IMAGE_SLOTS.outstanding} alt="Outstanding Delivery Order dashboard" caption="Outstanding Delivery Order — 3-tier drill-down dashboard" />
-          <p style={{ ...S.body, margin: "1.25rem 0 1rem" }}>
+          <p style={{ ...S.body, marginBottom: "1.5rem" }}>
             To monitor which Invoices or Cash Sales have been transferred to Delivery Orders, and to
             track exact outstanding balances (dynamically adjusted by Credit Notes and Delivery Returns),
             utilize the <strong>Outstanding Delivery Order</strong> dashboard.
           </p>
 
-          <h3 style={{ ...S.h3, marginTop: "1.5rem" }}>How to Use the Dashboard</h3>
-          <Step n={1}>Navigate to <strong>Sales2DO &gt; Outstanding Delivery Order</strong> from the top navigation bar.</Step>
+          <h3 style={{ ...S.h3, marginBottom: "0.75rem" }}>How to Use the Dashboard</h3>
+          <Step n={1}>Navigate to <strong>Sales2DO → Outstanding Delivery Order</strong> from the top navigation bar.</Step>
           <Step n={2}>Use the <strong>Date Range</strong> and <strong>Keyword</strong> filters to locate specific documents quickly.</Step>
           <Step n={3}>Toggle the checkboxes at the top to filter between viewing Invoices or Cash Sales.</Step>
           <Step n={4}>Uncheck <strong>"Show Completed Delivery Order"</strong> to hide fully delivered sales and focus on items that still require fulfillment.</Step>
 
-          <h3 style={{ ...S.h3, marginTop: "1.75rem" }}>The 3-Tier Drill-Down Grid</h3>
-          <p style={{ ...S.body, marginBottom: "1rem" }}>
-            The dashboard features a powerful 3-tier structure to give you complete visibility into your fulfillment process.
-            Expand the <strong>+</strong> icon on any row to dive deeper.
+          <h3 style={{ ...S.h3, marginTop: "2rem" }}>The 3-Tier Drill-Down Grid</h3>
+          <p style={{ ...S.body, marginBottom: "1.25rem" }}>
+            The dashboard features a 3-tier structure to give you complete visibility into your
+            fulfillment process. Expand the <strong>+</strong> icon on any row to dive deeper.
           </p>
 
-          {/* Tier cards */}
           {[
             {
-              tier: "Tier 1",
+              tier: "Tier 1", color: "#2f315a",
               title: "Master Document (Overview)",
-              color: "#2f315a",
               items: [
                 "Displays the source Invoice or Cash Sale and its overall Delivery Status (Pending, Partial Delivery, or Full Delivery).",
-                "Drill-Down: Double-click any row here to instantly open the source Invoice or Cash Sale document.",
+                "Double-click any row to instantly open the source Invoice or Cash Sale document.",
               ],
             },
             {
-              tier: "Tier 2",
+              tier: "Tier 2", color: "#4a5090",
               title: "Item Codes (Quantity Breakdown)",
-              color: "#4a5090",
               items: [
                 "Original Qty — The initial quantity billed in the sales document.",
                 "CN Returned Qty — The quantity credited or cancelled via Credit Notes.",
-                "Net Original Qty — The actual required delivery quantity (Original Qty − CN Returned Qty).",
+                "Net Original Qty — Actual required delivery quantity (Original Qty − CN Returned Qty).",
                 "Delivered Qty — The quantity already transferred to Delivery Orders.",
-                "DR Returned Qty — The quantity returned by the customer via Delivery Returns (added back to pending balance).",
+                "DR Returned Qty — Quantity returned by the customer via Delivery Returns.",
                 "Outstanding Qty — The final remaining balance pending delivery.",
               ],
             },
             {
-              tier: "Tier 3",
+              tier: "Tier 3", color: "#6b6f91",
               title: "Copied History (Delivery Orders)",
-              color: "#6b6f91",
               items: [
-                "Reveals the specific Delivery Orders generated for each item — DO Number, DO Date, Delivered Qty, and DR Returned Qty.",
-                "Drill-Down: Double-click any transfer record to instantly open the target Delivery Order document.",
+                "Shows the specific Delivery Orders generated for each item — DO Number, DO Date, Delivered Qty, and DR Returned Qty.",
+                "Double-click any record to instantly open the target Delivery Order document.",
               ],
             },
           ].map(({ tier, title, color, items }) => (
-            <div key={tier} style={{ background: "#ffffff", borderRadius: 14, padding: "1.25rem 1.4rem", marginBottom: "0.85rem", border: "1px solid rgba(47,49,90,0.09)" }}>
+            <div key={tier} style={{ background: "#f5f5f8", borderRadius: 14, padding: "1.25rem 1.4rem", marginBottom: "0.85rem", border: "1px solid rgba(47,49,90,0.08)" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "0.65rem", marginBottom: "0.65rem" }}>
                 <span style={{ fontSize: "0.62rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", background: color, color: "#fff", padding: "0.2rem 0.65rem", borderRadius: 50 }}>{tier}</span>
                 <h3 style={{ ...S.h3, marginBottom: 0 }}>{title}</h3>
@@ -371,30 +426,29 @@ export default function Sales2DOPage({ onContact }) {
       </div>
 
       {/* ── Plugin Settings ── */}
-      <div id="settings" style={{ background: "#ffffff", ...S.section, scrollMarginTop: 24 }}>
+      <div id="settings" style={{ background: "#f5f5f8", ...S.section, scrollMarginTop: 24 }}>
         <div className="content-wrap">
           <div style={S.label}>Configuration</div>
           <h2 style={S.h2}>Sales2DO Plugin Settings</h2>
-          <p style={{ ...S.body, marginBottom: "1.5rem" }}>
-            To configure, go to <strong>Sales2DO &gt; Plugin Settings</strong>.
+          <p style={{ ...S.body, marginBottom: "1.75rem" }}>
+            To configure, go to <strong>Sales2DO → Plugin Settings</strong>.
           </p>
-          <ImgSlot src={IMAGE_SLOTS.settings} alt="Plugin Settings screen" caption="Sales2DO → Plugin Settings" />
 
-          <div style={{ marginTop: "2rem", marginBottom: "1.75rem" }}>
+          <div style={{ background: "#ffffff", borderRadius: 14, padding: "1.5rem 1.6rem", marginBottom: "1.5rem", border: "1px solid rgba(47,49,90,0.08)" }}>
             <h3 style={S.h3}>Insert Doc No. in Sales and Delivery Order</h3>
             <p style={{ ...S.body, marginBottom: "0.9rem" }}>
               The plugin offers flexible settings to match your company's referencing preferences.
             </p>
             <BulletList items={[
-              'Sales Prefix / Prefix Text — Define the text that precedes the document number (e.g., "Copy To " will result in "Copy To DO-00001").',
+              'Sales Prefix / Prefix Text — Define the text that precedes the document number (e.g., "Copy To " results in "Copy To DO-00001").',
               "Sales Master/Detail Target — Select the UDF or standard field in the Invoice/Cash Sale where the resulting DO number will be saved.",
               "DO Master/Detail Target — Select the UDF or standard field in the Delivery Order where the source Invoice/Cash Sale number will be saved.",
             ]} />
           </div>
 
-          <div>
+          <div style={{ background: "#ffffff", borderRadius: 14, padding: "1.5rem 1.6rem", border: "1px solid rgba(47,49,90,0.08)" }}>
             <h3 style={S.h3}>Enable Smart Copy Control</h3>
-            <p style={{ ...S.body, marginBottom: "0.9rem" }}>This core feature prevents accidental over-delivery.</p>
+            <p style={{ ...S.body, marginBottom: "1rem" }}>This core feature prevents accidental over-delivery.</p>
             <Step n={1}>Check <strong>"Enable Smart Copy Control"</strong> in the settings.</Step>
             <Step n={2}>When copying a partially copied document, the system calculates the remaining balance and <strong>only loads the outstanding quantity</strong> into the new Delivery Order.</Step>
             <Step n={3}>If a document has already been fully copied, the system will prompt a warning asking if you still intend to proceed.</Step>
@@ -402,26 +456,8 @@ export default function Sales2DOPage({ onContact }) {
         </div>
       </div>
 
-      {/* ── AI Assistant & Feedback ── */}
-      <div style={{ background: "#ffffff", ...S.section }}>
-        <div className="content-wrap">
-          <div style={S.label}>Support</div>
-          <h2 style={S.h2}>AI Assistant and Feedback</h2>
-          <p style={{ ...S.body, marginBottom: "1.5rem" }}>
-            If you are facing an issue or have a suggestion, the Sales2DO plugin comes with built-in AI and feedback support.
-          </p>
-
-          <ImgSlot src={IMAGE_SLOTS.aiAssistant} alt="AI Assistant & Feedback navigation" caption="Sales2DO → AI Assistant and Feedback" />
-
-          <div style={{ marginTop: "1.5rem" }}>
-            <Step n={1}>Navigate to <strong>Sales2DO &gt; AI Assistant and Feedback</strong> from the navigation bar.</Step>
-            <Step n={2}>This will launch a dedicated web portal where you can get instant technical assistance, troubleshoot errors, or send direct feedback to the KSL Business Solutions team.</Step>
-          </div>
-        </div>
-      </div>
-
       {/* ── Activate Plugin License ── */}
-      <div id="license" style={{ background: "#f5f5f8", ...S.section, scrollMarginTop: 24 }}>
+      <div id="license" style={{ background: "#ffffff", ...S.section, scrollMarginTop: 24 }}>
         <div className="content-wrap">
           <div style={S.label}>Activation</div>
           <h2 style={S.h2}>Activate Plugin License</h2>
@@ -441,8 +477,7 @@ export default function Sales2DOPage({ onContact }) {
 
           {licenseTab === "online" && (
             <div style={{ maxWidth: 680 }}>
-              <ImgSlot src={IMAGE_SLOTS.licenseOnline} alt="License Control — Get Online button" caption="Online Activation — License Control screen" />
-              <p style={{ ...S.body, margin: "1.25rem 0 1rem" }}>Ensure your device is connected to the internet, then follow these steps:</p>
+              <p style={{ ...S.body, marginBottom: "1rem" }}>Ensure your device is connected to the internet, then follow these steps:</p>
               <Step n={1}>KSL Business Solutions (via WhatsApp or Email) will inform you once your license is ready.</Step>
               <Step n={2}>Open AutoCount Accounting and navigate to the Sales2DO plugin from the navigation bar.</Step>
               <Step n={3}>Go to <strong>License Control</strong>, then click the <strong>"Get Online"</strong> button. Your license will be activated automatically.</Step>
@@ -458,8 +493,7 @@ export default function Sales2DOPage({ onContact }) {
 
           {licenseTab === "offline" && (
             <div style={{ maxWidth: 680 }}>
-              <ImgSlot src={IMAGE_SLOTS.licenseOffline} alt="License Control — Machine ID field" caption="Offline Activation — copy the Machine ID shown here" />
-              <p style={{ ...S.body, margin: "1.25rem 0 1rem" }}>For PCs without internet access, use offline activation:</p>
+              <p style={{ ...S.body, marginBottom: "1rem" }}>For PCs without internet access, use offline activation:</p>
               <Step n={1}>Open AutoCount Accounting and navigate to the Sales2DO plugin from the navigation bar.</Step>
               <Step n={2}>Go to <strong>License Control</strong>. A unique <strong>Machine ID</strong> will be displayed. Copy or note this down.</Step>
               <Step n={3}>Send the Machine ID to KSL Business Solutions via WhatsApp or Email.</Step>
