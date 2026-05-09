@@ -125,16 +125,21 @@ function BulletList({ items }) {
 }
 
 /* ══════════════════════════════════════════════════════════════
- * VideoGuide — single-video player with prev/next arrows
+ * VideoGuide — seamless transitions via "freeze-frame" overlay
  *
- * Uses one <video> element with `key={idx}` so React fully remounts
- * on segment change. Auto-plays muted, advances on `ended`. The
- * 0.25 s opacity fade on `onLoadedData` masks the brief swap moment.
+ * Trick: just before changing the video src, draw the current video
+ * frame onto a <canvas> overlay positioned exactly on top of the
+ * <video>. The canvas keeps showing the old frame while the new
+ * video loads. Once requestVideoFrameCallback confirms the new
+ * video has actually painted its first frame, the canvas fades out.
+ * Result: viewer never sees a black gap.
  * ══════════════════════════════════════════════════════════════ */
 function VideoGuide() {
-  const [idx,    setIdx]    = useState(0);
-  const [textIn, setTextIn] = useState(true);
-  const videoRef = useRef(null);
+  const [idx,         setIdx]         = useState(0);
+  const [textIn,      setTextIn]      = useState(true);
+  const [showOverlay, setShowOverlay] = useState(false);
+  const videoRef  = useRef(null);
+  const canvasRef = useRef(null);
 
   /* Trigger short text re-fade whenever idx changes. */
   useEffect(() => {
@@ -143,8 +148,35 @@ function VideoGuide() {
     return () => clearTimeout(t);
   }, [idx]);
 
+  /* Draw current video frame to the canvas. Returns true on success. */
+  const captureFrame = () => {
+    const v = videoRef.current;
+    const c = canvasRef.current;
+    if (!v || !c) return false;
+    const w = v.videoWidth, h = v.videoHeight;
+    if (!w || !h) return false;
+    c.width = w; c.height = h;
+    try { c.getContext("2d").drawImage(v, 0, 0, w, h); return true; }
+    catch { return false; }
+  };
+
+  /* When the freshly-mounted video has actually painted a frame, fade overlay. */
+  const handleLoadedData = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    const hide = () => setShowOverlay(false);
+    if (typeof v.requestVideoFrameCallback === "function") {
+      v.requestVideoFrameCallback(() => requestAnimationFrame(hide));
+    } else {
+      setTimeout(hide, 60);
+    }
+  };
+
   const goTo = (i) => {
     const next = ((i % VIDEO_SEGMENTS.length) + VIDEO_SEGMENTS.length) % VIDEO_SEGMENTS.length;
+    if (next === idx) return;
+    /* Freeze the current frame on the canvas before swapping src. */
+    if (captureFrame()) setShowOverlay(true);
     setIdx(next);
   };
   const goPrev = () => goTo(idx - 1);
@@ -171,10 +203,8 @@ function VideoGuide() {
           z-index: 5;
         }
         .vg-arrow:hover { background: rgba(0,0,0,0.7); transform: translateY(-50%) scale(1.05); }
-        .vg-arrow.left  { left: 12px; }
-        .vg-arrow.right { right: 12px; }
-        .vg-video-fade { animation: vgFadeIn 0.32s ease; }
-        @keyframes vgFadeIn { from { opacity: 0 } to { opacity: 1 } }
+        .vg-arrow.left  { left: 12px; z-index: 3; }
+        .vg-arrow.right { right: 12px; z-index: 3; }
       `}</style>
 
       {/* Group tabs */}
@@ -208,8 +238,23 @@ function VideoGuide() {
               src={seg.src}
               autoPlay muted playsInline
               onEnded={goNext}
-              className="vg-video-fade"
+              onLoadedData={handleLoadedData}
               style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "contain" }}
+            />
+
+            {/* Freeze-frame overlay — keeps the previous frame visible
+                until the next video has painted its first frame */}
+            <canvas
+              ref={canvasRef}
+              style={{
+                position: "absolute", inset: 0,
+                width: "100%", height: "100%",
+                objectFit: "contain",
+                pointerEvents: "none",
+                opacity: showOverlay ? 1 : 0,
+                transition: "opacity 0.25s ease",
+                zIndex: 2,
+              }}
             />
 
             {/* Prev / Next arrows */}
