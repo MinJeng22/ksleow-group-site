@@ -75,7 +75,7 @@ function CountUp({ raw, duration = 1800 }) {
 export default function Stats() {
   const items = stats.items || [];
   return (
-    <div style={{ background: "#ffffff", borderBottom: "0.5px solid rgba(47,49,90,0.1)" }}>
+    <div className="home-section stats-section" style={{ background: "#ffffff", borderBottom: "0.5px solid rgba(47,49,90,0.1)" }}>
       <div
         className="content-wrap stats-grid"
         style={{ display: "grid", gridTemplateColumns: `repeat(${items.length || 4}, 1fr)` }}

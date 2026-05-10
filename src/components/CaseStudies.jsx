@@ -39,7 +39,7 @@ const ICONS = [
 export default function CaseStudies({ onContact }) {
   const navigate = useNavigate();
   return (
-    <section style={{ background: "#f5f5f8", padding: "6rem 0" }}>
+    <section className="home-section" style={{ background: "#f5f5f8", padding: "6rem 0" }}>
     <div className="content-wrap">
       {/* header */}
       <div style={{ marginBottom: "3rem" }}>

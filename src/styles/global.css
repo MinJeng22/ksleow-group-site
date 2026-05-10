@@ -50,6 +50,13 @@ body {
   .services-grid { grid-template-columns: repeat(2, 1fr) !important; }
   /* Product pages: tighten vertical rhythm so data-heavy sections fit more on screen */
   .ac-section-tight { padding-top: 2.75rem !important; padding-bottom: 2.75rem !important; }
+  /* Compact homepage section padding on tablet */
+  .home-section { padding-top: 3.25rem !important; padding-bottom: 3.25rem !important; }
+  .home-section-sm { padding-top: 2.25rem !important; padding-bottom: 2.25rem !important; }
+  .stats-section .content-wrap > * { padding-top: 1.85rem !important; padding-bottom: 1.85rem !important; }
+  /* Products section: smaller cards on tablet */
+  .products-section h2 { font-size: clamp(1.5rem, 3vw, 2.1rem) !important; }
+  .products-section .products-grid { gap: 0.95rem !important; }
 }
 
 /* ── Small tablet (640–900) ── */
@@ -68,13 +75,39 @@ body {
 @media (max-width: 640px) {
   :root { --px: 20px; }
   .services-grid { grid-template-columns: 1fr !important; }
-  .products-grid { grid-template-columns: 1fr !important; }
+  .products-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 0.7rem !important; }
   .cases-grid    { grid-template-columns: 1fr !important; }
   .stats-grid    { grid-template-columns: repeat(2, 1fr) !important; }
   .video-grid    { grid-template-columns: 1fr !important; }
   .case-2col           { grid-template-columns: 1fr !important; }
   /* AutoCount Accounting page */
   .ac-features-grid    { grid-template-columns: repeat(2, 1fr) !important; }
+
+  /* ── Compact homepage section padding on mobile ── */
+  .home-section { padding-top: 2.5rem !important; padding-bottom: 2.5rem !important; }
+  .home-section-sm { padding-top: 1.75rem !important; padding-bottom: 1.75rem !important; }
+  .stats-section .content-wrap > * { padding-top: 1.4rem !important; padding-bottom: 1.4rem !important; }
+
+  /* ── Hero badge: shrink so "Pahang's No. 1 AutoCount Authorized Dealer"
+       fits on one line ── */
+  .hero-badge {
+    font-size: 0.56rem !important;
+    letter-spacing: 0.08em !important;
+    padding: 0.32rem 0.85rem !important;
+  }
+
+  /* ── Careers heading: drop the second-line indent so the quote
+       only takes 2 lines on mobile ── */
+  .careers-line2 { margin-left: 0 !important; }
+
+  /* ── Products section: smaller cards on mobile (2-col grid above) ── */
+  .products-section h2 { font-size: clamp(1.3rem, 5.5vw, 1.7rem) !important; margin-bottom: 0.5rem !important; }
+  .products-section p  { font-size: 0.86rem !important; line-height: 1.55 !important; margin-bottom: 1.5rem !important; }
+  /* Each product card: tighter image area + smaller text padding */
+  .products-section .products-grid > * > div:first-child { padding-bottom: 60% !important; }
+  .products-section .products-grid > * > div:last-child  { padding: 0.85rem !important; }
+  .products-section .products-grid h3 { font-size: 0.78rem !important; margin-bottom: 0.3rem !important; }
+  .products-section .products-grid p  { font-size: 0.7rem !important; line-height: 1.5 !important; margin-bottom: 0 !important; }
 
   /* Hero mobile: hide spacer, centre everything */
   .hero-spacer     { display: none !important; }

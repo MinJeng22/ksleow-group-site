@@ -1,8 +1,9 @@
 import { useEffect, useRef } from "react";
 
-/* ─── Calibrated density (N≈50 on 390×844 mobile) ─────────────
- * DENSITY = 50 / (390×844) ≈ 0.000152 particles/px²
- * MAX_N caps at 70 so large screens stay smooth.
+/* ─── Calibrated density — fewer particles on mobile/tablet ────
+ * Mobile (< 640): ~22 particles, density 0.00007 px⁻²
+ * Tablet (640–1024): ~35 particles, density 0.00010 px⁻²
+ * Desktop (> 1024): up to 70 particles, density 0.000152 px⁻²
  *
  * JUMP-FIX: The resize() handler was reinitialising all particles
  * whenever the viewport height changed — on mobile/tablet this
@@ -11,8 +12,21 @@ import { useEffect, useRef } from "react";
  * Fix: debounce resize, and only reinitialise if the canvas
  * WIDTH changes (not height-only changes caused by scrolling).
  * ─────────────────────────────────────────────────────────────*/
-const DENSITY     = 0.000152;
-const MAX_N       = 70;
+function densityFor(W) {
+  if (W < 640)  return 0.00007;
+  if (W < 1024) return 0.00010;
+  return 0.000152;
+}
+function maxParticlesFor(W) {
+  if (W < 640)  return 22;
+  if (W < 1024) return 35;
+  return 70;
+}
+function minParticlesFor(W) {
+  if (W < 640)  return 10;
+  if (W < 1024) return 15;
+  return 20;
+}
 const MAX_DIST    = 130;
 const MAX_DIST_SQ = MAX_DIST * MAX_DIST;
 const SPEED       = 0.38;
@@ -73,7 +87,7 @@ export default function ParticleBackground({ paused }) {
       s.vigGrad.addColorStop(0, "rgba(0,0,0,0)");
       s.vigGrad.addColorStop(1, "rgba(0,0,0,0.52)");
 
-      const N = Math.min(MAX_N, Math.max(20, Math.round(W * H * DENSITY)));
+      const N = Math.min(maxParticlesFor(W), Math.max(minParticlesFor(W), Math.round(W * H * densityFor(W))));
       s.particles = Array.from({ length: N }, () => ({
         x:  rand(0, W), y: rand(0, H),
         vx: rand(-SPEED, SPEED) || SPEED,

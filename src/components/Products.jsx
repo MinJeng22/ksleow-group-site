@@ -16,7 +16,7 @@ export default function Products({ onContact }) {
   const navigate = useNavigate();
 
   return (
-    <section style={{ background: "#2f315a", padding: "6rem 0" }}>
+    <section className="home-section products-section" style={{ background: "#2f315a", padding: "6rem 0" }}>
       <div className="content-wrap">
         <div style={{ fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.75rem" }}>
           {productsContent.eyebrow}

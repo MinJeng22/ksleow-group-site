@@ -372,7 +372,7 @@ export default function Services() {
   return (
     <>
       <style>{`@keyframes cardFlip { from { opacity: 0; } to { opacity: 1; } }`}</style>
-      <section id="services" style={{ background: "#ffffff", padding: "6rem 0" }}>
+      <section id="services" className="home-section" style={{ background: "#ffffff", padding: "6rem 0" }}>
         <div className="content-wrap">
           <div style={{ fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.75rem" }}>
             {servicesContent.eyebrow}

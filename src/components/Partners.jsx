@@ -62,7 +62,7 @@ function PartnerSlot({ partner }) {
 
 export default function Partners() {
   return (
-    <div className="partners-section" style={{ background: "#f5f5f8", padding: "3.5rem 0", textAlign: "center" }}>
+    <div className="partners-section home-section home-section-sm" style={{ background: "#f5f5f8", padding: "3.5rem 0", textAlign: "center" }}>
       <div className="content-wrap">
         <p style={{
           fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.12em",

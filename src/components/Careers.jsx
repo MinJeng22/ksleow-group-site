@@ -67,7 +67,7 @@ export default function Careers() {
   const buttonsStart = bodyStart + bodyDur + 200;
 
   return (
-    <div style={{
+    <div className="home-section" style={{
       background: "#ffffff",
       padding: "5rem 0",
       borderTop: "0.5px solid rgba(47,49,90,0.1)",
@@ -106,7 +106,7 @@ export default function Careers() {
               <span aria-hidden="true">“</span>{line1}
             </span>
             <br />
-            <span style={{
+            <span className="careers-line2" style={{
               display: "inline-block",
               marginLeft: "clamp(1.5rem, 6vw, 4rem)",
               opacity: visible ? 1 : 0,
