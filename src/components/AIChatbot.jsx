@@ -114,6 +114,18 @@ export default function AIChatbot({ app }) {
     : OMNI_PAGE_BASE;
 
   const [open, setOpen] = useState(false);
+  /* Detect touch-sized viewport so we can render an <a> instead of a <button>
+     for tablet/mobile — guarantees the tap reliably opens a new tab without
+     popup-blocker interference (window.open can fail silently on some tablets) */
+  const [isTouch, setIsTouch] = useState(
+    typeof window !== "undefined" && window.innerWidth <= 1024
+  );
+  useEffect(() => {
+    const onResize = () => setIsTouch(window.innerWidth <= 1024);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
   const [messages, setMessages] = useState([
     {
       role: "assistant",
@@ -353,46 +365,61 @@ export default function AIChatbot({ app }) {
         </div>
       )}
 
-      {/* ── FAB trigger button ── */}
-      <button
-        onClick={() => {
-          if (window.innerWidth <= 1024) {
-            /* Tablet & mobile: open the KSOmni portal in a new tab,
-               passing the current app context as a query param */
-            window.open(omniHref, "_blank", "noopener,noreferrer");
-          } else {
-            setOpen(o => !o);
-          }
-        }}
-        aria-label={open ? "Close AI assistant" : "Open AI assistant"}
-        title="AutoCount Plugin Assistant"
-        style={{
+      {/* ── FAB trigger — render as <a> on tablet/mobile (reliable native tap),
+            <button> on desktop (toggles the inline panel) ── */}
+      {(() => {
+        const fabStyle = {
           position: "fixed",
-          bottom: 92,   /* upper slot — sits above BackToTop (which is at 28) */
+          bottom: 92,
           right: 28,
           zIndex: 600,
-          width: 52,    /* matches BackToTop size exactly */
-          height: 52,
+          width: 52, height: 52,
           borderRadius: "50%",
-          /* Hide FAB whenever the chat panel is open — chat header already has a close
-           * button. Avoids the FAB overlapping the input row at the bottom of the panel. */
           display: open ? "none" : "flex",
           alignItems: "center",
           justifyContent: "center",
           background: "#2f315a",
-          border: "2px solid rgba(201,168,76,0.5)",  /* gold border always visible */
+          border: "2px solid rgba(201,168,76,0.5)",
           color: "#c9a84c",
           cursor: "pointer",
           padding: 0,
           fontSize: 26, fontWeight: 700, fontFamily: "inherit", lineHeight: 1,
           boxShadow: "0 6px 24px rgba(47,49,90,0.35)",
           transition: "transform 0.2s, background 0.2s",
-        }}
-        onMouseOver={e => { e.currentTarget.style.transform = "scale(1.08)"; e.currentTarget.style.background = "#3d4075"; }}
-        onMouseOut={e => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.background = "#2f315a"; }}
-      >
-        {open ? <CloseIcon /> : "?"}
-      </button>
+          textDecoration: "none",
+        };
+        const hoverIn  = e => { e.currentTarget.style.transform = "scale(1.08)"; e.currentTarget.style.background = "#3d4075"; };
+        const hoverOut = e => { e.currentTarget.style.transform = "scale(1)";    e.currentTarget.style.background = "#2f315a"; };
+
+        if (isTouch) {
+          return (
+            <a
+              href={omniHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Open AI assistant"
+              title="AutoCount Plugin Assistant"
+              style={fabStyle}
+              onMouseOver={hoverIn}
+              onMouseOut={hoverOut}
+            >
+              ?
+            </a>
+          );
+        }
+        return (
+          <button
+            onClick={() => setOpen(o => !o)}
+            aria-label={open ? "Close AI assistant" : "Open AI assistant"}
+            title="AutoCount Plugin Assistant"
+            style={fabStyle}
+            onMouseOver={hoverIn}
+            onMouseOut={hoverOut}
+          >
+            {open ? <CloseIcon /> : "?"}
+          </button>
+        );
+      })()}
 
       <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
     </>

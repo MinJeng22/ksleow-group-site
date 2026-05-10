@@ -851,8 +851,8 @@ const RELEASES = [
 
 /* ── Feature pill colours by type ── */
 const TAG = {
-  feature: { bg: "rgba(47,49,90,0.08)", color: "#2f315a", label: "New" },
-  fix: { bg: "rgba(122,179,23,0.12)", color: "#4a6e0e", label: "Fix" },
+  feature: { bg: "rgba(47,77,9,0.08)", color: "#2f4d09", label: "New" },
+  fix: { bg: "rgba(128,195,30,0.12)", color: "#2f4d09", label: "Fix" },
 };
 
 /* ── Copy release notes to clipboard (WhatsApp format) ── */
@@ -902,11 +902,11 @@ function CopyBtn({ onClick, gold }) {
       title="Copy for WhatsApp"
       style={{
         display: "inline-flex", alignItems: "center", gap: "0.3rem",
-        background: copied ? (gold ? "rgba(122,179,23,0.2)" : "rgba(47,49,90,0.12)") : "transparent",
-        border: `1px solid ${gold ? "rgba(122,179,23,0.35)" : "rgba(47,49,90,0.18)"}`,
+        background: copied ? (gold ? "rgba(128,195,30,0.2)" : "rgba(47,77,9,0.12)") : "transparent",
+        border: `1px solid ${gold ? "rgba(128,195,30,0.35)" : "rgba(47,77,9,0.18)"}`,
         borderRadius: 50, padding: "0.2rem 0.6rem",
         fontSize: "0.62rem", fontWeight: 600,
-        color: copied ? (gold ? "#4a6e0e" : "#2f315a") : "#a8abcc",
+        color: copied ? (gold ? "#2f4d09" : "#2f4d09") : "#a8abcc",
         cursor: "pointer", fontFamily: "inherit",
         transition: "all 0.2s",
       }}
@@ -928,7 +928,7 @@ function ReleaseCard({ r, expanded, onToggle }) {
   return (
     <div style={{
       borderRadius: 14,
-      border: `1px solid ${expanded ? "rgba(47,49,90,0.22)" : "rgba(47,49,90,0.1)"}`,
+      border: `1px solid ${expanded ? "rgba(47,77,9,0.22)" : "rgba(47,77,9,0.1)"}`,
       background: "#ffffff",
       overflow: "hidden",
       transition: "border-color 0.2s",
@@ -947,10 +947,10 @@ function ReleaseCard({ r, expanded, onToggle }) {
         {/* Version + date */}
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", flexWrap: "wrap" }}>
-            <span style={{ fontSize: "0.95rem", fontWeight: 700, color: "#2f315a" }}>{r.version}</span>
+            <span style={{ fontSize: "0.95rem", fontWeight: 700, color: "#2f4d09" }}>{r.version}</span>
             <span style={{ fontSize: "0.7rem", fontWeight: 600, color: "#a8abcc", letterSpacing: "0.04em" }}>{r.rev}</span>
             {isLatest && (
-              <span style={{ fontSize: "0.6rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", background: "#2f315a", color: "#7AB317", padding: "0.18rem 0.6rem", borderRadius: 50 }}>
+              <span style={{ fontSize: "0.6rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", background: "#2f4d09", color: "#80c31e", padding: "0.18rem 0.6rem", borderRadius: 50 }}>
                 Latest
               </span>
             )}
@@ -961,8 +961,8 @@ function ReleaseCard({ r, expanded, onToggle }) {
         </div>
         {/* counts */}
         <div style={{ display: "flex", gap: "0.75rem", flexShrink: 0 }}>
-          <span style={{ fontSize: "0.72rem", color: "#2f315a", fontWeight: 600 }}>✦ {r.features.length} New</span>
-          <span style={{ fontSize: "0.72rem", color: "#4a6e0e", fontWeight: 600 }}>⬡ {r.fixes.length} Fix</span>
+          <span style={{ fontSize: "0.72rem", color: "#2f4d09", fontWeight: 600 }}>✦ {r.features.length} New</span>
+          <span style={{ fontSize: "0.72rem", color: "#2f4d09", fontWeight: 600 }}>⬡ {r.fixes.length} Fix</span>
         </div>
         {/* chevron */}
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a8abcc" strokeWidth="2"
@@ -973,12 +973,12 @@ function ReleaseCard({ r, expanded, onToggle }) {
 
       {/* Expanded body */}
       {expanded && (
-        <div style={{ padding: "0 1.4rem 1.4rem", borderTop: "0.5px solid rgba(47,49,90,0.08)" }}>
+        <div style={{ padding: "0 1.4rem 1.4rem", borderTop: "0.5px solid rgba(47,77,9,0.08)" }}>
           <div className="release-detail-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem", marginTop: "1.1rem" }}>
             {/* New Features */}
             <div>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.65rem" }}>
-                <div style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#2f315a" }}>
+                <div style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#2f4d09" }}>
                   New Features
                 </div>
                 <CopyBtn onClick={() => copyToClipboard(r, "features")} />
@@ -993,7 +993,7 @@ function ReleaseCard({ r, expanded, onToggle }) {
             {/* Bug Fixes */}
             <div>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.65rem" }}>
-                <div style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#4a6e0e" }}>
+                <div style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#2f4d09" }}>
                   Bug Fixes
                 </div>
                 <CopyBtn onClick={() => copyToClipboard(r, "fixes")} gold />
@@ -1101,10 +1101,10 @@ const EDITION_TABLE = {
 
 function EditionMarker({ value }) {
   if (value === "●") {
-    return <span style={{ display: "inline-block", width: 11, height: 11, borderRadius: "50%", background: "#7AB317" }} />;
+    return <span style={{ display: "inline-block", width: 11, height: 11, borderRadius: "50%", background: "#80c31e" }} />;
   }
   if (value === "+") {
-    return <span style={{ color: "#7AB317", fontWeight: 700, fontSize: "1.1rem", lineHeight: 1 }}>+</span>;
+    return <span style={{ color: "#80c31e", fontWeight: 700, fontSize: "1.1rem", lineHeight: 1 }}>+</span>;
   }
   return <span style={{ color: "#9aa", fontWeight: 700, fontSize: "1.1rem", lineHeight: 1 }}>−</span>;
 }
@@ -1125,20 +1125,20 @@ function EditionsTable({ selected = null, diffOnly = false }) {
   };
 
   return (
-    <div style={{ background: "#ffffff", borderRadius: 14, border: "1px solid rgba(47,49,90,0.08)", overflow: "hidden", boxShadow: "0 4px 20px rgba(47,49,90,0.05)" }}>
+    <div style={{ background: "#ffffff", borderRadius: 14, border: "1px solid rgba(47,77,9,0.08)", overflow: "hidden", boxShadow: "0 4px 20px rgba(47,77,9,0.05)" }}>
       <div style={{ overflowX: "auto" }}>
         <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.84rem" }}>
           <thead>
-            <tr style={{ background: "#7AB317" }}>
+            <tr style={{ background: "#80c31e" }}>
               <th style={{ padding: cellPad, textAlign: "left", color: "#ffffff", fontWeight: 600, minWidth: 220 }}></th>
               {cols.map(e => (
                 <th key={e} style={{ padding: cellPad, color: "#ffffff", fontWeight: 700, textAlign: "center", minWidth: 110 }}>{e}</th>
               ))}
             </tr>
-            <tr style={{ background: "#fafafb", borderBottom: "1px solid rgba(47,49,90,0.08)" }}>
-              <td style={{ padding: cellPad, color: "#2f315a", fontWeight: 500 }}>Default Account Book</td>
+            <tr style={{ background: "#fafafb", borderBottom: "1px solid rgba(47,77,9,0.08)" }}>
+              <td style={{ padding: cellPad, color: "#2f4d09", fontWeight: 500 }}>Default Account Book</td>
               {filterRow(EDITION_TABLE.defaultAccountBook).map((v, i) => (
-                <td key={i} style={{ padding: cellPad, color: "#2f315a", fontWeight: 600, textAlign: "center" }}>{v}</td>
+                <td key={i} style={{ padding: cellPad, color: "#2f4d09", fontWeight: 600, textAlign: "center" }}>{v}</td>
               ))}
             </tr>
           </thead>
@@ -1158,8 +1158,8 @@ function EditionsTable({ selected = null, diffOnly = false }) {
                   {rows.map(([rowName, values], ri) => {
                     const visibleVals = filterRow(values);
                     return (
-                      <tr key={rowName} style={{ background: ri % 2 === 0 ? "#ffffff" : "#fafafb", borderBottom: "1px solid rgba(47,49,90,0.05)" }}>
-                        <td style={{ padding: cellPad, color: "#2f315a" }}>{rowName}</td>
+                      <tr key={rowName} style={{ background: ri % 2 === 0 ? "#ffffff" : "#fafafb", borderBottom: "1px solid rgba(47,77,9,0.05)" }}>
+                        <td style={{ padding: cellPad, color: "#2f4d09" }}>{rowName}</td>
                         {visibleVals.map((v, vi) => (
                           <td key={vi} style={{ padding: cellPad, textAlign: "center" }}>
                             <EditionMarker value={v} />
@@ -1222,7 +1222,7 @@ export default function AutoCountAccountingPage({ onContact }) {
       <SectionSidebar items={AC_SIDEBAR_ITEMS} />
 
       {/* ── Hero banner ── */}
-      <div className="product-hero" style={{ background: "#2f315a", paddingTop: "3rem", paddingBottom: "3rem" }}>
+      <div className="product-hero" style={{ background: "#2f4d09", paddingTop: "3rem", paddingBottom: "3rem" }}>
         <div className="content-wrap">
           <button
             className="product-hero-back"
@@ -1245,7 +1245,7 @@ export default function AutoCountAccountingPage({ onContact }) {
                 }
               </div>
               <div style={{ flex: 1, minWidth: 240 }}>
-                <div className="product-hero-eyebrow" style={{ fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#7AB317", marginBottom: "0.5rem" }}>
+                <div className="product-hero-eyebrow" style={{ fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#80c31e", marginBottom: "0.5rem" }}>
                   Software We Specialize In
                 </div>
                 <h1 className="product-hero-title" style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", fontWeight: 700, color: "#ffffff", lineHeight: 1.15, marginBottom: "1rem" }}>
@@ -1259,7 +1259,7 @@ export default function AutoCountAccountingPage({ onContact }) {
                 <div className="product-hero-btns" style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
                   <button
                     onClick={() => setDownloadOpen(true)}
-                    style={{ background: "#7AB317", color: "#1e2040", padding: "0.75rem 2rem", borderRadius: 50, fontSize: "0.9rem", fontWeight: 700, border: "none", cursor: "pointer", fontFamily: "inherit", transition: "opacity 0.2s", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "0.5rem" }}
+                    style={{ background: "#80c31e", color: "#1f3a05", padding: "0.75rem 2rem", borderRadius: 50, fontSize: "0.9rem", fontWeight: 700, border: "none", cursor: "pointer", fontFamily: "inherit", transition: "opacity 0.2s", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "0.5rem" }}
                     onMouseOver={e => e.currentTarget.style.opacity = "0.85"}
                     onMouseOut={e => e.currentTarget.style.opacity = "1"}
                   >
@@ -1294,7 +1294,7 @@ export default function AutoCountAccountingPage({ onContact }) {
       </div>
 
       {/* ── Feature highlights ── */}
-      <div id="features" className="ac-section-tight" style={{ background: "#ffffff", padding: "3rem 0", borderBottom: "0.5px solid rgba(47,49,90,0.08)", scrollMarginTop: 24 }}>
+      <div id="features" className="ac-section-tight" style={{ background: "#ffffff", padding: "3rem 0", borderBottom: "0.5px solid rgba(47,77,9,0.08)", scrollMarginTop: 24 }}>
         <div className="content-wrap">
           <div className="ac-features-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1.5rem" }}>
             {[
@@ -1303,9 +1303,9 @@ export default function AutoCountAccountingPage({ onContact }) {
               { icon: "🎯", title: "Prompt Technical Support", desc: "Fast response times and expert troubleshooting from the KSL team during business days to keep your operations running smoothly." },
               { icon: "⚙️", title: "Highly Extensible", desc: "Fully supports C# & .NET plugins, custom fields, and scripting to adapt to your unique business workflows." },
             ].map((f, i) => (
-              <div key={i} style={{ padding: "1.25rem", borderRadius: 12, background: "#f8f8fb", border: "1px solid rgba(47,49,90,0.07)" }}>
+              <div key={i} style={{ padding: "1.25rem", borderRadius: 12, background: "#f8f8fb", border: "1px solid rgba(47,77,9,0.07)" }}>
                 <div style={{ fontSize: "1.6rem", marginBottom: "0.6rem" }}>{f.icon}</div>
-                <div style={{ fontSize: "0.88rem", fontWeight: 700, color: "#2f315a", marginBottom: "0.35rem" }}>{f.title}</div>
+                <div style={{ fontSize: "0.88rem", fontWeight: 700, color: "#2f4d09", marginBottom: "0.35rem" }}>{f.title}</div>
                 <div style={{ fontSize: "0.8rem", color: "#6b6f91", lineHeight: 1.6 }}>{f.desc}</div>
               </div>
             ))}
@@ -1317,19 +1317,19 @@ export default function AutoCountAccountingPage({ onContact }) {
       {/* ══════════════════════════════════════════════════════════
        * LEARN AUTOCOUNT IN 60 MINUTES — Vertical stacked layout
        * ══════════════════════════════════════════════════════════ */}
-      <div id="training" className="ac-section-tight" style={{ background: "#ffffff", padding: "4.5rem 0", borderBottom: "0.5px solid rgba(47,49,90,0.08)", scrollMarginTop: 24 }}>
+      <div id="training" className="ac-section-tight" style={{ background: "#ffffff", padding: "4.5rem 0", borderBottom: "0.5px solid rgba(47,77,9,0.08)", scrollMarginTop: 24 }}>
         <div className="content-wrap">
           {/* Section header */}
           <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
             <div style={{
               fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.12em",
-              textTransform: "uppercase", color: "#7AB317", marginBottom: "0.6rem",
+              textTransform: "uppercase", color: "#80c31e", marginBottom: "0.6rem",
             }}>
               Free Training
             </div>
             <h2 style={{
               fontSize: "clamp(1.5rem, 2.8vw, 2.2rem)", fontWeight: 700,
-              color: "#2f315a", lineHeight: 1.2, marginBottom: "0.9rem",
+              color: "#2f4d09", lineHeight: 1.2, marginBottom: "0.9rem",
             }}>
               Learn AutoCount Accounting in Just 60 Minutes
             </h2>
@@ -1347,13 +1347,13 @@ export default function AutoCountAccountingPage({ onContact }) {
                 target="_blank" rel="noreferrer"
                 style={{
                   display: "inline-flex", alignItems: "center", gap: "0.5rem",
-                  background: "#2f315a", color: "#ffffff",
+                  background: "#2f4d09", color: "#ffffff",
                   padding: "0.75rem 1.75rem", borderRadius: 50,
                   fontSize: "0.88rem", fontWeight: 600,
                   textDecoration: "none", transition: "background 0.2s",
                 }}
-                onMouseOver={e => e.currentTarget.style.background = "#3d4075"}
-                onMouseOut={e => e.currentTarget.style.background = "#2f315a"}
+                onMouseOver={e => e.currentTarget.style.background = "#3d5a14"}
+                onMouseOut={e => e.currentTarget.style.background = "#2f4d09"}
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21" /></svg>
                 Watch on YouTube
@@ -1371,8 +1371,8 @@ export default function AutoCountAccountingPage({ onContact }) {
           {/* Full-width embed */}
           <div style={{
             borderRadius: 18, overflow: "hidden",
-            boxShadow: "0 20px 60px rgba(47,49,90,0.16)",
-            border: "1px solid rgba(47,49,90,0.08)",
+            boxShadow: "0 20px 60px rgba(47,77,9,0.16)",
+            border: "1px solid rgba(47,77,9,0.08)",
           }}>
             <div style={{ paddingBottom: "56.25%", position: "relative", background: "#0f1128" }}>
               <iframe
@@ -1390,22 +1390,22 @@ export default function AutoCountAccountingPage({ onContact }) {
       {/* ══════════════════════════════════════════════════════════
        * COMPARING 5 EDITIONS OF ACCOUNTING 2.2
        * ══════════════════════════════════════════════════════════ */}
-      <div id="editions" className="ac-section-tight" style={{ background: "#f5f5f8", padding: "4.5rem 0", borderBottom: "0.5px solid rgba(47,49,90,0.08)", scrollMarginTop: 24 }}>
+      <div id="editions" className="ac-section-tight" style={{ background: "#f5f5f8", padding: "4.5rem 0", borderBottom: "0.5px solid rgba(47,77,9,0.08)", scrollMarginTop: 24 }}>
         <div className="content-wrap">
           <div style={{ textAlign: "center", marginBottom: "1.75rem" }}>
-            <div style={{ fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#7AB317", marginBottom: "0.6rem" }}>
+            <div style={{ fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#80c31e", marginBottom: "0.6rem" }}>
               Modules Available in Each Edition
             </div>
-            <h2 style={{ fontSize: "clamp(1.5rem, 2.8vw, 2.2rem)", fontWeight: 700, color: "#2f315a", lineHeight: 1.2, marginBottom: "1rem" }}>
+            <h2 style={{ fontSize: "clamp(1.5rem, 2.8vw, 2.2rem)", fontWeight: 700, color: "#2f4d09", lineHeight: 1.2, marginBottom: "1rem" }}>
               Comparing 5 Editions of Accounting 2.2
             </h2>
             <div style={{ display: "inline-flex", gap: "1.5rem", flexWrap: "wrap", justifyContent: "center", fontSize: "0.78rem", color: "#6b6f91" }}>
               <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-                <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#7AB317", display: "inline-block" }} />
+                <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#80c31e", display: "inline-block" }} />
                 = included module
               </span>
               <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-                <span style={{ color: "#7AB317", fontWeight: 700, fontSize: "1rem", lineHeight: 1 }}>+</span>
+                <span style={{ color: "#80c31e", fontWeight: 700, fontSize: "1rem", lineHeight: 1 }}>+</span>
                 = available optional (add-on) module
               </span>
               <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
@@ -1417,7 +1417,7 @@ export default function AutoCountAccountingPage({ onContact }) {
 
           {/* Mode toggle — Browse All / Compare Editions */}
           <div style={{ display: "flex", justifyContent: "center", marginBottom: "1.75rem" }}>
-            <div style={{ display: "flex", background: "#ffffff", borderRadius: 50, padding: 4, gap: 2, border: "1px solid rgba(47,49,90,0.08)" }}>
+            <div style={{ display: "flex", background: "#ffffff", borderRadius: 50, padding: 4, gap: 2, border: "1px solid rgba(47,77,9,0.08)" }}>
               {[["browse", "Browse All Editions"], ["compare", "Compare Editions"]].map(([mode, label]) => (
                 <button key={mode}
                   onClick={() => setEditionCompareMode(mode === "compare")}
@@ -1425,7 +1425,7 @@ export default function AutoCountAccountingPage({ onContact }) {
                     fontSize: "0.78rem", fontWeight: 600,
                     padding: "0.45rem 1.2rem", borderRadius: 50, border: "none",
                     cursor: "pointer", fontFamily: "inherit",
-                    background: (editionCompareMode ? "compare" : "browse") === mode ? "#2f315a" : "transparent",
+                    background: (editionCompareMode ? "compare" : "browse") === mode ? "#2f4d09" : "transparent",
                     color: (editionCompareMode ? "compare" : "browse") === mode ? "#ffffff" : "#6b6f91",
                     transition: "background 0.2s, color 0.2s",
                   }}
@@ -1441,22 +1441,22 @@ export default function AutoCountAccountingPage({ onContact }) {
                 <div>
                   <label style={{ fontSize: "0.68rem", fontWeight: 600, color: "#6b6f91", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "0.4rem" }}>Edition A</label>
                   <select value={editionA} onChange={e => setEditionA(e.target.value)}
-                    style={{ width: "100%", height: 40, borderRadius: 10, border: "1px solid rgba(47,49,90,0.2)", padding: "0 0.85rem", fontSize: "0.88rem", fontFamily: "inherit", color: "#2f315a", background: "#ffffff", cursor: "pointer" }}>
+                    style={{ width: "100%", height: 40, borderRadius: 10, border: "1px solid rgba(47,77,9,0.2)", padding: "0 0.85rem", fontSize: "0.88rem", fontFamily: "inherit", color: "#2f4d09", background: "#ffffff", cursor: "pointer" }}>
                     {EDITIONS.map(e => <option key={e} value={e}>{e}</option>)}
                   </select>
                 </div>
-                <div style={{ textAlign: "center", fontSize: "1.1rem", fontWeight: 700, color: "#7AB317", marginTop: "1.2rem" }}>VS</div>
+                <div style={{ textAlign: "center", fontSize: "1.1rem", fontWeight: 700, color: "#80c31e", marginTop: "1.2rem" }}>VS</div>
                 <div>
                   <label style={{ fontSize: "0.68rem", fontWeight: 600, color: "#6b6f91", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "0.4rem" }}>Edition B</label>
                   <select value={editionB} onChange={e => setEditionB(e.target.value)}
-                    style={{ width: "100%", height: 40, borderRadius: 10, border: "1px solid rgba(47,49,90,0.2)", padding: "0 0.85rem", fontSize: "0.88rem", fontFamily: "inherit", color: "#2f315a", background: "#ffffff", cursor: "pointer" }}>
+                    style={{ width: "100%", height: 40, borderRadius: 10, border: "1px solid rgba(47,77,9,0.2)", padding: "0 0.85rem", fontSize: "0.88rem", fontFamily: "inherit", color: "#2f4d09", background: "#ffffff", cursor: "pointer" }}>
                     {EDITIONS.map(e => <option key={e} value={e}>{e}</option>)}
                   </select>
                 </div>
               </div>
 
               {editionA === editionB && (
-                <p style={{ fontSize: "0.78rem", color: "#7AB317", textAlign: "center", marginTop: "0.65rem" }}>
+                <p style={{ fontSize: "0.78rem", color: "#80c31e", textAlign: "center", marginTop: "0.65rem" }}>
                   Pick two different editions to see how they differ.
                 </p>
               )}
@@ -1467,7 +1467,7 @@ export default function AutoCountAccountingPage({ onContact }) {
                     type="checkbox"
                     checked={editionDiffOnly}
                     onChange={e => setEditionDiffOnly(e.target.checked)}
-                    style={{ accentColor: "#2f315a", cursor: "pointer" }}
+                    style={{ accentColor: "#2f4d09", cursor: "pointer" }}
                   />
                   Show only rows where the two editions differ
                 </label>
@@ -1489,10 +1489,10 @@ export default function AutoCountAccountingPage({ onContact }) {
           {/* ── Title + tab switcher ── */}
           <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: "1rem", flexWrap: "wrap", marginBottom: "1.75rem" }}>
             <div>
-              <div style={{ fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#7AB317", marginBottom: "0.5rem" }}>
+              <div style={{ fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#80c31e", marginBottom: "0.5rem" }}>
                 Changelog
               </div>
-              <h2 style={{ fontSize: "clamp(1.4rem, 2.5vw, 2rem)", fontWeight: 700, color: "#2f315a" }}>
+              <h2 style={{ fontSize: "clamp(1.4rem, 2.5vw, 2rem)", fontWeight: 700, color: "#2f4d09" }}>
                 Release Notes — Ver 2.2
               </h2>
               <p style={{ fontSize: "0.85rem", color: "#6b6f91", marginTop: "0.35rem" }}>
@@ -1508,7 +1508,7 @@ export default function AutoCountAccountingPage({ onContact }) {
                     fontSize: "0.78rem", fontWeight: 600,
                     padding: "0.4rem 1.1rem", borderRadius: 50, border: "none",
                     cursor: "pointer", fontFamily: "inherit",
-                    background: (compareMode ? "compare" : "browse") === mode ? "#2f315a" : "transparent",
+                    background: (compareMode ? "compare" : "browse") === mode ? "#2f4d09" : "transparent",
                     color: (compareMode ? "compare" : "browse") === mode ? "#ffffff" : "#6b6f91",
                     transition: "background 0.2s, color 0.2s",
                   }}
@@ -1538,15 +1538,15 @@ export default function AutoCountAccountingPage({ onContact }) {
                   <div>
                     <label style={{ fontSize: "0.68rem", fontWeight: 600, color: "#6b6f91", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "0.4rem" }}>From version</label>
                     <select value={compareA} onChange={e => setCompareA(e.target.value)}
-                      style={{ width: "100%", height: 40, borderRadius: 10, border: "1px solid rgba(47,49,90,0.2)", padding: "0 0.85rem", fontSize: "0.88rem", fontFamily: "inherit", color: "#2f315a", background: "#ffffff", cursor: "pointer" }}>
+                      style={{ width: "100%", height: 40, borderRadius: 10, border: "1px solid rgba(47,77,9,0.2)", padding: "0 0.85rem", fontSize: "0.88rem", fontFamily: "inherit", color: "#2f4d09", background: "#ffffff", cursor: "pointer" }}>
                       {RELEASES.slice().reverse().map(r => <option key={r.version} value={r.version}>{r.version} ({r.rev})</option>)}
                     </select>
                   </div>
-                  <div style={{ textAlign: "center", fontSize: "1.3rem", color: "#7AB317", marginTop: "1.2rem" }}>→</div>
+                  <div style={{ textAlign: "center", fontSize: "1.3rem", color: "#80c31e", marginTop: "1.2rem" }}>→</div>
                   <div>
                     <label style={{ fontSize: "0.68rem", fontWeight: 600, color: "#6b6f91", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "0.4rem" }}>To version</label>
                     <select value={compareB} onChange={e => setCompareB(e.target.value)}
-                      style={{ width: "100%", height: 40, borderRadius: 10, border: "1px solid rgba(47,49,90,0.2)", padding: "0 0.85rem", fontSize: "0.88rem", fontFamily: "inherit", color: "#2f315a", background: "#ffffff", cursor: "pointer" }}>
+                      style={{ width: "100%", height: 40, borderRadius: 10, border: "1px solid rgba(47,77,9,0.2)", padding: "0 0.85rem", fontSize: "0.88rem", fontFamily: "inherit", color: "#2f4d09", background: "#ffffff", cursor: "pointer" }}>
                       {RELEASES.map(r => <option key={r.version} value={r.version}>{r.version} ({r.rev})</option>)}
                     </select>
                   </div>
@@ -1555,9 +1555,9 @@ export default function AutoCountAccountingPage({ onContact }) {
                 {/* Summary bar */}
                 <div style={{ display: "flex", gap: "1rem", marginBottom: "1.5rem", flexWrap: "wrap" }}>
                   {[
-                    { label: "Revisions covered", val: between.length, bg: "rgba(47,49,90,0.06)", col: "#2f315a" },
-                    { label: "New features", val: allFeatures.length, bg: "rgba(47,49,90,0.06)", col: "#2f315a" },
-                    { label: "Bug fixes", val: allFixes.length, bg: "rgba(122,179,23,0.1)", col: "#4a6e0e" },
+                    { label: "Revisions covered", val: between.length, bg: "rgba(47,77,9,0.06)", col: "#2f4d09" },
+                    { label: "New features", val: allFeatures.length, bg: "rgba(47,77,9,0.06)", col: "#2f4d09" },
+                    { label: "Bug fixes", val: allFixes.length, bg: "rgba(128,195,30,0.1)", col: "#2f4d09" },
                   ].map(s => (
                     <div key={s.label} style={{ flex: 1, minWidth: 120, background: s.bg, borderRadius: 12, padding: "1rem 1.25rem" }}>
                       <div style={{ fontSize: "1.6rem", fontWeight: 700, color: s.col, lineHeight: 1 }}>{s.val}</div>
@@ -1568,28 +1568,28 @@ export default function AutoCountAccountingPage({ onContact }) {
 
                 {/* Changelog between the two versions */}
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem" }}>
-                  <div style={{ background: "#ffffff", borderRadius: 14, padding: "1.4rem", border: "1px solid rgba(47,49,90,0.1)" }}>
+                  <div style={{ background: "#ffffff", borderRadius: 14, padding: "1.4rem", border: "1px solid rgba(47,77,9,0.1)" }}>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1rem" }}>
-                      <div style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#2f315a" }}>New Features ({allFeatures.length})</div>
+                      <div style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#2f4d09" }}>New Features ({allFeatures.length})</div>
                       {allFeatures.length > 0 && <CopyBtn onClick={() => copyCompare(allFeatures, compareA, compareB, "features")} />}
                     </div>
                     {allFeatures.length === 0 && <div style={{ fontSize: "0.82rem", color: "#a8abcc" }}>No new features in this range.</div>}
                     {allFeatures.map((f, i) => (
                       <div key={i} style={{ display: "flex", gap: "0.55rem", alignItems: "flex-start", marginBottom: "0.65rem" }}>
-                        <span style={{ fontSize: "0.6rem", fontWeight: 700, letterSpacing: "0.06em", padding: "0.2rem 0.5rem", borderRadius: 50, background: "rgba(47,49,90,0.08)", color: "#2f315a", flexShrink: 0, marginTop: 2 }}>{f.rev}</span>
+                        <span style={{ fontSize: "0.6rem", fontWeight: 700, letterSpacing: "0.06em", padding: "0.2rem 0.5rem", borderRadius: 50, background: "rgba(47,77,9,0.08)", color: "#2f4d09", flexShrink: 0, marginTop: 2 }}>{f.rev}</span>
                         <span style={{ fontSize: "0.83rem", color: "#444", lineHeight: 1.6 }}>{f.text}</span>
                       </div>
                     ))}
                   </div>
-                  <div style={{ background: "#ffffff", borderRadius: 14, padding: "1.4rem", border: "1px solid rgba(47,49,90,0.1)" }}>
+                  <div style={{ background: "#ffffff", borderRadius: 14, padding: "1.4rem", border: "1px solid rgba(47,77,9,0.1)" }}>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1rem" }}>
-                      <div style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#4a6e0e" }}>Bug Fixes ({allFixes.length})</div>
+                      <div style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#2f4d09" }}>Bug Fixes ({allFixes.length})</div>
                       {allFixes.length > 0 && <CopyBtn onClick={() => copyCompare(allFixes, compareA, compareB, "fixes")} gold />}
                     </div>
                     {allFixes.length === 0 && <div style={{ fontSize: "0.82rem", color: "#a8abcc" }}>No bug fixes in this range.</div>}
                     {allFixes.map((f, i) => (
                       <div key={i} style={{ display: "flex", gap: "0.55rem", alignItems: "flex-start", marginBottom: "0.65rem" }}>
-                        <span style={{ fontSize: "0.6rem", fontWeight: 700, letterSpacing: "0.06em", padding: "0.2rem 0.5rem", borderRadius: 50, background: "rgba(122,179,23,0.12)", color: "#4a6e0e", flexShrink: 0, marginTop: 2 }}>{f.rev}</span>
+                        <span style={{ fontSize: "0.6rem", fontWeight: 700, letterSpacing: "0.06em", padding: "0.2rem 0.5rem", borderRadius: 50, background: "rgba(128,195,30,0.12)", color: "#2f4d09", flexShrink: 0, marginTop: 2 }}>{f.rev}</span>
                         <span style={{ fontSize: "0.83rem", color: "#444", lineHeight: 1.6 }}>{f.text}</span>
                       </div>
                     ))}
@@ -1610,11 +1610,11 @@ export default function AutoCountAccountingPage({ onContact }) {
                 </svg>
                 <input type="text" placeholder="Search version or keyword…"
                   value={search} onChange={e => setSearch(e.target.value)}
-                  style={{ width: "100%", paddingLeft: 30, paddingRight: 12, height: 36, borderRadius: 50, border: "1px solid rgba(47,49,90,0.18)", fontSize: "0.82rem", fontFamily: "inherit", color: "#2f315a", outline: "none" }}
+                  style={{ width: "100%", paddingLeft: 30, paddingRight: 12, height: 36, borderRadius: 50, border: "1px solid rgba(47,77,9,0.18)", fontSize: "0.82rem", fontFamily: "inherit", color: "#2f4d09", outline: "none" }}
                 />
               </div>
               <button onClick={() => setExpanded(null)}
-                style={{ fontSize: "0.78rem", color: "#6b6f91", background: "transparent", border: "1px solid rgba(47,49,90,0.15)", borderRadius: 50, padding: "0.35rem 0.9rem", cursor: "pointer", fontFamily: "inherit" }}>
+                style={{ fontSize: "0.78rem", color: "#6b6f91", background: "transparent", border: "1px solid rgba(47,77,9,0.15)", borderRadius: 50, padding: "0.35rem 0.9rem", cursor: "pointer", fontFamily: "inherit" }}>
                 Collapse all
               </button>
             </div>
@@ -1639,17 +1639,17 @@ export default function AutoCountAccountingPage({ onContact }) {
           </>}
 
           {/* Official link */}
-          <div style={{ marginTop: "2.5rem", padding: "1.25rem 1.5rem", borderRadius: 12, background: "rgba(47,49,90,0.04)", border: "1px solid rgba(47,49,90,0.08)", display: "flex", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>
+          <div style={{ marginTop: "2.5rem", padding: "1.25rem 1.5rem", borderRadius: 12, background: "rgba(47,77,9,0.04)", border: "1px solid rgba(47,77,9,0.08)", display: "flex", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>
             <div style={{ flex: 1 }}>
-              <div style={{ fontSize: "0.85rem", fontWeight: 600, color: "#2f315a" }}>Full release notes on AutoCount Wiki</div>
+              <div style={{ fontSize: "0.85rem", fontWeight: 600, color: "#2f4d09" }}>Full release notes on AutoCount Wiki</div>
               <div style={{ fontSize: "0.78rem", color: "#6b6f91", marginTop: 2 }}>Detailed technical documentation including database upgrade notes and server requirements.</div>
             </div>
             <a
               href="https://wiki.autocountsoft.com/wiki/Category:AutoCount_Accounting_2.2:Release_Note"
               target="_blank" rel="noreferrer"
-              style={{ background: "#2f315a", color: "#ffffff", padding: "0.6rem 1.4rem", borderRadius: 50, fontSize: "0.82rem", fontWeight: 600, textDecoration: "none", whiteSpace: "nowrap", transition: "background 0.2s" }}
-              onMouseOver={e => e.currentTarget.style.background = "#3d4075"}
-              onMouseOut={e => e.currentTarget.style.background = "#2f315a"}
+              style={{ background: "#2f4d09", color: "#ffffff", padding: "0.6rem 1.4rem", borderRadius: 50, fontSize: "0.82rem", fontWeight: 600, textDecoration: "none", whiteSpace: "nowrap", transition: "background 0.2s" }}
+              onMouseOver={e => e.currentTarget.style.background = "#3d5a14"}
+              onMouseOut={e => e.currentTarget.style.background = "#2f4d09"}
             >
               Official Wiki →
             </a>
@@ -1658,7 +1658,7 @@ export default function AutoCountAccountingPage({ onContact }) {
       </div>
 
       {/* CTA band */}
-      <div style={{ background: "#2f315a", padding: "4rem 0" }}>
+      <div style={{ background: "#2f4d09", padding: "4rem 0" }}>
         <div className="content-wrap" style={{ textAlign: "center" }}>
           <h2 style={{ fontSize: "clamp(1.4rem, 2.5vw, 2rem)", fontWeight: 700, color: "#ffffff", marginBottom: "0.75rem" }}>
             Ready to get started with AutoCount?
@@ -1669,7 +1669,7 @@ export default function AutoCountAccountingPage({ onContact }) {
           </p>
           <button
             onClick={onContact}
-            style={{ background: "#7AB317", color: "#1e2040", padding: "0.85rem 2.5rem", borderRadius: 50, fontSize: "0.95rem", fontWeight: 700, border: "none", cursor: "pointer", fontFamily: "inherit", transition: "opacity 0.2s" }}
+            style={{ background: "#80c31e", color: "#1f3a05", padding: "0.85rem 2.5rem", borderRadius: 50, fontSize: "0.95rem", fontWeight: 700, border: "none", cursor: "pointer", fontFamily: "inherit", transition: "opacity 0.2s" }}
             onMouseOver={e => e.currentTarget.style.opacity = "0.85"}
             onMouseOut={e => e.currentTarget.style.opacity = "1"}
           >
