@@ -57,13 +57,13 @@ export default function Careers() {
   }, []);
 
   const [line1, line2] = parseQuote(careers.heading);
-  const HEADING_STEP = 70;
-  const BODY_STEP    = 26;
-  const line1Dur = line1.split(" ").length * HEADING_STEP;
-  const line2Start = line1Dur + 250;
-  const line2Dur = line2.split(" ").length * HEADING_STEP;
-  const bodyStart = line2Start + line2Dur + 300;
-  const bodyDur = (careers.body || "").split(" ").length * BODY_STEP;
+  /* Line-by-line reveal — each line fades in as a whole. */
+  const LINE_FADE_MS = 550;
+  const line1Start = 0;
+  const line2Start = line1Start + LINE_FADE_MS + 250;       /* line1 finishes, brief pause */
+  const bodyStart  = line2Start + LINE_FADE_MS + 350;       /* line2 finishes, brief pause */
+  const BODY_STEP  = 26;
+  const bodyDur    = (careers.body || "").split(" ").length * BODY_STEP;
   const buttonsStart = bodyStart + bodyDur + 200;
 
   return (
@@ -88,8 +88,7 @@ export default function Careers() {
             {careers.eyebrow}
           </div>
 
-          {/* Two-line layout (opening quote, line 1, indented line 2, closing quote)
-              — keeps the original heading style: same size / weight / colour. */}
+          {/* Two-line layout: line 1 fades in as a whole, then line 2 fades in. */}
           <h2 style={{
             fontSize: "clamp(1.4rem, 2.5vw, 1.9rem)",
             fontWeight: 700,
@@ -97,20 +96,25 @@ export default function Careers() {
             lineHeight: 1.4,
             marginBottom: "0.9rem",
           }}>
-            <span aria-hidden="true" style={{
+            <span style={{
+              display: "inline-block",
               opacity: visible ? 1 : 0,
-              transition: "opacity 0.4s ease",
-            }}>“</span>
-            <AnimatedWords text={line1} startDelay={0} stepMs={HEADING_STEP} visible={visible} />
+              transform: visible ? "translateY(0)" : "translateY(8px)",
+              transition: `opacity ${LINE_FADE_MS}ms ease, transform ${LINE_FADE_MS}ms ease`,
+              transitionDelay: visible ? `${line1Start}ms` : "0ms",
+            }}>
+              <span aria-hidden="true">“</span>{line1}
+            </span>
             <br />
-            <span style={{ display: "inline-block", marginLeft: "clamp(1.5rem, 6vw, 4rem)" }}>
-              <AnimatedWords text={line2} startDelay={line2Start} stepMs={HEADING_STEP} visible={visible} />
-              <span aria-hidden="true" style={{
-                marginLeft: "0.1em",
-                opacity: visible ? 1 : 0,
-                transition: "opacity 0.4s ease",
-                transitionDelay: visible ? `${line2Start + line2Dur}ms` : "0ms",
-              }}>”</span>
+            <span style={{
+              display: "inline-block",
+              marginLeft: "clamp(1.5rem, 6vw, 4rem)",
+              opacity: visible ? 1 : 0,
+              transform: visible ? "translateY(0)" : "translateY(8px)",
+              transition: `opacity ${LINE_FADE_MS}ms ease, transform ${LINE_FADE_MS}ms ease`,
+              transitionDelay: visible ? `${line2Start}ms` : "0ms",
+            }}>
+              {line2}<span aria-hidden="true">”</span>
             </span>
           </h2>
 
