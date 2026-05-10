@@ -8,7 +8,9 @@ const WA_LINK = `https://wa.me/60169902279?text=${encodeURIComponent(
 )}`;
 import AIChatbot from "../../components/AIChatbot.jsx";
 import acPluginIcon     from "../../assets/images/apps/ac-plugin-icon.png";
+import imgHero          from "../../assets/images/apps/sales2do/hero.png";
 import imgOutstanding   from "../../assets/images/apps/sales2do/outstanding.png";
+import imgPreset        from "../../assets/images/apps/sales2do/preset-delivery.png";
 import imgSettings      from "../../assets/images/apps/sales2do/settings.png";
 /* Online/Offline activation screenshots are swapped — the file named
  * `license-online.png` was originally captured for the offline flow and
@@ -508,7 +510,7 @@ export default function Sales2DOPage({ onContact }) {
               </div>
             </div>
             <div className="product-hero-image" style={{ flex: "0 1 460px", maxWidth: 500 }}>
-              <img src={imgOutstanding} alt="Sales2DO Outstanding Delivery Order dashboard" style={{ width: "100%", height: "auto", display: "block" }} />
+              <img src={imgHero} alt="Sales2DO Outstanding Delivery Order dashboard" style={{ width: "100%", height: "auto", display: "block" }} />
             </div>
           </div>
         </div>
@@ -579,7 +581,7 @@ export default function Sales2DOPage({ onContact }) {
           <div style={S.label}>Item Configuration</div>
           <h2 style={S.h2}>Preset "Delivery?" in Stock Item Maintenance</h2>
 
-          <SectionRow image={null} alt="Stock Item Maintenance — Delivery? checkbox" caption='User Defined Field — "Delivery?" checkbox'>
+          <SectionRow image={imgPreset} alt="Stock Item Maintenance — Delivery? checkbox" caption='User Defined Field — "Delivery?" checkbox'>
             <p style={{ ...S.body, marginBottom: "1rem" }}>
               By presetting the <strong>"Delivery?"</strong> status, the plugin automatically determines which items
               should be delivered and tracked in the <strong>Outstanding Delivery Order</strong> dashboard.

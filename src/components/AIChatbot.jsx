@@ -108,23 +108,7 @@ function Message({ msg }) {
 
 /* ── Main chatbot component ── */
 export default function AIChatbot({ app }) {
-  /* Build the omni page URL — appends ?app=<name> when caller passes a context */
-  const omniHref = app
-    ? `${OMNI_PAGE_BASE}?app=${encodeURIComponent(app)}`
-    : OMNI_PAGE_BASE;
-
   const [open, setOpen] = useState(false);
-  /* Detect touch-sized viewport so we can render an <a> instead of a <button>
-     for tablet/mobile — guarantees the tap reliably opens a new tab without
-     popup-blocker interference (window.open can fail silently on some tablets) */
-  const [isTouch, setIsTouch] = useState(
-    typeof window !== "undefined" && window.innerWidth <= 1024
-  );
-  useEffect(() => {
-    const onResize = () => setIsTouch(window.innerWidth <= 1024);
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
 
   const [messages, setMessages] = useState([
     {
@@ -458,22 +442,9 @@ export default function AIChatbot({ app }) {
         const hoverIn  = e => { e.currentTarget.style.transform = "scale(1.08)"; e.currentTarget.style.background = "#3d4075"; };
         const hoverOut = e => { e.currentTarget.style.transform = "scale(1)";    e.currentTarget.style.background = "#2f315a"; };
 
-        if (isTouch) {
-          return (
-            <a
-              href={omniHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Open AI assistant"
-              title="AutoCount Plugin Assistant"
-              style={fabStyle}
-              onMouseOver={hoverIn}
-              onMouseOut={hoverOut}
-            >
-              ?
-            </a>
-          );
-        }
+        /* Use the same in-page modal on every device — touch users used
+         * to be punted to a new tab via target="_blank", which broke
+         * navigation continuity. */
         return (
           <button
             onClick={() => setOpen(o => !o)}

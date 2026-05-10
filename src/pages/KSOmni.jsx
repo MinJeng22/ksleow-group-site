@@ -264,9 +264,13 @@ export default function KSLOmniPage() {
     setPasteError("");
   }
 
+  /* Try the browser back stack first — keeps users on whatever page
+   * they came from (Sales2DO, AutoCount, homepage). Falls back to "/"
+   * when /omni was opened directly (no prior history entry). */
   function goHome() {
     abortRef.current?.abort();
-    navigate("/");
+    if (window.history.length > 1) navigate(-1);
+    else navigate("/");
   }
 
   /* ── Shared image upload pipeline (paste OR file picker) ──
@@ -457,7 +461,7 @@ export default function KSLOmniPage() {
       : { ...baseBtn, background: "rgba(201,168,76,0.12)", border: "1px solid rgba(201,168,76,0.4)",    color: "#a17f1e" };
     return (
       <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
-        <button onClick={goHome} style={ghost}><BackIcon /> Back to Homepage</button>
+        <button onClick={goHome} style={ghost}><BackIcon /> Back</button>
         <button onClick={() => setShowQR(true)} style={gold}><QRIcon /> Open on Phone</button>
         <button onClick={clearChat} style={ghost}><TrashIcon /> Clear Chat</button>
       </div>
@@ -484,7 +488,7 @@ export default function KSLOmniPage() {
           paddingTop: "max(0.7rem, env(safe-area-inset-top))",
           display: "flex", alignItems: "center", gap: "0.55rem", flexShrink: 0,
         }}>
-          <button onClick={goHome} title="Back to Homepage" aria-label="Back to Homepage"
+          <button onClick={goHome} title="Back" aria-label="Back"
             style={{
               background: "rgba(255,255,255,0.1)", border: "none", color: "rgba(255,255,255,0.85)",
               width: 34, height: 34, borderRadius: "50%", cursor: "pointer",
