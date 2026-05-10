@@ -385,7 +385,7 @@ export default function Sales2DOPage({ onContact }) {
       {/* ── Hero ── */}
       <div className="product-hero" style={{ background: "#2f315a", paddingTop: "3rem", paddingBottom: "3rem" }}>
         <div className="content-wrap">
-          <button onClick={() => navigate("/")} style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "rgba(255,255,255,0.75)", padding: "0.4rem 1rem", borderRadius: 50, fontSize: "0.8rem", cursor: "pointer", fontFamily: "inherit", marginBottom: "2rem", transition: "background 0.2s" }}
+          <button className="product-hero-back" onClick={() => navigate("/")} style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "rgba(255,255,255,0.75)", padding: "0.4rem 1rem", borderRadius: 50, fontSize: "0.8rem", cursor: "pointer", fontFamily: "inherit", marginBottom: "2rem", transition: "background 0.2s" }}
             onMouseOver={e => e.currentTarget.style.background = "rgba(255,255,255,0.18)"}
             onMouseOut={e => e.currentTarget.style.background = "rgba(255,255,255,0.1)"}
           >← Back</button>

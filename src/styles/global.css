@@ -154,11 +154,18 @@ body {
     font-size: 0.78rem !important;
   }
 
-  /* ── Product page hero (Sales2DO, AutoCount Accounting) — compact mobile layout ── */
-  .product-hero            { padding-top: 1.75rem !important; padding-bottom: 1.75rem !important; }
+  /* ── Product page hero (Sales2DO, AutoCount Accounting) — compact mobile layout ──
+     Layout flips to vertical: icon sits at the TOP, then eyebrow + title + body
+     + buttons stack below at full width (no longer indented next to the icon). */
+  .product-hero            { padding-top: 1.5rem !important; padding-bottom: 1.75rem !important; }
+  .product-hero-back       { display: none !important; }
   .product-hero-row        { gap: 1rem !important; }
-  .product-hero-textgroup  { gap: 1rem !important; align-items: center !important; }
-  .product-hero-icon       { width: 54px !important; height: 54px !important; border-radius: 12px !important; font-size: 1.55rem !important; }
+  .product-hero-textgroup  {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.95rem !important;
+  }
+  .product-hero-icon       { width: 56px !important; height: 56px !important; border-radius: 12px !important; font-size: 1.55rem !important; }
   .product-hero-eyebrow    { font-size: 0.62rem !important; margin-bottom: 0.4rem !important; }
   .product-hero-title      { font-size: 1.55rem !important; line-height: 1.2 !important; margin-bottom: 0.55rem !important; }
   .product-hero-body       { font-size: 0.86rem !important; line-height: 1.55 !important; margin-bottom: 1rem !important; }
