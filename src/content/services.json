@@ -1,7 +1,7 @@
 {
   "eyebrow": "What we do",
   "heading": "Our Service Offerings",
-  "intro": "Taxation, accounting, secretarial, management, auditing, hardware wholesale, technical services, and training — all under one roof since 1981.",
+  "intro": "Every essential service your business needs — all under one roof since 1981.",
   "items": [
     {
       "key": "taxation",
@@ -40,18 +40,6 @@
       ]
     },
     {
-      "key": "business_solutions",
-      "title": "Business Solutions Advisory",
-      "desc": "Strategic advisory, process consulting, and tailored solutions to streamline SME operations.",
-      "officeKey": "ksl_mgmt",
-      "badgeType": "certified",
-      "badgeLabel": "Certified By",
-      "logos": [
-        { "src": "/cert-business-1.png", "alt": "Cert 1", "h": 60 },
-        { "src": "/cert-business-2.png", "alt": "Cert 2", "h": 60 }
-      ]
-    },
-    {
       "key": "hardware",
       "title": "Computer Hardware & Technical",
       "desc": "Hardware wholesale, IT infrastructure, networking, and on-site SME support across Pahang.",
@@ -61,18 +49,6 @@
       "logos": [
         { "src": "/sunmi-logo.png", "alt": "Sunmi", "h": 64 },
         { "src": "/mdot-logo.png",  "alt": "Mdot",  "h": 56 }
-      ]
-    },
-    {
-      "key": "server",
-      "title": "Server & Infrastructure",
-      "desc": "Server setup, deployment, configuration, and ongoing maintenance for SME infrastructure.",
-      "officeKey": "ksl_bs",
-      "badgeType": "dealer",
-      "badgeLabel": "Authorized Dealer",
-      "logos": [
-        { "src": "/cert-server-1.png", "alt": "Server Partner 1", "h": 60 },
-        { "src": "/cert-server-2.png", "alt": "Server Partner 2", "h": 60 }
       ]
     },
     {

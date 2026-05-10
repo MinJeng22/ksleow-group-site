@@ -162,63 +162,132 @@ export default function AIChatbot({ app }) {
 
     try {
       abortRef.current = new AbortController();
+
+      /* Build conversation history in the SAME shape the KS Omni page uses
+       * — alternating user/assistant turns with `{role, content}`. The
+       * worker accepts both Gemini and OpenAI-style payloads, but most
+       * recent versions standardise on `messages: [{role, content}]`. */
+      const history = messages
+        .filter(m => m.text && !m.streaming && !m.error)
+        .map(m => ({
+          role: m.role === "assistant" ? "assistant" : "user",
+          content: m.text,
+        }));
+      history.push({ role: "user", content: text });
+
+      const payload = {
+        /* primary shape (OpenAI-style) */
+        messages: history,
+        message: text,
+        /* legacy shape kept for backward compat with older worker builds */
+        history,
+      };
+      if (app) payload.app = app;
+
       const res = await fetch(`${WORKER_URL}/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          messages: [
-            ...messages
-              .filter(m => m.text && !m.streaming && !m.error)
-              .map(m => ({ role: m.role, text: m.text })),
-            { role: "user", text },
-          ],
-        }),
+        body: JSON.stringify(payload),
         signal: abortRef.current.signal,
       });
 
-      if (!res.ok) throw new Error(`Server error ${res.status}`);
-
-      // Read SSE stream
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder();
-      let accumulated = "";
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        const chunk = decoder.decode(value, { stream: true });
-        // SSE format: "data: {...}\n\n"
-        for (const line of chunk.split("\n")) {
-          if (!line.startsWith("data: ")) continue;
-          const raw = line.slice(6).trim();
-          if (raw === "[DONE]") break;
-          try {
-            const parsed = JSON.parse(raw);
-            const token = parsed.candidates?.[0]?.content?.parts?.[0]?.text || "";
-            accumulated += token;
-            setMessages(prev => {
-              const next = [...prev];
-              next[next.length - 1] = { role: "assistant", text: accumulated, streaming: true };
-              return next;
-            });
-          } catch { /* skip malformed chunks */ }
-        }
+      if (!res.ok) {
+        let detail = "";
+        try { detail = (await res.text()).slice(0, 240); } catch { /* ignore */ }
+        // eslint-disable-next-line no-console
+        console.error("[AIChatbot] worker", res.status, detail);
+        throw new Error(`Worker returned ${res.status}${detail ? `: ${detail}` : ""}`);
       }
 
-      // Finalise (remove cursor)
+      const contentType = (res.headers.get("content-type") || "").toLowerCase();
+
+      /* ── Helper: pluck the text out of a parsed payload, regardless of
+            whether it came from Gemini, OpenAI-style, or a custom shape ── */
+      const extractText = (obj) => {
+        if (!obj) return "";
+        if (typeof obj === "string") return obj;
+        // Gemini stream chunk
+        const gem = obj.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (gem) return gem;
+        // OpenAI Chat Completions (streaming or non-streaming)
+        const oai = obj.choices?.[0]?.delta?.content
+                 ?? obj.choices?.[0]?.message?.content;
+        if (oai) return oai;
+        // Common ad-hoc fields
+        return obj.text || obj.message || obj.response || obj.output || obj.delta || "";
+      };
+
+      let accumulated = "";
+
+      if (res.body && (contentType.includes("event-stream") || contentType.includes("stream") || contentType === "")) {
+        /* ── Streaming response (SSE or plain chunked text) ── */
+        const reader  = res.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = "";
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+
+          /* Try to consume complete SSE events first */
+          let nlIdx;
+          while ((nlIdx = buffer.indexOf("\n")) !== -1) {
+            const line = buffer.slice(0, nlIdx).trimEnd();
+            buffer = buffer.slice(nlIdx + 1);
+
+            if (!line) continue;
+            const raw = line.startsWith("data:") ? line.slice(5).trim() : line;
+            if (!raw || raw === "[DONE]") continue;
+
+            let token = "";
+            try { token = extractText(JSON.parse(raw)); }
+            catch { token = line.startsWith("data:") ? "" : line; }
+            if (token) {
+              accumulated += token;
+              setMessages(prev => {
+                const next = [...prev];
+                next[next.length - 1] = { role: "assistant", text: accumulated, streaming: true };
+                return next;
+              });
+            }
+          }
+        }
+        /* flush any trailing buffer */
+        if (buffer.trim()) {
+          try { accumulated += extractText(JSON.parse(buffer.trim())) || ""; }
+          catch { /* leave as-is */ }
+        }
+      } else if (contentType.includes("application/json")) {
+        /* ── Non-streaming JSON response ── */
+        const data = await res.json();
+        accumulated = extractText(data);
+      } else {
+        /* ── Plain text fallback ── */
+        accumulated = await res.text();
+      }
+
       setMessages(prev => {
         const next = [...prev];
-        next[next.length - 1] = { role: "assistant", text: accumulated || "Sorry, I couldn't generate a response.", streaming: false };
+        next[next.length - 1] = {
+          role: "assistant",
+          text: accumulated.trim() || "Sorry, I couldn't generate a response.",
+          streaming: false,
+        };
         return next;
       });
 
     } catch (err) {
       if (err.name === "AbortError") return;
+      // eslint-disable-next-line no-console
+      console.error("[AIChatbot] error:", err);
       setMessages(prev => {
         const next = [...prev];
         next[next.length - 1] = {
           role: "assistant", text: "",
-          error: "Connection error. Please check your internet and try again.",
+          error: err?.message
+            ? `Connection error — ${err.message}`
+            : "Connection error. Please check your internet and try again.",
           streaming: false,
         };
         return next;
