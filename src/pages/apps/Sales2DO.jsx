@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
 import SectionSidebar from "../../components/SectionSidebar.jsx";
-import { WA_LINK } from "../../constants/contact.js";
+import { WA_ELISE as WA_LINK } from "../../constants/contact.js";
 import AIChatbot from "../../components/AIChatbot.jsx";
 import acPluginIcon     from "../../assets/images/apps/ac-plugin-icon.png";
 import imgOutstanding   from "../../assets/images/apps/sales2do/outstanding.png";
@@ -609,7 +609,7 @@ export default function Sales2DOPage({ onContact }) {
               <div style={{ marginTop: "1.25rem", padding: "1rem 1.25rem", borderRadius: 10, background: "rgba(201,168,76,0.08)", border: "1px solid rgba(201,168,76,0.25)" }}>
                 <p style={{ fontSize: "0.83rem", color: "#6b6f91", lineHeight: 1.65 }}>
                   💡 Contact KSL via WhatsApp at{" "}
-                  <a href="https://wa.me/60179052323" target="_blank" rel="noreferrer" style={{ color: "#2f315a", fontWeight: 600 }}>017-905 2323</a>{" "}
+                  <a href="https://wa.me/60169902279" target="_blank" rel="noreferrer" style={{ color: "#2f315a", fontWeight: 600 }}>016-990 2279</a>{" "}
                   or email <a href="mailto:support@ksleow.com.my" style={{ color: "#2f315a", fontWeight: 600 }}>support@ksleow.com.my</a> once you are ready to activate.
                 </p>
               </div>
@@ -628,7 +628,7 @@ export default function Sales2DOPage({ onContact }) {
               <div style={{ marginTop: "1.25rem", padding: "1rem 1.25rem", borderRadius: 10, background: "rgba(201,168,76,0.08)", border: "1px solid rgba(201,168,76,0.25)" }}>
                 <p style={{ fontSize: "0.83rem", color: "#6b6f91", lineHeight: 1.65 }}>
                   💡 WhatsApp:{" "}
-                  <a href="https://wa.me/60179052323" target="_blank" rel="noreferrer" style={{ color: "#2f315a", fontWeight: 600 }}>017-905 2323</a>
+                  <a href="https://wa.me/60169902279" target="_blank" rel="noreferrer" style={{ color: "#2f315a", fontWeight: 600 }}>016-990 2279</a>
                   {"  ·  "}Email:{" "}
                   <a href="mailto:support@ksleow.com.my" style={{ color: "#2f315a", fontWeight: 600 }}>support@ksleow.com.my</a>
                 </p>

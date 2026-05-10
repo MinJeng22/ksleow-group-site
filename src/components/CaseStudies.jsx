@@ -55,7 +55,7 @@ export default function CaseStudies({ onContact }) {
         }}>
           {caseStudiesContent.heading}
         </h2>
-        <p style={{ fontSize: "1rem", color: "#6b6f91", lineHeight: 1.78, maxWidth: 540 }}>
+        <p style={{ fontSize: "1rem", color: "#6b6f91", lineHeight: 1.78, whiteSpace: "nowrap" }}>
           {caseStudiesContent.intro}
         </p>
       </div>

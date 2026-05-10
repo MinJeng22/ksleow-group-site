@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
 import SectionSidebar from "../../components/SectionSidebar.jsx";
 import DownloadAutoCountModal from "../../components/DownloadAutoCountModal.jsx";
-import { WA_LINK } from "../../constants/contact.js";
+import { WA_ELISE as WA_LINK } from "../../constants/contact.js";
 import { PRODUCT_IMAGES } from "../../assets/assets.js";
 
 /* ═══════════════════════════════════════════════════════════════

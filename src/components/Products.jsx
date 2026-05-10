@@ -24,7 +24,7 @@ export default function Products({ onContact }) {
         <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.6rem)", fontWeight: 700, color: "#ffffff", lineHeight: 1.2, marginBottom: "0.75rem" }}>
           {productsContent.heading}
         </h2>
-        <p style={{ fontSize: "1rem", color: "rgba(255,255,255,0.6)", lineHeight: 1.75, maxWidth: 540, marginBottom: "3rem" }}>
+        <p style={{ fontSize: "1rem", color: "rgba(255,255,255,0.6)", lineHeight: 1.75, marginBottom: "3rem", whiteSpace: "nowrap" }}>
           {productsContent.intro}
         </p>
 
