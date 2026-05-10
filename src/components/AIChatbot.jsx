@@ -17,7 +17,7 @@ import { useState, useRef, useEffect } from "react";
  * ══════════════════════════════════════════════════════════════ */
 
 /* ── CONFIG — set your Cloudflare Worker URL here ── */
-const WORKER_URL = "https://ksl-omni.chiaminjeng.workers.dev";
+const WORKER_URL = "https://ksl-omni.kslbs.workers.dev";
 /* On tablet/mobile (≤ 1024 px) the FAB opens the KSOmni web page instead of
  * the inline chat panel. The `app` prop appends `?app=<name>` so the omni
  * portal can scope itself to that product context. */

@@ -67,7 +67,7 @@
       "key": "webinar",
       "title": "Webinar & Workshops",
       "desc": "Live webinars and on-demand training on accounting, tax, and business software.",
-      "officeKey": "ksl_bs",
+      "officeKey": null,
       "badgeType": "dealer",
       "badgeLabel": "Authorized Dealer",
       "logos": [
