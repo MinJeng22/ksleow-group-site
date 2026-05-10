@@ -178,7 +178,17 @@ export default function AIChatbot({ app }) {
       const payload = {
         /* primary shape (OpenAI-style) */
         messages: history,
-        message: text,
+        /* The KS-Omni worker scans the body for a user message under a
+         * variety of field names — include all known aliases so the same
+         * worker code works whether it looks for `message`, `prompt`,
+         * `query`, `input`, `text`, or `user_message`. */
+        message:      text,
+        prompt:       text,
+        query:        text,
+        input:        text,
+        text:         text,
+        user_message: text,
+        userMessage:  text,
         /* legacy shape kept for backward compat with older worker builds */
         history,
       };

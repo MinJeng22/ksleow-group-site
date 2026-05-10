@@ -2,7 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
 import SectionSidebar from "../../components/SectionSidebar.jsx";
-import { WA_ELISE as WA_LINK } from "../../constants/contact.js";
+/* Sales2DO-specific WhatsApp link — addressed to Elise with a product-aware message */
+const WA_LINK = `https://wa.me/60169902279?text=${encodeURIComponent(
+  "Hi Elise, I would like to learn more about AutoCount Plugin Sales2DO. Thank you."
+)}`;
 import AIChatbot from "../../components/AIChatbot.jsx";
 import acPluginIcon     from "../../assets/images/apps/ac-plugin-icon.png";
 import imgOutstanding   from "../../assets/images/apps/sales2do/outstanding.png";
@@ -57,6 +60,16 @@ const VIDEO_SEGMENTS = [
     ],
   },
   {
+    src: "/videos/sales2do/smart-quantity-control.mp4",
+    group: "Smart Quantity Control",
+    title: "Smart Quantity Control — Partial Copy & Full Copy Warning",
+    desc: "Prevents accidental over-delivery when copying partially or fully delivered documents.",
+    steps: [
+      <span key="a"><strong>Partial Copy:</strong> When copying a partially delivered document, the system calculates the remaining balance and only loads the <strong>Outstanding Quantity</strong>.</span>,
+      <span key="b"><strong>Full Copy Warning:</strong> If a document is already fully delivered, the system will prompt a warning to prevent accidental over-delivery.</span>,
+    ],
+  },
+  {
     src: "/videos/sales2do/ks-omni.mp4",
     group: "AI Assistant and Feedback",
     title: "KS-Omni — 24-Hour AI Support & Feedback",
@@ -66,16 +79,6 @@ const VIDEO_SEGMENTS = [
       <span key="b">The AI <strong>Chatbot</strong> will open.</span>,
       <span key="c"><strong>Support:</strong> Ask questions or upload images / screenshots for troubleshooting.</span>,
       <span key="d"><strong>Feedback:</strong> Submit bug reports or feature suggestions directly to the <strong>KSL Development Team</strong>.</span>,
-    ],
-  },
-  {
-    src: "/videos/sales2do/smart-quantity-control.mp4",
-    group: "Smart Quantity Control",
-    title: "Smart Quantity Control — Partial Copy & Full Copy Warning",
-    desc: "Prevents accidental over-delivery when copying partially or fully fulfilled documents.",
-    steps: [
-      <span key="a"><strong>Partial Copy:</strong> When copying a partially fulfilled document, the system calculates the remaining balance and only loads the <strong>Outstanding Quantity</strong>.</span>,
-      <span key="b"><strong>Full Copy Warning:</strong> If a document is already fully fulfilled, the system will prompt a warning to prevent accidental over-delivery.</span>,
     ],
   },
 ];
@@ -334,8 +337,8 @@ function VideoGuide() {
       <div style={{ display: "flex", gap: "0.55rem", flexWrap: "wrap", marginBottom: "1.75rem" }}>
         {[
           { label: "3 Ways to Copy a Sales Document", start: 0, range: [0, 2] },
-          { label: "AI Assistant and Feedback",       start: 3, range: [3, 3] },
-          { label: "Smart Quantity Control",          start: 4, range: [4, 4] },
+          { label: "Smart Quantity Control",          start: 3, range: [3, 3] },
+          { label: "AI Assistant and Feedback",       start: 4, range: [4, 4] },
         ].map(({ label, start, range }) => {
           const isActive = idx >= range[0] && idx <= range[1];
           return (
@@ -553,7 +556,7 @@ export default function Sales2DOPage({ onContact }) {
           <SectionRow image={imgOutstanding} alt="Outstanding Delivery Order dashboard" caption="3-tier drill-down dashboard">
             <p style={{ ...S.body, marginBottom: "1rem" }}>
               The <strong>Outstanding Delivery Order</strong> dashboard provides a real-time, centralized view
-              of all sales documents that require physical fulfillment.
+              of all sales documents that require physical delivery.
             </p>
 
             <h3 style={{ ...S.h3, marginTop: "1.5rem" }}>Filter Options</h3>
@@ -683,7 +686,7 @@ export default function Sales2DOPage({ onContact }) {
               <div style={{ marginTop: "1.25rem", padding: "1rem 1.25rem", borderRadius: 10, background: "rgba(201,168,76,0.08)", border: "1px solid rgba(201,168,76,0.25)" }}>
                 <p style={{ fontSize: "0.83rem", color: "#6b6f91", lineHeight: 1.65 }}>
                   💡 Contact KSL via WhatsApp at{" "}
-                  <a href="https://wa.me/60169902279" target="_blank" rel="noreferrer" style={{ color: "#2f315a", fontWeight: 600 }}>016-990 2279</a>{" "}
+                  <a href="https://wa.me/60179052323" target="_blank" rel="noreferrer" style={{ color: "#2f315a", fontWeight: 600 }}>017-905 2323</a>{" "}
                   or email <a href="mailto:support@ksleow.com.my" style={{ color: "#2f315a", fontWeight: 600 }}>support@ksleow.com.my</a> once you are ready to activate.
                 </p>
               </div>
@@ -702,7 +705,7 @@ export default function Sales2DOPage({ onContact }) {
               <div style={{ marginTop: "1.25rem", padding: "1rem 1.25rem", borderRadius: 10, background: "rgba(201,168,76,0.08)", border: "1px solid rgba(201,168,76,0.25)" }}>
                 <p style={{ fontSize: "0.83rem", color: "#6b6f91", lineHeight: 1.65 }}>
                   💡 WhatsApp:{" "}
-                  <a href="https://wa.me/60169902279" target="_blank" rel="noreferrer" style={{ color: "#2f315a", fontWeight: 600 }}>016-990 2279</a>
+                  <a href="https://wa.me/60179052323" target="_blank" rel="noreferrer" style={{ color: "#2f315a", fontWeight: 600 }}>017-905 2323</a>
                   {"  ·  "}Email:{" "}
                   <a href="mailto:support@ksleow.com.my" style={{ color: "#2f315a", fontWeight: 600 }}>support@ksleow.com.my</a>
                 </p>
@@ -719,11 +722,11 @@ export default function Sales2DOPage({ onContact }) {
           <p style={{ fontSize: "0.95rem", color: "rgba(255,255,255,0.6)", maxWidth: 480, margin: "0 auto 1.75rem" }}>
             Contact KSL Business Solutions for pricing, installation, and support across Pahang.
           </p>
-          <button onClick={onContact}
-            style={{ background: "#c9a84c", color: "#1e2040", padding: "0.85rem 2.5rem", borderRadius: 50, fontSize: "0.95rem", fontWeight: 700, border: "none", cursor: "pointer", fontFamily: "inherit", transition: "opacity 0.2s" }}
+          <a href={WA_LINK} target="_blank" rel="noreferrer"
+            style={{ display: "inline-block", background: "#c9a84c", color: "#1e2040", padding: "0.85rem 2.5rem", borderRadius: 50, fontSize: "0.95rem", fontWeight: 700, textDecoration: "none", fontFamily: "inherit", transition: "opacity 0.2s" }}
             onMouseOver={e => e.currentTarget.style.opacity = "0.85"}
             onMouseOut={e => e.currentTarget.style.opacity = "1"}
-          >Enquire Now</button>
+          >Enquire Now</a>
         </div>
       </div>
 
