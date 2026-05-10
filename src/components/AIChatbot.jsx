@@ -167,31 +167,18 @@ export default function AIChatbot({ app }) {
        * — alternating user/assistant turns with `{role, content}`. The
        * worker accepts both Gemini and OpenAI-style payloads, but most
        * recent versions standardise on `messages: [{role, content}]`. */
+      /* The KS-Omni worker expects messages in the shape { role, text }
+       * (not OpenAI-style { role, content }) — the same shape KSOmni.jsx
+       * uses when it talks to the same worker. */
       const history = messages
         .filter(m => m.text && !m.streaming && !m.error)
         .map(m => ({
           role: m.role === "assistant" ? "assistant" : "user",
-          content: m.text,
+          text: m.text,
         }));
-      history.push({ role: "user", content: text });
+      history.push({ role: "user", text });
 
-      const payload = {
-        /* primary shape (OpenAI-style) */
-        messages: history,
-        /* The KS-Omni worker scans the body for a user message under a
-         * variety of field names — include all known aliases so the same
-         * worker code works whether it looks for `message`, `prompt`,
-         * `query`, `input`, `text`, or `user_message`. */
-        message:      text,
-        prompt:       text,
-        query:        text,
-        input:        text,
-        text:         text,
-        user_message: text,
-        userMessage:  text,
-        /* legacy shape kept for backward compat with older worker builds */
-        history,
-      };
+      const payload = { messages: history };
       if (app) payload.app = app;
 
       const res = await fetch(`${WORKER_URL}/chat`, {
