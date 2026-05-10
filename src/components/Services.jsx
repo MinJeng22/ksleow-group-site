@@ -60,7 +60,7 @@ function BadgeRow({ badge }) {
                 </svg>
               </div>
               {i === 0 && (
-                <div style={{ width: 1, height: 18, background: "rgba(47,49,90,0.15)", margin: "0 0.5rem" }} />
+                <div style={{ width: 1, height: 44, background: "rgba(47,49,90,0.15)", margin: "0 0.6rem" }} />
               )}
             </div>
           ))
@@ -70,7 +70,7 @@ function BadgeRow({ badge }) {
               <img src={logo.src} alt={logo.alt}
                 style={{ height: logo.h, maxWidth: 160, objectFit: "contain" }} />
               {i < visibleLogos.length - 1 && (
-                <div style={{ width: 1, height: 18, background: "rgba(47,49,90,0.2)", margin: "0 0.6rem" }} />
+                <div style={{ width: 1, height: 44, background: "rgba(47,49,90,0.2)", margin: "0 0.7rem" }} />
               )}
             </div>
           ))
@@ -154,10 +154,11 @@ function ServiceCard({ service }) {
             {service.desc}
           </p>
 
-          {/* Subtle "tap to flip" hint at the bottom */}
+          {/* Subtle "tap to flip" hint — bottom-right */}
           <div style={{
             display: "inline-flex", alignItems: "center", gap: "0.35rem",
             marginTop: "0.6rem",
+            alignSelf: "flex-end",
             fontSize: "0.68rem", color: "#a8abcc", fontWeight: 500,
           }}>
             Tap for contact
