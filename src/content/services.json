@@ -45,7 +45,7 @@
       "desc": "Hardware wholesale, IT infrastructure, networking, and on-site SME support across Pahang.",
       "officeKey": "ksl_bs",
       "badgeType": "dealer",
-      "badgeLabel": "Authorized Sub-Dealers 30+",
+      "badgeLabel": "Authorized Dealer",
       "logos": [
         { "src": "/sunmi-logo.png", "alt": "Sunmi", "h": 64 },
         { "src": "/mdot-logo.png",  "alt": "Mdot",  "h": 56 }
@@ -57,7 +57,7 @@
       "desc": "Authorized AutoCount & FeedMe dealer — installation, licensing, training, and support.",
       "officeKey": "ksl_bs",
       "badgeType": "dealer",
-      "badgeLabel": "Authorized Sub-Dealers 30+",
+      "badgeLabel": "Authorized Dealer",
       "logos": [
         { "src": "/autocount-logo.png", "alt": "AutoCount", "h": 60 },
         { "src": "/feedme-logo.png",    "alt": "FeedMe",    "h": 60 }
@@ -69,7 +69,7 @@
       "desc": "Live webinars and on-demand training on accounting, tax, and business software.",
       "officeKey": null,
       "badgeType": "dealer",
-      "badgeLabel": "Authorized Sub-Dealers 30+",
+      "badgeLabel": "Authorized Dealer",
       "logos": [
         { "src": "/cert-webinar-1.png", "alt": "Partner 1", "h": 60 },
         { "src": "/cert-webinar-2.png", "alt": "Partner 2", "h": 60 }

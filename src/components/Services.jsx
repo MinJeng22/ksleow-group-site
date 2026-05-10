@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { SERVICE_CONTACTS } from "../constants/contact.js";
 import servicesContent from "../content/services.json";
 import officesContent  from "../content/offices.json";
@@ -25,39 +25,10 @@ const SERVICES = (servicesContent.items || []).map(s => {
   };
 });
 
-/* ── Count-up hook — animates a number from 0 to `target` ── */
-function useCountUp(target, duration = 1200) {
-  const [count, setCount] = useState(0);
-  const rafRef = useRef(null);
-  const startRef = useRef(null);
-  useEffect(() => {
-    startRef.current = null;
-    const step = (ts) => {
-      if (!startRef.current) startRef.current = ts;
-      const progress = Math.min((ts - startRef.current) / duration, 1);
-      // ease-out cubic
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.round(eased * target));
-      if (progress < 1) rafRef.current = requestAnimationFrame(step);
-    };
-    rafRef.current = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(rafRef.current);
-  }, [target, duration]);
-  return count;
-}
-
 /* ── Badge row — used for both Authorized Dealer and Certified By ── */
 function BadgeRow({ badge }) {
   /* Both labels use the same neutral grey (per design spec) */
   const labelColor = "#6b6f91";
-
-  /* Parse "Authorized Sub-Dealers 30+" → prefix "Authorized Sub-Dealers ", number 30, suffix "+" */
-  const labelMatch = badge.label.match(/^(.*?)(\d+)(\+?)$/);
-  const hasNum = !!labelMatch;
-  const labelPrefix = hasNum ? labelMatch[1] : badge.label;
-  const labelTarget = hasNum ? parseInt(labelMatch[2], 10) : 0;
-  const labelSuffix = hasNum ? labelMatch[3] : "";
-  const animCount = useCountUp(labelTarget, 1400);
 
   /* Filter out logos whose src starts with /cert- (placeholders — hide until file exists) */
   const visibleLogos = badge.logos.filter(l => !l.src.startsWith("/cert-"));
@@ -69,10 +40,7 @@ function BadgeRow({ badge }) {
         fontSize: "0.58rem", fontWeight: 700, letterSpacing: "0.1em",
         textTransform: "uppercase", color: labelColor, textAlign: "center",
       }}>
-        {hasNum
-          ? <>{labelPrefix}<span style={{ color: "#c9a84c" }}>{animCount}{labelSuffix}</span></>
-          : badge.label
-        }
+        {badge.label}
       </div>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0" }}>
         {showPlaceholder ? (
