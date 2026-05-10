@@ -169,41 +169,45 @@ export default function ContactModal({ open, onClose }) {
           <ContactLine icon={<PinIcon />} label={CONTACT.address} />
         </div>
 
-        {/* ── Bottom CTA buttons — WhatsApp + Email only ── */}
+        {/* ── Bottom CTA buttons — WhatsApp + Email side-by-side ── */}
         <div style={{
           position: "relative", zIndex: 1,
           padding: "0.4rem 1.6rem 1.5rem",
-          display: "flex", flexDirection: "column", gap: "0.55rem",
+          display: "flex", gap: "0.55rem",
         }}>
           {/* WhatsApp — gold pill */}
           <a
             href={WA_LINK} target="_blank" rel="noreferrer"
             style={{
-              display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "0.5rem",
+              flex: 1,
+              display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "0.45rem",
               background: "#c9a84c", color: "#1e2040",
-              borderRadius: 50, padding: "0.7rem 1.2rem",
-              fontSize: "0.85rem", fontWeight: 700,
+              borderRadius: 50, padding: "0.7rem 1rem",
+              fontSize: "0.82rem", fontWeight: 700,
               textDecoration: "none", transition: "background 0.2s",
               fontFamily: "inherit",
+              whiteSpace: "nowrap",
             }}
             onMouseOver={e => { e.currentTarget.style.background = "#e8c97a"; }}
             onMouseOut={e => { e.currentTarget.style.background = "#c9a84c"; }}
           >
             <WhatsAppIcon />
-            WhatsApp Us
+            WhatsApp
           </a>
 
           {/* Email — ghost outline */}
           <a
             href={mailHref}
             style={{
+              flex: 1,
               display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "0.45rem",
               background: "rgba(255,255,255,0.06)", color: "#ffffff",
               border: "1px solid rgba(255,255,255,0.22)",
               borderRadius: 50, padding: "0.65rem 1rem",
-              fontSize: "0.8rem", fontWeight: 600,
+              fontSize: "0.82rem", fontWeight: 600,
               textDecoration: "none",
               fontFamily: "inherit",
+              whiteSpace: "nowrap",
               transition: "background 0.2s, border-color 0.2s",
             }}
             onMouseOver={e => { e.currentTarget.style.background = "rgba(255,255,255,0.14)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.4)"; }}

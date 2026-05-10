@@ -56,17 +56,6 @@ export default function Products({ onContact }) {
                         <span style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.3)", letterSpacing: "0.08em", textTransform: "uppercase" }}>Upload logo</span>
                       </div>
                   }
-                  {/* "View Details" badge on hover for clickable cards */}
-                  {clickable && isHov && (
-                    <div style={{
-                      position: "absolute", bottom: 10, right: 10,
-                      background: "rgba(201,168,76,0.9)", color: "#1e2040",
-                      fontSize: "0.65rem", fontWeight: 700, letterSpacing: "0.06em",
-                      padding: "0.3rem 0.7rem", borderRadius: 50, textTransform: "uppercase",
-                    }}>
-                      View Details →
-                    </div>
-                  )}
                 </div>
 
                 <div style={{ padding: "1.35rem" }}>

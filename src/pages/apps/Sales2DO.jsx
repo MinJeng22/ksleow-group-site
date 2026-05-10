@@ -564,7 +564,8 @@ export default function Sales2DOPage({ onContact }) {
           <div style={S.label}>Activation</div>
           <h2 style={S.h2}>Activate Plugin License</h2>
 
-          <div style={{ display: "flex", background: "#e8e8f0", borderRadius: 50, padding: 4, gap: 2, marginBottom: "2rem", width: "fit-content" }}>
+          {/* Tabs — only shown on tablet/mobile (hidden on desktop via CSS) */}
+          <div className="license-tabs" style={{ display: "flex", background: "#e8e8f0", borderRadius: 50, padding: 4, gap: 2, marginBottom: "2rem", width: "fit-content" }}>
             {[["online", "Online Activation"], ["offline", "Offline Activation"]].map(([key, label]) => (
               <button key={key} onClick={() => setLicenseTab(key)} style={{
                 fontSize: "0.82rem", fontWeight: 600, padding: "0.45rem 1.3rem", borderRadius: 50, border: "none", cursor: "pointer", fontFamily: "inherit",
@@ -575,8 +576,31 @@ export default function Sales2DOPage({ onContact }) {
             ))}
           </div>
 
-          {licenseTab === "online" && (
-            <div style={{ maxWidth: 680 }}>
+          <style>{`
+            /* Desktop: hide tabs; show both columns side-by-side. The
+               !important here overrides the inline display set by the
+               tab state, so both blocks render regardless of licenseTab. */
+            @media (min-width: 1025px) {
+              .license-tabs { display: none !important; }
+              .license-grid {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                gap: 2.5rem !important;
+                align-items: start !important;
+              }
+              .license-block-online,
+              .license-block-offline {
+                display: block !important;
+                max-width: none !important;
+              }
+              .license-col-title { display: block !important; }
+            }
+          `}</style>
+
+          <div className="license-grid">
+            {/* ── Online block ── */}
+            <div className="license-block-online" style={{ maxWidth: 680, display: licenseTab === "online" ? "block" : "none" }}>
+              <h3 className="license-col-title" style={{ ...S.h3, fontSize: "1.1rem", color: "#2f315a", marginBottom: "0.85rem", display: "none" }}>Online Activation</h3>
               <ImgSlot src={imgLicenseOnline} alt="License Control — Get Online button" caption="Online Activation — License Control screen" />
               <p style={{ ...S.body, margin: "1.25rem 0 1rem" }}>Ensure your device is connected to the internet, then follow these steps:</p>
               <Step n={1}>KSL Business Solutions will inform you via WhatsApp or Email once your license is ready.</Step>
@@ -590,10 +614,10 @@ export default function Sales2DOPage({ onContact }) {
                 </p>
               </div>
             </div>
-          )}
 
-          {licenseTab === "offline" && (
-            <div style={{ maxWidth: 680 }}>
+            {/* ── Offline block ── */}
+            <div className="license-block-offline" style={{ maxWidth: 680, display: licenseTab === "offline" ? "block" : "none" }}>
+              <h3 className="license-col-title" style={{ ...S.h3, fontSize: "1.1rem", color: "#2f315a", marginBottom: "0.85rem", display: "none" }}>Offline Activation</h3>
               <ImgSlot src={imgLicenseOffline} alt="License Control — Machine ID field" caption="Offline Activation — copy the Machine ID shown here" />
               <p style={{ ...S.body, margin: "1.25rem 0 1rem" }}>For PCs without internet access, use offline activation:</p>
               <Step n={1}>Open AutoCount Accounting and navigate to the Sales2DO plugin from the navigation bar.</Step>
@@ -610,7 +634,7 @@ export default function Sales2DOPage({ onContact }) {
                 </p>
               </div>
             </div>
-          )}
+          </div>
         </div>
       </div>
 

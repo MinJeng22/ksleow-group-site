@@ -314,7 +314,7 @@ export default function AIChatbot({ app }) {
               value={input}
               onChange={e => { if (!loading) setInput(e.target.value); }}
               onKeyDown={e => { if (loading) { e.preventDefault(); return; } handleKey(e); }}
-              placeholder={loading ? "Waiting for AI reply…" : "How can I help you today?"}
+              placeholder={loading ? "Waiting for AI reply…" : "Ask KS Omni..."}
               disabled={loading}
               readOnly={loading}
               rows={1}

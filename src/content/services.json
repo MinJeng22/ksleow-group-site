@@ -6,7 +6,7 @@
     {
       "key": "taxation",
       "title": "Taxation & Accounting",
-      "desc": "Full-scope accounting and tax services — bookkeeping, financial statements, corporate and individual tax filing, SST compliance, e-Invoice readiness, and LHDN liaison.",
+      "desc": "Bookkeeping, financial statements, tax filing, SST & e-Invoice compliance, and LHDN liaison.",
       "officeKey": "ksl_tax",
       "badgeType": "certified",
       "badgeLabel": "Certified By",
@@ -18,7 +18,7 @@
     {
       "key": "secretarial",
       "title": "Secretarial & Management",
-      "desc": "Company incorporation, SSM annual returns, board resolutions, corporate secretarial compliance, business process consulting, management reporting, and strategic advisory.",
+      "desc": "Company incorporation, SSM annual filings, board resolutions, and corporate compliance.",
       "officeKey": "ksl_mgmt",
       "badgeType": "certified",
       "badgeLabel": "Certified By",
@@ -30,7 +30,7 @@
     {
       "key": "auditing",
       "title": "Auditing",
-      "desc": "Independent financial audits and assurance services. Present accurate, credible financials to stakeholders, banks, and regulatory bodies with confidence.",
+      "desc": "Independent financial audits for stakeholders, banks, and regulatory bodies.",
       "officeKey": "ksl_mgmt",
       "badgeType": "certified",
       "badgeLabel": "Certified By",
@@ -40,9 +40,21 @@
       ]
     },
     {
+      "key": "business_solutions",
+      "title": "Business Solutions Advisory",
+      "desc": "Strategic advisory, process consulting, and tailored solutions to streamline SME operations.",
+      "officeKey": "ksl_mgmt",
+      "badgeType": "certified",
+      "badgeLabel": "Certified By",
+      "logos": [
+        { "src": "/cert-business-1.png", "alt": "Cert 1", "h": 60 },
+        { "src": "/cert-business-2.png", "alt": "Cert 2", "h": 60 }
+      ]
+    },
+    {
       "key": "hardware",
       "title": "Computer Hardware & Technical",
-      "desc": "Computer hardware wholesale, IT infrastructure, networking solutions, and on-site technical support for SMEs across Pahang.",
+      "desc": "Hardware wholesale, IT infrastructure, networking, and on-site SME support across Pahang.",
       "officeKey": "ksl_bs",
       "badgeType": "dealer",
       "badgeLabel": "Authorized Dealer",
@@ -52,15 +64,39 @@
       ]
     },
     {
+      "key": "server",
+      "title": "Server & Infrastructure",
+      "desc": "Server setup, deployment, configuration, and ongoing maintenance for SME infrastructure.",
+      "officeKey": "ksl_bs",
+      "badgeType": "dealer",
+      "badgeLabel": "Authorized Dealer",
+      "logos": [
+        { "src": "/cert-server-1.png", "alt": "Server Partner 1", "h": 60 },
+        { "src": "/cert-server-2.png", "alt": "Server Partner 2", "h": 60 }
+      ]
+    },
+    {
       "key": "accounting_pos",
       "title": "Software Training & Support",
-      "desc": "Authorized AutoCount and FeedMe dealer for Pahang. Full installation, configuration, licensing, training, and ongoing support for AutoCount Accounting, POS, and FeedMe Smart POS.",
+      "desc": "Authorized AutoCount & FeedMe dealer — installation, licensing, training, and support.",
       "officeKey": "ksl_bs",
       "badgeType": "dealer",
       "badgeLabel": "Authorized Dealer",
       "logos": [
         { "src": "/autocount-logo.png", "alt": "AutoCount", "h": 60 },
         { "src": "/feedme-logo.png",    "alt": "FeedMe",    "h": 60 }
+      ]
+    },
+    {
+      "key": "webinar",
+      "title": "Webinar & Workshops",
+      "desc": "Live webinars and on-demand training on accounting, tax, and business software.",
+      "officeKey": "ksl_bs",
+      "badgeType": "dealer",
+      "badgeLabel": "Authorized Dealer",
+      "logos": [
+        { "src": "/cert-webinar-1.png", "alt": "Partner 1", "h": 60 },
+        { "src": "/cert-webinar-2.png", "alt": "Partner 2", "h": 60 }
       ]
     }
   ]

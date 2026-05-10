@@ -27,8 +27,8 @@ const SERVICES = (servicesContent.items || []).map(s => {
 
 /* ── Badge row — used for both Authorized Dealer and Certified By ── */
 function BadgeRow({ badge }) {
-  const isDealer = badge.label.toLowerCase().includes("dealer") || badge.label.toLowerCase().includes("authorized");
-  const labelColor = isDealer ? "#c9a84c" : "#6b6f91";
+  /* Both labels use the same neutral grey (per design spec) */
+  const labelColor = "#6b6f91";
 
   /* Filter out logos whose src starts with /cert- (placeholders — hide until file exists) */
   const visibleLogos = badge.logos.filter(l => !l.src.startsWith("/cert-"));
@@ -101,7 +101,7 @@ function ServiceCard({ service }) {
     .replace("Kampung Catin, 28400 ", "");
 
   return (
-    <div style={{ perspective: "1000px", height: 260 }}>
+    <div style={{ perspective: "1000px", height: 290 }}>
       <div style={{
         position: "relative", width: "100%", height: "100%",
         transformStyle: "preserve-3d",
@@ -144,15 +144,18 @@ function ServiceCard({ service }) {
           </h3>
           <p style={{
             fontSize: "0.83rem", color: "#6b6f91", lineHeight: 1.6,
-            flex: 1, margin: 0,
-            /* Clamp to 3 lines so the front stays compact */
+            margin: 0,
+            /* Clamp to 4 lines max — paired with shorter descriptions in
+               services.json so lines never get visually cut. */
             display: "-webkit-box",
-            WebkitLineClamp: 3,
+            WebkitLineClamp: 4,
             WebkitBoxOrient: "vertical",
             overflow: "hidden",
           }}>
             {service.desc}
           </p>
+          {/* spacer pushes the "Tap for contact" hint to the bottom */}
+          <div style={{ flex: 1 }} />
 
           {/* Subtle "tap to flip" hint — bottom-right */}
           <div style={{
