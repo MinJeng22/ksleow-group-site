@@ -241,6 +241,10 @@ function VideoGuide() {
       const fireSwap = () => {
         setActive(toSlot);
         setIdx(toIdx);
+        /* Switching segments always auto-plays the new clip — sync the
+         * pause-button icon back to "playing" so it doesn't stick on the
+         * play-triangle from a previous pause. */
+        setPaused(false);
         /* Instant cut — pause the old slot and preload next-next on the
          * idle slot right away, on the next animation frame. */
         requestAnimationFrame(() => {
