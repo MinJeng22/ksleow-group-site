@@ -3,7 +3,10 @@ import { useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
 import SectionSidebar from "../../components/SectionSidebar.jsx";
 import DownloadAutoCountModal from "../../components/DownloadAutoCountModal.jsx";
-import { WA_ELISE as WA_LINK } from "../../constants/contact.js";
+/* AutoCount Accounting page — product-aware WhatsApp link to Sales Agent Elise */
+const WA_LINK = `https://wa.me/60169902279?text=${encodeURIComponent(
+  "Hi Elise, I would like to learn more about AutoCount Accounting. Thank you."
+)}`;
 import { PRODUCT_IMAGES } from "../../assets/assets.js";
 
 /* ═══════════════════════════════════════════════════════════════
@@ -1667,14 +1670,13 @@ export default function AutoCountAccountingPage({ onContact }) {
             KSL Business Solutions provides full AutoCount implementation,
             training, and support across Pahang.
           </p>
-          <button
-            onClick={onContact}
-            style={{ background: "#c9a84c", color: "#1e2040", padding: "0.85rem 2.5rem", borderRadius: 50, fontSize: "0.95rem", fontWeight: 700, border: "none", cursor: "pointer", fontFamily: "inherit", transition: "opacity 0.2s" }}
+          <a href={WA_LINK} target="_blank" rel="noreferrer"
+            style={{ display: "inline-block", background: "#c9a84c", color: "#1e2040", padding: "0.85rem 2.5rem", borderRadius: 50, fontSize: "0.95rem", fontWeight: 700, textDecoration: "none", fontFamily: "inherit", transition: "opacity 0.2s" }}
             onMouseOver={e => e.currentTarget.style.opacity = "0.85"}
             onMouseOut={e => e.currentTarget.style.opacity = "1"}
           >
-            Contact Us Today
-          </button>
+            Enquire Now
+          </a>
         </div>
       </div>
 

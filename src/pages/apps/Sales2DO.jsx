@@ -10,14 +10,18 @@ import AIChatbot from "../../components/AIChatbot.jsx";
 import acPluginIcon     from "../../assets/images/apps/ac-plugin-icon.png";
 import imgOutstanding   from "../../assets/images/apps/sales2do/outstanding.png";
 import imgSettings      from "../../assets/images/apps/sales2do/settings.png";
-import imgLicenseOnline  from "../../assets/images/apps/sales2do/license-online.png";
-import imgLicenseOffline from "../../assets/images/apps/sales2do/license-offline.png";
+/* Online/Offline activation screenshots are swapped — the file named
+ * `license-online.png` was originally captured for the offline flow and
+ * vice versa. Re-binding the imports is cheaper than renaming the files
+ * on disk. */
+import imgLicenseOnline  from "../../assets/images/apps/sales2do/license-offline.png";
+import imgLicenseOffline from "../../assets/images/apps/sales2do/license-online.png";
 
 /* Sales2DO sidebar anchor items */
 const S2D_SIDEBAR_ITEMS = [
   { id: "overview",    label: "Overview"       },
-  { id: "preset",      label: "Preset"         },
   { id: "outstanding", label: "Outstanding DO" },
+  { id: "preset",      label: "Preset"         },
   { id: "settings",    label: "Settings"       },
   { id: "license",     label: "License"        },
 ];
@@ -519,36 +523,8 @@ export default function Sales2DOPage({ onContact }) {
         </div>
       </div>
 
-      {/* ── Preset "Delivery?" in Stock Item Maintenance ── */}
-      <div id="preset" style={{ background: "#f5f5f8", ...S.section, scrollMarginTop: 24 }}>
-        <div className="content-wrap">
-          <div style={S.label}>Item Configuration</div>
-          <h2 style={S.h2}>Preset "Delivery?" in Stock Item Maintenance</h2>
-
-          <SectionRow image={null} alt="Stock Item Maintenance — Delivery? checkbox" caption='User Defined Field — "Delivery?" checkbox'>
-            <p style={{ ...S.body, marginBottom: "1rem" }}>
-              By presetting the <strong>"Delivery?"</strong> status, the plugin automatically determines which items
-              should be delivered and tracked in the <strong>Outstanding Delivery Order</strong> dashboard.
-            </p>
-            <Step n={1}>Navigate to <strong>Stock → Stock Item Maintenance</strong>.</Step>
-            <Step n={2}>Open a stock item in <strong>Edit</strong> mode.</Step>
-            <Step n={3}>Click the <strong>User Defined Field</strong> tab and locate the <strong>Delivery?</strong> checkbox.</Step>
-            <BulletList items={[
-              <><strong>Ticked:</strong> Item requires a Delivery Order and will be tracked for outstanding quantity.</>,
-              <><strong>Unticked:</strong> Item is treated as a service or non-physical good and will be ignored by the tracking dashboard.</>,
-            ]} />
-            <div style={{ marginTop: "1rem", padding: "0.85rem 1.1rem", borderRadius: 10, background: "rgba(201,168,76,0.08)", border: "1px solid rgba(201,168,76,0.25)" }}>
-              <p style={{ fontSize: "0.83rem", color: "#6b6f91", lineHeight: 1.65, margin: 0 }}>
-                💡 Upon installing <strong>Sales2DO</strong>, the <strong>Delivery?</strong> checkbox for all
-                existing items will be automatically ticked.
-              </p>
-            </div>
-          </SectionRow>
-        </div>
-      </div>
-
       {/* ── Outstanding Delivery Order ── */}
-      <div id="outstanding" style={{ background: "#fff", ...S.section, scrollMarginTop: 24 }}>
+      <div id="outstanding" style={{ background: "#f5f5f8", ...S.section, scrollMarginTop: 24 }}>
         <div className="content-wrap">
           <div style={S.label}>Monitoring</div>
           <h2 style={S.h2}>Outstanding Delivery Order</h2>
@@ -593,6 +569,34 @@ export default function Sales2DOPage({ onContact }) {
                 <BulletList items={items} />
               </div>
             ))}
+          </SectionRow>
+        </div>
+      </div>
+
+      {/* ── Preset "Delivery?" in Stock Item Maintenance ── */}
+      <div id="preset" style={{ background: "#fff", ...S.section, scrollMarginTop: 24 }}>
+        <div className="content-wrap">
+          <div style={S.label}>Item Configuration</div>
+          <h2 style={S.h2}>Preset "Delivery?" in Stock Item Maintenance</h2>
+
+          <SectionRow image={null} alt="Stock Item Maintenance — Delivery? checkbox" caption='User Defined Field — "Delivery?" checkbox'>
+            <p style={{ ...S.body, marginBottom: "1rem" }}>
+              By presetting the <strong>"Delivery?"</strong> status, the plugin automatically determines which items
+              should be delivered and tracked in the <strong>Outstanding Delivery Order</strong> dashboard.
+            </p>
+            <Step n={1}>Navigate to <strong>Stock → Stock Item Maintenance</strong>.</Step>
+            <Step n={2}>Open a stock item in <strong>Edit</strong> mode.</Step>
+            <Step n={3}>Click the <strong>User Defined Field</strong> tab and locate the <strong>Delivery?</strong> checkbox.</Step>
+            <BulletList items={[
+              <><strong>Ticked:</strong> Item requires a Delivery Order and will be tracked for outstanding quantity.</>,
+              <><strong>Unticked:</strong> Item is treated as a service or non-physical good and will be ignored by the tracking dashboard.</>,
+            ]} />
+            <div style={{ marginTop: "1rem", padding: "0.85rem 1.1rem", borderRadius: 10, background: "rgba(201,168,76,0.08)", border: "1px solid rgba(201,168,76,0.25)" }}>
+              <p style={{ fontSize: "0.83rem", color: "#6b6f91", lineHeight: 1.65, margin: 0 }}>
+                💡 Upon installing <strong>Sales2DO</strong>, the <strong>Delivery?</strong> checkbox for all
+                existing items will be automatically ticked.
+              </p>
+            </div>
           </SectionRow>
         </div>
       </div>

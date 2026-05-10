@@ -384,7 +384,7 @@ export default function Services() {
           <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.6rem)", fontWeight: 700, color: "#2f315a", lineHeight: 1.2, marginBottom: "0.75rem" }}>
             {servicesContent.heading}
           </h2>
-          <p style={{ fontSize: "1rem", color: "#6b6f91", lineHeight: 1.75, marginBottom: "3rem", whiteSpace: "nowrap" }}>
+          <p style={{ fontSize: "1rem", color: "#6b6f91", lineHeight: 1.75, marginBottom: "3rem" }}>
             {servicesContent.intro}
           </p>
           <div className="services-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.1rem" }}>
