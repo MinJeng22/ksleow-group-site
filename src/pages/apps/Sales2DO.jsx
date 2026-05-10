@@ -427,14 +427,14 @@ function VideoGuide() {
               style={{
                 position: "absolute", bottom: 12, right: 12, zIndex: 4,
                 width: 36, height: 36, borderRadius: "50%",
-                background: "rgba(255,255,255,0.12)",
-                border: "1px solid rgba(255,255,255,0.25)",
+                background: "rgba(0,0,0,0.45)",
+                border: "1px solid rgba(0,0,0,0.6)",
                 color: "#ffffff", cursor: "pointer",
                 display: "flex", alignItems: "center", justifyContent: "center",
                 transition: "background 0.2s",
               }}
-              onMouseOver={e => e.currentTarget.style.background = "rgba(255,255,255,0.22)"}
-              onMouseOut={e => e.currentTarget.style.background = "rgba(255,255,255,0.12)"}
+              onMouseOver={e => e.currentTarget.style.background = "rgba(0,0,0,0.65)"}
+              onMouseOut={e => e.currentTarget.style.background = "rgba(0,0,0,0.45)"}
             >
               {paused
                 ? <svg width="11" height="13" viewBox="0 0 12 14" fill="white"><polygon points="0,0 12,7 0,14"/></svg>
