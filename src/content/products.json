@@ -6,7 +6,7 @@
     {
       "name": "AutoCount Accounting",
       "desc": "Malaysia's leading cloud and desktop accounting software. Full SST and e-Invoice ready.",
-      "image": "/uploads/products/autocount-accounting.png",
+      "image": "/uploads/products/autocount-02-1024x352.png",
       "background": "/uploads/products/autocount-accounting-showcase.png",
       "placeholder": "🧾",
       "gradient": "rgb(221, 234, 213)",
@@ -15,7 +15,7 @@
     {
       "name": "AutoCount POS",
       "desc": "POS integrated with AutoCount Accounting. Real-time inventory and sales reporting.",
-      "image": "/uploads/products/autocount-pos.png",
+      "image": "/uploads/products/autocountpos.png",
       "background": "/uploads/products/autocount-pos-showcase.jpg",
       "placeholder": "🖥️",
       "gradient": "rgb(244, 234, 207)",
