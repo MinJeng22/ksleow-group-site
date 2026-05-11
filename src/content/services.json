@@ -74,12 +74,12 @@
         {
           "src": "/sunmi-logo.png",
           "alt": "Sunmi",
-          "h": 64
+          "h": 50
         },
         {
           "src": "/mdot-logo.png",
           "alt": "Mdot",
-          "h": 56
+          "h": 50
         }
       ]
     },
