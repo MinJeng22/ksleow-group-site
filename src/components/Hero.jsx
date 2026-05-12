@@ -5,14 +5,21 @@ import hero from "../content/hero.json";
 import branding from "../content/branding.json";
 
 export default function Hero({ onContact }) {
-  const [paused, setPaused]   = useState(false);
-  const [visible, setVisible] = useState(false);
-  /* Fade out the "Scroll for more" hint once the user has actually
-   * started scrolling — hides at 60px of scroll, fully gone by 200px. */
-  const [scrollY, setScrollY] = useState(0);
+  const [paused, setPaused]     = useState(false);
+  const [visible, setVisible]   = useState(false);
+  /* Scroll hint appears 5 seconds after the page settles — gives the
+   * viewer time to read the hero copy first, then quietly invites
+   * them downward. Fades out as soon as they start scrolling. */
+  const [hintShown, setHintShown] = useState(false);
+  const [scrollY,   setScrollY]   = useState(0);
 
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 120);
+    return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    const t = setTimeout(() => setHintShown(true), 5000);
     return () => clearTimeout(t);
   }, []);
 
@@ -21,7 +28,9 @@ export default function Hero({ onContact }) {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-  const hintOpacity = Math.max(0, 1 - Math.max(0, scrollY - 60) / 140);
+  const hintOpacity = hintShown
+    ? Math.max(0, 1 - Math.max(0, scrollY - 40) / 120)
+    : 0;
 
   const logoH = "clamp(80px, 11vw, 140px)";
 
@@ -178,42 +187,67 @@ export default function Hero({ onContact }) {
         </div>
       </div>
 
-      {/* ── Scroll-for-more hint ──
-       * Centered along the hero's bottom edge. Soft bounce, fades out
-       * once the user has scrolled. Clicking it smooth-scrolls past
-       * the hero to the next section. */}
+      {/* ── Scroll-for-more hint — premium minimal design ──
+       *   • "SCROLL" wordmark in fine letter-spacing (gold)
+       *   • Thin vertical hairline with a small gold dot that travels
+       *     from the top of the line to the bottom on a slow loop —
+       *     reads as "this is where to go next" without being noisy
+       *   • Appears 5 s after page load, fades out the moment the
+       *     viewer starts scrolling
+       *   • Click scrolls ~72% of the viewport (keeps the bottom of
+       *     the hero visible above the next section) */}
       <style>{`
-        @keyframes scrollHintBounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+        @keyframes scrollHintFadeIn { from { opacity: 0; transform: translate(-50%, 12px); } to { opacity: 1; transform: translate(-50%, 0); } }
+        @keyframes scrollHintTravel {
+          0%   { transform: translateY(0);    opacity: 0; }
+          15%  { opacity: 1; }
+          85%  { opacity: 1; }
+          100% { transform: translateY(40px); opacity: 0; }
+        }
       `}</style>
       <button
         onClick={() => {
-          const next = document.querySelector(".stats-section, #services");
-          if (next) next.scrollIntoView({ behavior: "smooth", block: "start" });
-          else window.scrollBy({ top: window.innerHeight, behavior: "smooth" });
+          /* Scroll just enough that the bottom of the hero stays
+           * visible at the top of the viewport — the user can still
+           * see where they came from. */
+          window.scrollBy({ top: window.innerHeight * 0.72, behavior: "smooth" });
         }}
         aria-label="Scroll for more"
         style={{
-          position: "absolute", left: "50%", bottom: 24, zIndex: 10,
+          position: "absolute", left: "50%", bottom: 36, zIndex: 10,
           transform: "translateX(-50%)",
           display: "inline-flex", flexDirection: "column",
-          alignItems: "center", gap: 6,
+          alignItems: "center", gap: 14,
           background: "transparent", border: "none",
-          color: "rgba(255,255,255,0.7)",
-          fontSize: "0.7rem", fontWeight: 500, letterSpacing: "0.18em",
+          color: "#e8c97a",
+          fontSize: "0.62rem", fontWeight: 600, letterSpacing: "0.32em",
           textTransform: "uppercase", fontFamily: "inherit",
           cursor: "pointer", padding: "0.5rem 1rem",
           opacity: visible ? hintOpacity : 0,
-          transition: "opacity 0.4s ease, color 0.2s",
+          transition: "opacity 0.6s ease",
           pointerEvents: hintOpacity > 0.2 ? "auto" : "none",
+          /* Fade-in entrance only on first appearance (5 s after load) */
+          animation: hintShown && hintOpacity > 0.9
+            ? "scrollHintFadeIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) both"
+            : "none",
         }}
-        onMouseOver={e => e.currentTarget.style.color = "#e8c97a"}
-        onMouseOut ={e => e.currentTarget.style.color = "rgba(255,255,255,0.7)"}
       >
-        Scroll for more
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-          style={{ animation: "scrollHintBounce 1.6s ease-in-out infinite" }}>
-          <polyline points="6 9 12 15 18 9" />
-        </svg>
+        <span style={{ textIndent: "0.32em" /* compensate trailing letter-spacing for visual centering */ }}>
+          Scroll
+        </span>
+        {/* Hairline + traveling dot */}
+        <div style={{ position: "relative", width: 1, height: 40, background: "rgba(232,201,122,0.35)" }}>
+          <span
+            aria-hidden="true"
+            style={{
+              position: "absolute", left: -2, top: 0,
+              width: 5, height: 5, borderRadius: "50%",
+              background: "#e8c97a",
+              boxShadow: "0 0 6px rgba(232,201,122,0.7)",
+              animation: "scrollHintTravel 2.4s ease-in-out infinite",
+            }}
+          />
+        </div>
       </button>
 
       {/* Pause / Play */}
