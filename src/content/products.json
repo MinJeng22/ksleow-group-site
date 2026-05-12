@@ -16,7 +16,7 @@
       "name": "AutoCount POS",
       "desc": "POS integrated with AutoCount Accounting. Real-time inventory and sales reporting.",
       "image": "/uploads/products/autocountpos.png",
-      "background": "",
+      "background": "/uploads/products/autocount-pos-showcase.png",
       "placeholder": "🖥️",
       "gradient": "rgb(244, 234, 207)",
       "route": ""
