@@ -13,6 +13,7 @@ import Footer        from "./components/Footer";
 import BackToTop     from "./components/BackToTop";
 
 import AutoCountAccountingPage from "./pages/products/AutoCountAccounting";
+import FeedMePOSPage           from "./pages/products/FeedMePOS";
 import Sales2DOPage            from "./pages/apps/Sales2DO";
 import KSOmniPage              from "./pages/KSOmni";
 
@@ -45,6 +46,7 @@ function AppShell({ openContact, modalOpen, setModalOpen }) {
       <Routes>
         <Route path="/"                              element={<Home onContact={openContact} />} />
         <Route path="/products/autocount-accounting" element={<AutoCountAccountingPage onContact={openContact} />} />
+        <Route path="/products/feedme-pos"           element={<FeedMePOSPage           onContact={openContact} />} />
         <Route path="/apps/sales2do"                 element={<Sales2DOPage onContact={openContact} />} />
         <Route path="/omni"                           element={<KSOmniPage   onContact={openContact} />} />
       </Routes>
