@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { LOGO_NAV } from "../assets/assets.js";
-import OptimizedImage from "./OptimizedImage.jsx";
 import branding from "../content/branding.json";
 
 /* ── NAV LOGO
@@ -51,7 +50,7 @@ export default function Nav({ onContact }) {
           onClick={() => window.scrollTo({ top: 0, behavior: "instant" })}
           style={{ display: "inline-block", lineHeight: 0 }}
         >
-          <OptimizedImage
+          <img
             src={branding.navLogo || LOGO_NAV}
             alt="KSL Business Solutions"
             loading="eager"

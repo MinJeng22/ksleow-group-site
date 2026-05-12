@@ -70,8 +70,8 @@ export const CASE_IMAGES = {
  *               src/components/Products.jsx  (product card)
  * ══════════════════════════════════════════════════════════════ */
 
-import autocountAccountingIcon from "./images/products/autocount-accounting-icon.webp";
-import autocountInterface       from "./images/products/autocount-interface.webp";
+import autocountAccountingIcon from "./images/products/autocount-accounting-icon.png";
+import autocountInterface       from "./images/products/autocount-interface.png";
 // import autocountAccounting     from "./images/products/autocount-accounting.png";
 // import autocountPos            from "./images/products/autocount-pos.png";
 // import autocountPayroll        from "./images/products/autocount-payroll.png";

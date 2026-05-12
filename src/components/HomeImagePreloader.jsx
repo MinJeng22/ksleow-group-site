@@ -3,14 +3,9 @@ import branding from "../content/branding.json";
 import caseStudiesContent from "../content/caseStudies.json";
 import productsContent from "../content/products.json";
 import servicesContent from "../content/services.json";
-import { optimizedImageSrc } from "../utils/imageOptimization.js";
 
 function compactUnique(values) {
-  return [...new Set(
-    values
-      .filter(src => typeof src === "string" && src.trim() && !src.startsWith("/cert-"))
-      .map(optimizedImageSrc)
-  )];
+  return [...new Set(values.filter(src => typeof src === "string" && src.trim()))];
 }
 
 function warmImages(sources, priority = "low") {

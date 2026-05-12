@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import { CASE_IMAGES } from "../assets/assets.js";
-import OptimizedImage from "./OptimizedImage.jsx";
 import caseStudiesContent from "../content/caseStudies.json";
 
 const CASES = caseStudiesContent.items || [];
@@ -96,7 +95,7 @@ export default function CaseStudies({ onContact }) {
                   {/* image / placeholder */}
                   <div style={{ position: "relative", paddingBottom: "48%", background: meta.accent }}>
                     {imgSrc ? (
-                      <OptimizedImage src={imgSrc} alt={c.title}
+                      <img src={imgSrc} alt={c.title}
                         loading="lazy"
                         decoding="async"
                         fetchPriority="low"

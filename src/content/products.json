@@ -7,37 +7,37 @@
       "name": "AutoCount Accounting",
       "desc": "Malaysia's leading cloud and desktop accounting software. Full SST and e-Invoice ready.",
       "image": "/uploads/products/autocount-02-1024x352.png",
-      "background": "/uploads/products/autocount-accounting-showcase.png",
+      "background": "/uploads/products/autocount-accounting-showcase.webp",
       "placeholder": "🧾",
       "gradient": "rgb(221, 234, 213)",
       "route": "/products/autocount-accounting"
     },
     {
       "name": "AutoCount POS",
-      "desc": "Retail POS for checkout, inventory control, outlet reporting, and AutoCount Accounting posting.",
+      "desc": "POS integrated with AutoCount Accounting. Real-time inventory and sales reporting.",
       "image": "/uploads/products/autocountpos.png",
-      "background": "/uploads/products/autocount-pos-showcase.png",
+      "background": "/uploads/products/autocount-pos-showcase.webp",
       "placeholder": "🖥️",
       "gradient": "rgb(244, 234, 207)",
-      "route": "/products/autocount-pos"
+      "route": ""
     },
     {
-      "name": "AutoCount HRMS",
-      "desc": "Cloud HRMS for payroll, employee self-service, leave, claim, attendance, and approvals.",
+      "name": "AutoCount Cloud Payroll",
+      "desc": "Automated payroll compliant with EPF, SOCSO, PCB, and EIS. Payslips in minutes.",
       "image": "/uploads/products/hrms-logo-2024_white-1024x288.png",
-      "background": "/uploads/products/autocount-hrms-showcase.png",
+      "background": "/uploads/products/autocount-hrms-showcase.webp",
       "placeholder": "☁️",
       "gradient": "rgb(168, 198, 232)",
-      "route": "/products/autocount-hrms"
+      "route": ""
     },
     {
       "name": "FeedMe POS",
-      "desc": "Cloud F&B POS for table management, QR ordering, kitchen display, delivery, and reporting.",
+      "desc": "Cloud F&B POS with table management, kitchen display, and online ordering integration.",
       "image": "/uploads/products/feedme.png",
-      "background": "/uploads/products/feedme-pos-showcase.png",
+      "background": "/uploads/products/feedme-pos-showcase.webp",
       "placeholder": "🍽️",
       "gradient": "linear-gradient(135deg, rgb(255, 238, 222) 0%, rgb(254, 207, 175) 100%)",
-      "route": "/products/feedme-pos"
+      "route": ""
     }
   ]
 }

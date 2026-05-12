@@ -7,17 +7,17 @@ const WA_LINK = `https://wa.me/60169902279?text=${encodeURIComponent(
   "Hi Elise, I would like to learn more about AutoCount Plugin Sales2DO. Thank you."
 )}`;
 import AIChatbot from "../../components/AIChatbot.jsx";
-import acPluginIcon     from "../../assets/images/apps/ac-plugin-icon.webp";
-import imgHero          from "../../assets/images/apps/sales2do/hero.webp";
-import imgOutstanding   from "../../assets/images/apps/sales2do/outstanding.webp";
-import imgPreset        from "../../assets/images/apps/sales2do/preset-delivery.webp";
-import imgSettings      from "../../assets/images/apps/sales2do/settings.webp";
+import acPluginIcon     from "../../assets/images/apps/ac-plugin-icon.png";
+import imgHero          from "../../assets/images/apps/sales2do/hero.png";
+import imgOutstanding   from "../../assets/images/apps/sales2do/outstanding.png";
+import imgPreset        from "../../assets/images/apps/sales2do/preset-delivery.png";
+import imgSettings      from "../../assets/images/apps/sales2do/settings.png";
 /* Online/Offline activation screenshots are swapped — the file named
  * `license-online.png` was originally captured for the offline flow and
  * vice versa. Re-binding the imports is cheaper than renaming the files
  * on disk. */
-import imgLicenseOnline  from "../../assets/images/apps/sales2do/license-offline.webp";
-import imgLicenseOffline from "../../assets/images/apps/sales2do/license-online.webp";
+import imgLicenseOnline  from "../../assets/images/apps/sales2do/license-offline.png";
+import imgLicenseOffline from "../../assets/images/apps/sales2do/license-online.png";
 
 /* Sales2DO sidebar anchor items */
 const S2D_SIDEBAR_ITEMS = [
@@ -110,7 +110,7 @@ function ImgSlot({ src, alt, caption, maxWidth = 860, maxHeight = 480 }) {
         display: "flex", alignItems: "center", justifyContent: "center",
       }}>
         {src
-          ? <img src={src} alt={alt || ""} loading="lazy" decoding="async" style={{ width: "100%", display: "block", maxHeight, objectFit: "contain", objectPosition: "top" }} />
+          ? <img src={src} alt={alt || ""} style={{ width: "100%", display: "block", maxHeight, objectFit: "contain", objectPosition: "top" }} />
           : <div style={{ padding: "1.75rem", textAlign: "center" }}>
               <div style={{ fontSize: "1.6rem", opacity: 0.25, marginBottom: "0.4rem" }}>🖼️</div>
               <div style={{ fontSize: "0.72rem", color: "#a8abcc", fontWeight: 500 }}>{alt || "Screenshot"}</div>
@@ -549,7 +549,7 @@ export default function Sales2DOPage({ onContact }) {
           <div className="product-hero-row" style={{ display: "flex", alignItems: "center", gap: "2.5rem", flexWrap: "wrap" }}>
             <div className="product-hero-textgroup" style={{ display: "flex", alignItems: "flex-start", gap: "2rem", flex: 1, minWidth: 280 }}>
               <div className="product-hero-icon" style={{ width: 76, height: 76, borderRadius: 18, overflow: "hidden", flexShrink: 0, border: "1px solid rgba(255,255,255,0.15)" }}>
-                <img src={acPluginIcon} alt="Sales2DO Plugin" loading="eager" decoding="async" fetchPriority="high" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                <img src={acPluginIcon} alt="Sales2DO Plugin" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
               </div>
               <div style={{ flex: 1, minWidth: 240 }}>
                 <div className="product-hero-eyebrow" style={{ fontSize: "0.68rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.5rem" }}>AutoCount Plugin</div>
@@ -577,7 +577,7 @@ export default function Sales2DOPage({ onContact }) {
               </div>
             </div>
             <div className="product-hero-image" style={{ flex: "0 1 460px", maxWidth: 500 }}>
-              <img src={imgHero} alt="Sales2DO Outstanding Delivery Order dashboard" loading="eager" decoding="async" fetchPriority="high" style={{ width: "100%", height: "auto", display: "block" }} />
+              <img src={imgHero} alt="Sales2DO Outstanding Delivery Order dashboard" style={{ width: "100%", height: "auto", display: "block" }} />
             </div>
           </div>
         </div>

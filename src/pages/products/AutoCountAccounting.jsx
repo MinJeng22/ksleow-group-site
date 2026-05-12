@@ -1243,7 +1243,7 @@ export default function AutoCountAccountingPage({ onContact }) {
               {/* icon — replace via src/assets/images/products/autocount-accounting-icon.png */}
               <div className="product-hero-icon" style={{ width: 80, height: 80, borderRadius: 18, background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "2.2rem", flexShrink: 0, overflow: "hidden" }}>
                 {PRODUCT_IMAGES.autocountAccountingIcon
-                  ? <img src={PRODUCT_IMAGES.autocountAccountingIcon} alt="AutoCount Accounting" loading="eager" decoding="async" fetchPriority="high" style={{ width: "100%", height: "100%", objectFit: "contain", padding: 8 }} />
+                  ? <img src={PRODUCT_IMAGES.autocountAccountingIcon} alt="AutoCount Accounting" style={{ width: "100%", height: "100%", objectFit: "contain", padding: 8 }} />
                   : <span>🧾</span>
                 }
               </div>
@@ -1292,9 +1292,6 @@ export default function AutoCountAccountingPage({ onContact }) {
             {PRODUCT_IMAGES.autocountInterface && (
               <div className="product-hero-image" style={{ flex: "0 1 420px", maxWidth: 460 }}>
                 <img src={PRODUCT_IMAGES.autocountInterface} alt="AutoCount Accounting interface"
-                  loading="eager"
-                  decoding="async"
-                  fetchPriority="high"
                   style={{ width: "100%", height: "auto", display: "block" }} />
               </div>
             )}

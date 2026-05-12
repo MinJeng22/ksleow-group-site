@@ -5,11 +5,8 @@
   "description": "KSL Business Solutions Sdn. Bhd. — Official Website",
   "type": "module",
   "scripts": {
-    "predev": "node scripts/generate-webp-images.js",
     "dev": "vite",
-    "prebuild": "node scripts/generate-webp-images.js",
     "build": "vite build",
-    "optimize:images": "node scripts/generate-webp-images.js",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -19,7 +16,6 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.1",
-    "sharp": "^0.34.5",
     "vite": "^5.4.2"
   }
 }

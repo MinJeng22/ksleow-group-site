@@ -1,10 +1,8 @@
 import branding from "../content/branding.json";
 import { CONTACT, WA_LINK } from "../constants/contact.js";
-import OptimizedImage from "./OptimizedImage.jsx";
-import { optimizedImageSrc } from "../utils/imageOptimization.js";
 
 /* Use the same small icon as the service-card backs */
-const HEADER_LOGO_SRC = "/favicon.png";
+const HEADER_LOGO_SRC = "/favicon.webp";
 const CARD_BACK_BG = branding.serviceCardBack || "/service-card-back.png";
 
 /* ── Inline SVG icons ── */
@@ -119,7 +117,7 @@ export default function ContactModal({ open, onClose }) {
           aria-hidden="true"
           style={{
             position: "absolute", inset: 0,
-            backgroundImage: `url(${optimizedImageSrc(CARD_BACK_BG)})`,
+            backgroundImage: `url(${CARD_BACK_BG})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             pointerEvents: "none",
@@ -149,7 +147,7 @@ export default function ContactModal({ open, onClose }) {
         {/* ── Header strip — same compact pattern as card back ── */}
         <div style={{ position: "relative", zIndex: 1, padding: "1.5rem 1.6rem 1rem", display: "flex", alignItems: "center", gap: "0.8rem" }}>
           <div style={{ width: 40, height: 40, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-            <OptimizedImage src={HEADER_LOGO_SRC} alt="KSL" loading="eager" decoding="async" style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }} />
+            <img src={HEADER_LOGO_SRC} alt="KSL" loading="eager" decoding="async" style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }} />
           </div>
           <div style={{ minWidth: 0 }}>
             <div style={{

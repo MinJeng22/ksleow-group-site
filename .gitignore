@@ -4,6 +4,3 @@ dist/
 *.local
 .env
 .env.local
-
-# Generated at dev/build time from original CMS/public uploads.
-public/**/*.optimized.webp
