@@ -59,6 +59,9 @@ export default function Products({ onContact }) {
                   {p.background && (
                     <>
                       <img src={p.background} alt=""
+                        loading="lazy"
+                        decoding="async"
+                        fetchPriority="low"
                         style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
                       <div aria-hidden="true"
                         style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.55)" }} />
@@ -66,6 +69,9 @@ export default function Products({ onContact }) {
                   )}
                   {p.img
                     ? <img src={p.img} alt={p.name}
+                        loading="lazy"
+                        decoding="async"
+                        fetchPriority="low"
                         style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "contain", padding: "12%", zIndex: 2 }} />
                     : <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 6, zIndex: 2 }}>
                         <span style={{ fontSize: "2.6rem", opacity: 0.75 }}>{p.placeholder}</span>

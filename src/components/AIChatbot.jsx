@@ -138,7 +138,7 @@ export default function AIChatbot({ app }) {
           {/* Header */}
           <div style={{ background: "#2f315a", padding: "1rem 1.1rem", display: "flex", alignItems: "center", gap: "0.7rem", flexShrink: 0 }}>
             <div style={{ width: 36, height: 36, borderRadius: "50%", overflow: "hidden", flexShrink: 0, border: "1px solid rgba(201,168,76,0.4)" }}>
-              <img src="/ksl-logo-circle.png" alt="KSL" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+          <img src="/ksl-logo-circle.webp" alt="KSL" loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
             </div>
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: "0.9rem", fontWeight: 700, color: "#ffffff", lineHeight: 1.2 }}>KS Omni</div>

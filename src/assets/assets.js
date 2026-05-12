@@ -19,16 +19,16 @@
  * └─────────────────────────────────────────────────────────────┘
  */
 
-/* ── HERO LOGO  (src/assets/logos/logo-hero.png) ── */
-import logoHero from "./logos/logo-hero.png";
+/* ── HERO LOGO  (src/assets/logos/logo-hero.webp) ── */
+import logoHero from "./logos/logo-hero.webp";
 export const LOGO_HERO = logoHero;
 
-/* ── NAV LOGO   (src/assets/logos/logo-nav.png) ── */
-import logoNav from "./logos/logo-nav.png";
+/* ── NAV LOGO   (src/assets/logos/logo-nav.webp) ── */
+import logoNav from "./logos/logo-nav.webp";
 export const LOGO_NAV = logoNav;
 
-/* ── FOOTER LOGO (src/assets/logos/logo-footer.png) ── */
-import logoFooter from "./logos/logo-footer.png";
+/* ── FOOTER LOGO (src/assets/logos/logo-footer.webp) ── */
+import logoFooter from "./logos/logo-footer.webp";
 export const LOGO_FOOTER = logoFooter;
 
 /* ── PARTNER LOGOS  (src/assets/logos/partners/partner1-6.png) ──

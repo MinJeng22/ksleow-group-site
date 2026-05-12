@@ -53,6 +53,9 @@ export default function Nav({ onContact }) {
           <img
             src={branding.navLogo || LOGO_NAV}
             alt="KSL Business Solutions"
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
             style={{ height: 40, objectFit: "contain" }}
           />
         </a>

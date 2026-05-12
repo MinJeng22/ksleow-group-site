@@ -68,6 +68,9 @@ function BadgeRow({ badge }) {
           visibleLogos.map((logo, i) => (
             <div key={logo.alt} style={{ display: "flex", alignItems: "center" }}>
               <img src={logo.src} alt={logo.alt}
+                loading="lazy"
+                decoding="async"
+                fetchPriority="low"
                 style={{ height: logo.h, maxWidth: 160, objectFit: "contain" }} />
               {i < visibleLogos.length - 1 && (
                 <div style={{ width: 1, height: 44, background: "rgba(47,49,90,0.2)", margin: "0 0.7rem" }} />
@@ -218,8 +221,11 @@ function ServiceCard({ service }) {
               flexShrink: 0,
             }}>
               <img
-                src={office?.logo || "/favicon.png"}
+                src={office?.logo || "/favicon.webp"}
                 alt={office?.name || "K.S. Leow Group"}
+                loading="lazy"
+                decoding="async"
+                fetchPriority="low"
                 style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}
               />
             </div>

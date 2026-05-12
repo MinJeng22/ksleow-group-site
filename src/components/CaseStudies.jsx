@@ -96,6 +96,9 @@ export default function CaseStudies({ onContact }) {
                   <div style={{ position: "relative", paddingBottom: "48%", background: meta.accent }}>
                     {imgSrc ? (
                       <img src={imgSrc} alt={c.title}
+                        loading="lazy"
+                        decoding="async"
+                        fetchPriority="low"
                         style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
                         onError={e => { e.currentTarget.style.display = "none"; }}
                       />

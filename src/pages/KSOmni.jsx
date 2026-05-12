@@ -383,7 +383,7 @@ export default function KSLOmniPage() {
               display: "flex", alignItems: "center", justifyContent: "center",
             }}><BackIcon /></button>
           <div style={{ width: 32, height: 32, borderRadius: "50%", overflow: "hidden", border: "1.5px solid rgba(201,168,76,0.5)", flexShrink: 0 }}>
-            <img src="/ksl-logo-circle.png" alt="KSL" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+              <img src="/ksl-logo-circle.webp" alt="KSL" loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontSize: "0.9rem", fontWeight: 700, color: "#ffffff", lineHeight: 1.2 }}>KS Omni</div>
@@ -681,7 +681,7 @@ export default function KSLOmniPage() {
         <div className="content-wrap" style={{ padding: "1.4rem var(--px)", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem", flexWrap: "wrap", minHeight: 80 }}>
           <div style={{ display: "flex", alignItems: "center", gap: "0.85rem" }}>
             <div style={{ width: 48, height: 48, borderRadius: "50%", overflow: "hidden", border: "1.5px solid rgba(201,168,76,0.55)" }}>
-              <img src="/ksl-logo-circle.png" alt="KS Omni" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+              <img src="/ksl-logo-circle.webp" alt="KS Omni" loading="eager" decoding="async" fetchPriority="high" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
             </div>
             <div>
               <div style={{ fontSize: "1.15rem", fontWeight: 700, color: "#ffffff", lineHeight: 1.2 }}>KS Omni</div>

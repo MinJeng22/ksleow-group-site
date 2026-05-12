@@ -66,6 +66,9 @@ export default function Hero({ onContact }) {
             <img
               src={branding.heroLogo || LOGO_HERO}
               alt="KSL Business Solutions"
+              loading="eager"
+              decoding="async"
+              fetchPriority="high"
               style={{
                 height: logoH,
                 objectFit: "contain",

@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Nav           from "./components/Nav";
 import ContactModal  from "./components/ContactModal";
 import Hero          from "./components/Hero";
+import HomeImagePreloader from "./components/HomeImagePreloader";
 import Stats         from "./components/Stats";
 import Services      from "./components/Services";
 import CaseStudies   from "./components/CaseStudies";
@@ -21,6 +22,7 @@ import "./styles/global.css";
 function Home({ onContact }) {
   return (
     <>
+      <HomeImagePreloader />
       <Hero onContact={onContact} />
       <Stats />
       <Services />
