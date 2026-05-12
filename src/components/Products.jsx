@@ -60,10 +60,7 @@ export default function Products({ onContact }) {
                   borderRadius: 16, overflow: "hidden",
                   border: `1px solid ${isHov ? "rgba(47,49,90,0.3)" : "rgba(47,49,90,0.11)"}`,
                   background: "#ffffff",
-                  /* Fade-in left → right (index * 140ms stagger). */
-                  opacity: revealed ? 1 : 0,
-                  transform: revealed ? "none" : "translateY(8px)",
-                  transition: `opacity 0.7s ease ${i * 0.14}s, transform 0.7s ease ${i * 0.14}s, border-color 0.26s`,
+                  transition: "border-color 0.26s",
                   cursor: clickable ? "pointer" : "default",
                 }}
               >
@@ -86,7 +83,18 @@ export default function Products({ onContact }) {
                   )}
                   {p.img
                     ? <img src={p.img} alt={p.name}
-                        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "contain", padding: "12%", zIndex: 2 }} />
+                        style={{
+                          position: "absolute", inset: 0,
+                          width: "100%", height: "100%",
+                          objectFit: "contain", padding: "12%", zIndex: 2,
+                          /* Logo fades in left → right (Accounting first,
+                           * FeedMe last) the first time the grid scrolls
+                           * into view. Card background photo stays in
+                           * place; only the logo on top reveals. */
+                          opacity: revealed ? 1 : 0,
+                          transform: revealed ? "scale(1)" : "scale(0.96)",
+                          transition: `opacity 0.8s ease ${i * 0.18}s, transform 0.8s ease ${i * 0.18}s`,
+                        }} />
                     : <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 6, zIndex: 2 }}>
                         <span style={{ fontSize: "2.6rem", opacity: 0.75 }}>{p.placeholder}</span>
                         <span style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.3)", letterSpacing: "0.08em", textTransform: "uppercase" }}>Upload logo</span>

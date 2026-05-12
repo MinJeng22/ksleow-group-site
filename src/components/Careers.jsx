@@ -44,12 +44,10 @@ export default function Careers() {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    /* Replayable: toggle visibility both ways so the line / word fade
+     * runs every time the section scrolls back into view. */
     const obs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) { setVisible(true); obs.disconnect(); }
-        });
-      },
+      (entries) => entries.forEach((e) => setVisible(e.isIntersecting)),
       { threshold: 0.25 }
     );
     obs.observe(el);

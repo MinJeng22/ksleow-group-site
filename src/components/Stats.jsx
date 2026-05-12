@@ -16,50 +16,45 @@ function parseStat(raw) {
   };
 }
 
-/* Count-up number that animates 0 → target the first time it scrolls into view.
- * Falls back to displaying the raw string if it's not numeric. */
+/* Count-up number that animates 0 → target every time it scrolls
+ * into view. Resets to 0 when it leaves the viewport so re-entry
+ * triggers a fresh count. Falls back to the raw string if not numeric. */
 function CountUp({ raw, duration = 1800 }) {
   const { target, prefix, suffix, decimals } = parseStat(raw);
   const [value, setValue] = useState(0);
-  const [played, setPlayed] = useState(false);
-  const ref = useRef(null);
+  const ref     = useRef(null);
+  const rafRef  = useRef(null);
 
   useEffect(() => {
-    if (target === null || played) return;
+    if (target === null) return;
     const node = ref.current;
     if (!node) return;
 
+    const stop  = () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); rafRef.current = null; };
     const start = () => {
-      setPlayed(true);
+      stop();
       const startTime = performance.now();
       const tick = (now) => {
-        const elapsed = now - startTime;
-        const t = Math.min(elapsed / duration, 1);
-        // ease-out cubic for a satisfying decelerating count
-        const eased = 1 - Math.pow(1 - t, 3);
+        const t = Math.min((now - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - t, 3);   // ease-out cubic
         setValue(target * eased);
-        if (t < 1) requestAnimationFrame(tick);
-        else setValue(target);
+        if (t < 1) rafRef.current = requestAnimationFrame(tick);
+        else { setValue(target); rafRef.current = null; }
       };
-      requestAnimationFrame(tick);
+      rafRef.current = requestAnimationFrame(tick);
     };
 
-    if (typeof IntersectionObserver === "undefined") {
-      start();
-      return;
-    }
+    if (typeof IntersectionObserver === "undefined") { start(); return stop; }
 
     const io = new IntersectionObserver((entries) => {
       entries.forEach((e) => {
-        if (e.isIntersecting) {
-          start();
-          io.disconnect();
-        }
+        if (e.isIntersecting) start();
+        else { stop(); setValue(0); }   // reset so re-entry counts fresh
       });
     }, { threshold: 0.4 });
     io.observe(node);
-    return () => io.disconnect();
-  }, [target, duration, played]);
+    return () => { io.disconnect(); stop(); };
+  }, [target, duration]);
 
   if (target === null) {
     return <span ref={ref}>{raw}</span>;
