@@ -201,10 +201,23 @@ export default function Hero({ onContact }) {
       `}</style>
       <button
         onClick={() => {
-          /* Scroll just enough that the bottom of the hero stays
-           * visible at the top of the viewport — the user can still
-           * see where they came from. */
-          window.scrollBy({ top: window.innerHeight * 0.72, behavior: "smooth" });
+          /* Hand-paced scroll — native "smooth" is too fast and feels
+           * like a jump cut. We RAF a slow ease-in-out over ~1.8s so it
+           * reads as "someone gently dragging the page down". Distance
+           * is 72% of the viewport so the bottom of the hero stays
+           * visible at the top of the screen after the scroll. */
+          const distance = window.innerHeight * 0.72;
+          const duration = 1800;
+          const startY = window.scrollY;
+          const t0 = performance.now();
+          const easeInOut = (t) =>
+            t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+          const tick = (now) => {
+            const p = Math.min((now - t0) / duration, 1);
+            window.scrollTo(0, startY + distance * easeInOut(p));
+            if (p < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
         }}
         aria-label="Scroll for more"
         style={{
@@ -229,7 +242,7 @@ export default function Hero({ onContact }) {
         onMouseOut ={e => e.currentTarget.style.color = "rgba(255,255,255,0.75)"}
       >
         <span style={{ textIndent: "0.32em" /* compensate trailing letter-spacing for visual centering */ }}>
-          Scroll
+          Scroll for more
         </span>
         {/* Static chevron — no animation */}
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
