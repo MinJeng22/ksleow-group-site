@@ -1107,6 +1107,24 @@ function ReleaseCard({ r, expanded, onToggle }) {
  * Order of editions (columns): Account Plus | Express Plus | Basic | Pro | Premium
  * ══════════════════════════════════════════════════════════════ */
 const EDITIONS = ["Account Plus", "Express Plus", "Basic", "Pro", "Premium"];
+
+/* Short codes used by the Share-Link URL params so the link stays
+ * compact (e.g. ?em=c&ea=ap&eb=pm instead of editionA=Account+Plus). */
+const EDITION_CODE = {
+  "Account Plus": "ap",
+  "Express Plus": "xp",
+  "Basic":        "b",
+  "Pro":          "p",
+  "Premium":      "pm",
+};
+const CODE_TO_EDITION = Object.fromEntries(
+  Object.entries(EDITION_CODE).map(([name, code]) => [code, name])
+);
+
+/* Pull just the numeric portion of a "Rev N" string so version selects
+ * can be shared as ?va=36 instead of va=2.2.25.36 — much shorter. */
+const revNumber  = (r) => String(r.rev).replace(/^Rev\s*/i, "").trim();
+const findByRev  = (n) => RELEASES.find(r => revNumber(r) === String(n));
 const EDITION_TABLE = {
   defaultAccountBook: ["3", "3", "5", "5", "5"],
   sections: [
@@ -1352,36 +1370,50 @@ export default function AutoCountAccountingPage({ onContact }) {
    * scrolls to the right section. Falls back to top-of-page when no
    * params are present (original behaviour).
    *
-   * Param schema:
-   *   editionMode = compare           → switch Editions to Compare mode
-   *   editionA    = <edition name>    → left dropdown
-   *   editionB    = <edition name>    → right dropdown
-   *   editionDiff = 1                 → "show only rows that differ" on
-   *   vMode       = compare           → switch Releases to Compare mode
-   *   vA          = <version string>  → "From version" dropdown
-   *   vB          = <version string>  → "To version" dropdown
-   *   #editions / #releases / #...    → scroll target (URL hash)
+   * Short-code param schema (current):
+   *   em = c                       switch Editions to Compare mode
+   *   ea = ap | xp | b | p | pm    left edition code   (see EDITION_CODE)
+   *   eb = ap | xp | b | p | pm    right edition code
+   *   ed = 1                       "show only rows that differ" on
+   *   vm = c                       switch Releases to Compare mode
+   *   va = <rev number>            "From version" by rev number (e.g. 36)
+   *   vb = <rev number>            "To version"   by rev number
+   *   #editions / #releases / #... scroll target (URL hash)
+   *
+   * Long-name params from older shared links are still accepted as a
+   * fallback (editionMode / editionA / editionB / editionDiff / vMode /
+   * vA / vB), so links shared before the short-code switch keep working.
    * ─────────────────────────────────────────────────────────────── */
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
 
-    // Editions section
-    const eA = params.get("editionA");
-    const eB = params.get("editionB");
-    if (params.get("editionMode") === "compare" || eA || eB) {
+    // Editions section — short codes first, then long-name fallback.
+    const eaCode = params.get("ea");
+    const ebCode = params.get("eb");
+    const eaName = (eaCode && CODE_TO_EDITION[eaCode]) || params.get("editionA");
+    const ebName = (ebCode && CODE_TO_EDITION[ebCode]) || params.get("editionB");
+    const em     = params.get("em") || params.get("editionMode");
+    if (em === "c" || em === "compare" || eaName || ebName) {
       setEditionCompareMode(true);
-      if (eA && EDITIONS.includes(eA)) setEditionA(eA);
-      if (eB && EDITIONS.includes(eB)) setEditionB(eB);
-      if (params.get("editionDiff") === "1") setEditionDiffOnly(true);
+      if (eaName && EDITIONS.includes(eaName)) setEditionA(eaName);
+      if (ebName && EDITIONS.includes(ebName)) setEditionB(ebName);
+      if (params.get("ed") === "1" || params.get("editionDiff") === "1") {
+        setEditionDiffOnly(true);
+      }
     }
 
-    // Releases section
-    const vA = params.get("vA");
-    const vB = params.get("vB");
-    if (params.get("vMode") === "compare" || vA || vB) {
+    // Releases section — short codes first, then long-name fallback.
+    const vaCode = params.get("va");
+    const vbCode = params.get("vb");
+    const vaRel  = (vaCode && findByRev(vaCode)) ||
+                   (params.get("vA") && RELEASES.find(r => r.version === params.get("vA")));
+    const vbRel  = (vbCode && findByRev(vbCode)) ||
+                   (params.get("vB") && RELEASES.find(r => r.version === params.get("vB")));
+    const vm     = params.get("vm") || params.get("vMode");
+    if (vm === "c" || vm === "compare" || vaRel || vbRel) {
       setCompareMode(true);
-      if (vA && RELEASES.some(r => r.version === vA)) setCompareA(vA);
-      if (vB && RELEASES.some(r => r.version === vB)) setCompareB(vB);
+      if (vaRel) setCompareA(vaRel.version);
+      if (vbRel) setCompareB(vbRel.version);
     }
 
     // Scroll: if URL has a hash, scroll there; otherwise top of page.
@@ -1587,9 +1619,10 @@ export default function AutoCountAccountingPage({ onContact }) {
                 <ShareLinkButton
                   hash="#editions"
                   params={{
-                    editionMode: "compare",
-                    editionA, editionB,
-                    editionDiff: editionDiffOnly,
+                    em: "c",
+                    ea: EDITION_CODE[editionA],
+                    eb: EDITION_CODE[editionB],
+                    ed: editionDiffOnly,
                   }}
                 />
               </div>
@@ -1678,9 +1711,9 @@ export default function AutoCountAccountingPage({ onContact }) {
                   <ShareLinkButton
                     hash="#releases"
                     params={{
-                      vMode: "compare",
-                      vA: compareA,
-                      vB: compareB,
+                      vm: "c",
+                      va: revNumber(RELEASES.find(r => r.version === compareA) || {}),
+                      vb: revNumber(RELEASES.find(r => r.version === compareB) || {}),
                     }}
                   />
                 </div>
