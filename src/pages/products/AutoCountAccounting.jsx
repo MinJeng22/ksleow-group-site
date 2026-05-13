@@ -1224,9 +1224,33 @@ export default function AutoCountAccountingPage({ onContact }) {
       {/* Floating section sidebar — desktop only (≥1280px), hidden via media query otherwise */}
       <SectionSidebar items={AC_SIDEBAR_ITEMS} />
 
-      {/* ── Hero banner ── */}
-      <div className="product-hero" style={{ background: "#2f315a", paddingTop: "3rem", paddingBottom: "3rem" }}>
-        <div className="content-wrap">
+      {/* ── Hero banner ──
+       * background-attachment:fixed glues the desk-scene photo to the
+       * viewport — when the user scrolls, the photo stays in place
+       * while the hero content (and ultimately the Features section
+       * below) scrolls over it. Native CSS, no z-index gymnastics.
+       * A semi-transparent black overlay above the bg keeps the white
+       * hero copy readable; the actual content sits one z-index above
+       * that overlay. */}
+      <div className="product-hero" style={{
+        position: "relative",
+        paddingTop: "3rem", paddingBottom: "3rem",
+        backgroundImage: "url(/uploads/products/autocount-accounting-hero.png)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+        /* Mobile Safari ignores background-attachment:fixed — for
+         * those devices the photo just scrolls with the hero, which
+         * is an acceptable fallback (still looks like a full-bleed
+         * hero, just without the parallax). */
+      }}>
+        {/* Dark overlay so hero text stays legible against the photo */}
+        <div aria-hidden="true" style={{
+          position: "absolute", inset: 0,
+          background: "rgba(0,0,0,0.6)",
+          pointerEvents: "none",
+        }} />
+        <div className="content-wrap" style={{ position: "relative", zIndex: 1 }}>
           <button
             className="product-hero-back"
             onClick={() => navigate("/")}
