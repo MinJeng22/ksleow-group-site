@@ -28,7 +28,7 @@ export default function Products({ onContact }) {
      * time the grid scrolls back into view. */
     const io = new IntersectionObserver(
       (entries) => entries.forEach((e) => setRevealed(e.isIntersecting)),
-      { threshold: 1 }
+      { threshold: 0.5 }
     );
     io.observe(node);
     return () => io.disconnect();
