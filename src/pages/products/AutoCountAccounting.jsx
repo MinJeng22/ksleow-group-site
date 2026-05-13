@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
 import SectionSidebar from "../../components/SectionSidebar.jsx";
+import ProductHero from "../../components/ProductHero.jsx";
 import DownloadAutoCountModal from "../../components/DownloadAutoCountModal.jsx";
 /* AutoCount Accounting page — product-aware WhatsApp link to Sales Agent Elise */
 const WA_LINK = `https://wa.me/60169902279?text=${encodeURIComponent(
@@ -1293,101 +1294,16 @@ export default function AutoCountAccountingPage({ onContact }) {
       {/* Floating section sidebar — desktop only (≥1280px), hidden via media query otherwise */}
       <SectionSidebar items={AC_SIDEBAR_ITEMS} />
 
-      {/* ── Hero banner ──
-       * background-attachment:fixed glues the desk-scene photo to the
-       * viewport — when the user scrolls, the photo stays in place
-       * while the hero content (and ultimately the Features section
-       * below) scrolls over it. Native CSS, no z-index gymnastics.
-       * A semi-transparent black overlay above the bg keeps the white
-       * hero copy readable; the actual content sits one z-index above
-       * that overlay. */}
-      <div className="product-hero" style={{
-        position: "relative",
-        paddingTop: "3.5rem", paddingBottom: "3.5rem",
-        minHeight: "50vh",
-        display: "flex", alignItems: "center",
-        backgroundImage: "url(/uploads/products/autocount-accounting-hero.png)",
-        backgroundSize: "cover",
-        /* "center center" + scroll attachment crops the photo around its
-         * vertical middle (the laptop + monitor scene). With the previous
-         * fixed attachment the photo was sized to the viewport, so the
-         * hero only saw its top edge — the sticky-notes wall — instead. */
-        backgroundPosition: "center center",
-      }}>
-        {/* Dark overlay so hero text stays legible against the photo */}
-        <div aria-hidden="true" style={{
-          position: "absolute", inset: 0,
-          background: "rgba(0,0,0,0.6)",
-          pointerEvents: "none",
-        }} />
-        <div className="content-wrap" style={{ position: "relative", zIndex: 1 }}>
-          <button
-            className="product-hero-back"
-            onClick={() => navigate("/")}
-            style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "rgba(255,255,255,0.75)", padding: "0.4rem 1rem", borderRadius: 50, fontSize: "0.8rem", cursor: "pointer", fontFamily: "inherit", marginBottom: "2rem", transition: "background 0.2s" }}
-            onMouseOver={e => e.currentTarget.style.background = "rgba(255,255,255,0.18)"}
-            onMouseOut={e => e.currentTarget.style.background = "rgba(255,255,255,0.1)"}
-          >
-            ← Back
-          </button>
-
-          <div className="product-hero-row" style={{ display: "flex", alignItems: "center", gap: "2.5rem", flexWrap: "wrap" }}>
-            {/* Left: icon + copy + buttons */}
-            <div className="product-hero-textgroup" style={{ display: "flex", alignItems: "flex-start", gap: "2rem", flex: 1, minWidth: 280 }}>
-              {/* icon — replace via src/assets/images/products/autocount-accounting-icon.png */}
-              <div className="product-hero-icon" style={{ width: 80, height: 80, borderRadius: 18, background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "2.2rem", flexShrink: 0, overflow: "hidden" }}>
-                {PRODUCT_IMAGES.autocountAccountingIcon
-                  ? <img src={PRODUCT_IMAGES.autocountAccountingIcon} alt="AutoCount Accounting" style={{ width: "100%", height: "100%", objectFit: "contain", padding: 8 }} />
-                  : <span>🧾</span>
-                }
-              </div>
-              <div style={{ flex: 1, minWidth: 240 }}>
-                <div className="product-hero-eyebrow" style={{ fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.5rem" }}>
-                  Software We Specialize In
-                </div>
-                <h1 className="product-hero-title" style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", fontWeight: 700, color: "#ffffff", lineHeight: 1.15, marginBottom: "1rem" }}>
-                  AutoCount Accounting 2.2
-                </h1>
-                <p className="product-hero-body" style={{ fontSize: "1rem", color: "rgba(255,255,255,0.65)", lineHeight: 1.78, maxWidth: 600, marginBottom: "1.5rem" }}>
-                  Malaysia's leading SME accounting software — cloud-connected, SST & e-Invoice compliant,
-                  and deeply integrated with AutoCount POS and Payroll. As an authorized dealer,
-                  KSL Business Solutions provides full installation, configuration, training, and ongoing support.
-                </p>
-                <div className="product-hero-btns" style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-                  {/* Download Now — intentionally inert for now (no handler).
-                   * Will be wired up once the AutoCount installer hosting / EULA
-                   * flow is ready. Keep the button visible so the layout stays
-                   * the same; just don't show a pointer cursor on hover. */}
-                  <button
-                    type="button"
-                    aria-disabled="true"
-                    style={{ background: "#c9a84c", color: "#1e2040", padding: "0.75rem 2rem", borderRadius: 50, fontSize: "0.9rem", fontWeight: 700, border: "none", cursor: "default", fontFamily: "inherit", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "0.5rem" }}
-                  >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                      <polyline points="7 10 12 15 17 10" />
-                      <line x1="12" y1="15" x2="12" y2="3" />
-                    </svg>
-                    Download Now
-                  </button>
-                  <a
-                    href={WA_LINK} target="_blank" rel="noreferrer"
-                    style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,0.1)", color: "#ffffff", border: "1px solid rgba(255,255,255,0.25)", padding: "0.75rem 2rem", borderRadius: 50, fontSize: "0.9rem", fontWeight: 500, textDecoration: "none", transition: "background 0.2s" }}
-                    onMouseOver={e => e.currentTarget.style.background = "rgba(255,255,255,0.18)"}
-                    onMouseOut={e => e.currentTarget.style.background = "rgba(255,255,255,0.1)"}
-                  >
-                    WhatsApp Us
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* Right-side product showcase image removed — the new
-             * lifestyle photo cover already does the job of showing
-             * AutoCount in context. */}
-          </div>
-        </div>
-      </div>
+      {/* ── Hero banner — shared ProductHero component ── */}
+      <ProductHero
+        eyebrow="Software We Specialize In"
+        title="AutoCount Accounting 2.2"
+        body="Malaysia's leading SME accounting software — cloud-connected, SST & e-Invoice compliant, and deeply integrated with AutoCount POS and Payroll. As an authorized dealer, KSL Business Solutions provides full installation, configuration, training, and ongoing support."
+        iconSrc={PRODUCT_IMAGES.autocountAccountingIcon}
+        iconAlt="AutoCount Accounting"
+        primaryCta={{ label: "Download Now", disabled: true, download: true }}
+        secondaryCta={{ label: "WhatsApp Us", href: WA_LINK, target: "_blank" }}
+      />
 
       {/* ── Feature highlights ── */}
       <FeatureHighlights />
