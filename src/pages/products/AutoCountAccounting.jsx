@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
 import SectionSidebar from "../../components/SectionSidebar.jsx";
@@ -8,6 +8,14 @@ const WA_LINK = `https://wa.me/60169902279?text=${encodeURIComponent(
   "Hi Elise, I would like to learn more about AutoCount Accounting. Thank you."
 )}`;
 import { PRODUCT_IMAGES } from "../../assets/assets.js";
+
+/* Feature-highlight icons. integration-icon.png isn't on disk yet, so
+ * that card falls back to its emoji until the asset is supplied. */
+import iconEInvoice      from "../../assets/images/products/e-invoice-ready.png.webp";
+import iconFavicon       from "../../assets/logos/favicon.png";
+import iconAcPlugin      from "../../assets/images/apps/ac-plugin-icon.png";
+// TODO: drop integration-icon.png into src/assets/images/products/ then:
+// import iconIntegration from "../../assets/images/products/integration-icon.png";
 
 /* ═══════════════════════════════════════════════════════════════
  * AUTOCOUNT ACCOUNTING — PRODUCT PAGE
@@ -1181,6 +1189,67 @@ function EditionsTable({ selected = null, diffOnly = false }) {
   );
 }
 
+/* ── Feature highlights — replayable scroll-in stagger ──
+ * Four cards with image icons (emoji fallback for any icon not yet
+ * uploaded). Cards fade up + scale in left → right with a 130 ms
+ * stagger every time the section enters the viewport. */
+const FEATURES = [
+  { icon: iconEInvoice,  title: "SST & e-Invoice",          desc: "Fully compliant with LHDN MyInvois and Malaysia SST requirements" },
+  { icon: "🔗",          title: "Integrated",               desc: "Seamlessly linked with AutoCount POS, Cloud Payroll modules, and your custom ERP systems." },
+  { icon: iconFavicon,   title: "Prompt Technical Support", desc: "Fast response times and expert troubleshooting from the KSL team during business days to keep your operations running smoothly." },
+  { icon: iconAcPlugin,  title: "Highly Extensible",        desc: "Fully supports C# & .NET plugins, custom fields, and scripting to adapt to your unique business workflows." },
+];
+
+function FeatureHighlights() {
+  const gridRef = useRef(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const node = gridRef.current;
+    if (!node) return;
+    if (typeof IntersectionObserver === "undefined") { setInView(true); return; }
+    /* Replayable: toggle both ways so the stagger runs each time the
+     * grid scrolls into view. */
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach(e => setInView(e.isIntersecting)),
+      { threshold: 0.25 }
+    );
+    io.observe(node);
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <div id="features" className="ac-section-tight" style={{ background: "#ffffff", padding: "3rem 0", borderBottom: "0.5px solid rgba(47,49,90,0.08)", scrollMarginTop: 24, position: "relative", zIndex: 1 }}>
+      <div className="content-wrap">
+        <div ref={gridRef} className="ac-features-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1.5rem" }}>
+          {FEATURES.map((f, i) => (
+            <div key={i} style={{
+              padding: "1.25rem", borderRadius: 12,
+              background: "#f8f8fb",
+              border: "1px solid rgba(47,49,90,0.07)",
+              opacity: inView ? 1 : 0,
+              transform: inView ? "translateY(0) scale(1)" : "translateY(20px) scale(0.96)",
+              transition: `opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${i * 0.13}s, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${i * 0.13}s`,
+            }}>
+              <div style={{
+                width: 44, height: 44,
+                marginBottom: "0.7rem",
+                display: "flex", alignItems: "center", justifyContent: "center",
+              }}>
+                {typeof f.icon === "string"
+                  ? <span style={{ fontSize: "1.7rem" }}>{f.icon}</span>
+                  : <img src={f.icon} alt="" style={{ maxWidth: 40, maxHeight: 40, objectFit: "contain", display: "block" }} />
+                }
+              </div>
+              <div style={{ fontSize: "0.88rem", fontWeight: 700, color: "#2f315a", marginBottom: "0.35rem" }}>{f.title}</div>
+              <div style={{ fontSize: "0.8rem", color: "#6b6f91", lineHeight: 1.6 }}>{f.desc}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* AutoCount sidebar anchor items */
 const AC_SIDEBAR_ITEMS = [
   { id: "features",  label: "Features"        },
@@ -1234,15 +1303,16 @@ export default function AutoCountAccountingPage({ onContact }) {
        * that overlay. */}
       <div className="product-hero" style={{
         position: "relative",
-        paddingTop: "3rem", paddingBottom: "3rem",
+        paddingTop: "4.5rem", paddingBottom: "4.5rem",
+        minHeight: "62vh",
+        display: "flex", alignItems: "center",
         backgroundImage: "url(/uploads/products/autocount-accounting-hero.png)",
         backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundAttachment: "fixed",
-        /* Mobile Safari ignores background-attachment:fixed — for
-         * those devices the photo just scrolls with the hero, which
-         * is an acceptable fallback (still looks like a full-bleed
-         * hero, just without the parallax). */
+        /* "center center" + scroll attachment crops the photo around its
+         * vertical middle (the laptop + monitor scene). With the previous
+         * fixed attachment the photo was sized to the viewport, so the
+         * hero only saw its top edge — the sticky-notes wall — instead. */
+        backgroundPosition: "center center",
       }}>
         {/* Dark overlay so hero text stays legible against the photo */}
         <div aria-hidden="true" style={{
@@ -1324,24 +1394,7 @@ export default function AutoCountAccountingPage({ onContact }) {
       </div>
 
       {/* ── Feature highlights ── */}
-      <div id="features" className="ac-section-tight" style={{ background: "#ffffff", padding: "3rem 0", borderBottom: "0.5px solid rgba(47,49,90,0.08)", scrollMarginTop: 24 }}>
-        <div className="content-wrap">
-          <div className="ac-features-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1.5rem" }}>
-            {[
-              { icon: "✅", title: "SST & e-Invoice", desc: "Fully compliant with LHDN MyInvois and Malaysia SST requirements" },
-              { icon: "🔗", title: "Integrated", desc: "Seamlessly linked with AutoCount POS, Cloud Payroll modules, and your custom ERP systems." },
-              { icon: "🎯", title: "Prompt Technical Support", desc: "Fast response times and expert troubleshooting from the KSL team during business days to keep your operations running smoothly." },
-              { icon: "⚙️", title: "Highly Extensible", desc: "Fully supports C# & .NET plugins, custom fields, and scripting to adapt to your unique business workflows." },
-            ].map((f, i) => (
-              <div key={i} style={{ padding: "1.25rem", borderRadius: 12, background: "#f8f8fb", border: "1px solid rgba(47,49,90,0.07)" }}>
-                <div style={{ fontSize: "1.6rem", marginBottom: "0.6rem" }}>{f.icon}</div>
-                <div style={{ fontSize: "0.88rem", fontWeight: 700, color: "#2f315a", marginBottom: "0.35rem" }}>{f.title}</div>
-                <div style={{ fontSize: "0.8rem", color: "#6b6f91", lineHeight: 1.6 }}>{f.desc}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+      <FeatureHighlights />
 
 
       {/* ══════════════════════════════════════════════════════════
