@@ -48,7 +48,7 @@ export default function Careers() {
      * runs every time the section scrolls back into view. */
     const obs = new IntersectionObserver(
       (entries) => entries.forEach((e) => setVisible(e.isIntersecting)),
-      { threshold: 0.5 }
+      { threshold: 0.25 }
     );
     obs.observe(el);
     return () => obs.disconnect();

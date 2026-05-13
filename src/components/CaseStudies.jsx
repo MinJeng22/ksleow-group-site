@@ -51,7 +51,7 @@ export default function CaseStudies({ onContact }) {
      * time the grid scrolls back into view. */
     const io = new IntersectionObserver(
       (entries) => entries.forEach((e) => setRevealed(e.isIntersecting)),
-      { threshold: 0.5 }
+      { threshold: 0.25 }
     );
     io.observe(node);
     return () => io.disconnect();

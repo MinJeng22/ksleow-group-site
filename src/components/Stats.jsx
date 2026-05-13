@@ -51,7 +51,7 @@ function CountUp({ raw, duration = 1800 }) {
         if (e.isIntersecting) start();
         else { stop(); setValue(0); }   // reset so re-entry counts fresh
       });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.25 });
     io.observe(node);
     return () => { io.disconnect(); stop(); };
   }, [target, duration]);
