@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Footer from "../../components/Footer";
 import SectionSidebar from "../../components/SectionSidebar.jsx";
 import ProductHero from "../../components/ProductHero.jsx";
+import { Vid, Img } from "../../components/Media.jsx";
 /* Sales2DO-specific WhatsApp link — addressed to Elise with a product-aware message */
 const WA_LINK = `https://wa.me/60169902279?text=${encodeURIComponent(
   "Hi Elise, I would like to learn more about AutoCount Plugin Sales2DO. Thank you."
@@ -109,7 +110,7 @@ function ImgSlot({ src, alt, caption, maxWidth = 860, maxHeight = 480 }) {
         display: "flex", alignItems: "center", justifyContent: "center",
       }}>
         {src
-          ? <img src={src} alt={alt || ""} style={{ width: "100%", display: "block", maxHeight, objectFit: "contain", objectPosition: "top" }} />
+          ? <Img src={src} alt={alt || ""} style={{ width: "100%", display: "block", maxHeight, objectFit: "contain", objectPosition: "top" }} />
           : <div style={{ padding: "1.75rem", textAlign: "center" }}>
               <div style={{ fontSize: "1.6rem", opacity: 0.25, marginBottom: "0.4rem" }}>🖼️</div>
               <div style={{ fontSize: "0.72rem", color: "#a8abcc", fontWeight: 500 }}>{alt || "Screenshot"}</div>
@@ -429,10 +430,11 @@ function VideoGuide() {
                 blend two videos against the black backdrop. requestVideoFrameCallback
                 guarantees the new slot has painted before the swap, so the cut is
                 imperceptible. */}
-            <video
+            <Vid
               ref={aRef}
-              muted playsInline
+              muted
               onEnded={onEndedA}
+              onContextMenu={(e) => e.preventDefault()}
               style={{
                 position: "absolute", inset: 0,
                 width: "100%", height: "100%",
@@ -442,10 +444,11 @@ function VideoGuide() {
               }}
             />
             {/* Slot B */}
-            <video
+            <Vid
               ref={bRef}
-              muted playsInline
+              muted
               onEnded={onEndedB}
+              onContextMenu={(e) => e.preventDefault()}
               style={{
                 position: "absolute", inset: 0,
                 width: "100%", height: "100%",

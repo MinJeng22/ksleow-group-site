@@ -37,7 +37,7 @@
       "background": "/uploads/products/feedme-pos-showcase.webp",
       "placeholder": "🍽️",
       "gradient": "linear-gradient(135deg, rgb(255, 238, 222) 0%, rgb(254, 207, 175) 100%)",
-      "route": "/products/feedme-pos"
+      "route": ""
     }
   ]
 }

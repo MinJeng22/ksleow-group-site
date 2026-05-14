@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { Img } from "./Media.jsx";
 import productsContent from "../content/products.json";
 
 const PRODUCTS = (productsContent.items || []).map(p => ({
@@ -76,20 +77,14 @@ export default function Products({ onContact }) {
                   outline: (p.img || p.background) ? "none" : "2px dashed rgba(255,255,255,0.15)", outlineOffset: -6 }}>
                   {p.background && (
                     <>
-                      <img src={p.background} alt=""
-                        loading="lazy"
-                        decoding="async"
-                        fetchPriority="low"
+                      <Img src={p.background} alt=""
                         style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
                       <div aria-hidden="true"
                         style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.55)" }} />
                     </>
                   )}
                   {p.img
-                    ? <img src={p.img} alt={p.name}
-                        loading="lazy"
-                        decoding="async"
-                        fetchPriority="low"
+                    ? <Img src={p.img} alt={p.name}
                         style={{
                           position: "absolute", inset: 0,
                           width: "100%", height: "100%",

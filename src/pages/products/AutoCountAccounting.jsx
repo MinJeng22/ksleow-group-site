@@ -4,6 +4,7 @@ import Footer from "../../components/Footer";
 import SectionSidebar from "../../components/SectionSidebar.jsx";
 import ProductHero from "../../components/ProductHero.jsx";
 import DownloadAutoCountModal from "../../components/DownloadAutoCountModal.jsx";
+import { Img } from "../../components/Media.jsx";
 /* AutoCount Accounting page — product-aware WhatsApp link to Sales Agent Elise */
 const WA_LINK = `https://wa.me/60169902279?text=${encodeURIComponent(
   "Hi Elise, I would like to learn more about AutoCount Accounting. Thank you."
@@ -1327,7 +1328,7 @@ function FeatureHighlights() {
                 marginBottom: "0.7rem",
                 display: "flex", alignItems: "center", justifyContent: "center",
               }}>
-                <img src={f.icon} alt="" loading="lazy" decoding="async"
+                <Img src={f.icon} alt=""
                   style={{ maxWidth: 40, maxHeight: 40, objectFit: "contain", display: "block" }} />
               </div>
               <div style={{ fontSize: "0.88rem", fontWeight: 700, color: "#2f315a", marginBottom: "0.35rem" }}>{f.title}</div>
@@ -1363,6 +1364,21 @@ export default function AutoCountAccountingPage({ onContact }) {
   const [editionA, setEditionA] = useState(EDITIONS[0]);                  /* Account Plus */
   const [editionB, setEditionB] = useState(EDITIONS[EDITIONS.length - 1]); /* Premium */
   const [editionDiffOnly, setEditionDiffOnly] = useState(false);
+
+  /* Replayable on-view reveal for the YouTube training section. */
+  const trainingRef = useRef(null);
+  const [trainingInView, setTrainingInView] = useState(false);
+  useEffect(() => {
+    const node = trainingRef.current;
+    if (!node) return;
+    if (typeof IntersectionObserver === "undefined") { setTrainingInView(true); return; }
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach(e => setTrainingInView(e.isIntersecting)),
+      { threshold: 0.25 }
+    );
+    io.observe(node);
+    return () => io.disconnect();
+  }, []);
 
   /* ── Init from URL ───────────────────────────────────────────────
    * Read query params on mount. Anyone landing on a shared link gets
@@ -1462,10 +1478,15 @@ export default function AutoCountAccountingPage({ onContact }) {
       {/* ══════════════════════════════════════════════════════════
        * LEARN AUTOCOUNT IN 60 MINUTES — Vertical stacked layout
        * ══════════════════════════════════════════════════════════ */}
-      <div id="training" className="ac-section-tight" style={{ background: "#ffffff", padding: "4.5rem 0", borderBottom: "0.5px solid rgba(47,49,90,0.08)", scrollMarginTop: 24 }}>
+      <div id="training" ref={trainingRef} className="ac-section-tight" style={{ background: "#ffffff", padding: "4.5rem 0", borderBottom: "0.5px solid rgba(47,49,90,0.08)", scrollMarginTop: 24 }}>
         <div className="content-wrap">
           {/* Section header */}
-          <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
+          <div style={{
+            textAlign: "center", marginBottom: "2.5rem",
+            opacity: trainingInView ? 1 : 0,
+            transform: trainingInView ? "translateY(0)" : "translateY(18px)",
+            transition: "opacity 0.6s ease, transform 0.6s ease",
+          }}>
             <div style={{
               fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.12em",
               textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.6rem",
@@ -1518,6 +1539,9 @@ export default function AutoCountAccountingPage({ onContact }) {
             borderRadius: 18, overflow: "hidden",
             boxShadow: "0 20px 60px rgba(47,49,90,0.16)",
             border: "1px solid rgba(47,49,90,0.08)",
+            opacity: trainingInView ? 1 : 0,
+            transform: trainingInView ? "translateY(0) scale(1)" : "translateY(28px) scale(0.97)",
+            transition: "opacity 0.7s cubic-bezier(0.16,1,0.3,1) 0.15s, transform 0.7s cubic-bezier(0.16,1,0.3,1) 0.15s",
           }}>
             <div style={{ paddingBottom: "56.25%", position: "relative", background: "#0f1128" }}>
               <iframe

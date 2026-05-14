@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { Img } from "./Media.jsx";
 
 /* ══════════════════════════════════════════════════════════════
  * ProductHero — shared hero band used by every product / app page
@@ -96,7 +97,7 @@ export default function ProductHero({
                 display: "flex", alignItems: "center", justifyContent: "center",
                 flexShrink: 0, overflow: "hidden",
               }}>
-                <img src={iconSrc} alt={iconAlt}
+                <Img src={iconSrc} alt={iconAlt} priority
                   style={{ width: "100%", height: "100%", objectFit: "contain", padding: 10 }} />
               </div>
             )}
