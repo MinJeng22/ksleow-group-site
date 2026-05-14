@@ -22,7 +22,7 @@ import { Img } from "./Media.jsx";
  *   secondaryCta    { label, href, target? }
  * ══════════════════════════════════════════════════════════════ */
 
-const DEFAULT_BG = "/uploads/products/autocount-accounting-hero.png";
+const DEFAULT_BG = "/uploads/products/autocount-accounting-hero.webp";
 
 const DownloadIcon = () => (
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -123,7 +123,7 @@ export default function ProductHero({
 
               {body && (
                 <p className="product-hero-body" style={{
-                  fontSize: "1rem", color: "rgba(255,255,255,0.7)",
+                  fontSize: "1rem", color: "#ffffff",
                   lineHeight: 1.78, maxWidth: 600, marginBottom: "1.5rem",
                 }}>
                   {body}
