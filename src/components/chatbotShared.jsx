@@ -71,6 +71,28 @@ export function Message({ msg, fontSize = "0.86rem" }) {
             style={{ maxWidth: 220, maxHeight: 220, borderRadius: 12, border: "1px solid rgba(47,49,90,0.12)", objectFit: "cover", display: "block" }}
           />
         )}
+        {msg.attachedFilename && !msg.imagePreviewUrl && (
+          <div title={msg.attachedFilename} style={{
+            display: "inline-flex", alignItems: "center", gap: "0.55rem",
+            padding: "0.55rem 0.85rem", borderRadius: 12,
+            background: "#ffffff", border: "1px solid rgba(47,49,90,0.18)",
+            maxWidth: 260,
+          }}>
+            <span style={{
+              fontSize: "0.66rem", fontWeight: 700, color: "#c9a84c",
+              letterSpacing: "0.06em", flexShrink: 0,
+              padding: "0.2rem 0.45rem", borderRadius: 6,
+              background: "rgba(201,168,76,0.12)",
+            }}>
+              {(msg.attachedFilename.split(".").pop() || "DOC").toUpperCase().slice(0, 4)}
+            </span>
+            <span style={{
+              fontSize: "0.8rem", color: "#2f315a", fontWeight: 500,
+              whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+              minWidth: 0,
+            }}>{msg.attachedFilename}</span>
+          </div>
+        )}
         {showTyping
           ? <TypingDots />
           : (msg.text && (

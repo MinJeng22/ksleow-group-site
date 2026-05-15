@@ -8,8 +8,31 @@ import {
 
 const PAGE_URL = "https://ksl-business-solutions-site.vercel.app/omni";
 
-/* Max upload size — applies to the original file. */
-const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+/* Upload limits + accepted types.
+ *   • Images:    5 MB cap (jpg / png / webp / gif / etc.)
+ *   • Documents: 10 MB cap (PDF / CSV / TXT). The Cloudflare Worker
+ *     routes these to Gemini's document API and the response is
+ *     truncated at 2 000 chars on the way back, so a hard cap on the
+ *     way up keeps memory + bandwidth sane.
+ * Anything else (Excel, Word, ZIP, …) is rejected client-side with a
+ * friendly message that matches the worker's server-side check. */
+const MAX_IMAGE_BYTES = 5  * 1024 * 1024;
+const MAX_DOC_BYTES   = 10 * 1024 * 1024;
+const DOC_MIME_TYPES  = ["application/pdf", "text/csv", "text/plain"];
+/* Extensions for the file picker's `accept` attribute — covers the
+ * cases where mobile browsers don't send the right MIME type. */
+const ACCEPT_ATTR = "image/*,application/pdf,.pdf,text/csv,.csv,text/plain,.txt";
+
+function isImageFile(f) {
+  return !!f?.type?.startsWith("image/");
+}
+function isDocFile(f) {
+  if (!f) return false;
+  if (DOC_MIME_TYPES.includes(f.type)) return true;
+  // Mime-less or wrong-mime fallback: sniff by extension.
+  const ext = (f.name || "").toLowerCase().split(".").pop();
+  return ["pdf", "csv", "txt"].includes(ext);
+}
 
 /* ── QR Code modal ── */
 function QRModal({ onClose, machineId }) {
@@ -186,40 +209,66 @@ export default function KSLOmniPage() {
     else navigate("/");
   }
 
-  /* ── Shared image upload pipeline (paste OR file picker) ──
-   * Worker expects multipart/form-data with `file` + optional `machine_id`.
-   * Returns { success, gsUri }. The gsUri is later embedded inline in the
-   * user message text as `[image:gs://...]` for the chat call. */
-  async function uploadImageFile(file) {
-    if (!file || !file.type?.startsWith("image/")) {
-      setPasteError("Only image files are supported.");
+  /* ── Shared upload pipeline (paste OR file picker) ──
+   * Accepts both images and supported documents (PDF / CSV / TXT) and
+   * sends them to the worker's /upload endpoint. The returned gsUri is
+   * later embedded in the user's chat text — `[image:gs://...]` for
+   * images or `[document:gs://...]` for docs — and the worker routes
+   * each to the correct Gemini API (vision vs document). */
+  async function uploadFile(file) {
+    if (!file) return;
+
+    const asImage = isImageFile(file);
+    const asDoc   = !asImage && isDocFile(file);
+
+    if (!asImage && !asDoc) {
+      setPasteError(
+        `Unsupported file type. We accept images, PDF, CSV, and plain text. ` +
+        `Excel / Word files aren't supported — please export to PDF or take a screenshot.`
+      );
       return;
     }
-    if (file.size > MAX_IMAGE_BYTES) {
-      setPasteError(`Image too large (${(file.size / 1024 / 1024).toFixed(1)} MB). Max 5 MB.`);
+
+    const maxBytes = asImage ? MAX_IMAGE_BYTES : MAX_DOC_BYTES;
+    if (file.size > maxBytes) {
+      const limitMB = (maxBytes / 1024 / 1024).toFixed(0);
+      setPasteError(`File too large (${(file.size/1024/1024).toFixed(1)} MB). Max ${limitMB} MB.`);
       return;
     }
+
     setPasteError("");
     setAttachedImage(null);
 
     try {
-      // Local preview via data URL (no canvas re-encoding — keeps original quality)
-      const dataUrl = await new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload  = () => resolve(reader.result);
-        reader.onerror = () => reject(new Error("Failed to read file"));
-        reader.readAsDataURL(file);
-      });
+      // Images get a local preview thumbnail (data URL). Documents skip
+      // the FileReader pass — we'd just be reading 5–10 MB to throw away.
+      let dataUrl = null;
+      if (asImage) {
+        dataUrl = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload  = () => resolve(reader.result);
+          reader.onerror = () => reject(new Error("Failed to read file"));
+          reader.readAsDataURL(file);
+        });
+      }
       const sizeKb = Math.round(file.size / 1024);
 
-      setAttachedImage({ gsUri: null, dataUrl, sizeKb, uploading: true });
+      setAttachedImage({
+        gsUri: null, dataUrl, sizeKb, uploading: true,
+        kind: asImage ? "image" : "doc",
+        filename: file.name || (asImage ? "image" : "document"),
+      });
 
       // Multipart upload — browser sets the correct Content-Type with boundary
       const formData = new FormData();
       // Ensure the file has a name with an extension so the worker can detect mime
       const named = file.name && file.name.includes(".")
         ? file
-        : new File([file], `paste-${Date.now()}.${(file.type.split("/")[1] || "png")}`, { type: file.type });
+        : new File(
+            [file],
+            `paste-${Date.now()}.${(file.type.split("/")[1] || "png")}`,
+            { type: file.type }
+          );
       formData.append("file", named);
       if (machineId) formData.append("machine_id", machineId);
 
@@ -228,14 +277,19 @@ export default function KSLOmniPage() {
       const data = await res.json();
       if (data.error || !data.gsUri) throw new Error(data.error || "No gsUri in response");
 
-      setAttachedImage({ gsUri: data.gsUri, dataUrl, sizeKb, uploading: false });
+      setAttachedImage({
+        gsUri: data.gsUri, dataUrl, sizeKb, uploading: false,
+        kind: asImage ? "image" : "doc",
+        filename: file.name || (asImage ? "image" : "document"),
+      });
     } catch (err) {
       setAttachedImage(null);
-      setPasteError(`Failed to upload image: ${err.message}`);
+      setPasteError(`Failed to upload: ${err.message}`);
     }
   }
 
-  /* ── Capture image from clipboard paste ── */
+  /* ── Capture file from clipboard paste (images only — paste of a doc
+   * is exceedingly rare and browsers usually don't expose it) ── */
   async function handlePaste(e) {
     const items = e.clipboardData?.items;
     if (!items) return;
@@ -244,7 +298,7 @@ export default function KSLOmniPage() {
       const file = item.getAsFile();
       if (!file) continue;
       e.preventDefault();
-      await uploadImageFile(file);
+      await uploadFile(file);
       return;
     }
   }
@@ -257,36 +311,51 @@ export default function KSLOmniPage() {
   }
   async function handleFileSelected(e) {
     const file = e.target.files?.[0];
-    if (file) await uploadImageFile(file);
+    if (file) await uploadFile(file);
     e.target.value = ""; // allow selecting the same file again later
   }
 
   async function sendMessage() {
-    const text = input.trim();
-    const hasImage = attachedImage?.gsUri && !attachedImage?.uploading;
-    if ((!text && !hasImage) || loading || attachedImage?.uploading) return;
+    const text       = input.trim();
+    const hasFile    = attachedImage?.gsUri && !attachedImage?.uploading;
+    if ((!text && !hasFile) || loading || attachedImage?.uploading) return;
 
-    /* Snapshot the attached image, then clear input + preview */
-    const img = attachedImage;
+    /* Snapshot the attachment, then clear input + preview */
+    const att = attachedImage;
     setInput("");
     setAttachedImage(null);
     setPasteError("");
     setLoading(true);
 
-    /* imagePreviewUrl is kept in messages state for display only — never sent to worker */
+    /* Carry the right preview metadata in the bubble:
+     *   - images keep their data-URL thumbnail
+     *   - documents keep a filename chip (no thumbnail rendered) */
     const userMsg = {
       role: "user",
       text,
-      ...(img?.gsUri ? { gsUri: img.gsUri, imagePreviewUrl: img.dataUrl } : {}),
+      ...(att?.gsUri && att.kind === "image"
+        ? { gsUri: att.gsUri, imagePreviewUrl: att.dataUrl }
+        : {}),
+      ...(att?.gsUri && att.kind === "doc"
+        ? { gsUri: att.gsUri, attachedFilename: att.filename }
+        : {}),
     };
     setMessages(prev => [...prev, userMsg]);
     setMessages(prev => [...prev, { role: "assistant", text: "", streaming: true }]);
 
-    /* Worker inspects the LAST user message and looks for [image:gs://...]
-     * embedded in its text. Build that text now. */
-    const apiText = img?.gsUri
-      ? (text ? `${text} [image:${img.gsUri}]` : `(Image attached) [image:${img.gsUri}]`)
-      : text;
+    /* Worker inspects the LAST user message text. Images go through the
+     * vision pipeline via `[image:gs://...]`, documents through Gemini's
+     * document API via `[document:gs://...]`. */
+    let apiText = text;
+    if (att?.gsUri) {
+      const marker = att.kind === "doc"
+        ? `[document:${att.gsUri}]`
+        : `[image:${att.gsUri}]`;
+      const filler = att.kind === "doc"
+        ? `(${att.filename || "Document"} attached)`
+        : "(Image attached)";
+      apiText = text ? `${text} ${marker}` : `${filler} ${marker}`;
+    }
 
     abortRef.current = new AbortController();
     try {
@@ -330,6 +399,60 @@ export default function KSLOmniPage() {
 
   function handleKey(e) {
     if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+  }
+
+  /* ── Reusable attachment preview tile.
+   * Image attachments → square thumbnail.
+   * Document attachments → square card showing the file-type letters
+   * (PDF / CSV / TXT) above a truncated filename.
+   * Spinner state is identical to the old image-only behaviour. */
+  function renderAttachmentTile(size) {
+    if (!attachedImage) return null;
+    const sq = { width: size, height: size, borderRadius: 10 };
+    if (attachedImage.uploading) {
+      return (
+        <div style={{
+          ...sq, background: "#dadbe6",
+          display: "flex", alignItems: "center", justifyContent: "center",
+        }}>
+          <div style={{
+            width: size * 0.32, height: size * 0.32,
+            border: "2px solid rgba(47,49,90,0.18)", borderTopColor: "#2f315a",
+            borderRadius: "50%", animation: "spin 0.7s linear infinite",
+          }} />
+        </div>
+      );
+    }
+    if (attachedImage.kind === "doc") {
+      const ext = (attachedImage.filename || "")
+        .split(".").pop().toUpperCase().slice(0, 4) || "DOC";
+      return (
+        <div title={attachedImage.filename} style={{
+          ...sq, background: "#ffffff",
+          border: "1px solid rgba(47,49,90,0.15)",
+          display: "flex", flexDirection: "column",
+          alignItems: "center", justifyContent: "center",
+          gap: 4, padding: 6, textAlign: "center",
+        }}>
+          <span style={{
+            fontSize: size <= 56 ? "0.62rem" : "0.7rem",
+            fontWeight: 700, color: "#c9a84c", letterSpacing: "0.05em",
+          }}>{ext}</span>
+          <span style={{
+            fontSize: size <= 56 ? "0.56rem" : "0.6rem",
+            color: "#6b6f91", lineHeight: 1.2,
+            maxWidth: "100%", overflow: "hidden",
+            whiteSpace: "nowrap", textOverflow: "ellipsis",
+          }}>{attachedImage.filename}</span>
+        </div>
+      );
+    }
+    // image
+    return (
+      <img src={attachedImage.dataUrl} alt="attachment preview"
+        style={{ ...sq, objectFit: "cover", display: "block",
+          border: "1px solid rgba(47,49,90,0.15)" }} />
+    );
   }
 
   /* ── Reusable: header action buttons (Back / QR / Clear) ── */
@@ -419,7 +542,7 @@ export default function KSLOmniPage() {
         <input
           ref={fileInputRef}
           type="file"
-          accept="image/*"
+          accept={ACCEPT_ATTR}
           onChange={handleFileSelected}
           style={{ display: "none" }}
         />
@@ -435,17 +558,10 @@ export default function KSLOmniPage() {
           display: "flex", flexDirection: "column", gap: "0.35rem",
           flexShrink: 0,
         }}>
-          {/* Inline image preview thumbnail (inside the input container) */}
+          {/* Inline attachment preview (inside the input container) */}
           {attachedImage && (
             <div style={{ position: "relative", display: "inline-block", alignSelf: "flex-start", margin: "0.1rem 0 0.2rem" }}>
-              {attachedImage.uploading ? (
-                <div style={{ width: 56, height: 56, borderRadius: 10, background: "#dadbe6", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <div style={{ width: 18, height: 18, border: "2px solid rgba(47,49,90,0.18)", borderTopColor: "#2f315a", borderRadius: "50%", animation: "spin 0.7s linear infinite" }} />
-                </div>
-              ) : (
-                <img src={attachedImage.dataUrl} alt="attachment preview"
-                  style={{ width: 56, height: 56, objectFit: "cover", borderRadius: 10, display: "block", border: "1px solid rgba(47,49,90,0.15)" }} />
-              )}
+              {renderAttachmentTile(56)}
               {!attachedImage.uploading && (
                 <button
                   onClick={() => setAttachedImage(null)}
@@ -549,20 +665,10 @@ export default function KSLOmniPage() {
         flexShrink: 0,
         transition: "border-color 0.2s, box-shadow 0.2s",
       }}>
-        {/* Inline image preview thumbnail (sits inside the input container, above the textarea) */}
+        {/* Inline attachment preview (sits inside the input container, above the textarea) */}
         {attachedImage && (
           <div style={{ position: "relative", display: "inline-block", alignSelf: "flex-start", margin: "0.15rem 0 0.25rem" }}>
-            {attachedImage.uploading ? (
-              <div style={{ width: 64, height: 64, borderRadius: 10, background: "#dadbe6", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <div style={{ width: 20, height: 20, border: "2px solid rgba(47,49,90,0.18)", borderTopColor: "#2f315a", borderRadius: "50%", animation: "spin 0.7s linear infinite" }} />
-              </div>
-            ) : (
-              <img
-                src={attachedImage.dataUrl}
-                alt="attachment preview"
-                style={{ width: 64, height: 64, objectFit: "cover", borderRadius: 10, display: "block", border: "1px solid rgba(47,49,90,0.15)" }}
-              />
-            )}
+            {renderAttachmentTile(64)}
             {!attachedImage.uploading && (
               <button
                 onClick={() => setAttachedImage(null)}
@@ -671,7 +777,7 @@ export default function KSLOmniPage() {
       <input
         ref={fileInputRef}
         type="file"
-        accept="image/*"
+        accept={ACCEPT_ATTR}
         onChange={handleFileSelected}
         style={{ display: "none" }}
       />
