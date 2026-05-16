@@ -261,7 +261,7 @@ function normalizePayload(payload) {
     source: cleanText(payload.source || "omni-channel", 40),
     items: payload.items.map((item) => ({
       code: cleanText(item.code, 60),
-      description: cleanText(item.description || item.desc || item.name || "As quoted", 180),
+      description: getItemDescription(item),
       qty: formatQty(item.qty),
       uom: cleanText(item.uom || item.unit || "UNIT", 20),
       price: formatMoney(item.price),
@@ -526,13 +526,13 @@ function drawFooterNote(doc) {
   doc.fillColor(TEXT).font("Helvetica").fontSize(9).text(
     "Note : Prices are subjected to change without prior notice. We hope that our quotation is favourable to you and looking forward to receive your valued orders in due course. Thank and regards.",
     left,
-    690,
+    668,
     { width, lineGap: 1 }
   );
 
-  doc.fillColor(TEXT).font("Helvetica").fontSize(10).text("Yours faithfully,", left + 8, 776);
-  doc.moveTo(left + 2, 818).lineTo(left + 185, 818).strokeColor(LINE).lineWidth(0.8).stroke();
-  doc.fillColor(TEXT).font("Helvetica").fontSize(8).text("Administrator", left + 58, 823, {
+  doc.fillColor(TEXT).font("Helvetica").fontSize(10).text("Yours faithfully,", left + 8, 738);
+  doc.moveTo(left + 2, 778).lineTo(left + 185, 778).strokeColor(LINE).lineWidth(0.8).stroke();
+  doc.fillColor(TEXT).font("Helvetica").fontSize(8).text("Administrator", left + 58, 783, {
     width: 90,
     align: "center",
   });
@@ -566,6 +566,23 @@ function cleanText(value, maxLength) {
     .replace(/\s+/g, " ")
     .trim()
     .slice(0, maxLength);
+}
+
+function getItemDescription(item) {
+  const description = item.description
+    || item.desc
+    || item.name
+    || item.product_name
+    || item.productName
+    || item.item_name
+    || item.itemName
+    || item.item_description
+    || item.itemDescription
+    || item.details
+    || item.seat_type
+    || item.seatType;
+
+  return cleanText(description || item.code || "As quoted", 180);
 }
 
 function formatMoney(value) {
