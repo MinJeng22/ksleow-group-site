@@ -1,27 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 
-const ALLOWED_HOST = "storage.googleapis.com";
-const ALLOWED_PATH_PREFIX = "/ksl-omni-uploads/quotations/";
-
-function getValidLegacyPdfUrl(rawUrl) {
-  if (!rawUrl) return "";
-
-  try {
-    const url = new URL(rawUrl);
-    const pathname = url.pathname.toLowerCase();
-
-    if (url.protocol !== "https:") return "";
-    if (url.hostname !== ALLOWED_HOST) return "";
-    if (!url.pathname.startsWith(ALLOWED_PATH_PREFIX)) return "";
-    if (!pathname.endsWith(".pdf")) return "";
-
-    return url.href;
-  } catch {
-    return "";
-  }
-}
-
 function getStoredPdfUrl(searchParams) {
   const quote = searchParams.get("quote") || searchParams.get("id") || "";
   const token = searchParams.get("token") || "";
@@ -33,10 +12,7 @@ function getStoredPdfUrl(searchParams) {
 
 export default function QuotationViewer() {
   const [searchParams] = useSearchParams();
-  const pdfUrl = useMemo(() => (
-    getStoredPdfUrl(searchParams)
-    || getValidLegacyPdfUrl(searchParams.get("file") || searchParams.get("pdf"))
-  ), [searchParams]);
+  const pdfUrl = useMemo(() => getStoredPdfUrl(searchParams), [searchParams]);
 
   useEffect(() => {
     if (pdfUrl) window.location.replace(pdfUrl);
