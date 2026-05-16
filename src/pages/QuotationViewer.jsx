@@ -31,11 +31,28 @@ function getFilename(pdfUrl) {
   }
 }
 
+function getStoredQuotation(searchParams) {
+  const quote = searchParams.get("quote") || searchParams.get("id") || "";
+  const token = searchParams.get("token") || "";
+  if (!quote || !token) return null;
+
+  const params = new URLSearchParams({ quote, token });
+  return {
+    quote,
+    token,
+    pdfUrl: `/api/quotation?${params.toString()}`,
+    filename: `${quote.replace(/[^a-zA-Z0-9_-]/g, "_") || "quotation"}.pdf`,
+  };
+}
+
 export default function QuotationViewer() {
   const [searchParams] = useSearchParams();
   const [copied, setCopied] = useState(false);
-  const pdfUrl = useMemo(() => getValidPdfUrl(searchParams.get("file") || searchParams.get("pdf")), [searchParams]);
-  const filename = useMemo(() => getFilename(pdfUrl), [pdfUrl]);
+  const storedQuotation = useMemo(() => getStoredQuotation(searchParams), [searchParams]);
+  const legacyPdfUrl = useMemo(() => getValidPdfUrl(searchParams.get("file") || searchParams.get("pdf")), [searchParams]);
+  const pdfUrl = storedQuotation?.pdfUrl || legacyPdfUrl;
+  const filename = storedQuotation?.filename || getFilename(legacyPdfUrl);
+  const title = storedQuotation?.quote || filename;
   const shareUrl = typeof window !== "undefined" ? window.location.href : "";
 
   async function shareQuotation() {
@@ -95,7 +112,7 @@ export default function QuotationViewer() {
             <div className="quotation-viewer__meta">
               <div>
                 <p>Official Quotation</p>
-                <h1>{filename}</h1>
+                <h1>{title}</h1>
               </div>
               <span>PDF</span>
             </div>

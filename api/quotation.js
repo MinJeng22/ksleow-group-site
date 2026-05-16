@@ -9,6 +9,7 @@ const LIGHT = "#f5f5f8";
 const WHITE = "#ffffff";
 
 const MAX_BODY_BYTES = 128 * 1024;
+const DEFAULT_WORKER_URL = "https://ks-omni.kslbs.workers.dev";
 
 export default async function handler(req, res) {
   setCorsHeaders(res);
@@ -19,8 +20,13 @@ export default async function handler(req, res) {
     return;
   }
 
+  if (req.method === "GET") {
+    await handleStoredQuotation(req, res);
+    return;
+  }
+
   if (req.method !== "POST") {
-    sendJson(res, 405, { error: "Method not allowed. Use POST." });
+    sendJson(res, 405, { error: "Method not allowed. Use GET or POST." });
     return;
   }
 
@@ -78,8 +84,99 @@ export default async function handler(req, res) {
 
 function setCorsHeaders(res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Quote-Secret");
+}
+
+async function handleStoredQuotation(req, res) {
+  const url = new URL(req.url, getRequestOrigin(req));
+  const quoteId = cleanText(url.searchParams.get("quote") || url.searchParams.get("id"), 80);
+  const token = cleanText(url.searchParams.get("token"), 160);
+
+  if (!quoteId || !token) {
+    sendJson(res, 400, { error: "quote and token are required." });
+    return;
+  }
+
+  let payload;
+  try {
+    payload = await fetchStoredQuotation(quoteId, token);
+  } catch (error) {
+    sendJson(res, error.statusCode || 502, { error: error.message || "Unable to retrieve quotation." });
+    return;
+  }
+
+  const validation = validatePayload(payload);
+  if (validation) {
+    sendJson(res, 422, { error: validation });
+    return;
+  }
+
+  const quote = normalizePayload(payload);
+  const filename = makeFilename(quote.companyName, quote.date);
+
+  res.statusCode = 200;
+  res.setHeader("Content-Type", "application/pdf");
+  res.setHeader("Content-Disposition", `inline; filename="${filename}"`);
+  res.setHeader("Cache-Control", "private, no-store");
+
+  const doc = new PDFDocument({
+    size: "A4",
+    margin: 46,
+    bufferPages: false,
+    info: {
+      Title: `Quotation - ${quote.companyName}`,
+      Author: "GREENDEN PRODUCT SDN BHD",
+      Subject: "Official Quotation",
+      Keywords: "quotation,pdf,greenden",
+    },
+  });
+
+  doc.on("error", () => {
+    if (!res.headersSent) {
+      sendJson(res, 500, { error: "Failed to generate quotation PDF." });
+    } else {
+      res.end();
+    }
+  });
+
+  doc.pipe(res);
+  drawQuotation(doc, quote);
+  doc.end();
+}
+
+async function fetchStoredQuotation(quoteId, token) {
+  const workerUrl = getWorkerUrl();
+  const endpoint = new URL("/quote-data", workerUrl);
+  endpoint.searchParams.set("quote", quoteId);
+  endpoint.searchParams.set("token", token);
+
+  const headers = {};
+  if (process.env.QUOTE_API_SECRET) {
+    headers["X-Quote-Secret"] = process.env.QUOTE_API_SECRET;
+  }
+
+  const response = await fetch(endpoint, { headers });
+  if (!response.ok) {
+    let detail = "";
+    try { detail = await response.text(); } catch { /* ignore */ }
+    const error = new Error(`Quotation data lookup failed (${response.status})${detail ? `: ${detail.slice(0, 240)}` : ""}`);
+    error.statusCode = response.status === 404 ? 404 : 502;
+    throw error;
+  }
+
+  const data = await response.json();
+  return data.quotation || data.quote || data.payload || data;
+}
+
+function getRequestOrigin(req) {
+  const protocol = getHeader(req.headers || {}, "x-forwarded-proto") || "https";
+  const host = getHeader(req.headers || {}, "host") || "ksleow.vercel.app";
+  return `${protocol}://${host}`;
+}
+
+function getWorkerUrl() {
+  return String(process.env.QUOTE_WORKER_URL || DEFAULT_WORKER_URL).replace(/\/+$/, "");
 }
 
 function isAuthorized(req) {
