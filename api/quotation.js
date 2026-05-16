@@ -306,23 +306,23 @@ function drawHeader(doc) {
   doc.fillColor(TEXT).font("Helvetica-Bold").fontSize(15).text(
     "KSL BUSINESS SOLUTIONS SDN BHD (202401005119)",
     left,
-    8,
+    18,
     { width, align: "center" }
   );
-  doc.fillColor(TEXT).font("Helvetica").fontSize(12).text(
+  doc.fillColor(TEXT).font("Helvetica").fontSize(11).text(
     "NO.8, 2nd Floor, Taman Zabidin, Kampung Catin,",
     left,
-    31,
+    42,
     { width, align: "center" }
   );
-  doc.text("28400, Mentakab, Pahang.", left, 48, { width, align: "center" });
+  doc.text("28400, Mentakab, Pahang.", left, 58, { width, align: "center" });
 
-  doc.moveTo(left, 82).lineTo(right, 82).strokeColor(LINE).lineWidth(0.8).stroke();
+  doc.moveTo(left, 96).lineTo(right, 96).strokeColor(LINE).lineWidth(0.8).stroke();
 }
 
 function drawQuotationTitle(doc) {
   const { left, width } = pageLayout(doc);
-  doc.fillColor(TEXT).font("Helvetica-Bold").fontSize(15).text("QUOTATION", left, 90, {
+  doc.fillColor(TEXT).font("Helvetica-Bold").fontSize(14).text("QUOTATION", left, 106, {
     width,
     align: "center",
   });
@@ -330,26 +330,26 @@ function drawQuotationTitle(doc) {
 
 function drawCustomerMeta(doc, quote) {
   const x = 50;
-  const y = 116;
+  const y = 132;
   const w = 316;
-  const h = 116;
+  const h = 96;
 
   drawCornerBox(doc, x, y, w, h);
 
-  doc.fillColor(TEXT).font("Helvetica-Bold").fontSize(8).text("BILL TO", x + 18, y + 22, {
+  doc.fillColor(TEXT).font("Helvetica-Bold").fontSize(7.5).text("BILL TO", x + 18, y + 17, {
     width: w - 36,
   });
-  doc.fillColor(TEXT).font("Helvetica-Bold").fontSize(10).text(quote.companyName, x + 18, y + 37, {
+  doc.fillColor(TEXT).font("Helvetica-Bold").fontSize(9).text(quote.companyName, x + 18, y + 31, {
     width: w - 36,
   });
-  doc.fillColor(MUTED).font("Helvetica").fontSize(8).text("Source: " + quote.source, x + 18, y + 53, {
+  doc.fillColor(MUTED).font("Helvetica").fontSize(7.5).text("Source: " + quote.source, x + 18, y + 45, {
     width: w - 36,
   });
 
-  doc.fillColor(TEXT).font("Helvetica").fontSize(10).text("TEL  :", x + 20, y + h - 22, {
+  doc.fillColor(TEXT).font("Helvetica").fontSize(9).text("TEL  :", x + 20, y + h - 20, {
     width: 100,
   });
-  doc.text("FAX  :", x + 170, y + h - 22, {
+  doc.text("FAX  :", x + 170, y + h - 20, {
     width: 100,
   });
 }
@@ -358,8 +358,8 @@ function drawDocumentMeta(doc, quote) {
   const x = 392;
   const colonX = 454;
   const valueX = 472;
-  const startY = 91;
-  const lineHeight = 23;
+  const startY = 108;
+  const lineHeight = 19;
   const rows = [
     ["No.", quote.quotationNo],
     ["Your Ref.", ""],
@@ -390,15 +390,15 @@ function drawIntro(doc) {
   doc.fillColor(TEXT).font("Helvetica").fontSize(9.5).text(
     "Thank you for your inquiry. We are pleased to submit our quote as follows:",
     left + 6,
-    242,
+    238,
     { width: width - 12 }
   );
 }
 
 function drawItemsTable(doc, items) {
   const { left, right, width } = pageLayout(doc);
-  const tableTop = 258;
-  const tableBottom = 612;
+  const tableTop = 254;
+  const tableBottom = 590;
   const columns = [
     { label: "Item", key: "code", width: 72, align: "left" },
     { label: "Description", key: "description", width: 231, align: "left" },
@@ -435,7 +435,7 @@ function drawItemsTable(doc, items) {
 
 function drawTotalsAndTerms(doc, quote) {
   const { left, right } = pageLayout(doc);
-  const y = 622;
+  const y = 606;
 
   doc.moveTo(left, y).lineTo(right, y).strokeColor(LINE).lineWidth(0.8).stroke();
 
@@ -478,27 +478,27 @@ function drawTableHeader(doc, left, y, columns) {
   const tableWidth = columns.reduce((sum, column) => sum + column.width, 0);
 
   doc.moveTo(left, y).lineTo(left + tableWidth, y).strokeColor(LINE).lineWidth(0.8).stroke();
-  doc.moveTo(left, y + 31).lineTo(left + tableWidth, y + 31).strokeColor(LINE).lineWidth(0.8).stroke();
+  doc.moveTo(left, y + 23).lineTo(left + tableWidth, y + 23).strokeColor(LINE).lineWidth(0.8).stroke();
   let x = left;
   columns.forEach((column) => {
-    doc.fillColor(TEXT).font("Helvetica").fontSize(9).text(column.label, x + 5, y + 7, {
+    doc.fillColor(TEXT).font("Helvetica").fontSize(8.2).text(column.label, x + 5, y + 6, {
       width: column.width - 14,
       align: column.align || "left",
     });
     x += column.width;
   });
 
-  return y + 31;
+  return y + 23;
 }
 
 function measureRowHeight(doc, row, columns) {
-  doc.font("Helvetica").fontSize(8.7);
+  doc.font("Helvetica").fontSize(7.6);
   const heights = columns.map((column) => doc.heightOfString(row[column.key], {
     width: column.width - 14,
     align: column.align || "left",
   }));
 
-  return Math.max(24, Math.ceil(Math.max(...heights) + 12));
+  return Math.max(19, Math.ceil(Math.max(...heights) + 9));
 }
 
 function drawTableRow(doc, left, y, columns, row, rowHeight) {
@@ -508,11 +508,11 @@ function drawTableRow(doc, left, y, columns, row, rowHeight) {
   columns.forEach((column) => {
     doc.fillColor(TEXT)
       .font("Helvetica")
-      .fontSize(8.7)
-      .text(row[column.key], x + 5, y + 7, {
+      .fontSize(7.6)
+      .text(row[column.key], x + 5, y + 5, {
         width: column.width - 10,
         align: column.align || "left",
-        lineGap: 1.5,
+        lineGap: 0.8,
       });
     x += column.width;
   });
@@ -526,13 +526,13 @@ function drawFooterNote(doc) {
   doc.fillColor(TEXT).font("Helvetica").fontSize(9).text(
     "Note : Prices are subjected to change without prior notice. We hope that our quotation is favourable to you and looking forward to receive your valued orders in due course. Thank and regards.",
     left,
-    668,
+    688,
     { width, lineGap: 1 }
   );
 
-  doc.fillColor(TEXT).font("Helvetica").fontSize(10).text("Yours faithfully,", left + 8, 738);
-  doc.moveTo(left + 2, 778).lineTo(left + 185, 778).strokeColor(LINE).lineWidth(0.8).stroke();
-  doc.fillColor(TEXT).font("Helvetica").fontSize(8).text("Administrator", left + 58, 783, {
+  doc.fillColor(TEXT).font("Helvetica").fontSize(10).text("Yours faithfully,", left + 8, 742);
+  doc.moveTo(left + 2, 776).lineTo(left + 185, 776).strokeColor(LINE).lineWidth(0.8).stroke();
+  doc.fillColor(TEXT).font("Helvetica").fontSize(8).text("Administrator", left + 58, 781, {
     width: 90,
     align: "center",
   });
