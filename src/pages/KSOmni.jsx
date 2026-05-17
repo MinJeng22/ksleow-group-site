@@ -4,6 +4,7 @@ import Footer from "../components/Footer";
 import {
   WORKER_URL, SendIcon,
   Message, ChatbotKeyframes, streamChat,
+  AnimatedGreeting, autoResizeTextarea,
 } from "../components/chatbotShared.jsx";
 
 const PAGE_URL = "https://ksleow.vercel.app/omni";
@@ -111,30 +112,7 @@ const CloseSmallIcon = () => (
  * Rendered above the centered input box on the empty state.
  * Mirrors Gemini's home screen: small lighter top line + large gradient prompt. */
 function EmptyGreeting() {
-  return (
-    <div style={{ textAlign: "left", width: "100%", maxWidth: 720, animation: "fadeIn 0.4s ease", marginBottom: "1.5rem" }}>
-      <div style={{
-        fontSize: "clamp(1.75rem, 3.5vw, 2.4rem)",
-        fontWeight: 500,
-        color: "#a8abcc",
-        lineHeight: 1.2,
-        marginBottom: "0.25rem",
-      }}>
-        Hello
-      </div>
-      <div style={{
-        fontSize: "clamp(1.75rem, 3.5vw, 2.4rem)",
-        fontWeight: 600,
-        background: "linear-gradient(90deg, #2f315a 0%, #c9a84c 100%)",
-        WebkitBackgroundClip: "text",
-        WebkitTextFillColor: "transparent",
-        backgroundClip: "text",
-        lineHeight: 1.2,
-      }}>
-        How can I help you today?
-      </div>
-    </div>
-  );
+  return <AnimatedGreeting />;
 }
 
 /* ── Mobile detection ── */
@@ -205,6 +183,14 @@ export default function KSLOmniPage() {
   useEffect(() => {
     if (!loading) focusInputSoon(50);
   }, [loading]);
+  useEffect(() => {
+    autoResizeTextarea(inputRef.current);
+  }, [input, isMobile]);
+
+  function handleInputChange(e) {
+    setInput(e.target.value);
+    autoResizeTextarea(e.currentTarget);
+  }
 
   function clearChat() {
     abortRef.current?.abort();
@@ -618,7 +604,7 @@ export default function KSLOmniPage() {
           <textarea
             ref={inputRef}
             value={input}
-            onChange={e => setInput(e.target.value)}
+            onChange={handleInputChange}
             onKeyDown={handleKey}
             onPaste={handlePaste}
             placeholder="Ask KS Omni."
@@ -631,7 +617,7 @@ export default function KSLOmniPage() {
               background: "transparent",
               fontSize: "0.95rem", fontFamily: "inherit",
               resize: "none", lineHeight: 1.5,
-              maxHeight: 120, overflowY: "auto",
+              maxHeight: 160, overflowY: "hidden",
               color: "#2f315a",
             }}
           />
@@ -744,7 +730,7 @@ export default function KSLOmniPage() {
         <textarea
           ref={inputRef}
           value={input}
-          onChange={e => setInput(e.target.value)}
+          onChange={handleInputChange}
           onKeyDown={handleKey}
           onPaste={handlePaste}
           placeholder="Ask KS Omni."
@@ -759,7 +745,7 @@ export default function KSLOmniPage() {
             fontSize: centered ? "1rem" : "0.95rem",
             fontFamily: "inherit",
             resize: "none", lineHeight: 1.55,
-            maxHeight: centered ? 180 : 140, overflowY: "auto",
+            maxHeight: centered ? 220 : 180, overflowY: "hidden",
           }}
         />
 

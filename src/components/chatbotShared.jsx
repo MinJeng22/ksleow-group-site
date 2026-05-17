@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
 import remarkGfm from "remark-gfm";
@@ -23,6 +24,85 @@ export const CloseIcon = () => (
     <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
   </svg>
 );
+
+export const GREETING_PHRASES = [
+  { hello: "Hello", prompt: "How can I help you today?" },
+  { hello: "Hai", prompt: "Bagaimana saya boleh bantu anda hari ini?" },
+  { hello: "你好", prompt: "今天我可以怎样帮你？" },
+];
+
+export function autoResizeTextarea(textarea) {
+  if (!textarea) return;
+  const maxHeight = Number.parseFloat(window.getComputedStyle(textarea).maxHeight) || 180;
+  textarea.style.height = "auto";
+  textarea.style.height = `${Math.min(textarea.scrollHeight, maxHeight)}px`;
+  textarea.style.overflowY = textarea.scrollHeight > maxHeight ? "auto" : "hidden";
+}
+
+export function AnimatedGreeting({ compact = false, style }) {
+  const [phraseIndex, setPhraseIndex] = useState(0);
+  const [typedText, setTypedText] = useState("");
+  const phrase = GREETING_PHRASES[phraseIndex];
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setPhraseIndex((current) => (current + 1) % GREETING_PHRASES.length);
+    }, 8000);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    let index = 0;
+    setTypedText("");
+    const timer = window.setInterval(() => {
+      index += 1;
+      setTypedText(phrase.prompt.slice(0, index));
+      if (index >= phrase.prompt.length) window.clearInterval(timer);
+    }, compact ? 30 : 34);
+    return () => window.clearInterval(timer);
+  }, [compact, phrase.prompt]);
+
+  return (
+    <div style={{
+      textAlign: "left",
+      width: "100%",
+      maxWidth: compact ? 320 : 720,
+      animation: "fadeIn 0.4s ease",
+      marginBottom: compact ? 0 : "1.5rem",
+      ...style,
+    }}>
+      <div style={{
+        fontSize: compact ? "1.15rem" : "clamp(1.75rem, 3.5vw, 2.4rem)",
+        fontWeight: 500,
+        color: "#a8abcc",
+        lineHeight: 1.2,
+        marginBottom: compact ? "0.35rem" : "0.25rem",
+      }}>
+        {phrase.hello}
+      </div>
+      <div style={{
+        minHeight: compact ? "3.4em" : "2.4em",
+        fontSize: compact ? "1.32rem" : "clamp(1.75rem, 3.5vw, 2.4rem)",
+        fontWeight: 600,
+        background: "linear-gradient(90deg, #2f315a 0%, #c9a84c 100%)",
+        WebkitBackgroundClip: "text",
+        WebkitTextFillColor: "transparent",
+        backgroundClip: "text",
+        lineHeight: 1.2,
+      }}>
+        {typedText}
+        <span aria-hidden="true" style={{
+          display: "inline-block",
+          width: compact ? 8 : 10,
+          marginLeft: 3,
+          borderRight: "2px solid #c9a84c",
+          transform: "translateY(0.08em)",
+          animation: "ksCaretBlink 0.9s step-end infinite",
+        }}>&nbsp;</span>
+      </div>
+    </div>
+  );
+}
 
 /* Markdown renderer shared by KS Omni and AIChatbot. */
 function markdownComponents(isUser) {
@@ -301,6 +381,8 @@ export function ChatbotKeyframes() {
   return <style>{`
     @keyframes typingPulse{0%,80%,100%{opacity:0.3;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
     @keyframes spin{to{transform:rotate(360deg)}}
+    @keyframes ksCaretBlink{0%,48%{opacity:1}49%,100%{opacity:0}}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
     .ks-chat-markdown > :first-child{margin-top:0!important}
     .ks-chat-markdown > :last-child{margin-bottom:0!important}
     .ks-chat-markdown li > p{margin:0.1em 0}

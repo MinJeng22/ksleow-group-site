@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import {
   WORKER_URL, SendIcon, CloseIcon,
   Message, ChatbotKeyframes, streamChat,
+  AnimatedGreeting, autoResizeTextarea,
 } from "./chatbotShared.jsx";
 
 /* ══════════════════════════════════════════════════════════════
@@ -16,9 +17,7 @@ void WORKER_URL;
 
 export default function AIChatbot({ app }) {
   const [open, setOpen]         = useState(false);
-  const [messages, setMessages] = useState([
-    { role: "assistant", text: "Hello, how can I help you today?" },
-  ]);
+  const [messages, setMessages] = useState([]);
   const [input, setInput]       = useState("");
   const [loading, setLoading]   = useState(false);
 
@@ -26,8 +25,26 @@ export default function AIChatbot({ app }) {
   const inputRef  = useRef(null);
   const abortRef  = useRef(null);
 
-  useEffect(() => { if (open) setTimeout(() => inputRef.current?.focus(), 100); }, [open]);
+  useEffect(() => {
+    if (!open) return;
+    window.setTimeout(() => {
+      try {
+        inputRef.current?.focus({ preventScroll: true });
+      } catch {
+        inputRef.current?.focus();
+      }
+    }, 100);
+  }, [open]);
+  useEffect(() => {
+    autoResizeTextarea(inputRef.current);
+  }, [input, open]);
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
+
+  function handleInputChange(e) {
+    if (loading) return;
+    setInput(e.target.value);
+    autoResizeTextarea(e.currentTarget);
+  }
 
   async function sendMessage() {
     const text = input.trim();
@@ -159,7 +176,14 @@ export default function AIChatbot({ app }) {
 
           {/* Messages */}
           <div style={{ flex: 1, overflowY: "auto", padding: "1rem", display: "flex", flexDirection: "column" }}>
-            {messages.map((msg, i) => <Message key={i} msg={msg} />)}
+            {messages.length === 0
+              ? (
+                <div style={{ margin: "auto 0", padding: "1.25rem 0.2rem" }}>
+                  <AnimatedGreeting compact />
+                </div>
+              )
+              : messages.map((msg, i) => <Message key={i} msg={msg} />)
+            }
             <div ref={bottomRef} />
           </div>
 
@@ -172,7 +196,7 @@ export default function AIChatbot({ app }) {
             <textarea
               ref={inputRef}
               value={input}
-              onChange={e => { if (!loading) setInput(e.target.value); }}
+              onChange={handleInputChange}
               onKeyDown={e => { if (loading) { e.preventDefault(); return; } handleKey(e); }}
               placeholder={loading ? "Waiting for AI reply…" : "Ask KS Omni..."}
               disabled={loading} readOnly={loading} rows={1}
@@ -181,7 +205,7 @@ export default function AIChatbot({ app }) {
                 border: "1px solid rgba(47,49,90,0.18)",
                 fontSize: "0.86rem", fontFamily: "inherit",
                 resize: "none", outline: "none", lineHeight: 1.5,
-                maxHeight: 100, overflowY: "auto",
+                maxHeight: 160, overflowY: "hidden",
                 background: loading ? "#f5f5f8" : "#ffffff",
                 color: "#2f315a", transition: "border-color 0.2s",
               }}
