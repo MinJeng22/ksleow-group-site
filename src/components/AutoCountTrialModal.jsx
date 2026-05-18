@@ -1,7 +1,7 @@
-import { LOGO_NAV as LOGO } from "../assets/assets.js";
+import { LOGO_FOOTER as LOGO } from "../assets/assets.js";
 
-const SUPPORT_WHATSAPP = "60179052323";
-const SUPPORT_MESSAGE = "Hi Support Team, I would like to start the AutoCount Accounting 2.2 Free Trial (500 Transactions) and schedule an installation session. I can prepare AnyDesk / UltraViewer.";
+const SUPPORT_WHATSAPP = "60169902279";
+const SUPPORT_MESSAGE = "Hi Elise, I would like to start the AutoCount Accounting 2.2 Free Trial and schedule an installation session. I can prepare AnyDesk / UltraViewer. I want to try ... edition.";
 const SUPPORT_WA_LINK = `https://wa.me/${SUPPORT_WHATSAPP}?text=${encodeURIComponent(SUPPORT_MESSAGE)}`;
 
 const CloseIcon = () => (
@@ -89,25 +89,13 @@ export default function AutoCountTrialModal({ open, onClose }) {
           overflow: "hidden",
           position: "relative",
         }}>
-          <div style={{
-            position: "absolute",
-            right: -80,
-            top: -80,
-            width: 210,
-            height: 210,
-            borderRadius: "50%",
-            border: "36px solid rgba(201,168,76,0.16)",
-          }} />
-          <img src={LOGO} alt="KSL Business Solutions" style={{ height: 34, objectFit: "contain", display: "block", marginBottom: "1.35rem", filter: "brightness(0) invert(1)" }} />
-          <div style={{ fontSize: "0.68rem", fontWeight: 800, letterSpacing: "0.13em", textTransform: "uppercase", color: "#e8c97a", marginBottom: "0.55rem" }}>
+          <img src={LOGO} alt="K.S. Leow Group" style={{ height: 64, objectFit: "contain", display: "block", margin: "0 auto 1.35rem" }} />
+          <div style={{ fontSize: "0.68rem", fontWeight: 800, letterSpacing: "0.13em", textTransform: "uppercase", color: "#e8c97a", marginBottom: "0.55rem", textAlign: "center" }}>
             AutoCount Accounting 2.2
           </div>
-          <h2 style={{ fontSize: "clamp(1.65rem, 4vw, 2.15rem)", fontWeight: 800, lineHeight: 1.13, marginBottom: "0.7rem", maxWidth: 390 }}>
-            Start your Free Trial with guided installation
+          <h2 style={{ fontSize: "clamp(1.65rem, 4vw, 2.15rem)", fontWeight: 800, lineHeight: 1.13, marginBottom: 0, textAlign: "center" }}>
+            Start your Free Trial
           </h2>
-          <p style={{ fontSize: "0.94rem", color: "rgba(255,255,255,0.76)", lineHeight: 1.7, maxWidth: 430 }}>
-            Try AutoCount Accounting 2.2 with a <strong style={{ color: "#ffffff" }}>500 Transactions</strong> free trial. Our Support Team will help you install and get ready to test it properly.
-          </p>
         </div>
 
         <div style={{ padding: "1.6rem 2rem 2rem" }}>
@@ -132,6 +120,7 @@ export default function AutoCountTrialModal({ open, onClose }) {
             <div style={{ fontSize: "0.78rem", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "#2f315a", marginBottom: "0.75rem" }}>
               Please prepare before installation
             </div>
+            <ChecklistItem>Confirm which <strong>edition</strong> you want to try.</ChecklistItem>
             <ChecklistItem>Install or prepare <strong>AnyDesk</strong> / <strong>UltraViewer</strong> for remote access.</ChecklistItem>
             <ChecklistItem>Reserve around <strong>30 minutes</strong> for setup and basic checking.</ChecklistItem>
             <ChecklistItem>Message our Support Team to arrange a suitable installation time.</ChecklistItem>
