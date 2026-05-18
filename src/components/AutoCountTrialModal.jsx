@@ -47,11 +47,14 @@ export default function AutoCountTrialModal({ open, onClose }) {
           position: "relative",
           width: "min(560px, 100%)",
           maxHeight: "92vh",
-          overflowY: "auto",
+          overflow: "hidden",
           borderRadius: 26,
-          background: "#ffffff",
+          background: "#2f315a",
+          backgroundClip: "padding-box",
           boxShadow: "0 36px 100px rgba(10,11,24,0.36)",
           animation: "modalIn 0.26s cubic-bezier(0.34,1.56,0.64,1)",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         <style>{`
@@ -90,15 +93,15 @@ export default function AutoCountTrialModal({ open, onClose }) {
           position: "relative",
         }}>
           <img src={LOGO} alt="K.S. Leow Group" style={{ height: 64, objectFit: "contain", display: "block", margin: "0 auto 1.35rem" }} />
-          <div style={{ fontSize: "0.68rem", fontWeight: 800, letterSpacing: "0.13em", textTransform: "uppercase", color: "#e8c97a", marginBottom: "0.55rem", textAlign: "center" }}>
+          <div style={{ fontSize: "0.68rem", fontWeight: 800, letterSpacing: "0.13em", textTransform: "uppercase", color: "#e8c97a", marginBottom: "0.55rem", textAlign: "left" }}>
             AutoCount Accounting 2.2
           </div>
-          <h2 style={{ fontSize: "clamp(1.65rem, 4vw, 2.15rem)", fontWeight: 800, lineHeight: 1.13, marginBottom: 0, textAlign: "center" }}>
+          <h2 style={{ fontSize: "clamp(1.65rem, 4vw, 2.15rem)", fontWeight: 800, lineHeight: 1.13, marginBottom: 0, textAlign: "left" }}>
             Start your Free Trial
           </h2>
         </div>
 
-        <div style={{ padding: "1.6rem 2rem 2rem" }}>
+        <div style={{ padding: "1.6rem 2rem 2rem", background: "#ffffff", borderRadius: "0 0 26px 26px", overflowY: "auto", minHeight: 0 }}>
           <div style={{
             display: "grid",
             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",

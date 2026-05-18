@@ -154,6 +154,135 @@ collections:
               - { name: gradient,    label: Background gradient CSS, widget: string, default: "linear-gradient(135deg, #2f315a 0%, #4a4d85 100%)" }
               - { name: route,       label: Internal link (optional, e.g. /products/autocount-accounting), widget: string, required: false }
 
+      # ───────── Sales2DO Plugin Page ─────────
+      - file: src/content/sales2do.json
+        name: sales2do
+        label: Sales2DO Plugin Page
+        media_folder: "/public/images/apps/sales2do"
+        public_folder: "/images/apps/sales2do"
+        fields:
+          - name: hero
+            label: Hero
+            widget: object
+            fields:
+              - { name: eyebrow,        label: Eyebrow, widget: string }
+              - { name: title,          label: Title, widget: string }
+              - { name: body,           label: Body, widget: text }
+              - { name: iconSrc,        label: Icon image (optional), widget: image, required: false }
+              - { name: iconAlt,        label: Icon alt text, widget: string, required: false }
+              - { name: primaryLabel,   label: Primary button label, widget: string }
+              - { name: primaryHref,    label: Primary button link, widget: string }
+              - { name: secondaryLabel, label: WhatsApp button label, widget: string }
+          - name: overview
+            label: Overview
+            widget: object
+            fields:
+              - { name: label,   label: Label, widget: string }
+              - { name: heading, label: Heading, widget: string }
+          - name: outstanding
+            label: Outstanding Delivery Order
+            widget: object
+            fields:
+              - { name: label,        label: Label, widget: string }
+              - { name: heading,      label: Heading, widget: string }
+              - { name: image,        label: Screenshot (optional), widget: image, required: false }
+              - { name: imageAlt,     label: Screenshot alt text, widget: string, required: false }
+              - { name: imageCaption, label: Screenshot caption, widget: string, required: false }
+              - { name: intro,        label: Intro (HTML allowed for bold), widget: text }
+              - { name: filterTitle,  label: Filter title, widget: string }
+              - name: filterItems
+                label: Filter bullets
+                widget: list
+                field: { name: item, label: Bullet (HTML allowed), widget: text }
+              - { name: drillTitle, label: Drill-down title, widget: string }
+              - { name: drillIntro, label: Drill-down intro (HTML allowed), widget: text }
+              - name: tierCards
+                label: Tier cards
+                widget: list
+                fields:
+                  - { name: tier,  label: Tier label, widget: string }
+                  - { name: color, label: Badge color, widget: string, default: "#2f315a" }
+                  - { name: title, label: Title, widget: string }
+                  - name: items
+                    label: Bullets
+                    widget: list
+                    field: { name: item, label: Bullet (HTML allowed), widget: text }
+          - name: preset
+            label: Preset Delivery
+            widget: object
+            fields:
+              - { name: label,        label: Label, widget: string }
+              - { name: heading,      label: Heading, widget: string }
+              - { name: image,        label: Screenshot (optional), widget: image, required: false }
+              - { name: imageAlt,     label: Screenshot alt text, widget: string, required: false }
+              - { name: imageCaption, label: Screenshot caption, widget: string, required: false }
+              - { name: intro,        label: Intro (HTML allowed), widget: text }
+              - name: steps
+                label: Steps
+                widget: list
+                field: { name: step, label: Step (HTML allowed), widget: text }
+              - name: bulletItems
+                label: Bullet items
+                widget: list
+                field: { name: item, label: Bullet (HTML allowed), widget: text }
+              - { name: note, label: Note (HTML allowed), widget: text }
+          - name: settings
+            label: Plugin Settings
+            widget: object
+            fields:
+              - { name: label,        label: Label, widget: string }
+              - { name: heading,      label: Heading, widget: string }
+              - { name: intro,        label: Intro (HTML allowed), widget: text }
+              - { name: image,        label: Screenshot (optional), widget: image, required: false }
+              - { name: imageAlt,     label: Screenshot alt text, widget: string, required: false }
+              - { name: imageCaption, label: Screenshot caption, widget: string, required: false }
+              - { name: transferTitle, label: Transfer remark title, widget: string }
+              - { name: transferIntro, label: Transfer remark intro, widget: text }
+              - name: transferItems
+                label: Transfer remark bullets
+                widget: list
+                field: { name: item, label: Bullet (HTML allowed), widget: text }
+              - { name: transferNote,  label: Transfer note (HTML allowed), widget: text }
+              - { name: deliveryTitle, label: Delivery settings title, widget: string }
+              - { name: deliveryIntro, label: Delivery settings intro (HTML allowed), widget: text }
+              - name: deliveryItems
+                label: Delivery settings bullets
+                widget: list
+                field: { name: item, label: Bullet (HTML allowed), widget: text }
+          - name: license
+            label: License Activation
+            widget: object
+            fields:
+              - { name: label,   label: Label, widget: string }
+              - { name: heading, label: Heading, widget: string }
+              - { name: onlineTitle,   label: Online title, widget: string }
+              - { name: onlineImage,   label: Online screenshot (optional), widget: image, required: false }
+              - { name: onlineAlt,     label: Online screenshot alt text, widget: string, required: false }
+              - { name: onlineCaption, label: Online screenshot caption, widget: string, required: false }
+              - { name: onlineIntro,   label: Online intro, widget: text }
+              - name: onlineSteps
+                label: Online steps
+                widget: list
+                field: { name: step, label: Step (HTML allowed), widget: text }
+              - { name: onlineNote, label: Online note (HTML allowed), widget: text }
+              - { name: offlineTitle,   label: Offline title, widget: string }
+              - { name: offlineImage,   label: Offline screenshot (optional), widget: image, required: false }
+              - { name: offlineAlt,     label: Offline screenshot alt text, widget: string, required: false }
+              - { name: offlineCaption, label: Offline screenshot caption, widget: string, required: false }
+              - { name: offlineIntro,   label: Offline intro, widget: text }
+              - name: offlineSteps
+                label: Offline steps
+                widget: list
+                field: { name: step, label: Step (HTML allowed), widget: text }
+              - { name: offlineNote, label: Offline note (HTML allowed), widget: text }
+          - name: cta
+            label: Bottom CTA
+            widget: object
+            fields:
+              - { name: heading,     label: Heading, widget: string }
+              - { name: body,        label: Body, widget: text }
+              - { name: buttonLabel, label: Button label, widget: string }
+
       # ───────── Case Studies ─────────
       - file: src/content/caseStudies.json
         name: caseStudies

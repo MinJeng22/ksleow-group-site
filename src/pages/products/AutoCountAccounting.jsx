@@ -14,11 +14,9 @@ import { PRODUCT_IMAGES } from "../../assets/assets.js";
 /* Feature-highlight icons — string paths to public/images/icons/ so
  * they can be swapped via CMS / dropped into the folder without
  * touching this file. */
-const ICON_EINVOICE    = "/images/icons/e-invoice-ready.png";
+const ICON_EINVOICE    = "/images/services/lhdn-logo.png";
 const ICON_INTEGRATION = "/images/icons/integration-icon.png";
-/* Use the site favicon directly — guarantees the Prompt Technical
- * Support icon always matches whatever the browser tab is showing. */
-const ICON_FAVICON     = "/images/icons/favicon.png";
+const ICON_FAVICON     = "/images/branding/ksl-logo-circle.webp";
 const ICON_AC_PLUGIN   = "/images/icons/ac-plugin-icon.png";
 
 /* ═══════════════════════════════════════════════════════════════

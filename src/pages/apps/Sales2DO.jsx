@@ -8,6 +8,7 @@ const WA_LINK = `https://wa.me/60169902279?text=${encodeURIComponent(
   "Hi Elise, I would like to learn more about AutoCount Plugin Sales2DO. Thank you."
 )}`;
 import AIChatbot from "../../components/AIChatbot.jsx";
+import sales2doContent from "../../content/sales2do.json";
 import acPluginIcon     from "../../assets/images/apps/ac-plugin-icon.png";
 import imgOutstanding   from "../../assets/images/apps/sales2do/outstanding.png";
 import imgPreset        from "../../assets/images/apps/sales2do/preset-delivery.png";
@@ -141,6 +142,14 @@ function BulletList({ items }) {
       {items.map((item, i) => <li key={i} style={{ ...S.body, marginBottom: "0.4rem" }}>{item}</li>)}
     </ul>
   );
+}
+
+function RichText({ children }) {
+  return <span dangerouslySetInnerHTML={{ __html: children || "" }} />;
+}
+
+function richList(items = []) {
+  return items.map((item, i) => <RichText key={i}>{item}</RichText>);
 }
 
 /* ── Two-column layout: image on the LEFT, text on the RIGHT ──
@@ -533,6 +542,15 @@ function VideoGuide() {
 export default function Sales2DOPage({ onContact }) {
   useEffect(() => { window.scrollTo({ top: 0, behavior: "instant" }); }, []);
   const [licenseTab, setLicenseTab] = useState("online");
+  const {
+    hero = {},
+    overview = {},
+    outstanding = {},
+    preset = {},
+    settings = {},
+    license = {},
+    cta = {},
+  } = sales2doContent;
 
   return (
     <div style={{ background: "#f5f5f8", minHeight: "100vh" }}>
@@ -541,20 +559,20 @@ export default function Sales2DOPage({ onContact }) {
 
       {/* ── Hero banner — shared ProductHero component (same look as AutoCount) ── */}
       <ProductHero
-        eyebrow="AutoCount Plugin"
-        title="Sales2DO Plugin"
-        body={'In AutoCount Accounting\'s standard business workflow, the process typically flows from Delivery Orders (DO) to Sales (Invoices or Cash Sales). However, for companies that operate with a Sales-to-DO workflow, the Sales2DO plugin bridges this gap. It enables users to generate a DO directly from existing Invoices or Cash Sales via integrated "Copy to DO" and "Copy from Invoice / Cash Sale" functions.'}
-        iconSrc={acPluginIcon}
-        iconAlt="Sales2DO Plugin"
-        primaryCta={{ label: "Download Now", href: "/downloads/app/Sales2DO.app", download: "Sales2DO.app" }}
-        secondaryCta={{ label: "WhatsApp Us", href: WA_LINK, target: "_blank" }}
+        eyebrow={hero.eyebrow}
+        title={hero.title}
+        body={hero.body}
+        iconSrc={hero.iconSrc || acPluginIcon}
+        iconAlt={hero.iconAlt}
+        primaryCta={{ label: hero.primaryLabel, href: hero.primaryHref, download: hero.primaryHref?.split("/").pop() }}
+        secondaryCta={{ label: hero.secondaryLabel, href: WA_LINK, target: "_blank" }}
       />
 
       {/* ── Overview + Video Guide ── */}
       <div id="overview" style={{ background: "#fff", ...S.section, scrollMarginTop: 24 }}>
         <div className="content-wrap">
-          <div style={{ ...S.label, marginBottom: "0.5rem" }}>Video Tutorial</div>
-          <h2 style={{ ...S.h2, marginBottom: "1.5rem" }}>See It In Action</h2>
+          <div style={{ ...S.label, marginBottom: "0.5rem" }}>{overview.label}</div>
+          <h2 style={{ ...S.h2, marginBottom: "1.5rem" }}>{overview.heading}</h2>
           <VideoGuide />
         </div>
       </div>
@@ -562,47 +580,24 @@ export default function Sales2DOPage({ onContact }) {
       {/* ── Outstanding Delivery Order ── */}
       <div id="outstanding" style={{ background: "#f5f5f8", ...S.section, scrollMarginTop: 24 }}>
         <div className="content-wrap">
-          <div style={S.label}>Monitoring</div>
-          <h2 style={S.h2}>Outstanding Delivery Order</h2>
+          <div style={S.label}>{outstanding.label}</div>
+          <h2 style={S.h2}>{outstanding.heading}</h2>
 
-          <SectionRow image={imgOutstanding} alt="Outstanding Delivery Order dashboard" caption="3-tier drill-down dashboard">
-            <p style={{ ...S.body, marginBottom: "1rem" }}>
-              The <strong>Outstanding Delivery Order</strong> dashboard provides a real-time, centralized view
-              of all sales documents that require physical delivery.
-            </p>
+          <SectionRow image={outstanding.image || imgOutstanding} alt={outstanding.imageAlt} caption={outstanding.imageCaption}>
+            <p style={{ ...S.body, marginBottom: "1rem" }}><RichText>{outstanding.intro}</RichText></p>
 
-            <h3 style={{ ...S.h3, marginTop: "1.5rem" }}>Filter Options</h3>
-            <BulletList items={[
-              <><strong>Date Range:</strong> Filter documents by their creation date.</>,
-              <><strong>Document Type:</strong> Choose to view <strong>Invoices</strong>, <strong>Cash Sales</strong>, or both simultaneously.</>,
-              <><strong>Status Tabs:</strong> Instantly categorize your view into <strong>Pending</strong>, <strong>Partial Delivery</strong>, or <strong>Full Delivery</strong> status.</>,
-            ]} />
+            <h3 style={{ ...S.h3, marginTop: "1.5rem" }}>{outstanding.filterTitle}</h3>
+            <BulletList items={richList(outstanding.filterItems)} />
 
-            <h3 style={{ ...S.h3, marginTop: "1.75rem" }}>The 3-Tier Drill-Down Grid</h3>
-            <p style={{ ...S.body, marginBottom: "1rem" }}>
-              Expand the <strong>+</strong> icon on any row to dive deeper.
-            </p>
-            {[
-              { tier: "Tier 1", color: "#2f315a", title: "Master Document (Overview)", items: [
-                "Displays the source document and its overall Delivery Status.",
-                "Drill-Down: Double-click any row to open the source Invoice or Cash Sale.",
-              ]},
-              { tier: "Tier 2", color: "#4a5090", title: "Item Codes (Quantity Breakdown)", items: [
-                <><strong>Net Original Qty:</strong> Original Qty − CN Returned Qty.</>,
-                <><strong>Net Delivered Qty:</strong> DO Copied Qty − DR Returned Qty.</>,
-                <><strong>Outstanding Qty:</strong> The final balance pending delivery (Net Original − Net Delivered).</>,
-              ]},
-              { tier: "Tier 3", color: "#6b6f91", title: "Copied History (Delivery Orders)", items: [
-                "Expand an item row to see specific Delivery Orders linked to it, including DO Number, Date, and quantities.",
-                "Drill-Down: Double-click any record here to open the target Delivery Order.",
-              ]},
-            ].map(({ tier, title, color, items }) => (
+            <h3 style={{ ...S.h3, marginTop: "1.75rem" }}>{outstanding.drillTitle}</h3>
+            <p style={{ ...S.body, marginBottom: "1rem" }}><RichText>{outstanding.drillIntro}</RichText></p>
+            {(outstanding.tierCards || []).map(({ tier, title, color, items }) => (
               <div key={tier} style={{ background: "#f5f5f8", borderRadius: 14, padding: "1rem 1.2rem", marginBottom: "0.7rem", border: "1px solid rgba(47,49,90,0.09)" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "0.65rem", marginBottom: "0.5rem", flexWrap: "wrap" }}>
                   <span style={{ fontSize: "0.62rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", background: color, color: "#fff", padding: "0.2rem 0.65rem", borderRadius: 50 }}>{tier}</span>
                   <h3 style={{ ...S.h3, marginBottom: 0, fontSize: "0.95rem" }}>{title}</h3>
                 </div>
-                <BulletList items={items} />
+                <BulletList items={richList(items)} />
               </div>
             ))}
           </SectionRow>
@@ -612,25 +607,18 @@ export default function Sales2DOPage({ onContact }) {
       {/* ── Preset "Delivery?" in Stock Item Maintenance ── */}
       <div id="preset" style={{ background: "#fff", ...S.section, scrollMarginTop: 24 }}>
         <div className="content-wrap">
-          <div style={S.label}>Item Configuration</div>
-          <h2 style={S.h2}>Preset "Delivery?" in Stock Item Maintenance</h2>
+          <div style={S.label}>{preset.label}</div>
+          <h2 style={S.h2}>{preset.heading}</h2>
 
-          <SectionRow image={imgPreset} alt="Stock Item Maintenance — Delivery? checkbox" caption='User Defined Field — "Delivery?" checkbox'>
-            <p style={{ ...S.body, marginBottom: "1rem" }}>
-              By presetting the <strong>"Delivery?"</strong> status, the plugin automatically determines which items
-              should be delivered and tracked in the <strong>Outstanding Delivery Order</strong> dashboard.
-            </p>
-            <Step n={1}>Navigate to <strong>Stock → Stock Item Maintenance</strong>.</Step>
-            <Step n={2}>Open a stock item in <strong>Edit</strong> mode.</Step>
-            <Step n={3}>Click the <strong>User Defined Field</strong> tab and locate the <strong>Delivery?</strong> checkbox.</Step>
-            <BulletList items={[
-              <><strong>Ticked:</strong> Item requires a Delivery Order and will be tracked for outstanding quantity.</>,
-              <><strong>Unticked:</strong> Item is treated as a service or non-physical good and will be ignored by the tracking dashboard.</>,
-            ]} />
+          <SectionRow image={preset.image || imgPreset} alt={preset.imageAlt} caption={preset.imageCaption}>
+            <p style={{ ...S.body, marginBottom: "1rem" }}><RichText>{preset.intro}</RichText></p>
+            {(preset.steps || []).map((step, i) => (
+              <Step key={i} n={i + 1}><RichText>{step}</RichText></Step>
+            ))}
+            <BulletList items={richList(preset.bulletItems)} />
             <div style={{ marginTop: "1rem", padding: "0.85rem 1.1rem", borderRadius: 10, background: "rgba(201,168,76,0.08)", border: "1px solid rgba(201,168,76,0.25)" }}>
               <p style={{ fontSize: "0.83rem", color: "#6b6f91", lineHeight: 1.65, margin: 0 }}>
-                💡 Upon installing <strong>Sales2DO</strong>, the <strong>Delivery?</strong> checkbox for all
-                existing items will be automatically ticked.
+                <RichText>{preset.note}</RichText>
               </p>
             </div>
           </SectionRow>
@@ -640,37 +628,23 @@ export default function Sales2DOPage({ onContact }) {
       {/* ── Plugin Settings ── */}
       <div id="settings" style={{ background: "#f5f5f8", ...S.section, scrollMarginTop: 24 }}>
         <div className="content-wrap">
-          <div style={S.label}>Configuration</div>
-          <h2 style={S.h2}>Sales2DO Plugin Settings</h2>
-          <p style={{ ...S.body }}>To configure, go to <strong>Sales2DO → Plugin Settings</strong>.</p>
+          <div style={S.label}>{settings.label}</div>
+          <h2 style={S.h2}>{settings.heading}</h2>
+          <p style={{ ...S.body }}><RichText>{settings.intro}</RichText></p>
 
-          <SectionRow image={imgSettings} alt="Plugin Settings screen" caption="Sales2DO → Plugin Settings">
-            <h3 style={{ ...S.h3, marginBottom: "0.4rem" }}>Transfer Document Remark</h3>
-            <p style={{ ...S.body, marginBottom: "0.9rem" }}>
-              Automate the cross-referencing of document numbers for a clear audit trail.
-            </p>
-            <BulletList items={[
-              <><strong>Insert DO No. in Sales (Reverse Trace):</strong> Automatically writes the generated Delivery Order number back to the source Invoice or Cash Sale.</>,
-              <><strong>Insert Sales No. in DO (Forward Trace):</strong> Copies the original Invoice or Cash Sale number into the newly created Delivery Order.</>,
-              <><strong>Target Field Configuration:</strong> Choose whether to insert these numbers into the <strong>Master</strong> (Documents) or <strong>Details</strong> (Item Details) fields (e.g., Remark or Description).</>,
-              <><strong>Prefix Text:</strong> Add custom prefix text (e.g., "Ref:" or "From:") to label the inserted numbers.</>,
-            ]} />
+          <SectionRow image={settings.image || imgSettings} alt={settings.imageAlt} caption={settings.imageCaption}>
+            <h3 style={{ ...S.h3, marginBottom: "0.4rem" }}>{settings.transferTitle}</h3>
+            <p style={{ ...S.body, marginBottom: "0.9rem" }}><RichText>{settings.transferIntro}</RichText></p>
+            <BulletList items={richList(settings.transferItems)} />
             <div style={{ marginTop: "0.5rem", marginBottom: "1.75rem", padding: "0.85rem 1.1rem", borderRadius: 10, background: "rgba(201,168,76,0.08)", border: "1px solid rgba(201,168,76,0.25)" }}>
               <p style={{ fontSize: "0.83rem", color: "#6b6f91", lineHeight: 1.65, margin: 0 }}>
-                💡 Upon installing <strong>Sales2DO</strong>, the system automatically creates the
-                <strong> "Copy To"</strong> (for Sales) and <strong>"Copy From"</strong> (for DO) User Defined
-                Fields (UDFs). These are set as the default target fields automatically.
+                <RichText>{settings.transferNote}</RichText>
               </p>
             </div>
 
-            <h3 style={{ ...S.h3, marginBottom: "0.4rem" }}>Invoice &amp; Cash Sale Delivery Settings</h3>
-            <p style={{ ...S.body, marginBottom: "0.9rem" }}>
-              Set the default behavior for the <strong>"Delivery?"</strong> checkbox during data entry.
-            </p>
-            <BulletList items={[
-              <><strong>Default "Delivery?" to unchecked:</strong> New lines default to "No Delivery", best for "Cash &amp; Carry" workflows.</>,
-              <><strong>Default "Delivery?" based on Stock Item Preset:</strong> Inherits the preset defined in <strong>Stock Item Maintenance</strong>. Recommended for businesses selling both services and physical goods.</>,
-            ]} />
+            <h3 style={{ ...S.h3, marginBottom: "0.4rem" }}><RichText>{settings.deliveryTitle}</RichText></h3>
+            <p style={{ ...S.body, marginBottom: "0.9rem" }}><RichText>{settings.deliveryIntro}</RichText></p>
+            <BulletList items={richList(settings.deliveryItems)} />
           </SectionRow>
         </div>
       </div>
@@ -678,8 +652,8 @@ export default function Sales2DOPage({ onContact }) {
       {/* ── Activate Plugin License ── */}
       <div id="license" style={{ background: "#fff", ...S.section, scrollMarginTop: 24 }}>
         <div className="content-wrap">
-          <div style={S.label}>Activation</div>
-          <h2 style={S.h2}>Activate Plugin License</h2>
+          <div style={S.label}>{license.label}</div>
+          <h2 style={S.h2}>{license.heading}</h2>
 
           {/* Tabs — only shown on tablet/mobile (hidden on desktop via CSS) */}
           <div className="license-tabs" style={{ display: "flex", background: "#e8e8f0", borderRadius: 50, padding: 4, gap: 2, marginBottom: "2rem", width: "fit-content" }}>
@@ -717,37 +691,30 @@ export default function Sales2DOPage({ onContact }) {
           <div className="license-grid">
             {/* ── Online block ── */}
             <div className="license-block-online" style={{ maxWidth: 680, display: licenseTab === "online" ? "block" : "none" }}>
-              <h3 className="license-col-title" style={{ ...S.h3, fontSize: "1.1rem", color: "#2f315a", marginBottom: "0.85rem", display: "none" }}>Online Activation</h3>
-              <ImgSlot src={imgLicenseOnline} alt="License Control — Get Online button" caption="Online Activation — License Control screen" />
-              <p style={{ ...S.body, margin: "1.25rem 0 1rem" }}>Ensure your device is connected to the internet, then follow these steps:</p>
-              <Step n={1}>KSL Business Solutions will inform you via WhatsApp or Email once your license is ready.</Step>
-              <Step n={2}>Open AutoCount Accounting and navigate to the Sales2DO plugin from the navigation bar.</Step>
-              <Step n={3}>Go to <strong>License Control</strong>, then click <strong>"Get Online"</strong>. Your license will be activated automatically.</Step>
+              <h3 className="license-col-title" style={{ ...S.h3, fontSize: "1.1rem", color: "#2f315a", marginBottom: "0.85rem", display: "none" }}>{license.onlineTitle}</h3>
+              <ImgSlot src={license.onlineImage || imgLicenseOnline} alt={license.onlineAlt} caption={license.onlineCaption} />
+              <p style={{ ...S.body, margin: "1.25rem 0 1rem" }}><RichText>{license.onlineIntro}</RichText></p>
+              {(license.onlineSteps || []).map((step, i) => (
+                <Step key={i} n={i + 1}><RichText>{step}</RichText></Step>
+              ))}
               <div style={{ marginTop: "1.25rem", padding: "1rem 1.25rem", borderRadius: 10, background: "rgba(201,168,76,0.08)", border: "1px solid rgba(201,168,76,0.25)" }}>
                 <p style={{ fontSize: "0.83rem", color: "#6b6f91", lineHeight: 1.65 }}>
-                  💡 Contact KSL via WhatsApp at{" "}
-                  <a href="https://wa.me/60179052323" target="_blank" rel="noreferrer" style={{ color: "#2f315a", fontWeight: 600 }}>017-905 2323</a>{" "}
-                  or email <a href="mailto:support@ksleow.com.my" style={{ color: "#2f315a", fontWeight: 600 }}>support@ksleow.com.my</a> once you are ready to activate.
+                  <RichText>{license.onlineNote}</RichText>
                 </p>
               </div>
             </div>
 
             {/* ── Offline block ── */}
             <div className="license-block-offline" style={{ maxWidth: 680, display: licenseTab === "offline" ? "block" : "none" }}>
-              <h3 className="license-col-title" style={{ ...S.h3, fontSize: "1.1rem", color: "#2f315a", marginBottom: "0.85rem", display: "none" }}>Offline Activation</h3>
-              <ImgSlot src={imgLicenseOffline} alt="License Control — Machine ID field" caption="Offline Activation — copy the Machine ID shown here" />
-              <p style={{ ...S.body, margin: "1.25rem 0 1rem" }}>For PCs without internet access, use offline activation:</p>
-              <Step n={1}>Open AutoCount Accounting and navigate to the Sales2DO plugin from the navigation bar.</Step>
-              <Step n={2}>Go to <strong>License Control</strong>. A unique <strong>Machine ID</strong> will be displayed. Copy or note this down.</Step>
-              <Step n={3}>Send the Machine ID to KSL Business Solutions via WhatsApp or Email.</Step>
-              <Step n={4}>We will generate an offline activation key and send it back to you.</Step>
-              <Step n={5}>Enter the key in the <strong>Sales2DO Activation Key</strong> field and click <strong>Activate</strong>.</Step>
+              <h3 className="license-col-title" style={{ ...S.h3, fontSize: "1.1rem", color: "#2f315a", marginBottom: "0.85rem", display: "none" }}>{license.offlineTitle}</h3>
+              <ImgSlot src={license.offlineImage || imgLicenseOffline} alt={license.offlineAlt} caption={license.offlineCaption} />
+              <p style={{ ...S.body, margin: "1.25rem 0 1rem" }}><RichText>{license.offlineIntro}</RichText></p>
+              {(license.offlineSteps || []).map((step, i) => (
+                <Step key={i} n={i + 1}><RichText>{step}</RichText></Step>
+              ))}
               <div style={{ marginTop: "1.25rem", padding: "1rem 1.25rem", borderRadius: 10, background: "rgba(201,168,76,0.08)", border: "1px solid rgba(201,168,76,0.25)" }}>
                 <p style={{ fontSize: "0.83rem", color: "#6b6f91", lineHeight: 1.65 }}>
-                  💡 WhatsApp:{" "}
-                  <a href="https://wa.me/60179052323" target="_blank" rel="noreferrer" style={{ color: "#2f315a", fontWeight: 600 }}>017-905 2323</a>
-                  {"  ·  "}Email:{" "}
-                  <a href="mailto:support@ksleow.com.my" style={{ color: "#2f315a", fontWeight: 600 }}>support@ksleow.com.my</a>
+                  <RichText>{license.offlineNote}</RichText>
                 </p>
               </div>
             </div>
@@ -758,15 +725,15 @@ export default function Sales2DOPage({ onContact }) {
       {/* ── CTA ── */}
       <div style={{ background: "#2f315a", padding: "4rem 0" }}>
         <div className="content-wrap" style={{ textAlign: "center" }}>
-          <h2 style={{ fontSize: "clamp(1.4rem, 2.5vw, 2rem)", fontWeight: 700, color: "#fff", marginBottom: "0.75rem" }}>Interested in the Sales2DO plugin?</h2>
+          <h2 style={{ fontSize: "clamp(1.4rem, 2.5vw, 2rem)", fontWeight: 700, color: "#fff", marginBottom: "0.75rem" }}>{cta.heading}</h2>
           <p style={{ fontSize: "0.95rem", color: "rgba(255,255,255,0.6)", maxWidth: 480, margin: "0 auto 1.75rem" }}>
-            Contact KSL Business Solutions for pricing, installation, and support across Pahang.
+            {cta.body}
           </p>
           <a href={WA_LINK} target="_blank" rel="noreferrer"
             style={{ display: "inline-block", background: "#c9a84c", color: "#1e2040", padding: "0.85rem 2.5rem", borderRadius: 50, fontSize: "0.95rem", fontWeight: 700, textDecoration: "none", fontFamily: "inherit", transition: "opacity 0.2s" }}
             onMouseOver={e => e.currentTarget.style.opacity = "0.85"}
             onMouseOut={e => e.currentTarget.style.opacity = "1"}
-          >Enquire Now</a>
+          >{cta.buttonLabel}</a>
         </div>
       </div>
 

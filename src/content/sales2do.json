@@ -1,0 +1,136 @@
+{
+  "hero": {
+    "eyebrow": "AutoCount Plugin",
+    "title": "Sales2DO Plugin",
+    "body": "In AutoCount Accounting's standard business workflow, the process typically flows from Delivery Orders (DO) to Sales (Invoices or Cash Sales). However, for companies that operate with a Sales-to-DO workflow, the Sales2DO plugin bridges this gap. It enables users to generate a DO directly from existing Invoices or Cash Sales via integrated \"Copy to DO\" and \"Copy from Invoice / Cash Sale\" functions.",
+    "iconSrc": "",
+    "iconAlt": "Sales2DO Plugin",
+    "primaryLabel": "Download Now",
+    "primaryHref": "/downloads/app/Sales2DO.app",
+    "secondaryLabel": "WhatsApp Us"
+  },
+  "overview": {
+    "label": "Video Tutorial",
+    "heading": "See It In Action"
+  },
+  "outstanding": {
+    "label": "Monitoring",
+    "heading": "Outstanding Delivery Order",
+    "image": "",
+    "imageAlt": "Outstanding Delivery Order dashboard",
+    "imageCaption": "3-tier drill-down dashboard",
+    "intro": "The <strong>Outstanding Delivery Order</strong> dashboard provides a real-time, centralized view of all sales documents that require physical delivery.",
+    "filterTitle": "Filter Options",
+    "filterItems": [
+      "<strong>Date Range:</strong> Filter documents by their creation date.",
+      "<strong>Document Type:</strong> Choose to view <strong>Invoices</strong>, <strong>Cash Sales</strong>, or both simultaneously.",
+      "<strong>Status Tabs:</strong> Instantly categorize your view into <strong>Pending</strong>, <strong>Partial Delivery</strong>, or <strong>Full Delivery</strong> status."
+    ],
+    "drillTitle": "The 3-Tier Drill-Down Grid",
+    "drillIntro": "Expand the <strong>+</strong> icon on any row to dive deeper.",
+    "tierCards": [
+      {
+        "tier": "Tier 1",
+        "color": "#2f315a",
+        "title": "Master Document (Overview)",
+        "items": [
+          "Displays the source document and its overall Delivery Status.",
+          "Drill-Down: Double-click any row to open the source Invoice or Cash Sale."
+        ]
+      },
+      {
+        "tier": "Tier 2",
+        "color": "#4a5090",
+        "title": "Item Codes (Quantity Breakdown)",
+        "items": [
+          "<strong>Net Original Qty:</strong> Original Qty - CN Returned Qty.",
+          "<strong>Net Delivered Qty:</strong> DO Copied Qty - DR Returned Qty.",
+          "<strong>Outstanding Qty:</strong> The final balance pending delivery (Net Original - Net Delivered)."
+        ]
+      },
+      {
+        "tier": "Tier 3",
+        "color": "#6b6f91",
+        "title": "Copied History (Delivery Orders)",
+        "items": [
+          "Expand an item row to see specific Delivery Orders linked to it, including DO Number, Date, and quantities.",
+          "Drill-Down: Double-click any record here to open the target Delivery Order."
+        ]
+      }
+    ]
+  },
+  "preset": {
+    "label": "Item Configuration",
+    "heading": "Preset \"Delivery?\" in Stock Item Maintenance",
+    "image": "",
+    "imageAlt": "Stock Item Maintenance - Delivery? checkbox",
+    "imageCaption": "User Defined Field - \"Delivery?\" checkbox",
+    "intro": "By presetting the <strong>\"Delivery?\"</strong> status, the plugin automatically determines which items should be delivered and tracked in the <strong>Outstanding Delivery Order</strong> dashboard.",
+    "steps": [
+      "Navigate to <strong>Stock > Stock Item Maintenance</strong>.",
+      "Open a stock item in <strong>Edit</strong> mode.",
+      "Click the <strong>User Defined Field</strong> tab and locate the <strong>Delivery?</strong> checkbox."
+    ],
+    "bulletItems": [
+      "<strong>Ticked:</strong> Item requires a Delivery Order and will be tracked for outstanding quantity.",
+      "<strong>Unticked:</strong> Item is treated as a service or non-physical good and will be ignored by the tracking dashboard."
+    ],
+    "note": "Upon installing <strong>Sales2DO</strong>, the <strong>Delivery?</strong> checkbox for all existing items will be automatically ticked."
+  },
+  "settings": {
+    "label": "Configuration",
+    "heading": "Sales2DO Plugin Settings",
+    "intro": "To configure, go to <strong>Sales2DO > Plugin Settings</strong>.",
+    "image": "",
+    "imageAlt": "Plugin Settings screen",
+    "imageCaption": "Sales2DO > Plugin Settings",
+    "transferTitle": "Transfer Document Remark",
+    "transferIntro": "Automate the cross-referencing of document numbers for a clear audit trail.",
+    "transferItems": [
+      "<strong>Insert DO No. in Sales (Reverse Trace):</strong> Automatically writes the generated Delivery Order number back to the source Invoice or Cash Sale.",
+      "<strong>Insert Sales No. in DO (Forward Trace):</strong> Copies the original Invoice or Cash Sale number into the newly created Delivery Order.",
+      "<strong>Target Field Configuration:</strong> Choose whether to insert these numbers into the <strong>Master</strong> (Documents) or <strong>Details</strong> (Item Details) fields (e.g., Remark or Description).",
+      "<strong>Prefix Text:</strong> Add custom prefix text (e.g., \"Ref:\" or \"From:\") to label the inserted numbers."
+    ],
+    "transferNote": "Upon installing <strong>Sales2DO</strong>, the system automatically creates the <strong>\"Copy To\"</strong> (for Sales) and <strong>\"Copy From\"</strong> (for DO) User Defined Fields (UDFs). These are set as the default target fields automatically.",
+    "deliveryTitle": "Invoice &amp; Cash Sale Delivery Settings",
+    "deliveryIntro": "Set the default behavior for the <strong>\"Delivery?\"</strong> checkbox during data entry.",
+    "deliveryItems": [
+      "<strong>Default \"Delivery?\" to unchecked:</strong> New lines default to \"No Delivery\", best for \"Cash &amp; Carry\" workflows.",
+      "<strong>Default \"Delivery?\" based on Stock Item Preset:</strong> Inherits the preset defined in <strong>Stock Item Maintenance</strong>. Recommended for businesses selling both services and physical goods."
+    ]
+  },
+  "license": {
+    "label": "Activation",
+    "heading": "Activate Plugin License",
+    "onlineTitle": "Online Activation",
+    "onlineImage": "",
+    "onlineAlt": "License Control - Get Online button",
+    "onlineCaption": "Online Activation - License Control screen",
+    "onlineIntro": "Ensure your device is connected to the internet, then follow these steps:",
+    "onlineSteps": [
+      "KSL Business Solutions will inform you via WhatsApp or Email once your license is ready.",
+      "Open AutoCount Accounting and navigate to the Sales2DO plugin from the navigation bar.",
+      "Go to <strong>License Control</strong>, then click <strong>\"Get Online\"</strong>. Your license will be activated automatically."
+    ],
+    "onlineNote": "Contact KSL via WhatsApp at <a href=\"https://wa.me/60179052323\" target=\"_blank\" rel=\"noreferrer\">017-905 2323</a> or email <a href=\"mailto:support@ksleow.com.my\">support@ksleow.com.my</a> once you are ready to activate.",
+    "offlineTitle": "Offline Activation",
+    "offlineImage": "",
+    "offlineAlt": "License Control - Machine ID field",
+    "offlineCaption": "Offline Activation - copy the Machine ID shown here",
+    "offlineIntro": "For PCs without internet access, use offline activation:",
+    "offlineSteps": [
+      "Open AutoCount Accounting and navigate to the Sales2DO plugin from the navigation bar.",
+      "Go to <strong>License Control</strong>. A unique <strong>Machine ID</strong> will be displayed. Copy or note this down.",
+      "Send the Machine ID to KSL Business Solutions via WhatsApp or Email.",
+      "We will generate an offline activation key and send it back to you.",
+      "Enter the key in the <strong>Sales2DO Activation Key</strong> field and click <strong>Activate</strong>."
+    ],
+    "offlineNote": "WhatsApp: <a href=\"https://wa.me/60179052323\" target=\"_blank\" rel=\"noreferrer\">017-905 2323</a> &nbsp;&middot;&nbsp; Email: <a href=\"mailto:support@ksleow.com.my\">support@ksleow.com.my</a>"
+  },
+  "cta": {
+    "heading": "Interested in the Sales2DO plugin?",
+    "body": "Contact KSL Business Solutions for pricing, installation, and support across Pahang.",
+    "buttonLabel": "Enquire Now"
+  }
+}
