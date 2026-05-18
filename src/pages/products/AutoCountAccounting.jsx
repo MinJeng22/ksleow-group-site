@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
 import SectionSidebar from "../../components/SectionSidebar.jsx";
 import ProductHero from "../../components/ProductHero.jsx";
-import DownloadAutoCountModal from "../../components/DownloadAutoCountModal.jsx";
+import AutoCountTrialModal from "../../components/AutoCountTrialModal.jsx";
 import { Img } from "../../components/Media.jsx";
 /* AutoCount Accounting page — product-aware WhatsApp link to Sales Agent Elise */
 const WA_LINK = `https://wa.me/60169902279?text=${encodeURIComponent(
@@ -1358,7 +1358,7 @@ export default function AutoCountAccountingPage({ onContact }) {
   const [compareMode, setCompareMode] = useState(false);
   const [compareA, setCompareA] = useState(RELEASES[RELEASES.length - 1].version); /* oldest */
   const [compareB, setCompareB] = useState(RELEASES[0].version);                   /* newest */
-  const [downloadOpen, setDownloadOpen] = useState(false);
+  const [trialOpen, setTrialOpen] = useState(false);
   /* Edition compare mode — same Browse/Compare pattern as Release Notes */
   const [editionCompareMode, setEditionCompareMode] = useState(false);
   const [editionA, setEditionA] = useState(EDITIONS[0]);                  /* Account Plus */
@@ -1467,7 +1467,7 @@ export default function AutoCountAccountingPage({ onContact }) {
         body="Malaysia's leading SME accounting software — cloud-connected, SST & e-Invoice compliant, and deeply integrated with AutoCount POS and Payroll. As an authorized dealer, KSL Business Solutions provides full installation, configuration, training, and ongoing support."
         iconSrc={PRODUCT_IMAGES.autocountAccountingIcon}
         iconAlt="AutoCount Accounting"
-        primaryCta={{ label: "Download Now", disabled: true, download: true }}
+        primaryCta={{ label: "Start Free Trial", onClick: () => setTrialOpen(true) }}
         secondaryCta={{ label: "WhatsApp Us", href: WA_LINK, target: "_blank" }}
       />
 
@@ -1862,9 +1862,7 @@ export default function AutoCountAccountingPage({ onContact }) {
 
       <Footer />
 
-      {/* Gated download flow — collects lead details, sends SMS OTP, then
-       * reveals the AutoCount download URL after verification. */}
-      <DownloadAutoCountModal open={downloadOpen} onClose={() => setDownloadOpen(false)} />
+      <AutoCountTrialModal open={trialOpen} onClose={() => setTrialOpen(false)} />
     </div>
   );
 }
