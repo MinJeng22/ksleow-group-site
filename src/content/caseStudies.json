@@ -17,7 +17,7 @@
       "tag": "AutoCount · Plugin Development",
       "title": "Custom Sales2DO Plugin for AutoCount Accounting",
       "desc": "Built a bespoke Sales2DO module extending AutoCount's core — enabling automated order-to-delivery-order conversion, real-time stock updates, and approval workflows for a Pahang distributor.",
-      "image": "/images/case-studies/ac-plugin.png",
+      "image": "/images/case-studies/acplugin.png",
       "route": "/apps/sales2do"
     },
     {
