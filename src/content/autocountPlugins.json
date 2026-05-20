@@ -1,0 +1,49 @@
+{
+  "hero": {
+    "eyebrow": "AutoCount Accounting Plugin Library",
+    "title": "AutoCount Plugin",
+    "body": "A curated library of AutoCount Accounting plugins used by KSL Business Solutions, separated by plugins built by our team and plugins supplied by other AutoCount dealers.",
+    "primaryLabel": "Browse Plugins",
+    "secondaryLabel": "WhatsApp Support"
+  },
+  "intro": {
+    "eyebrow": "Plugin Collection",
+    "heading": "Find the right AutoCount Accounting plugin",
+    "body": "Search by plugin name, workflow, category, dealer, or supported AutoCount module. Each plugin card points to the related page or contact action when available."
+  },
+  "sections": [
+    {
+      "key": "ksl",
+      "label": "Built by KSL",
+      "heading": "Plugins We Built",
+      "body": "Plugins developed by KSL Business Solutions for practical AutoCount workflows and local SME operations.",
+      "empty": "No KSL-built plugins have been added yet.",
+      "items": [
+        {
+          "name": "Sales2DO",
+          "tag": "Sales Workflow",
+          "dealer": "KSL Business Solutions",
+          "status": "Available",
+          "summary": "Generate Delivery Orders directly from existing Invoices or Cash Sales, with smart quantity control for partial and fully delivered documents.",
+          "features": [
+            "Copy Invoice or Cash Sale to Delivery Order",
+            "Prevent over-delivery with outstanding quantity checks",
+            "Preset delivery quantity and transfer remark settings",
+            "Includes KS Omni support and feedback entry point"
+          ],
+          "modules": ["Sales", "Delivery Order", "Invoice", "Cash Sale"],
+          "route": "/apps/sales2do",
+          "ctaLabel": "View Plugin"
+        }
+      ]
+    },
+    {
+      "key": "dealer",
+      "label": "Other Dealers",
+      "heading": "Plugins From Other Dealers",
+      "body": "AutoCount Accounting plugins supplied by other dealers that we can document, support, or reference for customers who already use them.",
+      "empty": "No other dealer plugins have been added yet.",
+      "items": []
+    }
+  ]
+}

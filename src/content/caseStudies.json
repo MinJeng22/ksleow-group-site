@@ -19,7 +19,7 @@
       "title": "AutoCount Plugin",
       "desc": "Custom AutoCount plugin development and workflow extensions, including Sales2DO automation for turning sales documents into delivery order processes more efficiently.",
       "image": "/images/case-studies/acplugin.png",
-      "route": "/apps/sales2do"
+      "route": "/apps/autocount-plugin"
     },
     {
       "key": "erp",

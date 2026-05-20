@@ -215,6 +215,58 @@ collections:
     editor:
       preview: false
     files:
+      - file: src/content/autocountPlugins.json
+        name: autocountPluginsCatalog
+        label: AutoCount Plugin Catalog
+        fields:
+          - name: hero
+            label: Hero
+            widget: object
+            fields:
+              - { name: eyebrow,        label: Eyebrow, widget: string }
+              - { name: title,          label: Title, widget: string }
+              - { name: body,           label: Body, widget: text }
+              - { name: primaryLabel,   label: Primary button label, widget: string }
+              - { name: secondaryLabel, label: WhatsApp button label, widget: string }
+          - name: intro
+            label: Intro
+            widget: object
+            fields:
+              - { name: eyebrow, label: Eyebrow, widget: string }
+              - { name: heading, label: Heading, widget: string }
+              - { name: body,    label: Body, widget: text }
+          - name: sections
+            label: Plugin Sections
+            widget: list
+            fields:
+              - { name: key,     label: Section key, widget: string }
+              - { name: label,   label: Section label, widget: string }
+              - { name: heading, label: Section heading, widget: string }
+              - { name: body,    label: Section body, widget: text }
+              - { name: empty,   label: Empty state text, widget: string }
+              - name: items
+                label: Plugins
+                widget: list
+                required: false
+                fields:
+                  - { name: name,     label: Plugin name, widget: string }
+                  - { name: tag,      label: Tag, widget: string }
+                  - { name: dealer,   label: Dealer / Developer, widget: string }
+                  - { name: status,   label: Status, widget: string, default: "Available" }
+                  - { name: summary,  label: Summary, widget: text }
+                  - name: features
+                    label: Features
+                    widget: list
+                    required: false
+                    field: { name: feature, label: Feature, widget: string }
+                  - name: modules
+                    label: AutoCount modules
+                    widget: list
+                    required: false
+                    field: { name: module, label: Module, widget: string }
+                  - { name: route,    label: Internal route, widget: string, required: false }
+                  - { name: ctaLabel, label: CTA label, widget: string, required: false }
+
       - file: src/content/sales2do.json
         name: sales2do
         label: Sales2DO Plugin Page

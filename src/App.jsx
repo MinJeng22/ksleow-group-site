@@ -15,6 +15,7 @@ import BackToTop     from "./components/BackToTop";
 
 import AutoCountAccountingPage from "./pages/products/AutoCountAccounting";
 import FeedMePOSPage           from "./pages/products/FeedMePOS";
+import AutoCountPluginsPage    from "./pages/apps/AutoCountPlugins";
 import Sales2DOPage            from "./pages/apps/Sales2DO";
 import KSOmniPage              from "./pages/KSOmni";
 import QuotationViewerPage     from "./pages/QuotationViewer";
@@ -50,6 +51,7 @@ function AppShell({ openContact, modalOpen, setModalOpen }) {
         <Route path="/"                              element={<Home onContact={openContact} />} />
         <Route path="/products/autocount-accounting" element={<AutoCountAccountingPage onContact={openContact} />} />
         <Route path="/products/feedme-pos"           element={<FeedMePOSPage           onContact={openContact} />} />
+        <Route path="/apps/autocount-plugin"         element={<AutoCountPluginsPage />} />
         <Route path="/apps/sales2do"                 element={<Sales2DOPage onContact={openContact} />} />
         <Route path="/omni"                           element={<KSOmniPage   onContact={openContact} />} />
         <Route path="/quotation"                      element={<QuotationViewerPage />} />
