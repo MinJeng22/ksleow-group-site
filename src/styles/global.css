@@ -73,6 +73,8 @@ body {
   .product-hero-image { display: none !important; }
   /* Release note: stack New Features / Bug Fixes vertically on tablet & mobile */
   .release-detail-grid { grid-template-columns: 1fr !important; }
+  .cloud-release-detail-grid { grid-template-columns: 1fr !important; }
+  .cloud-feature-grid { grid-template-columns: repeat(2, 1fr) !important; }
   /* Product hero: shrink body line-height on small tablet to save space */
   .product-hero-body { font-size: 0.94rem !important; line-height: 1.6 !important; }
 }
@@ -88,6 +90,11 @@ body {
   .case-2col           { grid-template-columns: 1fr !important; }
   /* AutoCount Accounting page */
   .ac-features-grid    { grid-template-columns: repeat(2, 1fr) !important; }
+  .cloud-feature-grid  { grid-template-columns: 1fr !important; }
+  .cloud-release-header {
+    align-items: flex-start !important;
+    flex-direction: column !important;
+  }
   .release-compare-selectors {
     grid-template-columns: 1fr !important;
     gap: 0.75rem !important;
@@ -95,6 +102,13 @@ body {
   .release-compare-selectors > div:nth-child(2) {
     margin-top: 0 !important;
     transform: rotate(90deg);
+  }
+  .cloud-compare-selectors {
+    grid-template-columns: 1fr !important;
+    gap: 0.75rem !important;
+  }
+  .cloud-compare-selectors > div:nth-child(2) {
+    margin-top: 0 !important;
   }
 
   /* ── Compact homepage section padding on mobile ── */

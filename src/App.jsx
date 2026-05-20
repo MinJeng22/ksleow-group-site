@@ -14,6 +14,7 @@ import Footer        from "./components/Footer";
 import BackToTop     from "./components/BackToTop";
 
 import AutoCountAccountingPage from "./pages/products/AutoCountAccounting";
+import AutoCountCloudAccountingPage from "./pages/products/AutoCountCloudAccounting";
 import FeedMePOSPage           from "./pages/products/FeedMePOS";
 import AutoCountPluginsPage    from "./pages/apps/AutoCountPlugins";
 import Sales2DOPage            from "./pages/apps/Sales2DO";
@@ -50,6 +51,7 @@ function AppShell({ openContact, modalOpen, setModalOpen }) {
       <Routes>
         <Route path="/"                              element={<Home onContact={openContact} />} />
         <Route path="/products/autocount-accounting" element={<AutoCountAccountingPage onContact={openContact} />} />
+        <Route path="/products/autocount-cloud-accounting" element={<AutoCountCloudAccountingPage />} />
         <Route path="/products/feedme-pos"           element={<FeedMePOSPage           onContact={openContact} />} />
         <Route path="/apps/autocount-plugin"         element={<AutoCountPluginsPage />} />
         <Route path="/apps/sales2do"                 element={<Sales2DOPage onContact={openContact} />} />

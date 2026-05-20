@@ -30,18 +30,21 @@ jobs:
       - name: Fetch official AutoCount release notes
         run: npm run sync:autocount-releases
 
+      - name: Fetch official AutoCount Cloud release notes
+        run: npm run sync:autocount-cloud-releases
+
       - name: Build check
         run: npm run build:fast
 
       - name: Commit and push if updated
         run: |
-          if git diff --quiet -- src/content/autocountReleases.json; then
+          if git diff --quiet -- src/content/autocountReleases.json src/content/autocountCloudReleases.json; then
             echo "AutoCount release notes are already up to date."
             exit 0
           fi
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/content/autocountReleases.json
+          git add src/content/autocountReleases.json src/content/autocountCloudReleases.json
           git commit -m "chore: sync AutoCount release notes"
           git push

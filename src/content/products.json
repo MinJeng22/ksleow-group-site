@@ -5,12 +5,21 @@
   "items": [
     {
       "name": "AutoCount Accounting",
-      "desc": "Malaysia's leading cloud and desktop accounting software. Full SST and e-Invoice ready.",
+      "desc": "Malaysia's leading desktop accounting software. Full SST and e-Invoice ready.",
       "image": "/images/products/autocount-02-1024x352.png",
       "background": "/images/products/autocount-accounting-showcase.webp",
       "placeholder": "🧾",
       "gradient": "rgb(221, 234, 213)",
       "route": "/products/autocount-accounting"
+    },
+    {
+      "name": "AutoCount CloudAccounting",
+      "desc": "Browser-based accounting with e-Invoice, AI SmartScan, bank connection, and anytime access.",
+      "image": "/images/products/autocount-02-1024x352.png",
+      "background": "/images/products/autocount-accounting-hero.webp",
+      "placeholder": "☁️",
+      "gradient": "rgb(221, 234, 213)",
+      "route": "/products/autocount-cloud-accounting"
     },
     {
       "name": "AutoCount POS",

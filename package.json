@@ -9,7 +9,8 @@
     "build": "vite build && node scripts/compress-images.mjs",
     "build:fast": "vite build",
     "preview": "vite preview",
-    "sync:autocount-releases": "node scripts/update-autocount-releases.mjs"
+    "sync:autocount-releases": "node scripts/update-autocount-releases.mjs",
+    "sync:autocount-cloud-releases": "node scripts/update-autocount-cloud-releases.mjs"
   },
   "dependencies": {
     "pdfkit": "^0.18.0",
