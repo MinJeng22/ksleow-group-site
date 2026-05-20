@@ -176,28 +176,19 @@ function ShareLinkButton({ params, hash }) {
   );
 }
 
-function openReleaseAsset(url) {
-  if (!url || typeof window === "undefined") return;
-  window.open(url, "_blank", "noopener,noreferrer");
-}
-
 function ReleaseAssetLink({ url }) {
   if (!url) return null;
-  const openAsset = (event) => {
+  const stopHeaderToggle = (event) => {
     event.stopPropagation();
-    openReleaseAsset(url);
   };
   return (
-    <span
-      role="link"
-      tabIndex={0}
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
       title="Open highlights PDF"
-      onClick={openAsset}
-      onKeyDown={(event) => {
-        if (event.key !== "Enter" && event.key !== " ") return;
-        event.preventDefault();
-        openAsset(event);
-      }}
+      onClick={stopHeaderToggle}
+      onKeyDown={stopHeaderToggle}
       style={{
         display: "inline-flex",
         alignItems: "center",
@@ -211,6 +202,7 @@ function ReleaseAssetLink({ url }) {
         color: "#8a6a10",
         cursor: "pointer",
         fontFamily: "inherit",
+        textDecoration: "none",
         transition: "all 0.2s",
       }}
       onMouseOver={(event) => {
@@ -227,7 +219,7 @@ function ReleaseAssetLink({ url }) {
         <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
       </svg>
       Highlights
-    </span>
+    </a>
   );
 }
 
@@ -242,14 +234,23 @@ function ReleaseCard({ r, expanded, onToggle }) {
       transition: "border-color 0.2s",
     }}>
       {/* Header row */}
-      <button
+      <div
+        role="button"
+        tabIndex={0}
         onClick={onToggle}
+        onKeyDown={(event) => {
+          if (event.target !== event.currentTarget) return;
+          if (event.key !== "Enter" && event.key !== " ") return;
+          event.preventDefault();
+          onToggle();
+        }}
         style={{
           width: "100%", display: "flex", alignItems: "center",
           gap: "1rem", padding: "1.1rem 1.4rem",
           background: expanded ? "#f8f8fb" : "transparent",
           border: "none", cursor: "pointer", fontFamily: "inherit",
           textAlign: "left", transition: "background 0.2s",
+          userSelect: "none",
         }}
       >
         {/* Version + date */}
@@ -278,7 +279,7 @@ function ReleaseCard({ r, expanded, onToggle }) {
           style={{ flexShrink: 0, transform: expanded ? "rotate(180deg)" : "rotate(0)", transition: "transform 0.25s" }}>
           <polyline points="6 9 12 15 18 9" />
         </svg>
-      </button>
+      </div>
 
       {/* Expanded body */}
       {expanded && (
@@ -287,7 +288,7 @@ function ReleaseCard({ r, expanded, onToggle }) {
             {/* New Features */}
             <div>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.65rem" }}>
-                <div style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#2f315a" }}>
+                <div style={{ fontSize: "0.82rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#2f315a" }}>
                   New Features
                 </div>
                 <CopyBtn onClick={() => copyToClipboard(r, "features")} />
@@ -295,14 +296,14 @@ function ReleaseCard({ r, expanded, onToggle }) {
               {r.features.map((f, i) => (
                 <div key={i} style={{ display: "flex", gap: "0.55rem", alignItems: "flex-start", marginBottom: "0.5rem" }}>
                   <ReleaseBadge type="feature" />
-                  <span style={{ fontSize: "0.92rem", color: "#444", lineHeight: 1.65 }}>{f}</span>
+                  <span style={{ fontSize: "0.83rem", color: "#444", lineHeight: 1.6 }}>{f}</span>
                 </div>
               ))}
             </div>
             {/* Bug Fixes */}
             <div>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.65rem" }}>
-                <div style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#8a6a10" }}>
+                <div style={{ fontSize: "0.82rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#8a6a10" }}>
                   Bug Fixes
                 </div>
                 <CopyBtn onClick={() => copyToClipboard(r, "fixes")} gold />
@@ -310,7 +311,7 @@ function ReleaseCard({ r, expanded, onToggle }) {
               {r.fixes.map((f, i) => (
                 <div key={i} style={{ display: "flex", gap: "0.55rem", alignItems: "flex-start", marginBottom: "0.5rem" }}>
                   <ReleaseBadge type="fix" />
-                  <span style={{ fontSize: "0.92rem", color: "#444", lineHeight: 1.65 }}>{f}</span>
+                  <span style={{ fontSize: "0.83rem", color: "#444", lineHeight: 1.6 }}>{f}</span>
                 </div>
               ))}
             </div>
@@ -989,7 +990,7 @@ export default function AutoCountAccountingPage({ onContact }) {
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem" }}>
                   <div style={{ background: "#ffffff", borderRadius: 14, padding: "1.4rem", border: "1px solid rgba(47,49,90,0.1)" }}>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1rem" }}>
-                      <div style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#2f315a" }}>New Features ({allFeatures.length})</div>
+                      <div style={{ fontSize: "0.82rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#2f315a" }}>New Features ({allFeatures.length})</div>
                       {allFeatures.length > 0 && <CopyBtn onClick={() => copyCompare(allFeatures, compareA, compareB, "features")} />}
                     </div>
                     {allFeatures.length === 0 && <div style={{ fontSize: "0.82rem", color: "#a8abcc" }}>No new features in this range.</div>}
@@ -1002,7 +1003,7 @@ export default function AutoCountAccountingPage({ onContact }) {
                   </div>
                   <div style={{ background: "#ffffff", borderRadius: 14, padding: "1.4rem", border: "1px solid rgba(47,49,90,0.1)" }}>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1rem" }}>
-                      <div style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#8a6a10" }}>Bug Fixes ({allFixes.length})</div>
+                      <div style={{ fontSize: "0.82rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#8a6a10" }}>Bug Fixes ({allFixes.length})</div>
                       {allFixes.length > 0 && <CopyBtn onClick={() => copyCompare(allFixes, compareA, compareB, "fixes")} gold />}
                     </div>
                     {allFixes.length === 0 && <div style={{ fontSize: "0.82rem", color: "#a8abcc" }}>No bug fixes in this range.</div>}
