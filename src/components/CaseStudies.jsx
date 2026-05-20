@@ -93,7 +93,7 @@ function SupaprintzPartnerModal({ open, onClose }) {
         style={{
           width: "min(560px, 100%)",
           borderRadius: 24,
-          overflow: "hidden",
+          overflow: "clip",
           background: "#ffffff",
           boxShadow: "0 28px 90px rgba(0,0,0,0.34)",
         }}
@@ -141,11 +141,14 @@ function SupaprintzPartnerModal({ open, onClose }) {
         `}</style>
         <div className="supaprintz-modal-banner-frame" style={{
           position: "relative",
-          background: "#ffffff",
+          background: "transparent",
           borderBottom: `6px solid ${SUPAPRINTZ_COLORS.orange}`,
           aspectRatio: "16 / 9",
           lineHeight: 0,
           overflow: "hidden",
+          borderTopLeftRadius: 24,
+          borderTopRightRadius: 24,
+          margin: "-1px -1px 0",
         }}>
           <img
             className="supaprintz-modal-banner"
@@ -188,23 +191,14 @@ function SupaprintzPartnerModal({ open, onClose }) {
         </div>
 
         <div className="supaprintz-modal-body" style={{ padding: "1.6rem 2rem 2rem" }}>
-          <h3 id="supaprintz-modal-title" style={{
-            fontSize: "clamp(1.4rem, 4vw, 1.9rem)",
-            lineHeight: 1.15,
-            color: SUPAPRINTZ_COLORS.navy,
-            fontWeight: 800,
-            marginBottom: "0.35rem",
-          }}>
-            {SUPAPRINTZ_PARTNER.name}
-          </h3>
           <p style={{
             color: SUPAPRINTZ_COLORS.orange,
-            fontSize: "0.9rem",
-            lineHeight: 1.6,
+            fontSize: "clamp(1.15rem, 4vw, 1.5rem)",
+            lineHeight: 1.2,
             fontWeight: 800,
             letterSpacing: "0.04em",
             textTransform: "uppercase",
-            marginBottom: "0.8rem",
+            marginBottom: "0.9rem",
           }}>
             {SUPAPRINTZ_PARTNER.category}
           </p>
