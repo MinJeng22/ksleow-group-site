@@ -33,6 +33,7 @@
           ],
           "modules": ["Sales", "Delivery Order", "Invoice", "Cash Sale"],
           "route": "/apps/sales2do",
+          "downloadHref": "/downloads/app/Sales2DO.app",
           "ctaLabel": "View Plugin"
         }
       ]
