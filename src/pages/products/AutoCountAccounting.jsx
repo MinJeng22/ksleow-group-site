@@ -295,7 +295,7 @@ function ReleaseCard({ r, expanded, onToggle }) {
               {r.features.map((f, i) => (
                 <div key={i} style={{ display: "flex", gap: "0.55rem", alignItems: "flex-start", marginBottom: "0.5rem" }}>
                   <ReleaseBadge type="feature" />
-                  <span style={{ fontSize: "0.83rem", color: "#444", lineHeight: 1.6 }}>{f}</span>
+                  <span style={{ fontSize: "0.92rem", color: "#444", lineHeight: 1.65 }}>{f}</span>
                 </div>
               ))}
             </div>
@@ -310,7 +310,7 @@ function ReleaseCard({ r, expanded, onToggle }) {
               {r.fixes.map((f, i) => (
                 <div key={i} style={{ display: "flex", gap: "0.55rem", alignItems: "flex-start", marginBottom: "0.5rem" }}>
                   <ReleaseBadge type="fix" />
-                  <span style={{ fontSize: "0.83rem", color: "#444", lineHeight: 1.6 }}>{f}</span>
+                  <span style={{ fontSize: "0.92rem", color: "#444", lineHeight: 1.65 }}>{f}</span>
                 </div>
               ))}
             </div>
@@ -440,9 +440,21 @@ function EditionsTable({ selected = null, diffOnly = false }) {
   /* selected: optional array of edition names to render (otherwise all 5).
      diffOnly: when true (compare mode), hide rows whose values are identical
      across the selected editions. */
-  const cellPad = "0.7rem 0.85rem";
+  const cellPad = "0.62rem 0.58rem";
   const cols = (selected && selected.length > 0) ? selected : EDITIONS;
   const colIdx = cols.map(c => EDITIONS.indexOf(c));
+  const stickyHeaderCell = {
+    position: "sticky",
+    top: 0,
+    zIndex: 3,
+    background: "#7AB317",
+  };
+  const stickyBookCell = {
+    position: "sticky",
+    top: 42,
+    zIndex: 2,
+    background: "#fafafb",
+  };
 
   /* Pick subset of values for visible columns, optionally filter equal rows. */
   const filterRow = (values) => colIdx.map(i => values[i]);
@@ -453,19 +465,19 @@ function EditionsTable({ selected = null, diffOnly = false }) {
 
   return (
     <div style={{ background: "#ffffff", borderRadius: 14, border: "1px solid rgba(47,49,90,0.08)", overflow: "hidden", boxShadow: "0 4px 20px rgba(47,49,90,0.05)" }}>
-      <div style={{ overflowX: "auto" }}>
+      <div style={{ overflowX: "auto", maxHeight: "min(72vh, 760px)", overflowY: "auto" }}>
         <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.84rem" }}>
           <thead>
             <tr style={{ background: "#7AB317" }}>
-              <th style={{ padding: cellPad, textAlign: "left", color: "#ffffff", fontWeight: 600, minWidth: 220 }}></th>
+              <th style={{ ...stickyHeaderCell, padding: cellPad, textAlign: "left", color: "#ffffff", fontWeight: 600, minWidth: 190 }}></th>
               {cols.map(e => (
-                <th key={e} style={{ padding: cellPad, color: "#ffffff", fontWeight: 700, textAlign: "center", minWidth: 110 }}>{e}</th>
+                <th key={e} style={{ ...stickyHeaderCell, padding: cellPad, color: "#ffffff", fontWeight: 700, textAlign: "center", minWidth: 86, lineHeight: 1.25 }}>{e}</th>
               ))}
             </tr>
             <tr style={{ background: "#fafafb", borderBottom: "1px solid rgba(47,49,90,0.08)" }}>
-              <td style={{ padding: cellPad, color: "#2f315a", fontWeight: 500 }}>Default Account Book</td>
+              <td style={{ ...stickyBookCell, padding: cellPad, color: "#2f315a", fontWeight: 500 }}>Default Account Book</td>
               {filterRow(EDITION_TABLE.defaultAccountBook).map((v, i) => (
-                <td key={i} style={{ padding: cellPad, color: "#2f315a", fontWeight: 600, textAlign: "center" }}>{v}</td>
+                <td key={i} style={{ ...stickyBookCell, padding: cellPad, color: "#2f315a", fontWeight: 600, textAlign: "center" }}>{v}</td>
               ))}
             </tr>
           </thead>
@@ -984,7 +996,7 @@ export default function AutoCountAccountingPage({ onContact }) {
                     {allFeatures.map((f, i) => (
                       <div key={i} style={{ display: "flex", gap: "0.55rem", alignItems: "flex-start", marginBottom: "0.65rem" }}>
                         <span style={{ fontSize: "0.6rem", fontWeight: 700, letterSpacing: "0.06em", padding: "0.2rem 0.5rem", borderRadius: 50, background: "rgba(47,49,90,0.08)", color: "#2f315a", flexShrink: 0, marginTop: 2 }}>{f.rev}</span>
-                        <span style={{ fontSize: "0.83rem", color: "#444", lineHeight: 1.6 }}>{f.text}</span>
+                        <span style={{ fontSize: "0.92rem", color: "#444", lineHeight: 1.65 }}>{f.text}</span>
                       </div>
                     ))}
                   </div>
@@ -997,7 +1009,7 @@ export default function AutoCountAccountingPage({ onContact }) {
                     {allFixes.map((f, i) => (
                       <div key={i} style={{ display: "flex", gap: "0.55rem", alignItems: "flex-start", marginBottom: "0.65rem" }}>
                         <span style={{ fontSize: "0.6rem", fontWeight: 700, letterSpacing: "0.06em", padding: "0.2rem 0.5rem", borderRadius: 50, background: "rgba(201,168,76,0.12)", color: "#8a6a10", flexShrink: 0, marginTop: 2 }}>{f.rev}</span>
-                        <span style={{ fontSize: "0.83rem", color: "#444", lineHeight: 1.6 }}>{f.text}</span>
+                        <span style={{ fontSize: "0.92rem", color: "#444", lineHeight: 1.65 }}>{f.text}</span>
                       </div>
                     ))}
                   </div>
