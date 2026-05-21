@@ -13,6 +13,17 @@ const PRODUCTS = (productsContent.items || []).map(p => ({
   route:       p.route      || null,
 }));
 
+function getViewportWidth() {
+  return typeof window === "undefined" ? 1440 : window.innerWidth;
+}
+
+function getCarouselCount(width) {
+  if (width <= 640) return 3;
+  if (width <= 900) return 4;
+  if (width <= 1180) return 5;
+  return 6;
+}
+
 function Chevron({ direction }) {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -130,35 +141,23 @@ function ProductCard({ product, productIndex, order, hovered, revealed, onHover,
 export default function Products({ onContact }) {
   const [hovered, setHovered] = useState(null);
   const [startIndex, setStartIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState(() =>
-    typeof window !== "undefined" && window.matchMedia("(max-width: 640px)").matches
-  );
+  const [viewportWidth, setViewportWidth] = useState(getViewportWidth);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (typeof window === "undefined") return undefined;
-    const query = window.matchMedia("(max-width: 640px)");
-    const sync = () => setIsMobile(query.matches);
+    const sync = () => setViewportWidth(window.innerWidth);
     sync();
-    if (query.addEventListener) {
-      query.addEventListener("change", sync);
-      return () => query.removeEventListener("change", sync);
-    }
-    query.addListener(sync);
-    return () => query.removeListener(sync);
+    window.addEventListener("resize", sync);
+    return () => window.removeEventListener("resize", sync);
   }, []);
 
-  const visibleCount = isMobile ? Math.min(3, PRODUCTS.length) : Math.min(6, PRODUCTS.length);
+  const visibleCount = Math.min(getCarouselCount(viewportWidth), PRODUCTS.length);
   const canSlide = PRODUCTS.length > 1;
-  const visibleProducts = isMobile
-    ? [-1, 0, 1].slice(0, visibleCount).map((offset, order) => {
-        const productIndex = (startIndex + offset + PRODUCTS.length) % PRODUCTS.length;
-        return { product: PRODUCTS[productIndex], productIndex, order };
-      })
-    : Array.from({ length: visibleCount }, (_, order) => {
-        const productIndex = (startIndex + order) % PRODUCTS.length;
-        return { product: PRODUCTS[productIndex], productIndex, order };
-      });
+  const visibleProducts = Array.from({ length: visibleCount }, (_, order) => {
+    const productIndex = (startIndex + order - 1 + PRODUCTS.length) % PRODUCTS.length;
+    return { product: PRODUCTS[productIndex], productIndex, order };
+  });
   const showPrevious = () => setStartIndex(i => (i - 1 + PRODUCTS.length) % PRODUCTS.length);
   const showNext = () => setStartIndex(i => (i + 1) % PRODUCTS.length);
 
