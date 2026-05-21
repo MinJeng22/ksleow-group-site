@@ -74,12 +74,12 @@
         {
           "src": "/images/logos/sunmi-logo.png",
           "alt": "Sunmi",
-          "h": 40
+          "h": 30
         },
         {
           "src": "/images/services/lenovo.png",
           "alt": "Mdot",
-          "h": 20
+          "h": 25
         }
       ]
     },
