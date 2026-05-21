@@ -193,6 +193,63 @@ body {
     margin-top: 0 !important;
   }
 
+  /* Release note card header: compact mobile layout */
+  .release-card-header {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start !important;
+    gap: 0.55rem 0.65rem !important;
+    padding: 0.95rem 1rem !important;
+  }
+  .release-card-main {
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+  .release-card-title-row {
+    gap: 0.42rem !important;
+  }
+  .release-card-version {
+    font-size: 1.02rem !important;
+    line-height: 1.15 !important;
+  }
+  .release-card-rev {
+    font-size: 0.66rem !important;
+  }
+  .release-card-actions {
+    gap: 0.38rem !important;
+    margin-top: 0.45rem !important;
+  }
+  .release-card-actions > a,
+  .release-card-actions > button,
+  .release-card-actions > span {
+    min-height: 26px !important;
+    padding: 0.22rem 0.58rem !important;
+    font-size: 0.58rem !important;
+    line-height: 1.1 !important;
+  }
+  .release-card-meta {
+    margin-top: 0.46rem !important;
+    font-size: 0.72rem !important;
+    line-height: 1.45 !important;
+  }
+  .release-card-counts {
+    grid-column: 1 / -1;
+    justify-content: flex-start !important;
+    gap: 0.8rem !important;
+    padding-top: 0.38rem;
+    border-top: 1px solid rgba(47,49,90,0.06);
+  }
+  .release-card-counts span {
+    font-size: 0.7rem !important;
+  }
+  .release-card-chevron {
+    grid-column: 2;
+    grid-row: 1;
+    width: 18px !important;
+    height: 18px !important;
+    margin-top: 0.04rem;
+  }
+
   /* ── Compact homepage section padding on mobile ── */
   .home-section { padding-top: 2.5rem !important; padding-bottom: 2.5rem !important; }
   .home-section-sm { padding-top: 1.75rem !important; padding-bottom: 1.75rem !important; }

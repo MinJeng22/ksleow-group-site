@@ -237,7 +237,7 @@ function ReleaseCard({ r, expanded, onToggle }) {
   const isLatest = r === RELEASES[0];
   const releaseRev = revNumber(r);
   return (
-    <div id={`release-${releaseRev}`} style={{
+    <div id={`release-${releaseRev}`} className="release-card" style={{
       borderRadius: 14,
       border: `1px solid ${expanded ? "rgba(47,49,90,0.22)" : "rgba(47,49,90,0.1)"}`,
       background: "#ffffff",
@@ -256,6 +256,7 @@ function ReleaseCard({ r, expanded, onToggle }) {
           event.preventDefault();
           onToggle();
         }}
+        className="release-card-header"
         style={{
           width: "100%", display: "flex", alignItems: "center",
           gap: "1rem", padding: "1.1rem 1.4rem",
@@ -266,10 +267,12 @@ function ReleaseCard({ r, expanded, onToggle }) {
         }}
       >
         {/* Version + date */}
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", flexWrap: "wrap" }}>
-            <span style={{ fontSize: "0.95rem", fontWeight: 700, color: "#2f315a" }}>{r.version}</span>
-            <span style={{ fontSize: "0.7rem", fontWeight: 600, color: "#a8abcc", letterSpacing: "0.04em" }}>{r.rev}</span>
+        <div className="release-card-main" style={{ flex: 1, minWidth: 0 }}>
+          <div className="release-card-title-row" style={{ display: "flex", alignItems: "center", gap: "0.6rem", flexWrap: "wrap" }}>
+            <span className="release-card-version" style={{ fontSize: "0.95rem", fontWeight: 700, color: "#2f315a" }}>{r.version}</span>
+            <span className="release-card-rev" style={{ fontSize: "0.7rem", fontWeight: 600, color: "#a8abcc", letterSpacing: "0.04em" }}>{r.rev}</span>
+          </div>
+          <div className="release-card-actions" style={{ display: "flex", alignItems: "center", gap: "0.6rem", flexWrap: "wrap", marginTop: "0.42rem" }}>
             {isLatest && (
               <span style={{ fontSize: "0.6rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", background: "#2f315a", color: "#c9a84c", padding: "0.18rem 0.6rem", borderRadius: 50 }}>
                 Latest
@@ -283,17 +286,17 @@ function ReleaseCard({ r, expanded, onToggle }) {
               params={{ vr: releaseRev }}
             />
           </div>
-          <div style={{ fontSize: "0.78rem", color: "#a8abcc", marginTop: 2 }}>
+          <div className="release-card-meta" style={{ fontSize: "0.78rem", color: "#a8abcc", marginTop: 2 }}>
             Released {r.date} · DB {r.dbVer} · Server {r.server}
           </div>
         </div>
         {/* counts */}
-        <div style={{ display: "flex", gap: "0.75rem", flexShrink: 0 }}>
+        <div className="release-card-counts" style={{ display: "flex", gap: "0.75rem", flexShrink: 0 }}>
           <span style={{ fontSize: "0.72rem", color: "#2f315a", fontWeight: 600 }}>✦ {r.features.length} New</span>
           <span style={{ fontSize: "0.72rem", color: "#8a6a10", fontWeight: 600 }}>⬡ {r.fixes.length} Fix</span>
         </div>
         {/* chevron */}
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a8abcc" strokeWidth="2"
+        <svg className="release-card-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a8abcc" strokeWidth="2"
           style={{ flexShrink: 0, transform: expanded ? "rotate(180deg)" : "rotate(0)", transition: "transform 0.25s" }}>
           <polyline points="6 9 12 15 18 9" />
         </svg>

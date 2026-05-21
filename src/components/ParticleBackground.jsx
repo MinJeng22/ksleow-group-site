@@ -39,13 +39,13 @@ const MOUSE_R_SQ  = MOUSE_R * MOUSE_R;
 function rand(a, b) { return Math.random() * (b - a) + a; }
 
 /* Particle radius scales with screen width:
- * mobile (< 640px) → 0.8–1.6  (finer, more delicate)
- * tablet (640–1024) → 1.0–1.9
- * desktop (> 1024) → 1.3–2.4  (original)               */
+ * mobile (< 640px) → 2.35–4.1
+ * tablet (640–1024) → 1.85–3.25
+ * desktop (> 1024) → 1.55–2.85                         */
 function particleRadius(W) {
-  if (W < 640)  return rand(1.35, 2.55);
-  if (W < 1024) return rand(1.0, 1.9);
-  return rand(1.3, 2.4);
+  if (W < 640)  return rand(2.35, 4.1);
+  if (W < 1024) return rand(1.85, 3.25);
+  return rand(1.55, 2.85);
 }
 
 export default function ParticleBackground({
@@ -57,11 +57,11 @@ export default function ParticleBackground({
   highlightRgb = "232,201,122",
   vignetteEnd = "rgba(0,0,0,0.52)",
   dotOutlineRgb = "47,49,90",
-  dotOutlineAlpha = 0.36,
-  dotOutlineWidth = 1.05,
+  dotOutlineAlpha = 0.42,
+  dotOutlineWidth = 0.65,
   densityScale = 1,
   lineAlphaScale = 1,
-  dotAlpha = 0.88,
+  dotAlpha = 0.52,
   obstacleSelector = null,
   obstaclePadding = 0,
 }) {
@@ -268,11 +268,9 @@ export default function ParticleBackground({
         dotPath.moveTo(p.x + p.r, p.y);
         dotPath.arc(p.x, p.y, p.r, 0, 6.2832);
       }
-      if (W < 640) {
-        ctx.strokeStyle = `rgba(${dotOutlineRgb},${dotOutlineAlpha})`;
-        ctx.lineWidth = dotOutlineWidth;
-        ctx.stroke(dotPath);
-      }
+      ctx.strokeStyle = `rgba(${dotOutlineRgb},${dotOutlineAlpha})`;
+      ctx.lineWidth = dotOutlineWidth;
+      ctx.stroke(dotPath);
       ctx.fillStyle = `rgba(${dotRgb},${dotAlpha})`;
       ctx.fill(dotPath);
 
