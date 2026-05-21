@@ -59,6 +59,11 @@ export default function ParticleBackground({
   dotOutlineRgb = "47,49,90",
   dotOutlineAlpha = 0.36,
   dotOutlineWidth = 1.05,
+  densityScale = 1,
+  lineAlphaScale = 1,
+  dotAlpha = 0.88,
+  obstacleSelector = null,
+  obstaclePadding = 0,
 }) {
   const canvasRef = useRef(null);
   const stateRef  = useRef({
@@ -71,7 +76,9 @@ export default function ParticleBackground({
     bgGrad: null,
     vigGrad: null,
     mx: -9999, my: -9999,
+    obstacles: [],
     resizeTimer: null,  /* debounce handle */
+    obstacleFrame: 0,
   });
 
   useEffect(() => { stateRef.current.pausedRef = paused; }, [paused]);
@@ -98,13 +105,55 @@ export default function ParticleBackground({
       s.vigGrad.addColorStop(0, "rgba(0,0,0,0)");
       s.vigGrad.addColorStop(1, vignetteEnd);
 
-      const N = Math.min(maxParticlesFor(W), Math.max(minParticlesFor(W), Math.round(W * H * densityFor(W))));
+      const baseN = Math.min(maxParticlesFor(W), Math.max(minParticlesFor(W), Math.round(W * H * densityFor(W))));
+      const N = Math.max(3, Math.round(baseN * densityScale));
       s.particles = Array.from({ length: N }, () => ({
         x:  rand(0, W), y: rand(0, H),
         vx: rand(-SPEED, SPEED) || SPEED,
         vy: rand(-SPEED, SPEED) || SPEED,
         r:  particleRadius(W),
       }));
+      updateObstacles();
+    }
+
+    function updateObstacles() {
+      if (!obstacleSelector) {
+        s.obstacles = [];
+        return;
+      }
+      const canvasRect = canvas.getBoundingClientRect();
+      s.obstacles = Array.from(document.querySelectorAll(obstacleSelector))
+        .map(node => {
+          const r = node.getBoundingClientRect();
+          return {
+            x0: r.left - canvasRect.left - obstaclePadding,
+            y0: r.top - canvasRect.top - obstaclePadding,
+            x1: r.right - canvasRect.left + obstaclePadding,
+            y1: r.bottom - canvasRect.top + obstaclePadding,
+          };
+        })
+        .filter(r => r.x1 > 0 && r.y1 > 0 && r.x0 < s.W && r.y0 < s.H);
+    }
+
+    function collideWithObstacles(p, prevX, prevY) {
+      for (const r of s.obstacles) {
+        if (p.x < r.x0 || p.x > r.x1 || p.y < r.y0 || p.y > r.y1) continue;
+        if (prevX <= r.x0) { p.x = r.x0; p.vx = -Math.abs(p.vx); return; }
+        if (prevX >= r.x1) { p.x = r.x1; p.vx = Math.abs(p.vx); return; }
+        if (prevY <= r.y0) { p.y = r.y0; p.vy = -Math.abs(p.vy); return; }
+        if (prevY >= r.y1) { p.y = r.y1; p.vy = Math.abs(p.vy); return; }
+
+        const left = Math.abs(p.x - r.x0);
+        const right = Math.abs(r.x1 - p.x);
+        const top = Math.abs(p.y - r.y0);
+        const bottom = Math.abs(r.y1 - p.y);
+        const min = Math.min(left, right, top, bottom);
+        if (min === left) { p.x = r.x0; p.vx = -Math.abs(p.vx); return; }
+        if (min === right) { p.x = r.x1; p.vx = Math.abs(p.vx); return; }
+        if (min === top) { p.y = r.y0; p.vy = -Math.abs(p.vy); return; }
+        p.y = r.y1; p.vy = Math.abs(p.vy);
+        return;
+      }
     }
 
     /* ── Height-only resize: just update canvas height & gradients,
@@ -128,6 +177,7 @@ export default function ParticleBackground({
       for (const p of s.particles) {
         if (p.y > H) p.y = H;
       }
+      updateObstacles();
     }
 
     /* ── Debounced resize handler ── */
@@ -157,13 +207,17 @@ export default function ParticleBackground({
       ctx.fillRect(0, 0, W, H);
 
       if (!pausedRef) {
+        if (obstacleSelector && (s.obstacleFrame++ % 24 === 0)) updateObstacles();
         for (let i = 0; i < particles.length; i++) {
           const p = particles[i];
+          const prevX = p.x;
+          const prevY = p.y;
           p.x += p.vx; p.y += p.vy;
           if (p.x < 0) { p.x = 0; p.vx =  Math.abs(p.vx); }
           if (p.x > W) { p.x = W; p.vx = -Math.abs(p.vx); }
           if (p.y < 0) { p.y = 0; p.vy =  Math.abs(p.vy); }
           if (p.y > H) { p.y = H; p.vy = -Math.abs(p.vy); }
+          collideWithObstacles(p, prevX, prevY);
         }
       }
 
@@ -183,7 +237,7 @@ export default function ParticleBackground({
         }
       }
       ctx.lineWidth = 0.8;
-      const alphas = [0.52, 0.34, 0.18, 0.07];
+      const alphas = [0.52, 0.34, 0.18, 0.07].map(a => a * lineAlphaScale);
       for (let b = 0; b < BUCKETS; b++) {
         ctx.strokeStyle = `rgba(${lineRgb},${alphas[b]})`;
         ctx.stroke(paths[b]);
@@ -219,7 +273,7 @@ export default function ParticleBackground({
         ctx.lineWidth = dotOutlineWidth;
         ctx.stroke(dotPath);
       }
-      ctx.fillStyle = `rgba(${dotRgb},0.88)`;
+      ctx.fillStyle = `rgba(${dotRgb},${dotAlpha})`;
       ctx.fill(dotPath);
 
       ctx.fillStyle = vigGrad;

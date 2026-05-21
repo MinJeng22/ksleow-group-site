@@ -72,18 +72,21 @@ export default function Careers() {
     <div className="home-section" style={{
       position: "relative",
       overflow: "hidden",
-      background: "#edf8ff",
+      background: "#f4f6fb",
       padding: "5rem 0",
       borderTop: "0.5px solid rgba(47,49,90,0.1)",
     }}>
       <ParticleBackground
         paused={false}
-        backgroundStart="#f7fcff"
-        backgroundEnd="#e6f5ff"
-        lineRgb="95,166,214"
-        dotRgb="65,143,199"
-        highlightRgb="38,119,184"
-        vignetteEnd="rgba(46,132,190,0.12)"
+        backgroundStart="#f8f9fd"
+        backgroundEnd="#eef1f8"
+        lineRgb="47,49,90"
+        dotRgb="201,168,76"
+        highlightRgb="201,168,76"
+        vignetteEnd="rgba(47,49,90,0.08)"
+        densityScale={0.45}
+        lineAlphaScale={0.34}
+        dotAlpha={0.56}
       />
       <div
         className="content-wrap"

@@ -119,7 +119,7 @@ export default function Products({ onContact }) {
           )}
         </div>
 
-        <div ref={gridRef} className="products-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1.25rem" }}>
+        <div ref={gridRef} className="products-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gridAutoRows: "1fr", gap: "1.25rem" }}>
           {visibleProducts.map(({ product: p, productIndex, order }) => {
             const isHov = hovered === productIndex;
             const clickable = !!p.route;
@@ -135,6 +135,9 @@ export default function Products({ onContact }) {
                   background: "#ffffff",
                   transition: "border-color 0.26s",
                   cursor: clickable ? "pointer" : "default",
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
                 }}
               >
                 {/* 3-layer composition:
@@ -175,11 +178,11 @@ export default function Products({ onContact }) {
                   }
                 </div>
 
-                <div style={{ padding: "1.35rem" }}>
-                  <h3 style={{ fontSize: "0.95rem", fontWeight: 700, color: "#2f315a", marginBottom: "0.5rem" }}>{p.name}</h3>
-                  <p style={{ fontSize: "0.82rem", color: "#6b6f91", lineHeight: 1.66 }}>{p.desc}</p>
+                <div style={{ padding: "1.35rem", flex: 1, display: "flex", flexDirection: "column" }}>
+                  <h3 style={{ fontSize: "0.95rem", fontWeight: 700, color: "#2f315a", marginBottom: "0.5rem", minHeight: "2.35em", display: "flex", alignItems: "flex-start" }}>{p.name}</h3>
+                  <p style={{ fontSize: "0.82rem", color: "#6b6f91", lineHeight: 1.66, marginBottom: 0 }}>{p.desc}</p>
                   {clickable && (
-                    <div style={{ marginTop: "0.75rem", textAlign: "right" }}>
+                    <div style={{ marginTop: "auto", paddingTop: "0.75rem", textAlign: "right" }}>
                       <span style={{ fontSize: "0.78rem", fontWeight: 600, color: "#c9a84c", letterSpacing: "0.04em" }}>
                         Learn more →
                       </span>

@@ -143,8 +143,9 @@ function ServiceCard({ service }) {
             display: "flex", flexDirection: "column",
             overflow: "hidden",
             pointerEvents: flipped ? "none" : "auto",
+            opacity: flipped ? 0 : 1,
             cursor: "pointer",
-            transition: "border-color 0.2s, box-shadow 0.2s",
+            transition: "border-color 0.2s, box-shadow 0.2s, opacity 0.18s ease",
           }}
           onMouseOver={e => {
             e.currentTarget.style.borderColor = "rgba(47,49,90,0.22)";
@@ -183,6 +184,7 @@ function ServiceCard({ service }) {
               }
             </div>
           )}
+          {isWebinar && <div style={{ height: "5.35rem", flexShrink: 0 }} />}
 
           <h3 style={{
             position: "relative", zIndex: 1,
@@ -249,8 +251,10 @@ function ServiceCard({ service }) {
             border: "none",
             display: "flex", flexDirection: "column",
             pointerEvents: flipped ? "auto" : "none",
+            opacity: flipped ? 1 : 0,
             color: "#ffffff",
             boxShadow: "0 10px 32px rgba(15,17,40,0.22)",
+            transition: "opacity 0.18s ease",
           }}
         >
           {/* Decorative background — defaults to the WebP at /images/branding/service-card-back.webp.
@@ -440,16 +444,20 @@ export default function Services() {
       <section
         id="services"
         className="home-section"
-        style={{ position: "relative", overflow: "hidden", background: "#edf8ff", padding: "6rem 0" }}
+        style={{ position: "relative", overflow: "hidden", background: "#ffffff", padding: "6rem 0" }}
       >
         <ParticleBackground
           paused={false}
-          backgroundStart="#f6fbff"
-          backgroundEnd="#e4f4ff"
+          backgroundStart="#ffffff"
+          backgroundEnd="#ffffff"
           lineRgb="95,166,214"
           dotRgb="65,143,199"
           highlightRgb="38,119,184"
-          vignetteEnd="rgba(46,132,190,0.12)"
+          vignetteEnd="rgba(46,132,190,0.04)"
+          lineAlphaScale={0.52}
+          dotAlpha={0.58}
+          obstacleSelector="#services .services-grid > div"
+          obstaclePadding={7}
         />
         <div className="content-wrap" style={{ position: "relative", zIndex: 1 }}>
           <div style={{ fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.75rem" }}>
