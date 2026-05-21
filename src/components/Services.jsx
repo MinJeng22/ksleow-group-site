@@ -452,19 +452,30 @@ export default function Services() {
       <style>{`@keyframes cardFlip { from { opacity: 0; } to { opacity: 1; } }`}</style>
       <section
         id="services"
-        className="home-section"
+        className="home-section services-section"
         style={{ position: "relative", overflow: "hidden", background: "#ffffff", padding: "6rem 0" }}
       >
         <div className="content-wrap" style={{ position: "relative", zIndex: 1 }}>
-          <div style={{ fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.75rem" }}>
-            {servicesContent.eyebrow}
+          <div className="services-heading-block" style={{ position: "relative" }}>
+            <img
+              className="services-heading-favicon"
+              src="/images/icons/favicon.webp"
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+              decoding="async"
+              style={{ display: "none" }}
+            />
+            <div style={{ fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.75rem" }}>
+              {servicesContent.eyebrow}
+            </div>
+            <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.6rem)", fontWeight: 700, color: "#2f315a", lineHeight: 1.2, marginBottom: "0.75rem" }}>
+              {servicesContent.heading}
+            </h2>
+            <p style={{ fontSize: "1rem", color: "#6b6f91", lineHeight: 1.75, marginBottom: "3rem" }}>
+              {servicesContent.intro}
+            </p>
           </div>
-          <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.6rem)", fontWeight: 700, color: "#2f315a", lineHeight: 1.2, marginBottom: "0.75rem" }}>
-            {servicesContent.heading}
-          </h2>
-          <p style={{ fontSize: "1rem", color: "#6b6f91", lineHeight: 1.75, marginBottom: "3rem" }}>
-            {servicesContent.intro}
-          </p>
           <div className="services-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.1rem" }}>
             {SERVICES.map(s => (
               <ServiceCard key={s.key} service={s} />

@@ -33,11 +33,15 @@ function Home({ onContact }) {
         </div>
         <main className="home-content-layer">
           <Stats />
-          <Services />
-          <Products onContact={onContact} />
-          <CaseStudies onContact={onContact} />
-          <Careers />
-          <Footer />
+          <div className="services-cover-stack">
+            <Services />
+            <div className="services-follow-content">
+              <Products onContact={onContact} />
+              <CaseStudies onContact={onContact} />
+              <Careers />
+              <Footer />
+            </div>
+          </div>
         </main>
       </div>
     </>
