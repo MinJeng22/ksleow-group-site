@@ -122,13 +122,28 @@ function ServiceCard({ service }) {
   }, []);
 
   return (
-    <div ref={cardRef} style={{ perspective: "1200px", height: 290 }}>
+    <div ref={cardRef} style={{ perspective: "1400px", height: 290, transform: "translateZ(0)" }}>
       <div style={{
         position: "relative", width: "100%", height: "100%",
+        borderRadius: 18,
+        border: "1px solid rgba(47,49,90,0.09)",
+        background: "#f5f5f8",
+        boxShadow: "0 6px 18px rgba(47,49,90,0.055)",
+        overflow: "hidden",
+        isolation: "isolate",
+        perspective: "1400px",
         transformStyle: "preserve-3d",
         WebkitTransformStyle: "preserve-3d",
-        transition: "transform 0.48s cubic-bezier(0.22, 1, 0.36, 1)",
-        transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
+        transform: "translateZ(0)",
+        transition: "border-color 0.2s ease, box-shadow 0.2s ease",
+      }}>
+      <div style={{
+        position: "absolute", inset: 0,
+        transformStyle: "preserve-3d",
+        WebkitTransformStyle: "preserve-3d",
+        transition: "transform 0.58s cubic-bezier(0.2, 0.8, 0.2, 1)",
+        transform: flipped ? "translate3d(0,0,0) rotateY(180deg)" : "translate3d(0,0,0) rotateY(0deg)",
+        transformOrigin: "50% 50%",
         willChange: "transform",
       }}>
 
@@ -140,24 +155,16 @@ function ServiceCard({ service }) {
             backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden",
             transform: "rotateY(0deg) translateZ(0.1px)",
             willChange: "transform",
-            contain: "paint",
-            borderRadius: 18,
+            borderRadius: 17,
             background: "#f5f5f8",
-            border: "1px solid rgba(47,49,90,0.09)",
+            border: "none",
             padding: "1.4rem",
             display: "flex", flexDirection: "column",
             overflow: "hidden",
             pointerEvents: flipped ? "none" : "auto",
             cursor: "pointer",
-            transition: "border-color 0.2s, box-shadow 0.2s",
-          }}
-          onMouseOver={e => {
-            e.currentTarget.style.borderColor = "rgba(47,49,90,0.22)";
-            e.currentTarget.style.boxShadow = "0 4px 16px rgba(47,49,90,0.09)";
-          }}
-          onMouseOut={e => {
-            e.currentTarget.style.borderColor = "rgba(47,49,90,0.09)";
-            e.currentTarget.style.boxShadow = "none";
+            transformStyle: "preserve-3d",
+            WebkitTransformStyle: "preserve-3d",
           }}
         >
           {/* Top row — badge centered horizontally */}
@@ -251,15 +258,15 @@ function ServiceCard({ service }) {
             backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden",
             transform: "rotateY(180deg) translateZ(0.1px)",
             willChange: "transform",
-            contain: "paint",
-            borderRadius: 18, overflow: "hidden",
+            borderRadius: 17, overflow: "hidden",
+            transformStyle: "preserve-3d",
+            WebkitTransformStyle: "preserve-3d",
             cursor: "pointer",
             background: "#20255a",
             border: "none",
             display: "flex", flexDirection: "column",
             pointerEvents: flipped ? "auto" : "none",
             color: "#ffffff",
-            boxShadow: "0 10px 32px rgba(15,17,40,0.22)",
           }}
         >
           {/* Decorative background — defaults to the WebP at /images/branding/service-card-back.webp.
@@ -407,6 +414,7 @@ function ServiceCard({ service }) {
             </a>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

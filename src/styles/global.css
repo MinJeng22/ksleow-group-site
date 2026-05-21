@@ -34,7 +34,45 @@ body {
   padding-right: var(--px);
 }
 
-.products-carousel-controls-mobile { display: none !important; }
+.products-carousel-controls-side {
+  position: absolute;
+  inset: 0 -0.45rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.products-carousel-button {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(47,49,90,0.14);
+  background: rgba(255,255,255,0.76);
+  color: rgba(47,49,90,0.78);
+  box-shadow: 0 8px 22px rgba(47,49,90,0.09);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.products-carousel-button:hover {
+  transform: translateY(-1px);
+  background: rgba(255,255,255,0.94);
+  border-color: rgba(201,168,76,0.58);
+  color: #c9a84c;
+  box-shadow: 0 10px 24px rgba(47,49,90,0.12);
+}
+
+.products-carousel-button:active {
+  transform: translateY(0);
+}
 
 /* ── Partners — visible ── */
 /* .partners-section { display: none !important; } */
@@ -135,25 +173,23 @@ body {
     align-items: flex-start !important;
     margin-bottom: 1.5rem !important;
   }
-  .products-section .products-carousel-controls-desktop {
-    display: none !important;
-  }
-  .products-section .products-carousel-controls-mobile {
+  .products-section .products-carousel-controls-side {
     display: flex !important;
     position: absolute;
     left: -0.7rem;
     right: -0.7rem;
     top: 50%;
+    bottom: auto;
     transform: translateY(-50%);
+    height: 38px;
     width: auto !important;
     justify-content: space-between;
     pointer-events: none;
     z-index: 5;
   }
-  .products-section .products-carousel-controls-mobile button {
+  .products-section .products-carousel-button {
     width: 38px !important;
     height: 38px !important;
-    font-size: 1.12rem !important;
     pointer-events: auto;
   }
   .products-section .products-grid {

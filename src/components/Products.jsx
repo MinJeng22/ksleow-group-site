@@ -13,53 +13,34 @@ const PRODUCTS = (productsContent.items || []).map(p => ({
   route:       p.route      || null,
 }));
 
-function CarouselControls({ onPrevious, onNext, className = "" }) {
-  const baseButtonStyle = {
-    width: 42, height: 42, borderRadius: "50%",
-    border: "1px solid rgba(47,49,90,0.22)",
-    background: "rgba(255,255,255,0.68)",
-    color: "#2f315a", cursor: "pointer",
-    fontSize: "1.3rem", lineHeight: 1,
-    display: "inline-flex", alignItems: "center", justifyContent: "center",
-    transition: "background 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s",
-    boxShadow: "0 6px 18px rgba(47,49,90,0.08)",
-  };
-
-  const applyHover = (el) => {
-    el.style.background = "#c9a84c";
-    el.style.borderColor = "#c9a84c";
-    el.style.color = "#1e2040";
-    el.style.boxShadow = "0 8px 22px rgba(47,49,90,0.14)";
-  };
-
-  const clearHover = (el) => {
-    el.style.background = "rgba(255,255,255,0.68)";
-    el.style.borderColor = "rgba(47,49,90,0.22)";
-    el.style.color = "#2f315a";
-    el.style.boxShadow = "0 6px 18px rgba(47,49,90,0.08)";
-  };
-
+function Chevron({ direction }) {
   return (
-    <div className={`products-carousel-controls ${className}`} style={{ display: "flex", gap: "0.65rem", flexShrink: 0 }}>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      {direction === "previous"
+        ? <polyline points="15 18 9 12 15 6" />
+        : <polyline points="9 18 15 12 9 6" />}
+    </svg>
+  );
+}
+
+function CarouselControls({ onPrevious, onNext, className = "" }) {
+  return (
+    <div className={`products-carousel-controls ${className}`}>
       <button
         type="button"
         onClick={onPrevious}
         aria-label="Previous software"
-        style={baseButtonStyle}
-        onMouseOver={e => applyHover(e.currentTarget)}
-        onMouseOut={e => clearHover(e.currentTarget)}
+        className="products-carousel-button"
       >
-        {"<"}
+        <Chevron direction="previous" />
       </button>
       <button
         type="button"
         onClick={onNext}
         aria-label="Next software"
-        style={baseButtonStyle}
-        onMouseOver={e => applyHover(e.currentTarget)}
-        onMouseOut={e => clearHover(e.currentTarget)}
+        className="products-carousel-button"
       >
-        {">"}
+        <Chevron direction="next" />
       </button>
     </div>
   );
@@ -192,7 +173,14 @@ export default function Products({ onContact }) {
   }, []);
 
   return (
-    <section className="home-section products-section" style={{ background: "#f4f6fb", padding: "6rem 0" }}>
+    <section
+      className="home-section products-section"
+      style={{
+        backgroundColor: "#f4f6fb",
+        backgroundImage: "linear-gradient(135deg, #f8f9fd 0%, #eef1f8 100%)",
+        padding: "6rem 0",
+      }}
+    >
       <div className="content-wrap">
         <div className="products-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: "1.5rem", flexWrap: "wrap", marginBottom: "3rem" }}>
           <div style={{ maxWidth: 760 }}>
@@ -206,19 +194,12 @@ export default function Products({ onContact }) {
               {productsContent.intro}
             </p>
           </div>
-          {canSlide && (
-            <CarouselControls
-              className="products-carousel-controls-desktop"
-              onPrevious={showPrevious}
-              onNext={showNext}
-            />
-          )}
         </div>
 
         <div className="products-carousel-shell" style={{ position: "relative" }}>
           {canSlide && (
             <CarouselControls
-              className="products-carousel-controls-mobile"
+              className="products-carousel-controls-side"
               onPrevious={showPrevious}
               onNext={showNext}
             />
