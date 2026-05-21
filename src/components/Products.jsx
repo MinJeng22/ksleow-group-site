@@ -179,7 +179,6 @@ export default function Products({ onContact }) {
         position: "relative",
         overflow: "hidden",
         backgroundColor: "#f4f6fb",
-        backgroundImage: "linear-gradient(135deg, #f8f9fd 0%, #eef1f8 100%)",
         padding: "6rem 0",
       }}
     >

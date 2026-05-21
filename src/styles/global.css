@@ -74,6 +74,12 @@ body {
   transform: translateY(0);
 }
 
+.product-hero-mobile-topline,
+.product-hero-back-mobile,
+.product-hero-icon-mobile {
+  display: none !important;
+}
+
 /* ── Partners — visible ── */
 /* .partners-section { display: none !important; } */
 
@@ -117,6 +123,42 @@ body {
   .cloud-feature-grid { grid-template-columns: repeat(2, 1fr) !important; }
   /* Product hero: shrink body line-height on small tablet to save space */
   .product-hero-body { font-size: 0.94rem !important; line-height: 1.6 !important; }
+  .product-hero .content-wrap { position: relative !important; }
+  .product-hero-row { gap: 1rem !important; }
+  .product-hero-textgroup {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.95rem !important;
+  }
+  .product-hero-back-desktop,
+  .product-hero-icon-desktop {
+    display: none !important;
+  }
+  .product-hero-mobile-topline {
+    width: 100%;
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.95rem;
+  }
+  .product-hero-icon-mobile {
+    display: flex !important;
+    width: 60px !important;
+    height: 60px !important;
+    border-radius: 13px !important;
+  }
+  .product-hero-back-mobile {
+    display: inline-flex !important;
+    margin-bottom: 0 !important;
+    padding: 0.48rem 0.9rem !important;
+    font-size: 0.78rem !important;
+    background: rgba(255,255,255,0.14) !important;
+    border-color: rgba(255,255,255,0.24) !important;
+    color: rgba(255,255,255,0.9) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
 }
 
 /* ── Mobile (< 640) ── */
@@ -260,23 +302,7 @@ body {
   /* ── Product page hero (Sales2DO, AutoCount Accounting) — compact mobile layout ──
      Layout flips to vertical: icon sits at the TOP, then eyebrow + title + body
      + buttons stack below at full width (no longer indented next to the icon). */
-  .product-hero            { padding-top: 4.25rem !important; padding-bottom: 1.75rem !important; }
-  .product-hero .content-wrap { position: relative !important; }
-  .product-hero-back {
-    display: inline-flex !important;
-    position: absolute !important;
-    top: -3.1rem !important;
-    right: var(--px) !important;
-    z-index: 3 !important;
-    margin-bottom: 0 !important;
-    padding: 0.45rem 0.85rem !important;
-    font-size: 0.76rem !important;
-    background: rgba(255,255,255,0.14) !important;
-    border-color: rgba(255,255,255,0.24) !important;
-    color: rgba(255,255,255,0.88) !important;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
+  .product-hero            { padding-top: 1.75rem !important; padding-bottom: 1.75rem !important; }
   .product-hero-row        { gap: 1rem !important; }
   .product-hero-textgroup  {
     flex-direction: column !important;

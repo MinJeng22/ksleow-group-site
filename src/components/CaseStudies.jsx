@@ -92,12 +92,12 @@ function SupaprintzPartnerModal({ open, onClose }) {
         onClick={(event) => event.stopPropagation()}
         style={{
           position: "relative",
-          width: "min(760px, 100%)",
+          width: "min(560px, 100%)",
           maxHeight: "92vh",
-          borderRadius: 24,
+          borderRadius: 26,
           overflow: "hidden",
           background: "#ffffff",
-          boxShadow: "0 28px 90px rgba(0,0,0,0.34)",
+          boxShadow: "0 36px 100px rgba(10,11,24,0.36)",
           display: "flex",
           flexDirection: "column",
         }}

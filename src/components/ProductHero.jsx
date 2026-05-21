@@ -33,6 +33,22 @@ const DownloadIcon = () => (
   </svg>
 );
 
+function LogoChip({ iconSrc, iconAlt, className = "" }) {
+  if (!iconSrc) return null;
+  return (
+    <div className={`product-hero-icon ${className}`} style={{
+      width: 80, height: 80, borderRadius: 18,
+      background: "rgba(255,255,255,0.1)",
+      border: "1px solid rgba(255,255,255,0.15)",
+      display: "flex", alignItems: "center", justifyContent: "center",
+      flexShrink: 0, overflow: "hidden",
+    }}>
+      <Img src={iconSrc} alt={iconAlt} priority
+        style={{ width: "100%", height: "100%", objectFit: "contain", padding: 10 }} />
+    </div>
+  );
+}
+
 export default function ProductHero({
   eyebrow,
   title,
@@ -75,7 +91,7 @@ export default function ProductHero({
       <div className="content-wrap" style={{ position: "relative", zIndex: 1 }}>
         {/* Back button */}
         <button
-          className="product-hero-back"
+          className="product-hero-back product-hero-back-desktop"
           onClick={() => navigate("/")}
           style={{
             display: "inline-flex", alignItems: "center", gap: 6,
@@ -97,19 +113,26 @@ export default function ProductHero({
             display: "flex", alignItems: "flex-start", gap: "2rem",
             flex: 1, minWidth: 280,
           }}>
+            <div className="product-hero-mobile-topline">
+              <LogoChip iconSrc={iconSrc} iconAlt={iconAlt} className="product-hero-icon-mobile" />
+              <button
+                className="product-hero-back product-hero-back-mobile"
+                onClick={() => navigate("/")}
+                style={{
+                  display: "none", alignItems: "center", gap: 6,
+                  background: "rgba(255,255,255,0.1)",
+                  border: "1px solid rgba(255,255,255,0.2)",
+                  color: "rgba(255,255,255,0.75)",
+                  padding: "0.4rem 1rem", borderRadius: 50,
+                  fontSize: "0.8rem", cursor: "pointer", fontFamily: "inherit",
+                  transition: "background 0.2s",
+                }}
+                onMouseOver={e => e.currentTarget.style.background = "rgba(255,255,255,0.18)"}
+                onMouseOut ={e => e.currentTarget.style.background = "rgba(255,255,255,0.1)"}
+              >Back</button>
+            </div>
             {/* Logo chip (optional) */}
-            {iconSrc && (
-              <div className="product-hero-icon" style={{
-                width: 80, height: 80, borderRadius: 18,
-                background: "rgba(255,255,255,0.1)",
-                border: "1px solid rgba(255,255,255,0.15)",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                flexShrink: 0, overflow: "hidden",
-              }}>
-                <Img src={iconSrc} alt={iconAlt} priority
-                  style={{ width: "100%", height: "100%", objectFit: "contain", padding: 10 }} />
-              </div>
-            )}
+            <LogoChip iconSrc={iconSrc} iconAlt={iconAlt} className="product-hero-icon-desktop" />
 
             <div style={{ flex: 1, minWidth: 240 }}>
               {eyebrow && (

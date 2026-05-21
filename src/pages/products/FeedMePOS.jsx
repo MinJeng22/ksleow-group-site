@@ -145,7 +145,7 @@ export default function FeedMePOSPage() {
       <div className="product-hero" style={{ background: "#2f315a", paddingTop: "3rem", paddingBottom: "3rem" }}>
         <div className="content-wrap">
           <button
-            className="product-hero-back"
+            className="product-hero-back product-hero-back-desktop"
             onClick={() => navigate("/")}
             style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "rgba(255,255,255,0.75)", padding: "0.4rem 1rem", borderRadius: 50, fontSize: "0.8rem", cursor: "pointer", fontFamily: "inherit", marginBottom: "2rem", transition: "background 0.2s" }}
             onMouseOver={e => e.currentTarget.style.background = "rgba(255,255,255,0.18)"}
@@ -154,8 +154,20 @@ export default function FeedMePOSPage() {
 
           <div className="product-hero-row" style={{ display: "flex", alignItems: "center", gap: "2.5rem", flexWrap: "wrap" }}>
             <div className="product-hero-textgroup" style={{ display: "flex", alignItems: "flex-start", gap: "2rem", flex: 1, minWidth: 280 }}>
+              <div className="product-hero-mobile-topline">
+                <div className="product-hero-icon product-hero-icon-mobile" style={{ width: 80, height: 80, borderRadius: 18, background: "#ffffff", border: "1px solid rgba(255,255,255,0.15)", display: "none", alignItems: "center", justifyContent: "center", flexShrink: 0, overflow: "hidden" }}>
+                  <img src={FEEDME_LOGO} alt="FeedMe POS" style={{ width: "100%", height: "100%", objectFit: "contain", padding: 10 }} />
+                </div>
+                <button
+                  className="product-hero-back product-hero-back-mobile"
+                  onClick={() => navigate("/")}
+                  style={{ display: "none", alignItems: "center", gap: 6, background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "rgba(255,255,255,0.75)", padding: "0.4rem 1rem", borderRadius: 50, fontSize: "0.8rem", cursor: "pointer", fontFamily: "inherit", transition: "background 0.2s" }}
+                  onMouseOver={e => e.currentTarget.style.background = "rgba(255,255,255,0.18)"}
+                  onMouseOut ={e => e.currentTarget.style.background = "rgba(255,255,255,0.1)"}
+                >Back</button>
+              </div>
               {/* Logo chip */}
-              <div className="product-hero-icon" style={{ width: 80, height: 80, borderRadius: 18, background: "#ffffff", border: "1px solid rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, overflow: "hidden" }}>
+              <div className="product-hero-icon product-hero-icon-desktop" style={{ width: 80, height: 80, borderRadius: 18, background: "#ffffff", border: "1px solid rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, overflow: "hidden" }}>
                 <img src={FEEDME_LOGO} alt="FeedMe POS" style={{ width: "100%", height: "100%", objectFit: "contain", padding: 10 }} />
               </div>
 

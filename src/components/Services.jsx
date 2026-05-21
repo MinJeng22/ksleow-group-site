@@ -108,7 +108,7 @@ function ServiceCard({ service }) {
     .replace("Kampung Catin, 28400 ", "");
   const isWebinar = service.key === "webinar";
   const showBadge = !isWebinar && !service.hideBadge;
-  const frontBackgroundImage = service.backgroundImage || "/images/services/webinar-scene.svg";
+  const frontBackgroundImage = service.backgroundImage || "/images/services/webinar.jpg";
 
   useEffect(() => {
     const node = cardRef.current;
@@ -193,7 +193,7 @@ function ServiceCard({ service }) {
               }
             </div>
           )}
-          {isWebinar && <div style={{ height: "5.35rem", flexShrink: 0 }} />}
+          {isWebinar && <div style={{ height: "6.55rem", flexShrink: 0 }} />}
 
           <h3 style={{
             position: "relative", zIndex: 1,
