@@ -30,7 +30,7 @@ const SERVICES = (servicesContent.items || []).map(s => {
 /* ── Badge row — used for both Authorized Dealer and Certified By ── */
 function BadgeRow({ badge, onImage = false }) {
   /* Both labels use the same neutral grey (per design spec) */
-  const labelColor = onImage ? "rgba(255,255,255,0.78)" : "#6b6f91";
+  const labelColor = onImage ? "#ffffff" : "#6b6f91";
 
   /* Filter out logos whose src starts with /cert- (placeholders — hide until file exists) */
   const visibleLogos = badge.logos.filter(l => !l.src.startsWith("/cert-"));
@@ -186,7 +186,7 @@ function ServiceCard({ service }) {
           )}
 
           {showBadge && (
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "flex-start", marginBottom: "1rem" }}>
+            <div style={{ position: "relative", zIndex: 1, display: "flex", justifyContent: "center", alignItems: "flex-start", marginBottom: "1rem" }}>
               {(service.dealer || service.certified)
                 ? <BadgeRow badge={service.dealer || service.certified} onImage={hasFrontBackground} />
                 : <div />
@@ -209,7 +209,7 @@ function ServiceCard({ service }) {
           <p style={{
             position: "relative", zIndex: 1,
             fontSize: "0.83rem",
-            color: hasFrontBackground ? "rgba(255,255,255,0.84)" : "#6b6f91",
+            color: hasFrontBackground ? "#ffffff" : "#6b6f91",
             lineHeight: 1.6,
             margin: 0,
             /* Clamp to 4 lines max — paired with shorter descriptions in
