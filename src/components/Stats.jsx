@@ -77,6 +77,7 @@ export default function Stats() {
       >
         {items.map((s, i) => (
           <div
+            className="stats-item"
             key={i}
             style={{
               textAlign: "center",

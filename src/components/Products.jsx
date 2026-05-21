@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Img } from "./Media.jsx";
-import ParticleBackground from "./ParticleBackground";
 import productsContent from "../content/products.json";
 
 const PRODUCTS = (productsContent.items || []).map(p => ({
@@ -180,21 +179,10 @@ export default function Products({ onContact }) {
         position: "relative",
         overflow: "hidden",
         backgroundColor: "#f4f6fb",
+        backgroundImage: "linear-gradient(135deg, #f8f9fd 0%, #eef1f8 100%)",
         padding: "6rem 0",
       }}
     >
-      <ParticleBackground
-        paused={false}
-        backgroundStart="#f8f9fd"
-        backgroundEnd="#eef1f8"
-        lineRgb="47,49,90"
-        dotRgb="201,168,76"
-        highlightRgb="201,168,76"
-        vignetteEnd="rgba(47,49,90,0.08)"
-        densityScale={0.78}
-        lineAlphaScale={0.38}
-        dotAlpha={0.6}
-      />
       <div className="content-wrap" style={{ position: "relative", zIndex: 1 }}>
         <div className="products-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: "1.5rem", flexWrap: "wrap", marginBottom: "3rem" }}>
           <div style={{ maxWidth: 760 }}>

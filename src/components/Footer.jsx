@@ -76,7 +76,7 @@ const H4 = { fontSize: "0.7rem", fontWeight: 600, color: "#c9a84c", textTransfor
 export default function Footer() {
   return (
     <>
-      <footer style={{ background: "#1a1c35", paddingTop: "4.5rem", paddingBottom: "3rem" }}>
+      <footer style={{ background: "#1a1c35", paddingTop: "4.5rem", paddingBottom: "1.4rem" }}>
         <div className="content-wrap">
           <div className="footer-grid">
 
@@ -134,11 +134,10 @@ export default function Footer() {
             </div>
 
           </div>
-          <div style={{ borderTop: "0.5px solid rgba(255,255,255,0.08)", marginTop: "3rem" }} />
         </div>
       </footer>
 
-      <div style={{ background: "#13142a", padding: "1.1rem 0", textAlign: "center", fontSize: "0.75rem", color: "#55587a", lineHeight: 1.9 }}>
+      <div style={{ background: "#13142a", padding: "0.45rem 0 0.55rem", textAlign: "center", fontSize: "0.75rem", color: "#55587a", lineHeight: 1.55 }}>
         <div>© {new Date().getFullYear()} {footer.copyrightLine}</div>
         <div>{footer.locationLine}</div>
       </div>

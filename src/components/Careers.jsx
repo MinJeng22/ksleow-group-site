@@ -179,9 +179,9 @@ export default function Careers() {
               transition: "background 0.2s, color 0.2s, border-color 0.2s",
             }}
             onMouseOver={e => {
-              e.currentTarget.style.background = "#c9a84c";
-              e.currentTarget.style.borderColor = "#c9a84c";
-              e.currentTarget.style.color = "#1e2040";
+              e.currentTarget.style.background = "rgba(47,49,90,0.08)";
+              e.currentTarget.style.borderColor = "#2f315a";
+              e.currentTarget.style.color = "#2f315a";
             }}
             onMouseOut={e => {
               e.currentTarget.style.background = "transparent";

@@ -260,8 +260,23 @@ body {
   /* ── Product page hero (Sales2DO, AutoCount Accounting) — compact mobile layout ──
      Layout flips to vertical: icon sits at the TOP, then eyebrow + title + body
      + buttons stack below at full width (no longer indented next to the icon). */
-  .product-hero            { padding-top: 1.5rem !important; padding-bottom: 1.75rem !important; }
-  .product-hero-back       { display: none !important; }
+  .product-hero            { padding-top: 4.25rem !important; padding-bottom: 1.75rem !important; }
+  .product-hero .content-wrap { position: relative !important; }
+  .product-hero-back {
+    display: inline-flex !important;
+    position: absolute !important;
+    top: -3.1rem !important;
+    right: var(--px) !important;
+    z-index: 3 !important;
+    margin-bottom: 0 !important;
+    padding: 0.45rem 0.85rem !important;
+    font-size: 0.76rem !important;
+    background: rgba(255,255,255,0.14) !important;
+    border-color: rgba(255,255,255,0.24) !important;
+    color: rgba(255,255,255,0.88) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
   .product-hero-row        { gap: 1rem !important; }
   .product-hero-textgroup  {
     flex-direction: column !important;
@@ -279,6 +294,22 @@ body {
     font-size: 0.78rem !important;
     white-space: nowrap;
   }
+
+  .stats-grid .stats-item {
+    border-right: none !important;
+  }
+  .stats-grid .stats-item:nth-child(odd) {
+    border-right: 0.5px solid rgba(47,49,90,0.1) !important;
+  }
+}
+
+body.supaprintz-modal-open {
+  overflow: hidden;
+}
+
+body.supaprintz-modal-open nav,
+body.supaprintz-modal-open .back-to-top {
+  display: none !important;
 }
 
 /* ── Footer grid ── */

@@ -88,7 +88,7 @@ export default function ProductHero({
           }}
           onMouseOver={e => e.currentTarget.style.background = "rgba(255,255,255,0.18)"}
           onMouseOut ={e => e.currentTarget.style.background = "rgba(255,255,255,0.1)"}
-        >← Back</button>
+        >Back</button>
 
         <div className="product-hero-row" style={{
           display: "flex", alignItems: "center", gap: "2.5rem", flexWrap: "wrap",

@@ -87,7 +87,7 @@ export default function ParticleBackground({
     const canvas = canvasRef.current;
     if (!canvas) return;
     const s   = stateRef.current;
-    const ctx = canvas.getContext("2d", { alpha: false });
+    const ctx = canvas.getContext("2d", { alpha: true });
 
     /* ── Full canvas init (only when WIDTH changes or first run) ── */
     function initCanvas(W, H) {
@@ -312,7 +312,14 @@ export default function ParticleBackground({
   return (
     <canvas
       ref={canvasRef}
-      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block" }}
+      style={{
+        position: "absolute",
+        inset: 0,
+        width: "100%",
+        height: "100%",
+        display: "block",
+        background: `linear-gradient(135deg, ${backgroundStart} 0%, ${backgroundEnd} 100%)`,
+      }}
     />
   );
 }

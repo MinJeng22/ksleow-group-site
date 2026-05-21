@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Img } from "./Media.jsx";
 import { CASE_IMAGES } from "../assets/assets.js";
@@ -79,7 +79,7 @@ function SupaprintzPartnerModal({ open, onClose }) {
       style={{
         position: "fixed",
         inset: 0,
-        zIndex: 80,
+        zIndex: 1000,
         background: "rgba(0,0,0,0.68)",
         display: "flex",
         alignItems: "center",
@@ -91,11 +91,15 @@ function SupaprintzPartnerModal({ open, onClose }) {
         className="supaprintz-modal-shell"
         onClick={(event) => event.stopPropagation()}
         style={{
-          width: "min(560px, 100%)",
+          position: "relative",
+          width: "min(760px, 100%)",
+          maxHeight: "92vh",
           borderRadius: 24,
-          overflow: "clip",
+          overflow: "hidden",
           background: "#ffffff",
           boxShadow: "0 28px 90px rgba(0,0,0,0.34)",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         <style>{`
@@ -112,7 +116,8 @@ function SupaprintzPartnerModal({ open, onClose }) {
               margin: 0.35rem 0 !important;
             }
             .supaprintz-modal-banner-frame {
-              aspect-ratio: 16 / 9 !important;
+              aspect-ratio: 16 / 10 !important;
+              flex-shrink: 0 !important;
             }
             .supaprintz-modal-body {
               padding: 1.15rem !important;
@@ -190,9 +195,9 @@ function SupaprintzPartnerModal({ open, onClose }) {
           </button>
         </div>
 
-        <div className="supaprintz-modal-body" style={{ padding: "1.6rem 2rem 2rem" }}>
+        <div className="supaprintz-modal-body" style={{ padding: "1.6rem 2rem 2rem", overflowY: "auto", minHeight: 0 }}>
           <p style={{
-            color: SUPAPRINTZ_COLORS.orange,
+            color: SUPAPRINTZ_COLORS.navy,
             fontSize: "clamp(1.15rem, 4vw, 1.5rem)",
             lineHeight: 1.2,
             fontWeight: 800,
@@ -279,31 +284,19 @@ function SupaprintzPartnerModal({ open, onClose }) {
 
 export default function CaseStudies({ onContact }) {
   const navigate = useNavigate();
-
-  /* One-shot stagger when the grid scrolls into view. */
-  const [revealed, setRevealed] = useState(false);
   const [partnerOpen, setPartnerOpen] = useState(false);
-  const gridRef = useRef(null);
-  useEffect(() => {
-    const node = gridRef.current;
-    if (!node) return;
-    if (typeof IntersectionObserver === "undefined") { setRevealed(true); return; }
-    /* Replayable: toggle both ways so the card stagger plays every
-     * time the grid scrolls back into view. */
-    const io = new IntersectionObserver(
-      (entries) => entries.forEach((e) => setRevealed(e.isIntersecting)),
-      { threshold: 0.25 }
-    );
-    io.observe(node);
-    return () => io.disconnect();
-  }, []);
+
   useEffect(() => {
     if (!partnerOpen) return;
+    document.body.classList.add("supaprintz-modal-open");
     const onKeyDown = (event) => {
       if (event.key === "Escape") setPartnerOpen(false);
     };
     window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.classList.remove("supaprintz-modal-open");
+      window.removeEventListener("keydown", onKeyDown);
+    };
   }, [partnerOpen]);
 
   return (
@@ -331,7 +324,6 @@ export default function CaseStudies({ onContact }) {
 
       {/* 4-col desktop → 2-col tablet → 1-col mobile (matches Products grid) */}
       <div
-        ref={gridRef}
         className="cases-grid"
         style={{
           display: "grid",
@@ -358,10 +350,9 @@ export default function CaseStudies({ onContact }) {
                 background: isEmpty ? "rgba(47,49,90,0.02)" : "#ffffff",
                 border: `1px solid ${isEmpty ? "rgba(47,49,90,0.04)" : "rgba(47,49,90,0.1)"}`,
                 cursor: clickable ? "pointer" : "default",
-                /* Slide-up + fade, staggered left → right (150ms apart). */
-                opacity: revealed ? 1 : 0,
-                transform: revealed ? "translateY(0)" : "translateY(28px)",
-                transition: `opacity 0.65s cubic-bezier(0.4,0,0.2,1) ${i * 0.15}s, transform 0.65s cubic-bezier(0.4,0,0.2,1) ${i * 0.15}s, border-color 0.2s`,
+                opacity: 1,
+                transform: "none",
+                transition: "border-color 0.2s",
                 minHeight: isEmpty ? 200 : "auto",
               }}
               onMouseEnter={clickable ? e => e.currentTarget.style.borderColor = "rgba(201,168,76,0.5)" : undefined}

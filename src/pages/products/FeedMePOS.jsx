@@ -150,7 +150,7 @@ export default function FeedMePOSPage() {
             style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "rgba(255,255,255,0.75)", padding: "0.4rem 1rem", borderRadius: 50, fontSize: "0.8rem", cursor: "pointer", fontFamily: "inherit", marginBottom: "2rem", transition: "background 0.2s" }}
             onMouseOver={e => e.currentTarget.style.background = "rgba(255,255,255,0.18)"}
             onMouseOut ={e => e.currentTarget.style.background = "rgba(255,255,255,0.1)"}
-          >← Back</button>
+          >Back</button>
 
           <div className="product-hero-row" style={{ display: "flex", alignItems: "center", gap: "2.5rem", flexWrap: "wrap" }}>
             <div className="product-hero-textgroup" style={{ display: "flex", alignItems: "flex-start", gap: "2rem", flex: 1, minWidth: 280 }}>
