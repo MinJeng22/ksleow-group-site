@@ -180,7 +180,7 @@ function ServiceCard({ service }) {
               />
               <div
                 aria-hidden="true"
-                style={{ position: "absolute", inset: 1, borderRadius: 17, background: "rgba(0,0,0,0.48)" }}
+                style={{ position: "absolute", inset: 1, borderRadius: 17, background: "rgba(0,0,0,0.56)" }}
               />
             </>
           )}
@@ -230,7 +230,7 @@ function ServiceCard({ service }) {
             display: "inline-flex", alignItems: "center", gap: "0.35rem",
             marginTop: "0.6rem",
             alignSelf: "flex-end",
-            fontSize: "0.84rem", color: "#c9a84c", fontWeight: 700,
+            fontSize: "0.84rem", color: hasFrontBackground ? "#ffffff" : "#c9a84c", fontWeight: 700,
           }}>
             Tap for contact
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
