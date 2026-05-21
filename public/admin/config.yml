@@ -106,6 +106,8 @@ collections:
               - { name: key,        label: Internal key (no spaces, links to contact info), widget: string }
               - { name: title,      label: Card title,                   widget: string }
               - { name: desc,       label: Card description,             widget: text }
+              - { name: backgroundImage, label: Front background image (optional, used for Webinar card), widget: image, required: false }
+              - { name: hideBadge,   label: Hide badge/logo area on front, widget: boolean, default: false, required: false }
               - name: officeKey
                 label: "Office / Company shown on card back"
                 widget: select
@@ -121,11 +123,13 @@ collections:
                 options:
                   - { label: "Authorized Dealer (gold)", value: dealer }
                   - { label: "Certified By (grey)",      value: certified }
+                  - { label: "None / hidden",            value: none }
                 default: dealer
-              - { name: badgeLabel, label: Badge label text,             widget: string, default: "Authorized Dealer" }
+              - { name: badgeLabel, label: Badge label text,             widget: string, default: "Authorized Dealer", required: false }
               - name: logos
                 label: Badge logos
                 widget: list
+                required: false
                 fields:
                   - { name: src, label: Logo image, widget: image }
                   - { name: alt, label: Alt text,   widget: string }
@@ -142,7 +146,7 @@ collections:
           - { name: heading, label: Section heading, widget: string }
           - { name: intro,   label: Intro paragraph, widget: text }
           - name: items
-            label: Product Cards
+            label: Product Cards (carousel shows 4 on desktop and 2 on mobile)
             widget: list
             min: 1
             fields:

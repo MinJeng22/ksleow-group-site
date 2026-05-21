@@ -107,21 +107,12 @@
       "key": "webinar",
       "title": "Webinar & Workshops",
       "desc": "Live webinars and on-demand training on accounting, tax, and business software.",
+      "backgroundImage": "/images/services/webinar-scene.svg",
+      "hideBadge": true,
       "officeKey": null,
-      "badgeType": "dealer",
-      "badgeLabel": "Authorized Dealer",
-      "logos": [
-        {
-          "src": "/cert-webinar-1.png",
-          "alt": "Partner 1",
-          "h": 60
-        },
-        {
-          "src": "/cert-webinar-2.png",
-          "alt": "Partner 2",
-          "h": 60
-        }
-      ]
+      "badgeType": "none",
+      "badgeLabel": "",
+      "logos": []
     }
   ]
 }

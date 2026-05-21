@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 540" role="img" aria-label="Webinar training scene">
+  <defs>
+    <linearGradient id="wall" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#cfe6f4"/>
+      <stop offset="0.52" stop-color="#8fb9d4"/>
+      <stop offset="1" stop-color="#28335c"/>
+    </linearGradient>
+    <linearGradient id="table" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#1f234a"/>
+      <stop offset="1" stop-color="#40477e"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="58%" cy="42%" r="54%">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.78"/>
+      <stop offset="0.34" stop-color="#d8ecf8" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#2f315a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="900" height="540" fill="url(#wall)"/>
+  <rect width="900" height="540" fill="url(#glow)"/>
+
+  <g opacity="0.24" stroke="#ffffff" stroke-width="2" fill="none">
+    <path d="M54 84h792M88 132h724M134 422h624"/>
+    <path d="M704 70l98 86-48 110M114 138l152 78-68 152"/>
+  </g>
+
+  <g transform="translate(470 72)">
+    <rect x="-178" y="0" width="356" height="220" rx="18" fill="#f7fbff" opacity="0.96"/>
+    <rect x="-154" y="26" width="308" height="168" rx="12" fill="#26305f"/>
+    <rect x="-132" y="48" width="108" height="86" rx="10" fill="#e9f6ff"/>
+    <circle cx="-78" cy="78" r="20" fill="#c9a84c"/>
+    <path d="M-118 134c18-25 63-25 81 0" fill="none" stroke="#c9a84c" stroke-width="11" stroke-linecap="round"/>
+    <path d="M8 60h112M8 92h92M8 124h122M8 156h70" stroke="#9ed2ef" stroke-width="12" stroke-linecap="round"/>
+    <path d="M-46 220h92l18 46h-128z" fill="#e7eef5"/>
+    <rect x="-104" y="260" width="208" height="14" rx="7" fill="#f7fbff"/>
+  </g>
+
+  <g transform="translate(116 352)">
+    <ellipse cx="0" cy="116" rx="166" ry="32" fill="#101326" opacity="0.2"/>
+    <rect x="-136" y="40" width="272" height="92" rx="18" fill="url(#table)"/>
+    <g fill="#f5f8ff">
+      <circle cx="-88" cy="0" r="28"/>
+      <circle cx="0" cy="-10" r="31"/>
+      <circle cx="92" cy="2" r="27"/>
+    </g>
+    <g fill="#2f315a">
+      <path d="M-134 88c7-46 84-46 92 0z"/>
+      <path d="M-48 82c8-52 88-52 96 0z"/>
+      <path d="M46 88c7-44 84-44 92 0z"/>
+    </g>
+  </g>
+
+  <g transform="translate(704 370)">
+    <ellipse cx="0" cy="110" rx="138" ry="28" fill="#101326" opacity="0.18"/>
+    <rect x="-120" y="20" width="240" height="96" rx="16" fill="url(#table)"/>
+    <rect x="-74" y="-14" width="148" height="84" rx="10" fill="#ffffff" opacity="0.9"/>
+    <rect x="-58" y="2" width="116" height="52" rx="6" fill="#2f315a"/>
+    <path d="M-42 20h84M-42 36h58" stroke="#8cc9ea" stroke-width="8" stroke-linecap="round"/>
+    <g fill="#f5f8ff">
+      <circle cx="-92" cy="-6" r="24"/>
+      <circle cx="96" cy="-6" r="24"/>
+    </g>
+    <g fill="#2f315a">
+      <path d="M-132 82c8-42 72-42 80 0z"/>
+      <path d="M56 82c8-42 72-42 80 0z"/>
+    </g>
+  </g>
+</svg>
