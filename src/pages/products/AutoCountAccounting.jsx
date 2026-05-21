@@ -724,21 +724,25 @@ export default function AutoCountAccountingPage({ onContact }) {
   const highlightCount = RELEASES.filter(r => r.highlightsUrl).length;
 
   return (
-    <div style={{ background: "#f5f5f8", minHeight: "100vh" }}>
+    <div className="pinned-hero-page" style={{ background: "#f5f5f8", minHeight: "100vh" }}>
 
       {/* Floating section sidebar — desktop only (≥1280px), hidden via media query otherwise */}
       <SectionSidebar items={AC_SIDEBAR_ITEMS} />
 
       {/* ── Hero banner — shared ProductHero component ── */}
-      <ProductHero
-        eyebrow="Software We Specialize In"
-        title="AutoCount Accounting 2.2"
-        body="Malaysia's leading SME accounting software — cloud-connected, SST & e-Invoice compliant, and deeply integrated with AutoCount POS and Payroll. As an authorized dealer, KSL Business Solutions provides full installation, configuration, training, and ongoing support."
-        iconSrc={PRODUCT_IMAGES.autocountAccountingIcon}
-        iconAlt="AutoCount Accounting"
-        primaryCta={{ label: "Start Free Trial", onClick: () => setTrialOpen(true) }}
-        secondaryCta={{ label: "WhatsApp Us", href: WA_LINK, target: "_blank" }}
-      />
+      <div className="pinned-hero-stage">
+        <ProductHero
+          eyebrow="Software We Specialize In"
+          title="AutoCount Accounting 2.2"
+          body="Malaysia's leading SME accounting software — cloud-connected, SST & e-Invoice compliant, and deeply integrated with AutoCount POS and Payroll. As an authorized dealer, KSL Business Solutions provides full installation, configuration, training, and ongoing support."
+          iconSrc={PRODUCT_IMAGES.autocountAccountingIcon}
+          iconAlt="AutoCount Accounting"
+          primaryCta={{ label: "Start Free Trial", onClick: () => setTrialOpen(true) }}
+          secondaryCta={{ label: "WhatsApp Us", href: WA_LINK, target: "_blank" }}
+        />
+      </div>
+
+      <main className="pinned-page-content">
 
       {/* ── Feature highlights ── */}
       <FeatureHighlights />
@@ -1132,6 +1136,7 @@ export default function AutoCountAccountingPage({ onContact }) {
       </div>
 
       <Footer />
+      </main>
 
       <AutoCountTrialModal open={trialOpen} onClose={() => setTrialOpen(false)} />
     </div>

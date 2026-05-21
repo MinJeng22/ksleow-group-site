@@ -161,18 +161,21 @@ export default function AutoCountPluginsPage() {
   }, [query, plugins]);
 
   return (
-    <div style={{ background: "#f5f5f8", minHeight: "100vh" }}>
-      <ProductHero
-        eyebrow={pluginContent.hero?.eyebrow}
-        title={pluginContent.hero?.title}
-        body={pluginContent.hero?.body}
-        iconSrc={acPluginIcon}
-        iconAlt="AutoCount Plugin"
-        primaryCta={{ label: pluginContent.hero?.primaryLabel || "Browse Plugins", href: "#plugin-library" }}
-        secondaryCta={{ label: pluginContent.hero?.secondaryLabel || "WhatsApp Support", href: SUPPORT_WA_LINK, target: "_blank" }}
-      />
+    <div className="pinned-hero-page" style={{ background: "#f5f5f8", minHeight: "100vh" }}>
+      <div className="pinned-hero-stage">
+        <ProductHero
+          eyebrow={pluginContent.hero?.eyebrow}
+          title={pluginContent.hero?.title}
+          body={pluginContent.hero?.body}
+          iconSrc={acPluginIcon}
+          iconAlt="AutoCount Plugin"
+          primaryCta={{ label: pluginContent.hero?.primaryLabel || "Browse Plugins", href: "#plugin-library" }}
+          secondaryCta={{ label: pluginContent.hero?.secondaryLabel || "WhatsApp Support", href: SUPPORT_WA_LINK, target: "_blank" }}
+        />
+      </div>
 
-      <main id="plugin-library" style={{ padding: "3.5rem 0 4.5rem" }}>
+      <main className="pinned-page-content">
+        <section id="plugin-library" style={{ padding: "3.5rem 0 4.5rem" }}>
         <div className="content-wrap">
           <div style={{
             display: "flex",
@@ -241,9 +244,10 @@ export default function AutoCountPluginsPage() {
             </div>
           )}
         </div>
-      </main>
+        </section>
 
-      <Footer />
+        <Footer />
+      </main>
     </div>
   );
 }

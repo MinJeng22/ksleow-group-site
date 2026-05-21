@@ -511,20 +511,23 @@ export default function AutoCountCloudAccountingPage() {
   const highlightCount = RELEASES.filter((release) => release.highlights?.length > 0).length;
 
   return (
-    <div style={{ background: "#f5f5f8", minHeight: "100vh" }}>
+    <div className="pinned-hero-page" style={{ background: "#f5f5f8", minHeight: "100vh" }}>
       <SectionSidebar items={SIDEBAR_ITEMS} />
 
-      <ProductHero
-        eyebrow="Cloud Accounting"
-        title="AutoCount CloudAccounting"
-        body="A secure browser-based accounting platform for Malaysian SMEs that need e-Invoice compliance, real-time access, document capture, and bank-connected bookkeeping without maintaining an office server."
-        iconSrc="/images/products/cloudaccounting-icon.png"
-        iconAlt="AutoCount CloudAccounting"
-        backgroundImage="/images/products/autocount-accounting-hero.webp"
-        primaryCta={{ label: "Start Free Trial", href: FREE_TRIAL_URL, target: "_blank" }}
-        secondaryCta={{ label: "WhatsApp Us", href: WA_LINK, target: "_blank" }}
-      />
+      <div className="pinned-hero-stage">
+        <ProductHero
+          eyebrow="Cloud Accounting"
+          title="AutoCount CloudAccounting"
+          body="A secure browser-based accounting platform for Malaysian SMEs that need e-Invoice compliance, real-time access, document capture, and bank-connected bookkeeping without maintaining an office server."
+          iconSrc="/images/products/cloudaccounting-icon.png"
+          iconAlt="AutoCount CloudAccounting"
+          backgroundImage="/images/products/autocount-accounting-hero.webp"
+          primaryCta={{ label: "Start Free Trial", href: FREE_TRIAL_URL, target: "_blank" }}
+          secondaryCta={{ label: "WhatsApp Us", href: WA_LINK, target: "_blank" }}
+        />
+      </div>
 
+      <main className="pinned-page-content">
       <FeatureHighlights />
 
       <div id="training" ref={trainingRef} className="ac-section-tight" style={{ background: "#ffffff", padding: "4.5rem 0", borderBottom: "0.5px solid rgba(47,49,90,0.08)", scrollMarginTop: 24 }}>
@@ -767,6 +770,7 @@ export default function AutoCountCloudAccountingPage() {
       </div>
 
       <Footer />
+      </main>
     </div>
   );
 }

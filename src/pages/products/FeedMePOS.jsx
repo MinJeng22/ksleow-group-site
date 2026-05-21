@@ -137,13 +137,14 @@ export default function FeedMePOSPage() {
   useEffect(() => { window.scrollTo({ top: 0, behavior: "instant" }); }, []);
 
   return (
-    <div style={{ background: "#f5f5f8", minHeight: "100vh" }}>
+    <div className="pinned-hero-page" style={{ background: "#f5f5f8", minHeight: "100vh" }}>
 
       <SectionSidebar items={SIDEBAR_ITEMS} />
 
       {/* ── Hero ── */}
-      <div className="product-hero" style={{ background: "#2f315a", paddingTop: "3rem", paddingBottom: "3rem" }}>
-        <div className="content-wrap">
+      <div className="pinned-hero-stage">
+        <div className="product-hero" style={{ background: "#2f315a", paddingTop: "3rem", paddingBottom: "3rem" }}>
+          <div className="content-wrap">
           <button
             className="product-hero-back product-hero-back-desktop"
             onClick={() => navigate("/")}
@@ -210,9 +211,11 @@ export default function FeedMePOSPage() {
               <img src={HERO_PHOTO} alt="FeedMe POS in use at a restaurant" style={{ width: "100%", height: "auto", display: "block" }} />
             </div>
           </div>
+          </div>
         </div>
       </div>
 
+      <main className="pinned-page-content">
       {/* ── Key Features ── */}
       <div id="features" style={{ background: "#ffffff", ...S.section, scrollMarginTop: 24 }}>
         <div className="content-wrap">
@@ -395,6 +398,7 @@ export default function FeedMePOSPage() {
       </div>
 
       <Footer />
+      </main>
     </div>
   );
 }

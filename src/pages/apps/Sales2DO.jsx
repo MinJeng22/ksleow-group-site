@@ -553,20 +553,24 @@ export default function Sales2DOPage({ onContact }) {
   } = sales2doContent;
 
   return (
-    <div style={{ background: "#f5f5f8", minHeight: "100vh" }}>
+    <div className="pinned-hero-page" style={{ background: "#f5f5f8", minHeight: "100vh" }}>
 
       <SectionSidebar items={S2D_SIDEBAR_ITEMS} />
 
       {/* ── Hero banner — shared ProductHero component (same look as AutoCount) ── */}
-      <ProductHero
-        eyebrow={hero.eyebrow}
-        title={hero.title}
-        body={hero.body}
-        iconSrc={hero.iconSrc || acPluginIcon}
-        iconAlt={hero.iconAlt}
-        primaryCta={{ label: hero.primaryLabel, href: hero.primaryHref, download: hero.primaryHref?.split("/").pop() }}
-        secondaryCta={{ label: hero.secondaryLabel, href: WA_LINK, target: "_blank" }}
-      />
+      <div className="pinned-hero-stage">
+        <ProductHero
+          eyebrow={hero.eyebrow}
+          title={hero.title}
+          body={hero.body}
+          iconSrc={hero.iconSrc || acPluginIcon}
+          iconAlt={hero.iconAlt}
+          primaryCta={{ label: hero.primaryLabel, href: hero.primaryHref, download: hero.primaryHref?.split("/").pop() }}
+          secondaryCta={{ label: hero.secondaryLabel, href: WA_LINK, target: "_blank" }}
+        />
+      </div>
+
+      <main className="pinned-page-content">
 
       {/* ── Overview + Video Guide ── */}
       <div id="overview" style={{ background: "#fff", ...S.section, scrollMarginTop: 24 }}>
@@ -738,6 +742,7 @@ export default function Sales2DOPage({ onContact }) {
       </div>
 
       <Footer />
+      </main>
       <AIChatbot app="Sales2DO" />
     </div>
   );
