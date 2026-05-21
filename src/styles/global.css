@@ -222,6 +222,9 @@ body {
   .release-card-actions > a,
   .release-card-actions > button,
   .release-card-actions > span {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     min-height: 26px !important;
     padding: 0.22rem 0.58rem !important;
     font-size: 0.58rem !important;

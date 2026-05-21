@@ -178,7 +178,7 @@ export default function Products({ onContact }) {
       style={{
         position: "relative",
         overflow: "hidden",
-        backgroundColor: "#f4f6fb",
+        backgroundColor: "#dfe2ec",
         padding: "6rem 0",
       }}
     >

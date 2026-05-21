@@ -459,9 +459,10 @@ export default function Services() {
           paused={false}
           backgroundStart="#ffffff"
           backgroundEnd="#ffffff"
-          lineRgb="178,184,202"
-          dotRgb="150,157,178"
-          highlightRgb="130,137,158"
+          lineRgb="201,168,76"
+          dotRgb="201,168,76"
+          highlightRgb="232,201,122"
+          dotOutlineRgb="138,106,24"
           vignetteEnd="rgba(47,49,90,0.025)"
           lineAlphaScale={0.42}
           dotAlpha={0.5}
