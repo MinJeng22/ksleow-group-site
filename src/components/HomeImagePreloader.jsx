@@ -25,6 +25,7 @@ export default function HomeImagePreloader() {
       warmImages([
         branding.footerLogo,
         branding.serviceCardBack,
+        ...(servicesContent.items || []).map(item => item.backgroundImage),
         ...(servicesContent.items || []).flatMap(item => (item.logos || []).map(logo => logo.src)),
         ...(productsContent.items || []).flatMap(item => [item.image, item.background]),
         ...(caseStudiesContent.items || []).map(item => item.image),

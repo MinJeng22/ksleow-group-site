@@ -28,9 +28,9 @@ const SERVICES = (servicesContent.items || []).map(s => {
 });
 
 /* ── Badge row — used for both Authorized Dealer and Certified By ── */
-function BadgeRow({ badge }) {
+function BadgeRow({ badge, onImage = false }) {
   /* Both labels use the same neutral grey (per design spec) */
-  const labelColor = "#6b6f91";
+  const labelColor = onImage ? "rgba(255,255,255,0.78)" : "#6b6f91";
 
   /* Filter out logos whose src starts with /cert- (placeholders — hide until file exists) */
   const visibleLogos = badge.logos.filter(l => !l.src.startsWith("/cert-"));
@@ -52,8 +52,8 @@ function BadgeRow({ badge }) {
               <div style={{
                 height: 36, width: 60,
                 borderRadius: 6,
-                background: "rgba(47,49,90,0.06)",
-                border: "1px dashed rgba(47,49,90,0.18)",
+                background: onImage ? "rgba(255,255,255,0.16)" : "rgba(47,49,90,0.06)",
+                border: `1px dashed ${onImage ? "rgba(255,255,255,0.34)" : "rgba(47,49,90,0.18)"}`,
                 display: "flex", alignItems: "center", justifyContent: "center",
               }}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(47,49,90,0.3)" strokeWidth="1.5">
@@ -62,7 +62,7 @@ function BadgeRow({ badge }) {
                 </svg>
               </div>
               {i === 0 && (
-                <div style={{ width: 1, height: 44, background: "rgba(47,49,90,0.15)", margin: "0 0.6rem" }} />
+                <div style={{ width: 1, height: 44, background: onImage ? "rgba(255,255,255,0.28)" : "rgba(47,49,90,0.15)", margin: "0 0.6rem" }} />
               )}
             </div>
           ))
@@ -75,7 +75,7 @@ function BadgeRow({ badge }) {
                 fetchPriority="low"
                 style={{ height: logo.h, maxWidth: 160, objectFit: "contain" }} />
               {i < visibleLogos.length - 1 && (
-                <div style={{ width: 1, height: 44, background: "rgba(47,49,90,0.2)", margin: "0 0.7rem" }} />
+                <div style={{ width: 1, height: 44, background: onImage ? "rgba(255,255,255,0.3)" : "rgba(47,49,90,0.2)", margin: "0 0.7rem" }} />
               )}
             </div>
           ))
@@ -107,7 +107,8 @@ function ServiceCard({ service }) {
     .replace("Kampung Catin, 28400 ", "");
   const isWebinar = service.key === "webinar";
   const showBadge = !isWebinar && !service.hideBadge;
-  const frontBackgroundImage = service.backgroundImage || "/images/services/webinar.jpg";
+  const frontBackgroundImage = service.backgroundImage || "";
+  const hasFrontBackground = !!frontBackgroundImage;
 
   useEffect(() => {
     const node = cardRef.current;
@@ -164,7 +165,7 @@ function ServiceCard({ service }) {
           }}
         >
           {/* Top row — badge centered horizontally */}
-          {isWebinar && (
+          {hasFrontBackground && (
             <>
               <div
                 aria-hidden="true"
@@ -179,7 +180,7 @@ function ServiceCard({ service }) {
               />
               <div
                 aria-hidden="true"
-                style={{ position: "absolute", inset: 1, borderRadius: 17, background: "rgba(0,0,0,0.46)" }}
+                style={{ position: "absolute", inset: 1, borderRadius: 17, background: "rgba(0,0,0,0.48)" }}
               />
             </>
           )}
@@ -187,7 +188,7 @@ function ServiceCard({ service }) {
           {showBadge && (
             <div style={{ display: "flex", justifyContent: "center", alignItems: "flex-start", marginBottom: "1rem" }}>
               {(service.dealer || service.certified)
-                ? <BadgeRow badge={service.dealer || service.certified} />
+                ? <BadgeRow badge={service.dealer || service.certified} onImage={hasFrontBackground} />
                 : <div />
               }
             </div>
@@ -198,17 +199,17 @@ function ServiceCard({ service }) {
             position: "relative", zIndex: 1,
             fontSize: "clamp(1.18rem, 1.5vw, 1.38rem)",
             fontWeight: 800,
-            color: isWebinar ? "#ffffff" : "#2f315a",
+            color: hasFrontBackground ? "#ffffff" : "#2f315a",
             marginBottom: "0.6rem",
             lineHeight: 1.22,
-            textShadow: isWebinar ? "0 2px 14px rgba(0,0,0,0.36)" : "none",
+            textShadow: hasFrontBackground ? "0 2px 14px rgba(0,0,0,0.36)" : "none",
           }}>
             {service.title}
           </h3>
           <p style={{
             position: "relative", zIndex: 1,
             fontSize: "0.83rem",
-            color: isWebinar ? "rgba(255,255,255,0.84)" : "#6b6f91",
+            color: hasFrontBackground ? "rgba(255,255,255,0.84)" : "#6b6f91",
             lineHeight: 1.6,
             margin: 0,
             /* Clamp to 4 lines max — paired with shorter descriptions in

@@ -39,11 +39,11 @@ const MOUSE_R_SQ  = MOUSE_R * MOUSE_R;
 function rand(a, b) { return Math.random() * (b - a) + a; }
 
 /* Particle radius scales with screen width:
- * mobile (< 640px) → 2.35–4.1
+ * mobile (< 640px) → 1.55–2.8
  * tablet (640–1024) → 1.85–3.25
  * desktop (> 1024) → 1.55–2.85                         */
 function particleRadius(W) {
-  if (W < 640)  return rand(2.35, 4.1);
+  if (W < 640)  return rand(1.55, 2.8);
   if (W < 1024) return rand(1.85, 3.25);
   return rand(1.55, 2.85);
 }

@@ -106,7 +106,7 @@ collections:
               - { name: key,        label: Internal key (no spaces, links to contact info), widget: string }
               - { name: title,      label: Card title,                   widget: string }
               - { name: desc,       label: Card description,             widget: text }
-              - { name: backgroundImage, label: Front background image (optional, used for Webinar card), widget: image, required: false }
+              - { name: backgroundImage, label: Front card background image, widget: image, required: false }
               - { name: hideBadge,   label: Hide badge/logo area on front, widget: boolean, default: false, required: false }
               - name: officeKey
                 label: "Office / Company shown on card back"

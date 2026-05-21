@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Img } from "./Media.jsx";
-import ParticleBackground from "./ParticleBackground";
 import productsContent from "../content/products.json";
 
 const PRODUCTS = (productsContent.items || []).map(p => ({
@@ -183,19 +182,6 @@ export default function Products({ onContact }) {
         padding: "6rem 0",
       }}
     >
-      <ParticleBackground
-        paused={false}
-        backgroundStart="#dfe2ec"
-        backgroundEnd="#dfe2ec"
-        lineRgb="201,168,76"
-        dotRgb="201,168,76"
-        highlightRgb="232,201,122"
-        dotOutlineRgb="138,106,24"
-        vignetteEnd="rgba(47,49,90,0.025)"
-        densityScale={1.35}
-        lineAlphaScale={0.42}
-        dotAlpha={0.5}
-      />
       <div className="content-wrap" style={{ position: "relative", zIndex: 1 }}>
         <div className="products-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: "1.5rem", flexWrap: "wrap", marginBottom: "3rem" }}>
           <div style={{ maxWidth: 760 }}>
