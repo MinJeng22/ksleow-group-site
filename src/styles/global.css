@@ -498,22 +498,7 @@ body.supaprintz-modal-open .back-to-top {
 .products-section .products-carousel-shell::before,
 .products-section .products-carousel-shell::after {
   content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: calc(var(--products-edge-peek) + 2.25rem);
-  pointer-events: none;
-  z-index: 3;
-}
-
-.products-section .products-carousel-shell::before {
-  left: 0;
-  background: linear-gradient(90deg, #dfe2ec 0%, rgba(223,226,236,0.74) 42%, rgba(223,226,236,0) 100%);
-}
-
-.products-section .products-carousel-shell::after {
-  right: 0;
-  background: linear-gradient(270deg, #dfe2ec 0%, rgba(223,226,236,0.74) 42%, rgba(223,226,236,0) 100%);
+  display: none;
 }
 
 .products-section .products-grid-carousel {

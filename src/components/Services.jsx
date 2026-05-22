@@ -30,7 +30,7 @@ const SERVICES = (servicesContent.items || []).map(s => {
 /* ── Badge row — used for both Authorized Dealer and Certified By ── */
 function BadgeRow({ badge, onImage = false }) {
   /* Both labels use the same neutral grey (per design spec) */
-  const labelColor = onImage ? "#ffffff" : "#6b6f91";
+  const labelColor = onImage ? "#2f315a" : "#6b6f91";
 
   /* Filter out logos whose src starts with /cert- (placeholders — hide until file exists) */
   const visibleLogos = badge.logos.filter(l => !l.src.startsWith("/cert-"));
@@ -52,8 +52,8 @@ function BadgeRow({ badge, onImage = false }) {
               <div style={{
                 height: 36, width: 60,
                 borderRadius: 6,
-                background: onImage ? "rgba(255,255,255,0.16)" : "rgba(47,49,90,0.06)",
-                border: `1px dashed ${onImage ? "rgba(255,255,255,0.34)" : "rgba(47,49,90,0.18)"}`,
+                background: onImage ? "rgba(47,49,90,0.06)" : "rgba(47,49,90,0.06)",
+                border: `1px dashed ${onImage ? "rgba(47,49,90,0.18)" : "rgba(47,49,90,0.18)"}`,
                 display: "flex", alignItems: "center", justifyContent: "center",
               }}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(47,49,90,0.3)" strokeWidth="1.5">
@@ -62,7 +62,7 @@ function BadgeRow({ badge, onImage = false }) {
                 </svg>
               </div>
               {i === 0 && (
-                <div style={{ width: 1, height: 44, background: onImage ? "rgba(255,255,255,0.28)" : "rgba(47,49,90,0.15)", margin: "0 0.6rem" }} />
+                <div style={{ width: 1, height: 44, background: onImage ? "rgba(47,49,90,0.15)" : "rgba(47,49,90,0.15)", margin: "0 0.6rem" }} />
               )}
             </div>
           ))
@@ -75,7 +75,7 @@ function BadgeRow({ badge, onImage = false }) {
                 fetchPriority="low"
                 style={{ height: logo.h, maxWidth: 160, objectFit: "contain" }} />
               {i < visibleLogos.length - 1 && (
-                <div style={{ width: 1, height: 44, background: onImage ? "rgba(255,255,255,0.3)" : "rgba(47,49,90,0.2)", margin: "0 0.7rem" }} />
+                <div style={{ width: 1, height: 44, background: onImage ? "rgba(47,49,90,0.2)" : "rgba(47,49,90,0.2)", margin: "0 0.7rem" }} />
               )}
             </div>
           ))
@@ -180,7 +180,7 @@ function ServiceCard({ service }) {
               />
               <div
                 aria-hidden="true"
-                style={{ position: "absolute", inset: 1, borderRadius: 17, background: "rgba(0,0,0,0.56)" }}
+                style={{ position: "absolute", inset: 1, borderRadius: 17, background: "rgba(255,255,255,0.72)" }}
               />
             </>
           )}
@@ -197,18 +197,18 @@ function ServiceCard({ service }) {
             position: "relative", zIndex: 1,
             fontSize: "clamp(1.18rem, 1.5vw, 1.38rem)",
             fontWeight: 800,
-            color: hasFrontBackground ? "#ffffff" : "#2f315a",
+            color: "#2f315a",
             marginTop: "auto",
             marginBottom: "0.6rem",
             lineHeight: 1.22,
-            textShadow: hasFrontBackground ? "0 2px 14px rgba(0,0,0,0.36)" : "none",
+            textShadow: "none",
           }}>
             {service.title}
           </h3>
           <p style={{
             position: "relative", zIndex: 1,
             fontSize: "0.83rem",
-            color: hasFrontBackground ? "#ffffff" : "#6b6f91",
+            color: hasFrontBackground ? "#4f577f" : "#6b6f91",
             lineHeight: 1.6,
             margin: 0,
             /* Clamp to 4 lines max — paired with shorter descriptions in
@@ -227,7 +227,7 @@ function ServiceCard({ service }) {
             display: "inline-flex", alignItems: "center", gap: "0.35rem",
             marginTop: "0.6rem",
             alignSelf: "flex-end",
-            fontSize: "0.84rem", color: hasFrontBackground ? "#ffffff" : "#c9a84c", fontWeight: 700,
+            fontSize: "0.84rem", color: hasFrontBackground ? "#2f315a" : "#c9a84c", fontWeight: 700,
           }}>
             Tap for contact
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
@@ -452,6 +452,24 @@ export default function Services() {
         className="home-section"
         style={{ position: "relative", overflow: "hidden", background: "#ffffff", padding: "6rem 0" }}
       >
+        <div
+          aria-hidden="true"
+          className="services-bg-watermark"
+          style={{
+            position: "absolute",
+            left: 0,
+            top: "50%",
+            width: "clamp(420px, 42vw, 760px)",
+            aspectRatio: "1 / 1",
+            backgroundImage: "url(/images/branding/ks-services-watermark.png)",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "contain",
+            backgroundPosition: "left center",
+            opacity: 0.07,
+            transform: "translate(-18%, -52%)",
+            pointerEvents: "none",
+          }}
+        />
         <div className="content-wrap" style={{ position: "relative", zIndex: 1 }}>
           <div style={{ fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.75rem" }}>
             {servicesContent.eyebrow}
