@@ -24,6 +24,7 @@ function CountUp({ raw, duration = 1800 }) {
   const [value, setValue] = useState(0);
   const ref     = useRef(null);
   const rafRef  = useRef(null);
+  const playedRef = useRef(false);
 
   useEffect(() => {
     if (target === null) return;
@@ -32,6 +33,8 @@ function CountUp({ raw, duration = 1800 }) {
 
     const stop  = () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); rafRef.current = null; };
     const start = () => {
+      if (playedRef.current) return;
+      playedRef.current = true;
       stop();
       const startTime = performance.now();
       const tick = (now) => {
@@ -48,8 +51,10 @@ function CountUp({ raw, duration = 1800 }) {
 
     const io = new IntersectionObserver((entries) => {
       entries.forEach((e) => {
-        if (e.isIntersecting) start();
-        else { stop(); setValue(0); }   // reset so re-entry counts fresh
+        if (e.isIntersecting) {
+          start();
+          io.disconnect();
+        }
       });
     }, { threshold: 0.25 });
     io.observe(node);

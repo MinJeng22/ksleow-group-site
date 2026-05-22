@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Footer from "../../components/Footer";
 import SectionSidebar from "../../components/SectionSidebar.jsx";
 import ProductHero from "../../components/ProductHero.jsx";
+import ParticleBackground from "../../components/ParticleBackground.jsx";
 import { Vid, Img } from "../../components/Media.jsx";
 /* Sales2DO-specific WhatsApp link — addressed to KSL Support Team with a product-aware message */
 const WA_LINK = `https://wa.me/60179052323?text=${encodeURIComponent(
@@ -727,10 +728,23 @@ export default function Sales2DOPage({ onContact }) {
       </div>
 
       {/* ── CTA ── */}
-      <div style={{ background: "#2f315a", padding: "4rem 0" }}>
-        <div className="content-wrap" style={{ textAlign: "center" }}>
-          <h2 style={{ fontSize: "clamp(1.4rem, 2.5vw, 2rem)", fontWeight: 700, color: "#fff", marginBottom: "0.75rem" }}>{cta.heading}</h2>
-          <p style={{ fontSize: "0.95rem", color: "rgba(255,255,255,0.6)", maxWidth: 480, margin: "0 auto 1.75rem" }}>
+      <div style={{ position: "relative", overflow: "hidden", background: "#f4f6fb", padding: "4rem 0", borderTop: "0.5px solid rgba(47,49,90,0.1)" }}>
+        <ParticleBackground
+          paused={false}
+          backgroundStart="#f8f9fd"
+          backgroundEnd="#eef1f8"
+          lineRgb="47,49,90"
+          dotRgb="201,168,76"
+          highlightRgb="201,168,76"
+          vignetteEnd="rgba(47,49,90,0.08)"
+          densityScale={0.78}
+          mobileDensityScale={1.45}
+          lineAlphaScale={0.38}
+          dotAlpha={0.6}
+        />
+        <div className="content-wrap" style={{ position: "relative", zIndex: 1, textAlign: "center" }}>
+          <h2 style={{ fontSize: "clamp(1.4rem, 2.5vw, 2rem)", fontWeight: 700, color: "#2f315a", marginBottom: "0.75rem" }}>{cta.heading}</h2>
+          <p style={{ fontSize: "0.95rem", color: "#6b6f91", maxWidth: 480, margin: "0 auto 1.75rem" }}>
             {cta.body}
           </p>
           <a href={WA_LINK} target="_blank" rel="noreferrer"

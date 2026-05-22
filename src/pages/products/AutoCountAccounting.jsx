@@ -4,6 +4,7 @@ import Footer from "../../components/Footer";
 import SectionSidebar from "../../components/SectionSidebar.jsx";
 import ProductHero from "../../components/ProductHero.jsx";
 import AutoCountTrialModal from "../../components/AutoCountTrialModal.jsx";
+import ParticleBackground from "../../components/ParticleBackground.jsx";
 import { Img } from "../../components/Media.jsx";
 import autocountReleases from "../../content/autocountReleases.json";
 /* AutoCount Accounting page — product-aware WhatsApp link to KSL Support Team */
@@ -1116,12 +1117,25 @@ export default function AutoCountAccountingPage({ onContact }) {
       </div>
 
       {/* CTA band */}
-      <div style={{ background: "#2f315a", padding: "4rem 0" }}>
-        <div className="content-wrap" style={{ textAlign: "center" }}>
-          <h2 style={{ fontSize: "clamp(1.4rem, 2.5vw, 2rem)", fontWeight: 700, color: "#ffffff", marginBottom: "0.75rem" }}>
+      <div style={{ position: "relative", overflow: "hidden", background: "#f4f6fb", padding: "4rem 0", borderTop: "0.5px solid rgba(47,49,90,0.1)" }}>
+        <ParticleBackground
+          paused={false}
+          backgroundStart="#f8f9fd"
+          backgroundEnd="#eef1f8"
+          lineRgb="47,49,90"
+          dotRgb="201,168,76"
+          highlightRgb="201,168,76"
+          vignetteEnd="rgba(47,49,90,0.08)"
+          densityScale={0.78}
+          mobileDensityScale={1.45}
+          lineAlphaScale={0.38}
+          dotAlpha={0.6}
+        />
+        <div className="content-wrap" style={{ position: "relative", zIndex: 1, textAlign: "center" }}>
+          <h2 style={{ fontSize: "clamp(1.4rem, 2.5vw, 2rem)", fontWeight: 700, color: "#2f315a", marginBottom: "0.75rem" }}>
             Ready to get started with AutoCount?
           </h2>
-          <p style={{ fontSize: "0.95rem", color: "rgba(255,255,255,0.6)", maxWidth: 480, margin: "0 auto 1.75rem" }}>
+          <p style={{ fontSize: "0.95rem", color: "#6b6f91", maxWidth: 480, margin: "0 auto 1.75rem" }}>
             KSL Business Solutions provides full AutoCount implementation,
             training, and support across Pahang.
           </p>
