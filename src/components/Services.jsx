@@ -28,6 +28,21 @@ const SERVICES = (servicesContent.items || []).map(s => {
 });
 
 /* ── Badge row — used for both Authorized Dealer and Certified By ── */
+const SERVICE_GALLERY_IMAGES = [
+  "/images/services/taxation-bg.webp",
+  "/images/services/webinar.jpg",
+  "/images/services/hardware-bg.webp",
+  "/images/services/software-training-bg.webp",
+  "/images/services/auditing-bg.webp",
+  "/images/services/taxation-bg.webp",
+  "/images/services/webinar.jpg",
+  "/images/services/software-training-bg.webp",
+  "/images/services/hardware-bg.webp",
+  "/images/services/auditing-bg.webp",
+  "/images/services/webinar.jpg",
+  "/images/services/taxation-bg.webp",
+];
+
 function BadgeRow({ badge, onImage = false }) {
   /* Both labels use the same neutral grey (per design spec) */
   const labelColor = onImage ? "#2f315a" : "#6b6f91";
@@ -425,7 +440,43 @@ function ContactLine({ icon, label }) {
 export default function Services() {
   return (
     <>
-      <style>{`@keyframes cardFlip { from { opacity: 0; } to { opacity: 1; } }`}</style>
+      <style>{`
+        @keyframes cardFlip { from { opacity: 0; } to { opacity: 1; } }
+        .services-photo-wall {
+          position: absolute;
+          inset: -1.25rem;
+          display: grid;
+          grid-template-columns: repeat(6, minmax(150px, 1fr));
+          grid-auto-rows: 150px;
+          gap: 0.65rem;
+          opacity: 0.3;
+          transform: rotate(-1.4deg) scale(1.05);
+          transform-origin: center;
+          pointer-events: none;
+        }
+        .services-photo-tile {
+          background-size: cover;
+          background-position: center;
+          border: 1px solid rgba(255,255,255,0.65);
+          box-shadow: 0 10px 28px rgba(47,49,90,0.12);
+          filter: saturate(0.9) contrast(0.95);
+        }
+        @media (max-width: 900px) {
+          .services-photo-wall {
+            grid-template-columns: repeat(4, minmax(120px, 1fr));
+            grid-auto-rows: 130px;
+            opacity: 0.24;
+          }
+        }
+        @media (max-width: 540px) {
+          .services-photo-wall {
+            grid-template-columns: repeat(3, minmax(110px, 1fr));
+            grid-auto-rows: 118px;
+            gap: 0.45rem;
+            opacity: 0.2;
+          }
+        }
+      `}</style>
       <section
         id="services"
         className="home-section"
@@ -433,22 +484,22 @@ export default function Services() {
       >
         <div
           aria-hidden="true"
-          style={{
-            position: "absolute",
-            inset: 0,
-            backgroundImage: "url(/images/branding/service-card-back.webp)",
-            backgroundSize: "cover",
-            backgroundPosition: "left center",
-            opacity: 0.34,
-            pointerEvents: "none",
-          }}
-        />
+          className="services-photo-wall"
+        >
+          {SERVICE_GALLERY_IMAGES.map((src, i) => (
+            <div
+              key={`${src}-${i}`}
+              className="services-photo-tile"
+              style={{ backgroundImage: `url(${src})` }}
+            />
+          ))}
+        </div>
         <div
           aria-hidden="true"
           style={{
             position: "absolute",
             inset: 0,
-            background: "rgba(255,255,255,0.58)",
+            background: "rgba(255,255,255,0.68)",
             pointerEvents: "none",
           }}
         />
