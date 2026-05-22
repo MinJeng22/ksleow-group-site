@@ -48,30 +48,31 @@ function buildPath(width, height, variant) {
         ])
     : mobile
     ? [
-        { x: -0.08 * width, y: 0.2 * height },
-        { x: 0.08 * width, y: 0.28 * height },
-        { x: 0.22 * width, y: 0.54 * height },
-        { x: 0.36 * width, y: 0.42 * height },
-        { x: 0.52 * width, y: 0.58 * height },
-        { x: 0.7 * width, y: 0.44 * height },
-        { x: 0.88 * width, y: 0.64 * height },
-        { x: 1.08 * width, y: 0.78 * height },
+        { x: -0.08 * width, y: 0.28 * height },
+        { x: 0.06 * width, y: 0.24 * height },
+        { x: 0.18 * width, y: 0.42 * height },
+        { x: 0.13 * width, y: 0.68 * height },
+        { x: 0.3 * width, y: 0.54 * height },
+        { x: 0.48 * width, y: 0.42 * height },
+        { x: 0.68 * width, y: 0.62 * height },
+        { x: 0.88 * width, y: 0.52 * height },
+        { x: 1.08 * width, y: 0.74 * height },
       ]
     : [
-        // Optimized Services curve: cleaner, smoother and less chaotic.
-        // Shape: left entry → soft dip → lifted middle wave → gentle right hook.
-        { x: -0.08 * width, y: 0.2 * height },
-        { x: 0.06 * width, y: 0.22 * height },
-        { x: 0.16 * width, y: 0.52 * height },
-        { x: 0.28 * width, y: 0.38 * height },
-        { x: 0.42 * width, y: 0.46 * height },
-        { x: 0.5 * width, y: 0.68 * height },
-        { x: 0.6 * width, y: 0.36 * height },
-        { x: 0.74 * width, y: 0.48 * height },
-        { x: 0.82 * width, y: 0.66 * height },
-        { x: 0.94 * width, y: 0.58 * height },
-        { x: 0.98 * width, y: 0.76 * height },
-        { x: 1.08 * width, y: 0.78 * height },
+        // Optimized Services curve: one clear loop on the left, then fewer large smooth waves.
+        // Shape: left loop → long calm middle sweep → gentle right drop.
+        { x: -0.08 * width, y: 0.28 * height },
+        { x: 0.04 * width, y: 0.22 * height },
+        { x: 0.17 * width, y: 0.36 * height },
+        { x: 0.12 * width, y: 0.68 * height },
+        { x: 0.25 * width, y: 0.58 * height },
+        { x: 0.34 * width, y: 0.36 * height },
+        { x: 0.48 * width, y: 0.42 * height },
+        { x: 0.58 * width, y: 0.66 * height },
+        { x: 0.7 * width, y: 0.44 * height },
+        { x: 0.84 * width, y: 0.5 * height },
+        { x: 0.94 * width, y: 0.72 * height },
+        { x: 1.08 * width, y: 0.74 * height },
       ];
 
   const padded = [controls[0], ...controls, controls[controls.length - 1]];
@@ -181,6 +182,7 @@ export default function ServiceRibbonBackground({
     let rafId = 0;
     let scrollFrameId = 0;
     let isAnimating = false;
+    let lastScrollY = window.scrollY || window.pageYOffset || 0;
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     const draw = () => {
@@ -233,12 +235,21 @@ export default function ServiceRibbonBackground({
       if (!section) return;
 
       const rect = section.getBoundingClientRect();
+      const currentScrollY = window.scrollY || window.pageYOffset || 0;
+      const isScrollingUp = currentScrollY < lastScrollY;
+      lastScrollY = currentScrollY;
+
       const triggerLine = window.innerHeight * trigger;
       const travel = Math.max(rect.height * completeAt, 1);
-      const rawProgress = (triggerLine - rect.top) / travel;
 
-      // When scrolling back up, start retracting earlier instead of waiting until halfway.
-      targetProgress = clamp(rawProgress);
+      const drawProgress = (triggerLine - rect.top) / travel;
+
+      // When scrolling upward from below the Services section, rect.top can stay very negative,
+      // so drawProgress remains 1 until half of the section is visible.
+      // Use rect.bottom instead, so retract starts as soon as the section area touches the viewport.
+      const retractProgress = 1 - (rect.bottom / travel);
+
+      targetProgress = clamp(isScrollingUp ? retractProgress : drawProgress);
 
       if (motionQuery.matches) {
         progress = targetProgress;
