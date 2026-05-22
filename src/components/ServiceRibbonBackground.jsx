@@ -48,28 +48,29 @@ function buildPath(width, height, variant) {
         ])
     : mobile
     ? [
-        { x: -0.1 * width, y: 0.28 * height },
-        { x: 0.08 * width, y: 0.2 * height },
-        { x: 0.24 * width, y: 0.38 * height },
-        { x: 0.16 * width, y: 0.74 * height },
-        { x: 0.06 * width, y: 0.5 * height },
-        { x: 0.34 * width, y: 0.32 * height },
-        { x: 0.58 * width, y: 0.66 * height },
-        { x: 0.82 * width, y: 0.42 * height },
-        { x: 1.08 * width, y: 0.68 * height },
+        { x: -0.1 * width, y: 0.34 * height },
+        { x: 0.06 * width, y: 0.26 * height },
+        { x: 0.2 * width, y: 0.4 * height },
+        { x: 0.16 * width, y: 0.68 * height },
+        { x: 0.04 * width, y: 0.56 * height },
+        { x: 0.28 * width, y: 0.38 * height },
+        { x: 0.52 * width, y: 0.66 * height },
+        { x: 0.78 * width, y: 0.42 * height },
+        { x: 1.08 * width, y: 0.66 * height },
       ]
     : [
-        // Optimized Services curve: one clear large loop, then broad waves only.
-        // Shape: left loop → large middle wave → large right wave → calm exit.
-        { x: -0.1 * width, y: 0.28 * height },
-        { x: 0.08 * width, y: 0.18 * height },
-        { x: 0.24 * width, y: 0.34 * height },
-        { x: 0.18 * width, y: 0.76 * height },
-        { x: 0.06 * width, y: 0.48 * height },
-        { x: 0.28 * width, y: 0.26 * height },
-        { x: 0.46 * width, y: 0.66 * height },
-        { x: 0.64 * width, y: 0.34 * height },
-        { x: 0.82 * width, y: 0.7 * height },
+        // Optimized Services curve: softer loop + broad waves only.
+        // Shape: subtle teardrop loop on the left → large middle sweep → large right sweep.
+        { x: -0.1 * width, y: 0.34 * height },
+        { x: 0.04 * width, y: 0.26 * height },
+        { x: 0.18 * width, y: 0.36 * height },
+        { x: 0.16 * width, y: 0.66 * height },
+        { x: 0.04 * width, y: 0.56 * height },
+        { x: 0.2 * width, y: 0.38 * height },
+        { x: 0.38 * width, y: 0.3 * height },
+        { x: 0.54 * width, y: 0.68 * height },
+        { x: 0.72 * width, y: 0.38 * height },
+        { x: 0.9 * width, y: 0.7 * height },
         { x: 1.08 * width, y: 0.58 * height },
       ];
 
