@@ -208,7 +208,9 @@ export default function ServiceRibbonBackground({
         return;
       }
 
-      progress += delta * 0.28;
+      // Draw quickly when scrolling down, and retract even faster when scrolling back up.
+      const easing = delta < 0 ? 0.42 : 0.28;
+      progress += delta * easing;
       draw();
       rafId = requestAnimationFrame(tick);
     };
@@ -231,7 +233,10 @@ export default function ServiceRibbonBackground({
       const rect = section.getBoundingClientRect();
       const triggerLine = window.innerHeight * trigger;
       const travel = Math.max(rect.height * completeAt, 1);
-      targetProgress = clamp((triggerLine - rect.top) / travel);
+      const rawProgress = (triggerLine - rect.top) / travel;
+
+      // When scrolling back up, start retracting earlier instead of waiting until halfway.
+      targetProgress = clamp(rawProgress);
 
       if (motionQuery.matches) {
         progress = targetProgress;
