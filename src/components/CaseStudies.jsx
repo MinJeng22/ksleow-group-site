@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Img } from "./Media.jsx";
+import ServiceRibbonBackground from "./ServiceRibbonBackground.jsx";
 import { CASE_IMAGES } from "../assets/assets.js";
 import caseStudiesContent from "../content/caseStudies.json";
 
@@ -301,8 +302,9 @@ export default function CaseStudies({ onContact }) {
 
   return (
     <>
-    <section className="home-section" style={{ background: "#f5f5f8", padding: "6rem 0" }}>
-    <div className="content-wrap">
+    <section className="home-section" style={{ position: "relative", overflow: "hidden", background: "#f5f5f8", padding: "6rem 0" }}>
+    <ServiceRibbonBackground variant="continuation" completeAt={0.68} trigger={0.42} opacity={0.74} />
+    <div className="content-wrap" style={{ position: "relative", zIndex: 1 }}>
       {/* header */}
       <div style={{ marginBottom: "3rem" }}>
         <div style={{

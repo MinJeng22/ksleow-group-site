@@ -22,9 +22,28 @@ const catmullRom = (p0, p1, p2, p3, t) => {
   };
 };
 
-function buildPath(width, height) {
+function buildPath(width, height, variant) {
   const mobile = width < 640;
-  const controls = mobile
+  const controls = variant === "continuation"
+    ? (mobile
+      ? [
+          { x: 1.12 * width, y: 0.12 * height },
+          { x: 0.7 * width, y: 0.18 * height },
+          { x: 0.18 * width, y: 0.3 * height },
+          { x: 0.74 * width, y: 0.52 * height },
+          { x: 0.2 * width, y: 0.72 * height },
+          { x: 1.08 * width, y: 0.96 * height },
+        ]
+      : [
+          { x: 1.08 * width, y: 0.18 * height },
+          { x: 0.82 * width, y: 0.22 * height },
+          { x: 0.72 * width, y: 0.42 * height },
+          { x: 0.38 * width, y: 0.5 * height },
+          { x: 0.16 * width, y: 0.66 * height },
+          { x: 0.58 * width, y: 0.78 * height },
+          { x: 1.08 * width, y: 0.9 * height },
+        ])
+    : mobile
     ? [
         { x: -0.14 * width, y: 0.14 * height },
         { x: 0.14 * width, y: 0.29 * height },
@@ -34,14 +53,14 @@ function buildPath(width, height) {
         { x: 1.1 * width, y: 0.98 * height },
       ]
     : [
-        { x: -0.1 * width, y: 0.16 * height },
-        { x: 0.28 * width, y: 0.3 * height },
-        { x: 0.06 * width, y: 0.58 * height },
-        { x: 0.42 * width, y: 0.62 * height },
-        { x: 0.62 * width, y: 0.18 * height },
-        { x: 1.08 * width, y: 0.36 * height },
-        { x: 0.82 * width, y: 0.56 * height },
-        { x: 1.05 * width, y: 0.78 * height },
+        { x: -0.1 * width, y: 0.18 * height },
+        { x: 0.22 * width, y: 0.28 * height },
+        { x: 0.1 * width, y: 0.58 * height },
+        { x: 0.46 * width, y: 0.62 * height },
+        { x: 0.62 * width, y: 0.24 * height },
+        { x: 0.84 * width, y: 0.24 * height },
+        { x: 1.08 * width, y: 0.38 * height },
+        { x: 1.05 * width, y: 0.72 * height },
       ];
 
   const padded = [controls[0], ...controls, controls[controls.length - 1]];
@@ -98,7 +117,7 @@ function partialPoints(path, progress) {
   return result;
 }
 
-function drawPolyline(ctx, points, width, color, alpha, shadow = 0, offsetY = 0) {
+function drawPolyline(ctx, points, width, strokeStyle, shadowColor, shadow = 0, offsetY = 0) {
   if (points.length < 2) return;
 
   ctx.save();
@@ -110,14 +129,19 @@ function drawPolyline(ctx, points, width, color, alpha, shadow = 0, offsetY = 0)
   ctx.lineCap = "round";
   ctx.lineJoin = "round";
   ctx.lineWidth = width;
-  ctx.strokeStyle = `rgba(${color}, ${alpha})`;
-  ctx.shadowColor = `rgba(${color}, ${Math.min(alpha, 0.32)})`;
+  ctx.strokeStyle = strokeStyle;
+  ctx.shadowColor = shadowColor;
   ctx.shadowBlur = shadow;
   ctx.stroke();
   ctx.restore();
 }
 
-export default function ServiceRibbonBackground() {
+export default function ServiceRibbonBackground({
+  variant = "services",
+  completeAt = 0.58,
+  trigger = 0.38,
+  opacity = 0.78,
+}) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -129,7 +153,7 @@ export default function ServiceRibbonBackground() {
 
     let width = 0;
     let height = 0;
-    let path = buildPath(1, 1);
+    let path = buildPath(1, 1, variant);
     let targetProgress = 0;
     let progress = 0;
     let rafId = 0;
@@ -140,8 +164,8 @@ export default function ServiceRibbonBackground() {
       if (!section) return;
 
       const rect = section.getBoundingClientRect();
-      const triggerLine = window.innerHeight * 0.36;
-      const travel = Math.max(rect.height * 0.9, 1);
+      const triggerLine = window.innerHeight * trigger;
+      const travel = Math.max(rect.height * completeAt, 1);
       targetProgress = clamp((triggerLine - rect.top) / travel);
 
       if (motionQuery.matches) {
@@ -158,7 +182,7 @@ export default function ServiceRibbonBackground() {
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      path = buildPath(width, height);
+      path = buildPath(width, height, variant);
       updateProgress();
       draw();
     };
@@ -167,28 +191,29 @@ export default function ServiceRibbonBackground() {
       ctx.clearRect(0, 0, width, height);
 
       const visible = partialPoints(path, progress);
-      const strokeWidth = width < 640 ? 9 : 12;
-      const glowWidth = strokeWidth * 2.6;
-      const blue = "69, 90, 220";
-      const gold = "201, 168, 76";
+      const strokeWidth = width < 640 ? 17 : 26;
+      const glowWidth = strokeWidth * 2.45;
+      const softBlue = "rgba(67, 97, 238, 0.13)";
+      const outerBlue = "rgba(80, 111, 246, 0.18)";
+      const highlight = "rgba(255, 255, 255, 0.3)";
+      const gradient = ctx.createLinearGradient(0, 0, width, height);
+      gradient.addColorStop(0, "rgba(43, 76, 228, 0.96)");
+      gradient.addColorStop(0.42, "rgba(96, 128, 255, 0.94)");
+      gradient.addColorStop(1, "rgba(57, 123, 246, 0.9)");
 
-      drawPolyline(ctx, visible, glowWidth, blue, 0.1, 28);
-      drawPolyline(ctx, visible, strokeWidth + 5, blue, 0.18, 14);
-      drawPolyline(ctx, visible, strokeWidth, blue, 0.86, 0);
-
-      if (progress > 0.14) {
-        const accent = partialPoints(path, Math.max(0, progress - 0.08));
-        drawPolyline(ctx, accent, Math.max(3, strokeWidth * 0.34), gold, 0.34, 8, strokeWidth * 1.15);
-      }
+      drawPolyline(ctx, visible, glowWidth, softBlue, "rgba(67, 97, 238, 0.2)", 34);
+      drawPolyline(ctx, visible, strokeWidth + 7, outerBlue, "rgba(80, 111, 246, 0.16)", 18);
+      drawPolyline(ctx, visible, strokeWidth, gradient, "rgba(67, 97, 238, 0.24)", 4);
+      drawPolyline(ctx, visible, Math.max(2, strokeWidth * 0.1), highlight, "rgba(255,255,255,0.08)", 2, -strokeWidth * 0.08);
 
       const head = visible[visible.length - 1];
       if (head) {
         ctx.save();
         ctx.beginPath();
-        ctx.arc(head.x, head.y, strokeWidth * 0.55, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${blue}, 0.72)`;
-        ctx.shadowColor = `rgba(${blue}, 0.32)`;
-        ctx.shadowBlur = 18;
+        ctx.arc(head.x, head.y, strokeWidth * 0.44, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(255,255,255,0.82)";
+        ctx.shadowColor = "rgba(67, 97, 238, 0.38)";
+        ctx.shadowBlur = 22;
         ctx.fill();
         ctx.restore();
       }
@@ -233,7 +258,7 @@ export default function ServiceRibbonBackground() {
         width: "100%",
         height: "100%",
         pointerEvents: "none",
-        opacity: 0.72,
+        opacity,
         WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.4) 18%, #000 34%, #000 100%)",
         maskImage: "linear-gradient(to bottom, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.4) 18%, #000 34%, #000 100%)",
       }}
