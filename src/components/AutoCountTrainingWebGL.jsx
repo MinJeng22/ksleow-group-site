@@ -6,34 +6,41 @@ import { useGSAP } from '@gsap/react';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Using a generic open-source video for demonstration
+// generic test video
 const VIDEO_SRC = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
 
 export default function AutoCountTrainingWebGL() {
   const [webglError, setWebglError] = useState(false);
-
+  
   const containerRef = useRef(null);
   const canvasRef = useRef(null);
-  const textContainerRef = useRef(null);
-  const playBtnRef = useRef(null);
-  const videoRef = useRef(null);
-  
-  // Three.js instances
+  const rightTextRef = useRef(null);
+  const overlayRef = useRef(null);
+  const playWordRef = useRef(null);
+  const reelWordRef = useRef(null);
+  const playCircleRef = useRef(null);
+
   const sceneRef = useRef(null);
   const cameraRef = useRef(null);
   const rendererRef = useRef(null);
   const materialRef = useRef(null);
-  const meshRef = useRef(null);
-  
+
   useGSAP(() => {
-    // 1. Basic Three.js setup
+    if (webglError) return;
+
     const scene = new THREE.Scene();
     sceneRef.current = scene;
-    
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
-    camera.position.z = 10;
+
+    // Use an orthographic camera or perspective? 
+    // Perspective is needed for Z-axis distortion to look 3D.
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    // Position camera so that 1 Three.js unit = 1 pixel at z=0
+    // distance = (height / 2) / tan(FOV / 2)
+    const fovY = (camera.fov * Math.PI) / 180;
+    const cameraZ = (window.innerHeight / 2) / Math.tan(fovY / 2);
+    camera.position.z = cameraZ;
     cameraRef.current = camera;
-    
+
     let renderer;
     try {
       renderer = new THREE.WebGLRenderer({ canvas: canvasRef.current, alpha: true, antialias: true });
@@ -45,88 +52,122 @@ export default function AutoCountTrainingWebGL() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     rendererRef.current = renderer;
-    
-    // 2. Video setup
+
     const video = document.createElement('video');
     video.src = VIDEO_SRC;
     video.crossOrigin = 'anonymous';
     video.loop = true;
     video.muted = true;
     video.playsInline = true;
-    video.play().catch(() => { /* Autoplay might be blocked until interaction */ });
-    videoRef.current = video;
-    
+    video.play().catch(() => {});
+
     const texture = new THREE.VideoTexture(video);
     texture.minFilter = THREE.LinearFilter;
     texture.magFilter = THREE.LinearFilter;
     texture.format = THREE.RGBAFormat;
 
-    // Calculate plane dimensions to exactly fit the camera view
-    const vFov = (camera.fov * Math.PI) / 180;
-    const height = 2 * Math.tan(vFov / 2) * camera.position.z;
-    const width = height * camera.aspect;
-    
-    const geometry = new THREE.PlaneGeometry(width, height, 128, 64);
-    
-    // 3. Shader Material for Cloth Unfurling
+    // A 1x1 plane geometry. We will scale it in the vertex shader.
+    // High segment count for smooth wave distortion.
+    const geometry = new THREE.PlaneGeometry(1, 1, 128, 64);
+
     const material = new THREE.ShaderMaterial({
       uniforms: {
         uTexture: { value: texture },
-        uProgress: { value: 0.0 }, // 0: folded on the left, 1: fully flat
+        uProgress: { value: 0.0 },
         uTime: { value: 0.0 },
-        uResolution: { value: new THREE.Vector2(width, height) },
-        uMediaSize: { value: new THREE.Vector2(1920, 1080) } // Assuming standard 1080p
+        uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+        uMediaSize: { value: new THREE.Vector2(1920, 1080) },
+        uPlaneSizeInitial: { value: new THREE.Vector2(window.innerWidth * 0.4, window.innerHeight * 0.6) },
+        uPlaneSizeFinal: { value: new THREE.Vector2(window.innerWidth * 0.95, window.innerHeight * 0.9) }
       },
       vertexShader: `
         uniform float uProgress;
         uniform float uTime;
         uniform vec2 uResolution;
+        uniform vec2 uPlaneSizeInitial;
+        uniform vec2 uPlaneSizeFinal;
         varying vec2 vUv;
-        varying float vShading;
+        varying float vDistortion;
 
         void main() {
           vUv = uv;
-          vec3 pos = position; // Original flat position
+          vec3 pos = position; // Ranges from -0.5 to 0.5
           
-          float W = uResolution.x;
+          float initW = uPlaneSizeInitial.x;
+          float initH = uPlaneSizeInitial.y;
+          // Initial position: Left side, centered vertically
+          float initX = -uResolution.x * 0.5 + initW * 0.5 + uResolution.x * 0.08; // 8vw left margin
+          float initY = 0.0;
           
-          // Folded state (compressed into the left half of the screen)
-          // Maps vUv.x (0 to 1) directly to [-W/2, 0]
-          float foldedX = -W * 0.5 + vUv.x * (W * 0.5);
+          float finalW = uPlaneSizeFinal.x;
+          float finalH = uPlaneSizeFinal.y;
+          // Final position: Perfectly centered
+          float finalX = 0.0;
+          float finalY = 0.0;
           
-          float foldAmount = 1.0 - uProgress;
+          float currentW = mix(initW, finalW, uProgress);
+          float currentH = mix(initH, finalH, uProgress);
+          float currentX = mix(initX, finalX, uProgress);
+          float currentY = mix(initY, finalY, uProgress);
           
-          // Z-axis displacement for the cloth ripple effect
-          float ripples = sin(vUv.x * 30.0 - uTime * 2.5) * W * 0.03 * foldAmount * (vUv.x * 1.5 + 0.2);
+          // Apply scale and translation
+          pos.x *= currentW;
+          pos.y *= currentH;
+          pos.x += currentX;
+          pos.y += currentY;
           
-          // Slight X-axis bunching to make folds look tight
-          float bunching = cos(vUv.x * 30.0 - uTime * 2.5) * W * 0.005 * foldAmount;
+          // Lusion-style Distortion
+          // Peaks at uProgress = 0.5, 0 at 0.0 and 1.0
+          float waveIntensity = sin(uProgress * 3.14159);
           
-          // Overall large bend so the left edge curves away
-          float bend = sin(vUv.x * 3.14159) * W * 0.1 * foldAmount;
+          // Wave frequency and speed
+          float freq = vUv.x * 6.28 - uTime * 2.5;
+          
+          float bendZ = sin(freq) * uResolution.x * 0.08 * waveIntensity;
+          float bendY = cos(freq * 0.8) * uResolution.y * 0.05 * waveIntensity;
+          
+          pos.z += bendZ;
+          pos.y += bendY;
 
-          // Interpolate between the folded state and the flat fullscreen state
-          pos.x = mix(foldedX + bunching, pos.x, uProgress);
-          pos.z += ripples - bend;
-
-          // Fake shading derivative based on the ripples
-          vShading = cos(vUv.x * 30.0 - uTime * 2.5) * 0.15 * foldAmount;
+          // Pass distortion to fragment for fake lighting
+          vDistortion = cos(freq) * waveIntensity;
 
           gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
         }
       `,
       fragmentShader: `
         uniform sampler2D uTexture;
-        uniform vec2 uResolution;
         uniform vec2 uMediaSize;
+        uniform float uProgress;
+        uniform vec2 uPlaneSizeInitial;
+        uniform vec2 uPlaneSizeFinal;
         varying vec2 vUv;
-        varying float vShading;
+        varying float vDistortion;
+
+        // Signed Distance Field for Rounded Box
+        float roundedBoxSDF(vec2 CenterPosition, vec2 Size, float Radius) {
+          return length(max(abs(CenterPosition) - Size + Radius, 0.0)) - Radius;
+        }
 
         void main() {
-          // Object-fit: cover mapping
+          float currentW = mix(uPlaneSizeInitial.x, uPlaneSizeFinal.x, uProgress);
+          float currentH = mix(uPlaneSizeInitial.y, uPlaneSizeFinal.y, uProgress);
+          vec2 currentSize = vec2(currentW, currentH);
+          
+          float currentRadius = mix(24.0, 40.0, uProgress);
+          
+          // Map uv to pixel coordinates relative to center
+          vec2 pixelPos = (vUv - 0.5) * currentSize;
+          float dist = roundedBoxSDF(pixelPos, currentSize * 0.5, currentRadius);
+          
+          // Anti-aliased alpha
+          float alpha = smoothstep(0.5, -0.5, dist);
+          if (alpha <= 0.0) discard;
+
+          // Object-fit: cover
           vec2 ratio = vec2(
-            min((uResolution.x / uResolution.y) / (uMediaSize.x / uMediaSize.y), 1.0),
-            min((uResolution.y / uResolution.x) / (uMediaSize.y / uMediaSize.x), 1.0)
+            min((currentW / currentH) / (uMediaSize.x / uMediaSize.y), 1.0),
+            min((currentH / currentW) / (uMediaSize.y / uMediaSize.x), 1.0)
           );
           vec2 uv = vec2(
             vUv.x * ratio.x + (1.0 - ratio.x) * 0.5,
@@ -135,10 +176,15 @@ export default function AutoCountTrainingWebGL() {
 
           vec4 texColor = texture2D(uTexture, uv);
           
-          // Apply fake shading
-          vec3 finalColor = texColor.rgb + vec3(vShading);
+          // Add a blue/purple tint during transition to match the Lusion vibe
+          vec3 tint = vec3(0.4, 0.2, 0.9);
+          float tintStrength = sin(uProgress * 3.14159) * 0.5;
+          vec3 finalColor = mix(texColor.rgb, tint, tintStrength);
           
-          gl_FragColor = vec4(finalColor, 1.0);
+          // Add fake 3D shading
+          finalColor += vDistortion * 0.15;
+
+          gl_FragColor = vec4(finalColor, alpha);
         }
       `,
       side: THREE.DoubleSide,
@@ -148,79 +194,70 @@ export default function AutoCountTrainingWebGL() {
 
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
-    meshRef.current = mesh;
 
-    // 4. Animation Loop
     let time = 0;
-    let animationFrameId;
+    let raf;
     const render = () => {
       time += 0.01;
       if (materialRef.current) materialRef.current.uniforms.uTime.value = time;
       renderer.render(scene, camera);
-      animationFrameId = requestAnimationFrame(render);
+      raf = requestAnimationFrame(render);
     };
     render();
 
-    // 5. GSAP ScrollTrigger Sequence
+    // GSAP ScrollTrigger Sequence
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: containerRef.current,
         start: "top top",
-        end: "+=150%", // Pinned for 150vh
-        scrub: 1,      // Smooth scrub
+        end: "+=200%", // Pin for 200vh for a longer, smoother stretch
+        scrub: 1,
         pin: true,
       }
     });
 
-    // Unfurl WebGL cloth
+    // Animate WebGL Plane
     tl.to(material.uniforms.uProgress, {
       value: 1.0,
       ease: "power2.inOut",
       duration: 1
     }, 0);
 
-    // Fade out right text, moving up slightly
-    tl.to(textContainerRef.current, {
+    // Fade out Right Text
+    tl.to(rightTextRef.current, {
       opacity: 0,
-      y: -60,
-      ease: "power2.in",
-      duration: 0.6
+      x: 50,
+      ease: "power1.in",
+      duration: 0.4
     }, 0);
 
-    // Fade and scale in center PLAY button
-    tl.fromTo(playBtnRef.current, {
-      opacity: 0,
-      scale: 0.5
-    }, {
-      opacity: 1,
-      scale: 1,
-      ease: "back.out(1.5)",
-      duration: 0.4
-    }, 0.6);
+    // Fade in "PLAY" and "REEL"
+    tl.fromTo(playWordRef.current, { opacity: 0, x: -100 }, { opacity: 1, x: 0, ease: "power2.out", duration: 0.5 }, 0.5);
+    tl.fromTo(reelWordRef.current, { opacity: 0, x: 100 }, { opacity: 1, x: 0, ease: "power2.out", duration: 0.5 }, 0.5);
+    
+    // Scale in Center Circle
+    tl.fromTo(playCircleRef.current, { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, ease: "back.out(1.5)", duration: 0.5 }, 0.6);
 
-    // 6. Handle Window Resize
     const handleResize = () => {
       const iw = window.innerWidth;
       const ih = window.innerHeight;
       
       camera.aspect = iw / ih;
+      const fovY = (camera.fov * Math.PI) / 180;
+      camera.position.z = (ih / 2) / Math.tan(fovY / 2);
       camera.updateProjectionMatrix();
+      
       renderer.setSize(iw, ih);
       
-      const newVFov = (camera.fov * Math.PI) / 180;
-      const newH = 2 * Math.tan(newVFov / 2) * camera.position.z;
-      const newW = newH * camera.aspect;
-      
-      material.uniforms.uResolution.value.set(newW, newH);
-      
-      mesh.geometry.dispose();
-      mesh.geometry = new THREE.PlaneGeometry(newW, newH, 128, 64);
+      material.uniforms.uResolution.value.set(iw, ih);
+      material.uniforms.uPlaneSizeInitial.value.set(iw * 0.4, ih * 0.6);
+      material.uniforms.uPlaneSizeFinal.value.set(iw * 0.95, ih * 0.9);
     };
     window.addEventListener('resize', handleResize);
 
     return () => {
       window.removeEventListener('resize', handleResize);
-      cancelAnimationFrame(animationFrameId);
+      cancelAnimationFrame(raf);
       geometry.dispose();
       material.dispose();
       renderer.dispose();
@@ -232,66 +269,24 @@ export default function AutoCountTrainingWebGL() {
       <div className="ac-section-tight" style={{ background: "#ffffff", padding: "4.5rem 0", borderBottom: "0.5px solid rgba(47,49,90,0.08)", scrollMarginTop: 24 }}>
         <div className="content-wrap">
           <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
-            <div style={{
-              fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.12em",
-              textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.6rem",
-            }}>
+            <div style={{ fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.6rem" }}>
               Free Training
             </div>
-            <h2 style={{
-              fontSize: "clamp(1.5rem, 2.8vw, 2.2rem)", fontWeight: 700,
-              color: "#2f315a", lineHeight: 1.2, marginBottom: "0.9rem",
-            }}>
+            <h2 style={{ fontSize: "clamp(1.5rem, 2.8vw, 2.2rem)", fontWeight: 700, color: "#2f315a", lineHeight: 1.2, marginBottom: "0.9rem" }}>
               Learn AutoCount Accounting in Just 60 Minutes
             </h2>
-            <p style={{
-              fontSize: "0.95rem", color: "#6b6f91", lineHeight: 1.8,
-              maxWidth: 560, margin: "0 auto 1.5rem",
-            }}>
-              Skip the long manuals. AutoCount's 60-minute guide covers
-              everything you need to know to navigate AutoCount Accounting
-              with confidence — from basic setup to daily transactions.
+            <p style={{ fontSize: "0.95rem", color: "#6b6f91", lineHeight: 1.8, maxWidth: 560, margin: "0 auto 1.5rem" }}>
+              Skip the long manuals. AutoCount's 60-minute guide covers everything you need to know to navigate AutoCount Accounting with confidence.
             </p>
             <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", justifyContent: "center" }}>
-              <a
-                href="https://youtu.be/ztmg4hvro6U?si=hojFUhwFF0gOmzA8"
-                target="_blank" rel="noreferrer"
-                style={{
-                  display: "inline-flex", alignItems: "center", gap: "0.5rem",
-                  background: "#2f315a", color: "#ffffff",
-                  padding: "0.75rem 1.75rem", borderRadius: 50,
-                  fontSize: "0.88rem", fontWeight: 600,
-                  textDecoration: "none", transition: "background 0.2s",
-                }}
-                onMouseOver={e => e.currentTarget.style.background = "#3d4075"}
-                onMouseOut={e => e.currentTarget.style.background = "#2f315a"}
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21" /></svg>
+              <a href="https://youtu.be/ztmg4hvro6U" target="_blank" rel="noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", background: "#2f315a", color: "#ffffff", padding: "0.75rem 1.75rem", borderRadius: 50, fontSize: "0.88rem", fontWeight: 600, textDecoration: "none" }}>
                 Watch on YouTube
               </a>
-              <span style={{
-                display: "inline-flex", alignItems: "center",
-                fontSize: "0.82rem", color: "#a8abcc", fontWeight: 500,
-                padding: "0.75rem 1rem",
-              }}>
-                Free · 60 min · By AutoCount
-              </span>
             </div>
           </div>
-
-          <div style={{
-            borderRadius: 18, overflow: "hidden",
-            boxShadow: "0 20px 60px rgba(47,49,90,0.16)",
-            border: "1px solid rgba(47,49,90,0.08)",
-          }}>
+          <div style={{ borderRadius: 18, overflow: "hidden", boxShadow: "0 20px 60px rgba(47,49,90,0.16)", border: "1px solid rgba(47,49,90,0.08)" }}>
             <div style={{ paddingBottom: "56.25%", position: "relative", background: "#0f1128" }}>
-              <iframe
-                src="https://www.youtube.com/embed/ztmg4hvro6U"
-                title="Learn AutoCount Accounting in 60 Minutes"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: "none" }}
-              />
+              <iframe src="https://www.youtube.com/embed/ztmg4hvro6U" title="Training" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: "none" }} />
             </div>
           </div>
         </div>
@@ -300,102 +295,76 @@ export default function AutoCountTrainingWebGL() {
   }
 
   return (
-    <section ref={containerRef} style={{ position: "relative", width: "100%", height: "100vh", overflow: "hidden", background: "#f5f5f8" }}>
-      {/* Background container for the WebGL Canvas */}
+    <section ref={containerRef} style={{ position: "relative", width: "100%", height: "100vh", overflow: "hidden", background: "#f8f9fc" }}>
+      {/* 3D Canvas */}
       <div style={{ position: "absolute", inset: 0, zIndex: 1 }}>
         <canvas ref={canvasRef} style={{ display: "block" }} />
       </div>
 
-      {/* Initial state UI (Right side text) */}
+      {/* Initial State Text (Right Side) */}
       <div 
-        ref={textContainerRef}
+        ref={rightTextRef}
         style={{
-          position: "absolute",
-          top: "50%",
-          right: "0",
-          width: "50vw",
-          transform: "translateY(-50%)",
-          zIndex: 2,
-          padding: "0 6vw",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          pointerEvents: "none" // Allow clicks to pass through to canvas if needed
+          position: "absolute", top: "50%", right: "5vw", width: "40vw",
+          transform: "translateY(-50%)", zIndex: 2, pointerEvents: "auto",
+          display: "flex", flexDirection: "column", justifyContent: "center"
         }}
       >
-        <div style={{
-          fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.15em",
-          textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.8rem",
-        }}>
-          Free Training
-        </div>
-        <h2 style={{
-          fontSize: "clamp(2rem, 3.5vw, 3rem)", fontWeight: 800,
-          color: "#2f315a", lineHeight: 1.15, marginBottom: "1.2rem",
-        }}>
-          Learn AutoCount Accounting in Just 60 Minutes
+        <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.5rem)", fontWeight: 500, color: "#111", lineHeight: 1.3, marginBottom: "1.5rem" }}>
+          We combine design, motion, 3D, and development to create digital experiences that feel visually striking and technically seamless.
         </h2>
-        <p style={{
-          fontSize: "1.05rem", color: "#6b6f91", lineHeight: 1.7,
-          marginBottom: "2rem", maxWidth: "480px"
-        }}>
-          Skip the long manuals. AutoCount's 60-minute guide covers
-          everything you need to know to navigate AutoCount Accounting
-          with confidence — from basic setup to daily transactions.
-        </p>
-        <div style={{ pointerEvents: "auto", display: "flex", alignItems: "center", gap: "1rem" }}>
+        <div>
           <a
             href="https://youtu.be/ztmg4hvro6U?si=hojFUhwFF0gOmzA8"
             target="_blank" rel="noreferrer"
             style={{
-              display: "inline-flex", alignItems: "center", gap: "0.5rem",
-              background: "#2f315a", color: "#ffffff",
-              padding: "0.85rem 2rem", borderRadius: 50,
-              fontSize: "0.95rem", fontWeight: 700,
-              textDecoration: "none", transition: "background 0.2s",
+              display: "inline-flex", alignItems: "center", gap: "0.8rem",
+              background: "#ffffff", color: "#111", padding: "1rem 2rem", borderRadius: 50,
+              fontSize: "0.9rem", fontWeight: 700, textDecoration: "none",
+              boxShadow: "0 10px 30px rgba(0,0,0,0.05)", transition: "transform 0.2s"
             }}
-            onMouseOver={e => e.currentTarget.style.background = "#3d4075"}
-            onMouseOut={e => e.currentTarget.style.background = "#2f315a"}
+            onMouseOver={e => e.currentTarget.style.transform = "scale(1.05)"}
+            onMouseOut={e => e.currentTarget.style.transform = "scale(1)"}
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21" /></svg>
-            Watch on YouTube
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#111" }}></span>
+            FREE TRAINING
           </a>
-          <span style={{ fontSize: "0.85rem", color: "#a8abcc", fontWeight: 500 }}>
-            Free · 60 min
-          </span>
         </div>
       </div>
 
-      {/* Final State UI (Center Play Button) */}
+      {/* Final State Overlay (PLAY REEL) */}
       <div
-        ref={playBtnRef}
+        ref={overlayRef}
         style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          zIndex: 3,
-          opacity: 0,
-          pointerEvents: "auto"
+          position: "absolute", inset: 0, zIndex: 3, pointerEvents: "none",
+          display: "flex", alignItems: "center", justifyContent: "center", gap: "4vw"
         }}
       >
+        <div ref={playWordRef} style={{ fontSize: "12vw", fontWeight: 400, color: "#ffffff", letterSpacing: "0.02em", opacity: 0 }}>
+          PLAY
+        </div>
+        
         <a
+          ref={playCircleRef}
           href="https://youtu.be/ztmg4hvro6U?si=hojFUhwFF0gOmzA8"
           target="_blank" rel="noreferrer"
           style={{
-            display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-            width: "140px", height: "140px", borderRadius: "50%",
-            background: "rgba(47, 49, 90, 0.85)", backdropFilter: "blur(6px)",
-            color: "#ffffff", textDecoration: "none", transition: "transform 0.3s, background 0.3s"
+            display: "flex", alignItems: "center", justifyContent: "center",
+            width: "12vw", height: "12vw", borderRadius: "50%", background: "#ffffff",
+            pointerEvents: "auto", opacity: 0, transition: "transform 0.3s", flexShrink: 0,
+            boxShadow: "0 20px 40px rgba(0,0,0,0.15)"
           }}
-          onMouseOver={e => { e.currentTarget.style.transform = "scale(1.08)"; e.currentTarget.style.background = "rgba(47, 49, 90, 0.98)"; }}
-          onMouseOut={e => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.background = "rgba(47, 49, 90, 0.85)"; }}
+          onMouseOver={e => e.currentTarget.style.transform = "scale(1.1)"}
+          onMouseOut={e => e.currentTarget.style.transform = "scale(1)"}
         >
-          <svg width="36" height="36" viewBox="0 0 24 24" fill="white" style={{ marginBottom: "0.5rem" }}>
+          <svg width="3vw" height="3vw" viewBox="0 0 24 24" fill="#111" style={{ marginLeft: "0.5vw" }}>
             <polygon points="5,3 19,12 5,21" />
           </svg>
-          <span style={{ fontSize: "0.8rem", fontWeight: 800, letterSpacing: "0.1em" }}>WATCH NOW</span>
         </a>
+
+        <div ref={reelWordRef} style={{ fontSize: "12vw", fontWeight: 400, color: "#ffffff", letterSpacing: "0.02em", opacity: 0 }}>
+          REEL
+        </div>
       </div>
     </section>
   );
