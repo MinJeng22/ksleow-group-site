@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -11,37 +11,24 @@ const YOUTUBE_ID = 'ztmg4hvro6U';
  * Uses pure CSS transforms + GSAP (no WebGL) for maximum compatibility.
  *
  * Flow:
- *  1. Initial: small rounded video card on the left, text on the right.
- *  2. On scroll: text fades out, video card stretches to fill the viewport
- *     with a 3D perspective warp (CSS perspective + rotateY).
- *  3. Final: video fills screen, "PLAY" / "REEL" overlay fades in with a
- *     centered play button. Clicking plays the YouTube video inline.
+ *  1. Initial: small 16:9 rounded video card on the left, text on the right.
+ *  2. On scroll: text fades out, video card stretches with a 3D perspective warp.
+ *  3. Final: video expands to near-fullscreen with negative space on sides.
  */
 export default function AutoCountTrainingWebGL() {
   const sectionRef = useRef(null);
   const videoCardRef = useRef(null);
   const rightTextRef = useRef(null);
-  const playWordRef = useRef(null);
-  const reelWordRef = useRef(null);
-  const playCircleRef = useRef(null);
-  const iframeWrapRef = useRef(null);
 
-  const [isPlaying, setIsPlaying] = useState(false);
+
 
   useEffect(() => {
     const section = sectionRef.current;
     const videoCard = videoCardRef.current;
     const rightText = rightTextRef.current;
-    const playWord = playWordRef.current;
-    const reelWord = reelWordRef.current;
-    const playCircle = playCircleRef.current;
-    const iframeWrap = iframeWrapRef.current;
     if (!section || !videoCard || !rightText) return;
 
-    // Set initial states for overlay elements
-    gsap.set([playWord, reelWord], { opacity: 0, y: 40 });
-    gsap.set(playCircle, { opacity: 0, scale: 0 });
-    gsap.set(iframeWrap, { opacity: 0 });
+
 
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -64,13 +51,12 @@ export default function AutoCountTrainingWebGL() {
     // Video card: grow from initial size to full viewport
     // Initial state is set via CSS; we animate to the final state.
     tl.to(videoCard, {
-      width: '96vw',
-      height: '92vh',
+      width: '85vw',
       left: '50%',
       top: '50%',
       xPercent: -50,
       yPercent: -50,
-      borderRadius: '24px',
+      borderRadius: '20px',
       duration: 1,
       ease: 'power2.inOut',
     }, 0);
@@ -93,33 +79,7 @@ export default function AutoCountTrainingWebGL() {
       ease: 'power2.out',
     }, 0.5);
 
-    // ─── Phase 2 (0.5 → 1.0): Show overlay text ───
-    tl.to(playWord, {
-      opacity: 1,
-      y: 0,
-      duration: 0.4,
-      ease: 'power2.out',
-    }, 0.55);
 
-    tl.to(reelWord, {
-      opacity: 1,
-      y: 0,
-      duration: 0.4,
-      ease: 'power2.out',
-    }, 0.6);
-
-    tl.to(playCircle, {
-      opacity: 1,
-      scale: 1,
-      duration: 0.4,
-      ease: 'back.out(1.7)',
-    }, 0.65);
-
-    // Fade in the iframe overlay (hidden behind play button until clicked)
-    tl.to(iframeWrap, {
-      opacity: 1,
-      duration: 0.3,
-    }, 0.7);
 
     return () => {
       tl.kill();
@@ -129,16 +89,8 @@ export default function AutoCountTrainingWebGL() {
     };
   }, []);
 
-  const handlePlay = () => {
-    setIsPlaying(true);
-  };
-
-  const handleClose = () => {
-    setIsPlaying(false);
-  };
 
   return (
-    <>
       <section
         ref={sectionRef}
         style={{
@@ -159,14 +111,14 @@ export default function AutoCountTrainingWebGL() {
             left: '12vw',
             transform: 'translateY(-50%)',
             width: '38vw',
-            height: '55vh',
+            aspectRatio: '16/9',
             borderRadius: '18px',
             overflow: 'hidden',
             background: '#0f1128',
             boxShadow: '0 30px 80px rgba(15,17,40,0.25)',
             zIndex: 2,
             transformStyle: 'preserve-3d',
-            willChange: 'transform, width, height, left, top, border-radius',
+            willChange: 'transform, width, left, top, border-radius',
           }}
         >
           {/* YouTube embed — always loaded, plays inline */}
@@ -274,145 +226,7 @@ export default function AutoCountTrainingWebGL() {
           </div>
         </div>
 
-        {/* ── Overlay: PLAY ● REEL ── */}
-        <div
-          ref={iframeWrapRef}
-          style={{
-            position: 'absolute',
-            inset: 0,
-            zIndex: 4,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '3vw',
-            pointerEvents: 'none',
-            opacity: 0,
-          }}
-        >
-          <div
-            ref={playWordRef}
-            style={{
-              fontSize: 'clamp(4rem, 12vw, 14rem)',
-              fontWeight: 300,
-              color: '#ffffff',
-              letterSpacing: '0.02em',
-              textShadow: '0 4px 30px rgba(0,0,0,0.3)',
-              userSelect: 'none',
-            }}
-          >
-            PLAY
-          </div>
 
-          <button
-            ref={playCircleRef}
-            onClick={handlePlay}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: 'clamp(60px, 10vw, 140px)',
-              height: 'clamp(60px, 10vw, 140px)',
-              borderRadius: '50%',
-              background: '#ffffff',
-              border: 'none',
-              cursor: 'pointer',
-              pointerEvents: 'auto',
-              flexShrink: 0,
-              boxShadow: '0 20px 40px rgba(0,0,0,0.18)',
-              transition: 'transform 0.25s ease',
-            }}
-            onMouseOver={(e) => (e.currentTarget.style.transform = 'scale(1.12)')}
-            onMouseOut={(e) => (e.currentTarget.style.transform = 'scale(1)')}
-          >
-            <svg
-              width="28%"
-              height="28%"
-              viewBox="0 0 24 24"
-              fill="#111"
-              style={{ marginLeft: '4%' }}
-            >
-              <polygon points="5,3 19,12 5,21" />
-            </svg>
-          </button>
-
-          <div
-            ref={reelWordRef}
-            style={{
-              fontSize: 'clamp(4rem, 12vw, 14rem)',
-              fontWeight: 300,
-              color: '#ffffff',
-              letterSpacing: '0.02em',
-              textShadow: '0 4px 30px rgba(0,0,0,0.3)',
-              userSelect: 'none',
-            }}
-          >
-            REEL
-          </div>
-        </div>
       </section>
-
-      {/* ── Fullscreen Video Modal ── */}
-      {isPlaying && (
-        <div
-          style={{
-            position: 'fixed',
-            inset: 0,
-            zIndex: 99999,
-            background: 'rgba(15,17,40,0.96)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            animation: 'fadeIn 0.3s ease',
-          }}
-        >
-          <style>{`@keyframes fadeIn{from{opacity:0}to{opacity:1}}`}</style>
-          <button
-            onClick={handleClose}
-            style={{
-              position: 'absolute',
-              top: '1.5rem',
-              right: '1.5rem',
-              zIndex: 100000,
-              background: 'rgba(255,255,255,0.1)',
-              backdropFilter: 'blur(8px)',
-              color: '#fff',
-              border: '1px solid rgba(255,255,255,0.15)',
-              width: 48,
-              height: 48,
-              borderRadius: '50%',
-              fontSize: '1.2rem',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              transition: 'background 0.2s',
-            }}
-            onMouseOver={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.25)')}
-            onMouseOut={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.1)')}
-          >
-            ✕
-          </button>
-          <div
-            style={{
-              width: '90vw',
-              maxWidth: 1200,
-              aspectRatio: '16/9',
-              background: '#000',
-              borderRadius: 16,
-              overflow: 'hidden',
-              boxShadow: '0 40px 80px rgba(0,0,0,0.5)',
-            }}
-          >
-            <iframe
-              src={`https://www.youtube.com/embed/${YOUTUBE_ID}?autoplay=1&rel=0`}
-              title="AutoCount Training"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              style={{ width: '100%', height: '100%', border: 'none' }}
-            />
-          </div>
-        </div>
-      )}
-    </>
   );
 }
