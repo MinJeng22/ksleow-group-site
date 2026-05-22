@@ -439,7 +439,7 @@ export default function Services() {
             backgroundImage: "url(/images/branding/service-card-back.webp)",
             backgroundSize: "cover",
             backgroundPosition: "left center",
-            opacity: 0.12,
+            opacity: 0.34,
             pointerEvents: "none",
           }}
         />
@@ -448,7 +448,7 @@ export default function Services() {
           style={{
             position: "absolute",
             inset: 0,
-            background: "rgba(255,255,255,0.82)",
+            background: "rgba(255,255,255,0.58)",
             pointerEvents: "none",
           }}
         />
