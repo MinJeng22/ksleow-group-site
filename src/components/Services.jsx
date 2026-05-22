@@ -434,7 +434,7 @@ export default function Services() {
         className="home-section"
         style={{ position: "relative", overflow: "hidden", background: "#ffffff", padding: "6rem 0" }}
       >
-        <ServiceRibbonBackground completeAt={0.54} trigger={0.4} />
+        <ServiceRibbonBackground completeAt={0.42} trigger={0.74} />
         <div className="content-wrap" style={{ position: "relative", zIndex: 1 }}>
           <div style={{ fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.75rem" }}>
             {servicesContent.eyebrow}
