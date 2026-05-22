@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -10,6 +10,8 @@ gsap.registerPlugin(ScrollTrigger);
 const VIDEO_SRC = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
 
 export default function AutoCountTrainingWebGL() {
+  const [webglError, setWebglError] = useState(false);
+
   const containerRef = useRef(null);
   const canvasRef = useRef(null);
   const textContainerRef = useRef(null);
@@ -32,7 +34,14 @@ export default function AutoCountTrainingWebGL() {
     camera.position.z = 10;
     cameraRef.current = camera;
     
-    const renderer = new THREE.WebGLRenderer({ canvas: canvasRef.current, alpha: true, antialias: true });
+    let renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ canvas: canvasRef.current, alpha: true, antialias: true });
+    } catch (e) {
+      console.error("WebGL initialization failed:", e);
+      setWebglError(true);
+      return;
+    }
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     rendererRef.current = renderer;
@@ -217,6 +226,78 @@ export default function AutoCountTrainingWebGL() {
       renderer.dispose();
     };
   }, { scope: containerRef });
+
+  if (webglError) {
+    return (
+      <div className="ac-section-tight" style={{ background: "#ffffff", padding: "4.5rem 0", borderBottom: "0.5px solid rgba(47,49,90,0.08)", scrollMarginTop: 24 }}>
+        <div className="content-wrap">
+          <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
+            <div style={{
+              fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.12em",
+              textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.6rem",
+            }}>
+              Free Training
+            </div>
+            <h2 style={{
+              fontSize: "clamp(1.5rem, 2.8vw, 2.2rem)", fontWeight: 700,
+              color: "#2f315a", lineHeight: 1.2, marginBottom: "0.9rem",
+            }}>
+              Learn AutoCount Accounting in Just 60 Minutes
+            </h2>
+            <p style={{
+              fontSize: "0.95rem", color: "#6b6f91", lineHeight: 1.8,
+              maxWidth: 560, margin: "0 auto 1.5rem",
+            }}>
+              Skip the long manuals. AutoCount's 60-minute guide covers
+              everything you need to know to navigate AutoCount Accounting
+              with confidence — from basic setup to daily transactions.
+            </p>
+            <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", justifyContent: "center" }}>
+              <a
+                href="https://youtu.be/ztmg4hvro6U?si=hojFUhwFF0gOmzA8"
+                target="_blank" rel="noreferrer"
+                style={{
+                  display: "inline-flex", alignItems: "center", gap: "0.5rem",
+                  background: "#2f315a", color: "#ffffff",
+                  padding: "0.75rem 1.75rem", borderRadius: 50,
+                  fontSize: "0.88rem", fontWeight: 600,
+                  textDecoration: "none", transition: "background 0.2s",
+                }}
+                onMouseOver={e => e.currentTarget.style.background = "#3d4075"}
+                onMouseOut={e => e.currentTarget.style.background = "#2f315a"}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21" /></svg>
+                Watch on YouTube
+              </a>
+              <span style={{
+                display: "inline-flex", alignItems: "center",
+                fontSize: "0.82rem", color: "#a8abcc", fontWeight: 500,
+                padding: "0.75rem 1rem",
+              }}>
+                Free · 60 min · By AutoCount
+              </span>
+            </div>
+          </div>
+
+          <div style={{
+            borderRadius: 18, overflow: "hidden",
+            boxShadow: "0 20px 60px rgba(47,49,90,0.16)",
+            border: "1px solid rgba(47,49,90,0.08)",
+          }}>
+            <div style={{ paddingBottom: "56.25%", position: "relative", background: "#0f1128" }}>
+              <iframe
+                src="https://www.youtube.com/embed/ztmg4hvro6U"
+                title="Learn AutoCount Accounting in 60 Minutes"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: "none" }}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <section ref={containerRef} style={{ position: "relative", width: "100%", height: "100vh", overflow: "hidden", background: "#f5f5f8" }}>
