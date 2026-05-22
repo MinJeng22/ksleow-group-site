@@ -147,8 +147,9 @@ function drawPolyline(ctx, points, width, strokeStyle) {
 
 export default function ServiceRibbonBackground({
   variant = "services",
-  completeAt = 0.46,
-  trigger = 0.72,
+  // Start early, but use a longer travel distance so the ribbon does not finish too quickly.
+  completeAt = 0.78,
+  trigger = 0.78,
   opacity = 1,
 }) {
   const canvasRef = useRef(null);
@@ -208,8 +209,9 @@ export default function ServiceRibbonBackground({
         return;
       }
 
-      // Draw quickly when scrolling down, and retract even faster when scrolling back up.
-      const easing = delta < 0 ? 0.42 : 0.28;
+      // Keep the movement smooth and not too fast.
+      // Early start/retract is controlled by trigger + completeAt, not by high easing speed.
+      const easing = delta < 0 ? 0.24 : 0.22;
       progress += delta * easing;
       draw();
       rafId = requestAnimationFrame(tick);
