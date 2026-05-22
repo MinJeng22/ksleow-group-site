@@ -6,8 +6,8 @@ import { useGSAP } from '@gsap/react';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// generic test video
-const VIDEO_SRC = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+// YouTube video thumbnail to use as the WebGL texture
+const THUMBNAIL_SRC = "https://img.youtube.com/vi/ztmg4hvro6U/maxresdefault.jpg";
 
 export default function AutoCountTrainingWebGL() {
   const [webglError, setWebglError] = useState(false);
@@ -53,32 +53,11 @@ export default function AutoCountTrainingWebGL() {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     rendererRef.current = renderer;
 
-    const video = document.createElement('video');
-    video.src = VIDEO_SRC;
-    video.crossOrigin = 'anonymous';
-    video.loop = true;
-    video.muted = true;
-    video.playsInline = true;
-    video.setAttribute('muted', '');
-    video.setAttribute('autoplay', '');
-    video.setAttribute('playsinline', '');
-    video.play().catch(e => {
-      console.warn("Video autoplay failed:", e);
-      // Fallback: start video on first user interaction
-      const startVideo = () => {
-        video.play();
-        window.removeEventListener('click', startVideo);
-        window.removeEventListener('scroll', startVideo);
-      };
-      window.addEventListener('click', startVideo);
-      window.addEventListener('scroll', startVideo);
-    });
-
-    const texture = new THREE.VideoTexture(video);
+    // 2. Texture setup (Using YouTube Thumbnail instead of Video for WebGL compatibility)
+    const textureLoader = new THREE.TextureLoader();
+    const texture = textureLoader.load(THUMBNAIL_SRC);
     texture.minFilter = THREE.LinearFilter;
     texture.magFilter = THREE.LinearFilter;
-    texture.format = THREE.RGBAFormat;
-    // Ensure color space is correct for video
     texture.colorSpace = THREE.SRGBColorSpace;
 
     // A 1x1 plane geometry. We will scale it in the vertex shader.
