@@ -147,7 +147,7 @@ function ServiceCard({ service }) {
             contain: "paint",
             borderRadius: 18,
             background: "#f5f5f8",
-            border: "1px solid rgba(47,49,90,0.09)",
+            border: "1px solid rgba(47,49,90,0.12)",
             padding: "1.4rem",
             display: "flex", flexDirection: "column",
             overflow: "hidden",
@@ -160,7 +160,7 @@ function ServiceCard({ service }) {
             e.currentTarget.style.boxShadow = "0 4px 16px rgba(47,49,90,0.09)";
           }}
           onMouseOut={e => {
-            e.currentTarget.style.borderColor = "rgba(47,49,90,0.09)";
+            e.currentTarget.style.borderColor = "rgba(47,49,90,0.12)";
             e.currentTarget.style.boxShadow = "none";
           }}
         >
@@ -170,17 +170,16 @@ function ServiceCard({ service }) {
               <div
                 aria-hidden="true"
                 style={{
-                  position: "absolute", inset: 1,
+                  position: "absolute", inset: 0,
                   backgroundImage: `url(${frontBackgroundImage})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
-                  borderRadius: 17,
-                  transform: "scale(1.02)",
+                  borderRadius: 18,
                 }}
               />
               <div
                 aria-hidden="true"
-                style={{ position: "absolute", inset: 1, borderRadius: 17, background: "rgba(255,255,255,0.72)" }}
+                style={{ position: "absolute", inset: 0, borderRadius: 18, background: "rgba(255,255,255,0.84)" }}
               />
             </>
           )}
@@ -452,24 +451,6 @@ export default function Services() {
         className="home-section"
         style={{ position: "relative", overflow: "hidden", background: "#ffffff", padding: "6rem 0" }}
       >
-        <div
-          aria-hidden="true"
-          className="services-bg-watermark"
-          style={{
-            position: "absolute",
-            left: 0,
-            top: "50%",
-            width: "clamp(420px, 42vw, 760px)",
-            aspectRatio: "1 / 1",
-            backgroundImage: "url(/images/branding/ks-services-watermark.png)",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "contain",
-            backgroundPosition: "left center",
-            opacity: 0.07,
-            transform: "translate(-18%, -52%)",
-            pointerEvents: "none",
-          }}
-        />
         <div className="content-wrap" style={{ position: "relative", zIndex: 1 }}>
           <div style={{ fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.75rem" }}>
             {servicesContent.eyebrow}
