@@ -41,6 +41,22 @@ const SERVICE_GALLERY_IMAGES = [
   "/images/services/auditing-bg.webp",
   "/images/services/webinar.jpg",
   "/images/services/taxation-bg.webp",
+  "/images/services/hardware-bg.webp",
+  "/images/services/auditing-bg.webp",
+  "/images/services/software-training-bg.webp",
+  "/images/services/webinar.jpg",
+  "/images/services/taxation-bg.webp",
+  "/images/services/hardware-bg.webp",
+  "/images/services/auditing-bg.webp",
+  "/images/services/webinar.jpg",
+  "/images/services/software-training-bg.webp",
+  "/images/services/taxation-bg.webp",
+  "/images/services/hardware-bg.webp",
+  "/images/services/auditing-bg.webp",
+  "/images/services/webinar.jpg",
+  "/images/services/software-training-bg.webp",
+  "/images/services/taxation-bg.webp",
+  "/images/services/hardware-bg.webp",
 ];
 
 function BadgeRow({ badge, onImage = false }) {
@@ -444,28 +460,43 @@ export default function Services() {
         @keyframes cardFlip { from { opacity: 0; } to { opacity: 1; } }
         .services-photo-wall {
           position: absolute;
-          inset: -1.25rem;
+          inset: -2rem;
           display: grid;
-          grid-template-columns: repeat(6, minmax(150px, 1fr));
-          grid-auto-rows: 150px;
-          gap: 0.65rem;
-          opacity: 0.3;
-          transform: rotate(-1.4deg) scale(1.05);
+          grid-template-columns: repeat(8, minmax(120px, 1fr));
+          grid-auto-rows: minmax(105px, 13vh);
+          grid-auto-flow: dense;
+          gap: 0.55rem;
+          opacity: 0.78;
+          transform: rotate(-1.15deg) scale(1.04);
           transform-origin: center;
           pointer-events: none;
         }
         .services-photo-tile {
           background-size: cover;
           background-position: center;
-          border: 1px solid rgba(255,255,255,0.65);
-          box-shadow: 0 10px 28px rgba(47,49,90,0.12);
-          filter: saturate(0.9) contrast(0.95);
+          border: 1px solid rgba(255,255,255,0.18);
+          box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+          filter: saturate(0.95) contrast(0.96);
+        }
+        .services-photo-tile:nth-child(5n + 1) {
+          grid-column: span 2;
+          grid-row: span 2;
+        }
+        .services-photo-tile:nth-child(7n + 2) {
+          grid-column: span 2;
+        }
+        .services-photo-tile:nth-child(9n + 4) {
+          grid-row: span 2;
+        }
+        .services-photo-tile:nth-child(11n + 6) {
+          grid-column: span 3;
+          grid-row: span 2;
         }
         @media (max-width: 900px) {
           .services-photo-wall {
-            grid-template-columns: repeat(4, minmax(120px, 1fr));
-            grid-auto-rows: 130px;
-            opacity: 0.24;
+            grid-template-columns: repeat(5, minmax(100px, 1fr));
+            grid-auto-rows: 120px;
+            opacity: 0.68;
           }
         }
         @media (max-width: 540px) {
@@ -473,14 +504,21 @@ export default function Services() {
             grid-template-columns: repeat(3, minmax(110px, 1fr));
             grid-auto-rows: 118px;
             gap: 0.45rem;
-            opacity: 0.2;
+            opacity: 0.62;
+          }
+          .services-photo-tile:nth-child(n) {
+            grid-column: span 1;
+            grid-row: span 1;
+          }
+          .services-photo-tile:nth-child(4n + 1) {
+            grid-column: span 2;
           }
         }
       `}</style>
       <section
         id="services"
         className="home-section"
-        style={{ position: "relative", overflow: "hidden", background: "#ffffff", padding: "6rem 0" }}
+        style={{ position: "relative", overflow: "hidden", background: "#0f1128", padding: "6rem 0" }}
       >
         <div
           aria-hidden="true"
@@ -499,7 +537,7 @@ export default function Services() {
           style={{
             position: "absolute",
             inset: 0,
-            background: "rgba(255,255,255,0.68)",
+            background: "rgba(0,0,0,0.46)",
             pointerEvents: "none",
           }}
         />
@@ -507,10 +545,10 @@ export default function Services() {
           <div style={{ fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.75rem" }}>
             {servicesContent.eyebrow}
           </div>
-          <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.6rem)", fontWeight: 700, color: "#2f315a", lineHeight: 1.2, marginBottom: "0.75rem" }}>
+          <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.6rem)", fontWeight: 700, color: "#ffffff", lineHeight: 1.2, marginBottom: "0.75rem" }}>
             {servicesContent.heading}
           </h2>
-          <p style={{ fontSize: "1rem", color: "#6b6f91", lineHeight: 1.75, marginBottom: "3rem" }}>
+          <p style={{ fontSize: "1rem", color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: "3rem" }}>
             {servicesContent.intro}
           </p>
           <div className="services-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.1rem" }}>
