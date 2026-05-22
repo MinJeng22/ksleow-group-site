@@ -28,37 +28,6 @@ const SERVICES = (servicesContent.items || []).map(s => {
 });
 
 /* ── Badge row — used for both Authorized Dealer and Certified By ── */
-const SERVICE_GALLERY_IMAGES = [
-  "/images/services/taxation-bg.webp",
-  "/images/services/webinar.jpg",
-  "/images/services/hardware-bg.webp",
-  "/images/services/software-training-bg.webp",
-  "/images/services/auditing-bg.webp",
-  "/images/services/taxation-bg.webp",
-  "/images/services/webinar.jpg",
-  "/images/services/software-training-bg.webp",
-  "/images/services/hardware-bg.webp",
-  "/images/services/auditing-bg.webp",
-  "/images/services/webinar.jpg",
-  "/images/services/taxation-bg.webp",
-  "/images/services/hardware-bg.webp",
-  "/images/services/auditing-bg.webp",
-  "/images/services/software-training-bg.webp",
-  "/images/services/webinar.jpg",
-  "/images/services/taxation-bg.webp",
-  "/images/services/hardware-bg.webp",
-  "/images/services/auditing-bg.webp",
-  "/images/services/webinar.jpg",
-  "/images/services/software-training-bg.webp",
-  "/images/services/taxation-bg.webp",
-  "/images/services/hardware-bg.webp",
-  "/images/services/auditing-bg.webp",
-  "/images/services/webinar.jpg",
-  "/images/services/software-training-bg.webp",
-  "/images/services/taxation-bg.webp",
-  "/images/services/hardware-bg.webp",
-];
-
 function BadgeRow({ badge, onImage = false }) {
   /* Both labels use the same neutral grey (per design spec) */
   const labelColor = onImage ? "#2f315a" : "#6b6f91";
@@ -458,89 +427,12 @@ export default function Services() {
     <>
       <style>{`
         @keyframes cardFlip { from { opacity: 0; } to { opacity: 1; } }
-        .services-photo-wall {
-          position: absolute;
-          inset: -2rem;
-          display: grid;
-          grid-template-columns: repeat(8, minmax(120px, 1fr));
-          grid-auto-rows: minmax(105px, 13vh);
-          grid-auto-flow: dense;
-          gap: 0.55rem;
-          opacity: 0.78;
-          transform: rotate(-1.15deg) scale(1.04);
-          transform-origin: center;
-          pointer-events: none;
-        }
-        .services-photo-tile {
-          background-size: cover;
-          background-position: center;
-          border: 1px solid rgba(255,255,255,0.18);
-          box-shadow: 0 12px 30px rgba(0,0,0,0.2);
-          filter: saturate(0.95) contrast(0.96);
-        }
-        .services-photo-tile:nth-child(5n + 1) {
-          grid-column: span 2;
-          grid-row: span 2;
-        }
-        .services-photo-tile:nth-child(7n + 2) {
-          grid-column: span 2;
-        }
-        .services-photo-tile:nth-child(9n + 4) {
-          grid-row: span 2;
-        }
-        .services-photo-tile:nth-child(11n + 6) {
-          grid-column: span 3;
-          grid-row: span 2;
-        }
-        @media (max-width: 900px) {
-          .services-photo-wall {
-            grid-template-columns: repeat(5, minmax(100px, 1fr));
-            grid-auto-rows: 120px;
-            opacity: 0.68;
-          }
-        }
-        @media (max-width: 540px) {
-          .services-photo-wall {
-            grid-template-columns: repeat(3, minmax(110px, 1fr));
-            grid-auto-rows: 118px;
-            gap: 0.45rem;
-            opacity: 0.62;
-          }
-          .services-photo-tile:nth-child(n) {
-            grid-column: span 1;
-            grid-row: span 1;
-          }
-          .services-photo-tile:nth-child(4n + 1) {
-            grid-column: span 2;
-          }
-        }
       `}</style>
       <section
         id="services"
         className="home-section"
         style={{ position: "relative", overflow: "hidden", background: "#0f1128", padding: "6rem 0" }}
       >
-        <div
-          aria-hidden="true"
-          className="services-photo-wall"
-        >
-          {SERVICE_GALLERY_IMAGES.map((src, i) => (
-            <div
-              key={`${src}-${i}`}
-              className="services-photo-tile"
-              style={{ backgroundImage: `url(${src})` }}
-            />
-          ))}
-        </div>
-        <div
-          aria-hidden="true"
-          style={{
-            position: "absolute",
-            inset: 0,
-            background: "rgba(0,0,0,0.46)",
-            pointerEvents: "none",
-          }}
-        />
         <div className="content-wrap" style={{ position: "relative", zIndex: 1 }}>
           <div style={{ fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.75rem" }}>
             {servicesContent.eyebrow}
