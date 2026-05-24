@@ -47,7 +47,7 @@ export default function AutoCountTrialModal({ open, onClose }) {
         onClick={e => e.stopPropagation()}
         style={{
           position: "relative",
-          width: "min(560px, 100%)",
+          width: "min(460px, 100%)",
           maxHeight: "92vh",
           overflow: "hidden",
           borderRadius: 26,
@@ -61,6 +61,11 @@ export default function AutoCountTrialModal({ open, onClose }) {
       >
         <style>{`
           @keyframes modalIn{from{opacity:0;transform:translateY(14px) scale(0.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+          @media (max-width: 1024px) {
+            .trial-modal-shell {
+              width: min(400px, 100%) !important;
+            }
+          }
           @media (max-width: 640px) {
             .trial-modal-backdrop {
               align-items: flex-start !important;

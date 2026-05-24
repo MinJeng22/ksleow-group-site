@@ -94,7 +94,7 @@ function SupaprintzPartnerModal({ open, onClose }) {
         onClick={(event) => event.stopPropagation()}
         style={{
           position: "relative",
-          width: "min(560px, 100%)",
+          width: "min(460px, 100%)",
           maxHeight: "92vh",
           borderRadius: 26,
           overflow: "hidden",
@@ -105,6 +105,11 @@ function SupaprintzPartnerModal({ open, onClose }) {
         }}
       >
         <style>{`
+          @media (max-width: 1024px) {
+            .supaprintz-modal-shell {
+              width: min(400px, 100%) !important;
+            }
+          }
           @media (max-width: 640px) {
             .supaprintz-modal-backdrop {
               align-items: flex-start !important;

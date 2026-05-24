@@ -247,7 +247,7 @@ export default function Products({ onContact }) {
         padding: "6rem 0",
       }}
     >
-      <div className="content-wrap" style={{ position: "relative", zIndex: 1 }}>
+      <div className="content-wrap" style={{ position: "relative", zIndex: 1, maxWidth: 1140, margin: "0 auto" }}>
         <div className="products-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: "1.5rem", flexWrap: "wrap", marginBottom: "3rem" }}>
           <div style={{ maxWidth: 760 }}>
             <div style={{ fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.75rem" }}>
