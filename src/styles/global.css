@@ -490,7 +490,7 @@ body.supaprintz-modal-open .back-to-top {
 .products-section .products-carousel-shell {
   --products-gap: clamp(0.7rem, 1vw, 0.95rem);
   --products-edge-peek: calc(var(--products-gap) * -1);
-  --container-w: min(100vw - var(--px) * 2, 1140px);
+  --container-w: min(100vw - var(--px) * 2, var(--content-max-w) - var(--px) * 2);
   --products-card-width: calc((var(--container-w) - var(--products-gap) * 3) / 4);
   width: 100%;
   padding: 0;

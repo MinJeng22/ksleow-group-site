@@ -107,7 +107,7 @@ function SupaprintzPartnerModal({ open, onClose }) {
         <style>{`
           @media (max-width: 1024px) {
             .supaprintz-modal-shell {
-              width: min(400px, 100%) !important;
+              zoom: 0.85;
             }
           }
           @media (max-width: 640px) {
