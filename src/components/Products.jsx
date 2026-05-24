@@ -224,8 +224,14 @@ export default function Products({ onContact }) {
     const io = new IntersectionObserver(
       (entries) => entries.forEach((e) => {
         if (e.isIntersecting) {
-          revealOnce();
-          io.disconnect();
+          setRevealed(true);
+          setRevealSettled(false);
+          window.clearTimeout(settleTimer);
+          settleTimer = window.setTimeout(() => setRevealSettled(true), 1300);
+        } else {
+          setRevealed(false);
+          setRevealSettled(false);
+          window.clearTimeout(settleTimer);
         }
       }),
       { threshold: 0.25 }
