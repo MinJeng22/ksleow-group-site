@@ -59,35 +59,46 @@ export default function AutoCountTrainingWebGL() {
               @media (max-width: 760px) { .training-grid { grid-template-columns: 1fr; gap: 1.5rem; } }
             `}</style>
             <div className="training-grid">
-              {/* Video thumbnail */}
+              {/* iPad Frame Wrapper */}
               <div
                 style={{
-                  aspectRatio: '16/9',
-                  borderRadius: '18px',
-                  overflow: 'hidden',
-                  background: '#0f1128',
-                  boxShadow: '0 20px 60px rgba(15,17,40,0.12)',
+                  aspectRatio: '4/3',
+                  borderRadius: '28px',
+                  background: '#111', // iPad black bezel
+                  padding: '4% 5%', // thicker left/right bezel if it's an older iPad, or even padding
+                  boxShadow: '0 24px 60px rgba(15,17,40,0.2), inset 0 0 0 2px #2a2a2a, inset 0 0 12px rgba(0,0,0,1)',
                   position: 'relative',
                   cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'stretch',
                 }}
                 onClick={() => setShowIframe(true)}
               >
-                <img
-                  src={`https://i.ytimg.com/vi/${YOUTUBE_ID}/maxresdefault.jpg`}
-                  alt="AutoCount Tutorial"
-                  loading="lazy"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                />
-                <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.3)', display: 'grid', placeItems: 'center' }}>
-                  <div style={{
-                    width: 64, height: 64, background: '#e8c97a', borderRadius: '50%',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    boxShadow: '0 8px 24px rgba(232,201,122,0.4)',
-                    paddingLeft: 4
-                  }}>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#2f315a">
-                      <polygon points="5,3 19,12 5,21" />
-                    </svg>
+                {/* iPad Screen */}
+                <div style={{
+                  flex: 1,
+                  borderRadius: '10px',
+                  overflow: 'hidden',
+                  background: '#0f1128',
+                  position: 'relative',
+                }}>
+                  <img
+                    src={`https://i.ytimg.com/vi/${YOUTUBE_ID}/maxresdefault.jpg`}
+                    alt="AutoCount Tutorial"
+                    loading="lazy"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                  />
+                  <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.3)', display: 'grid', placeItems: 'center' }}>
+                    <div style={{
+                      width: 64, height: 64, background: '#e8c97a', borderRadius: '50%',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      boxShadow: '0 8px 24px rgba(232,201,122,0.4)',
+                      paddingLeft: 4
+                    }}>
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="#2f315a">
+                        <polygon points="5,3 19,12 5,21" />
+                      </svg>
+                    </div>
                   </div>
                 </div>
               </div>
