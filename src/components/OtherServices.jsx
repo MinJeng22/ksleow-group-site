@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Img } from "./Media.jsx";
 import { CASE_IMAGES } from "../assets/assets.js";
-import caseStudiesContent from "../content/caseStudies.json";
+import otherServicesContent from "../content/otherServices.json";
 
-const CASES = (caseStudiesContent.items || []).filter((item) => {
+const CASES = (otherServicesContent.items || []).filter((item) => {
   return !!(item?.title && item?.desc);
 });
 const SUPAPRINTZ_PARTNER = {
@@ -289,7 +289,7 @@ function SupaprintzPartnerModal({ open, onClose }) {
   );
 }
 
-export default function CaseStudies({ onContact }) {
+export default function OtherServices({ onContact }) {
   const navigate = useNavigate();
   const [partnerOpen, setPartnerOpen] = useState(false);
 
@@ -317,16 +317,16 @@ export default function CaseStudies({ onContact }) {
           fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.12em",
           textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.75rem",
         }}>
-          {caseStudiesContent.eyebrow}
+          {otherServicesContent.eyebrow}
         </div>
         <h2 style={{
           fontSize: "clamp(1.8rem, 3vw, 2.6rem)", fontWeight: 700,
           color: "#2f315a", lineHeight: 1.2, marginBottom: "0.75rem",
         }}>
-          {caseStudiesContent.heading}
+          {otherServicesContent.heading}
         </h2>
         <p style={{ fontSize: "1rem", color: "#6b6f91", lineHeight: 1.78 }}>
-          {caseStudiesContent.intro}
+          {otherServicesContent.intro}
         </p>
       </div>
 
@@ -393,7 +393,7 @@ export default function CaseStudies({ onContact }) {
         })}
       </div>
 
-      {caseStudiesContent.ctaLabel && (
+      {otherServicesContent.ctaLabel && (
         <button
           onClick={onContact}
           style={{
@@ -407,7 +407,7 @@ export default function CaseStudies({ onContact }) {
           onMouseOver={e => { e.currentTarget.style.borderColor = "#2f315a"; e.currentTarget.style.color = "#2f315a"; }}
           onMouseOut={e => { e.currentTarget.style.borderColor = "rgba(47,49,90,0.28)"; e.currentTarget.style.color = "rgba(47,49,90,0.7)"; }}
         >
-          {caseStudiesContent.ctaLabel}
+          {otherServicesContent.ctaLabel}
         </button>
       )}
     </div>

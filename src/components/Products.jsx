@@ -165,10 +165,10 @@ export default function Products({ onContact }) {
   }, []);
 
   const visibleCount = Math.min(getCarouselCount(viewportWidth), PRODUCTS.length);
-  const renderCount = Math.min(visibleCount + 1, PRODUCTS.length + 1);
+  const renderCount = Math.min(visibleCount + 2, PRODUCTS.length + 2);
   const canSlide = PRODUCTS.length > 1;
   const visibleProducts = Array.from({ length: renderCount }, (_, order) => {
-    const productIndex = (startIndex + order - 1 + PRODUCTS.length) % PRODUCTS.length;
+    const productIndex = (startIndex + order - 2 + PRODUCTS.length) % PRODUCTS.length;
     return { product: PRODUCTS[productIndex], productIndex, order };
   });
   const startSlide = (direction) => {
@@ -285,7 +285,6 @@ export default function Products({ onContact }) {
                 display: "grid",
                 gridTemplateColumns: `repeat(${renderCount}, 1fr)`,
                 gridAutoRows: "1fr",
-                height: 435,
                 gap: "0.9rem",
               }}
             >

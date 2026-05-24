@@ -7,7 +7,7 @@ import Hero          from "./components/Hero";
 import HomeImagePreloader from "./components/HomeImagePreloader";
 import Stats         from "./components/Stats";
 import Services      from "./components/Services";
-import CaseStudies   from "./components/CaseStudies";
+import OtherServices   from "./components/OtherServices";
 import Products      from "./components/Products";
 import Careers       from "./components/Careers";
 import Footer        from "./components/Footer";
@@ -35,7 +35,7 @@ function Home({ onContact }) {
           <Stats />
           <Services />
           <Products onContact={onContact} />
-          <CaseStudies onContact={onContact} />
+          <OtherServices onContact={onContact} />
           <Careers />
           <Footer />
         </main>

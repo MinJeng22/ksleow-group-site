@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import branding from "../content/branding.json";
-import caseStudiesContent from "../content/caseStudies.json";
+import otherServicesContent from "../content/otherServices.json";
 import productsContent from "../content/products.json";
 import servicesContent from "../content/services.json";
 
@@ -28,7 +28,7 @@ export default function HomeImagePreloader() {
         ...(servicesContent.items || []).map(item => item.backgroundImage),
         ...(servicesContent.items || []).flatMap(item => (item.logos || []).map(logo => logo.src)),
         ...(productsContent.items || []).flatMap(item => [item.image, item.background]),
-        ...(caseStudiesContent.items || []).map(item => item.image),
+        ...(otherServicesContent.items || []).map(item => item.image),
       ]);
     };
 
