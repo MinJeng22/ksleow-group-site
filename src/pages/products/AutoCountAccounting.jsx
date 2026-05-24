@@ -738,7 +738,7 @@ export default function AutoCountAccountingPage({ onContact }) {
       <FeatureHighlights />
 
 
-      <SectionDivider icon={IconVideo} />
+      <SectionDivider icon={IconVideo} color="#c9a84c" />
 
       {/* ══════════════════════════════════════════════════════════
        * LEARN AUTOCOUNT IN 60 MINUTES — WebGL Scroll Experience
@@ -747,7 +747,7 @@ export default function AutoCountAccountingPage({ onContact }) {
         <AutoCountTrainingWebGL />
       </div>
 
-      <SectionDivider icon={IconGrid} />
+      <SectionDivider icon={IconGrid} color="#2f315a" />
 
       {/* ══════════════════════════════════════════════════════════
        * COMPARING 5 EDITIONS OF ACCOUNTING 2.2
