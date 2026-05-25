@@ -197,9 +197,9 @@ function ServiceCard({ service }) {
             willChange: "transform",
             contain: "paint",
             borderRadius: 18,
-            background: "#ffffff",
-            border: "1px solid rgba(47,49,90,0.06)",
-            boxShadow: "0 2px 10px rgba(0,0,0,0.02)",
+            background: "#f5f5f8",
+            border: "1px solid #d8dbe8",
+            boxShadow: "none",
             padding: "1.4rem",
             display: "flex", flexDirection: "column",
             overflow: "hidden",
@@ -209,13 +209,13 @@ function ServiceCard({ service }) {
           }}
           onMouseOver={e => {
             setIsHovered(true);
-            e.currentTarget.style.borderColor = "rgba(47,49,90,0.15)";
-            e.currentTarget.style.boxShadow = "0 8px 24px rgba(47,49,90,0.08)";
+            e.currentTarget.style.borderColor = "#bfc4d8";
+            e.currentTarget.style.boxShadow = "0 4px 16px rgba(47,49,90,0.09)";
           }}
           onMouseOut={e => {
             setIsHovered(false);
-            e.currentTarget.style.borderColor = "rgba(47,49,90,0.06)";
-            e.currentTarget.style.boxShadow = "0 2px 10px rgba(0,0,0,0.02)";
+            e.currentTarget.style.borderColor = "#d8dbe8";
+            e.currentTarget.style.boxShadow = "none";
           }}
         >
           {/* Hover Background Image with Overlay */}
@@ -518,7 +518,7 @@ export default function Services() {
       <section
         id="services"
         className="home-section"
-        style={{ position: "relative", overflow: "hidden", background: "#f5f5f8", padding: "6rem 0" }}
+        style={{ position: "relative", overflow: "hidden", background: "#fafbf2", padding: "6rem 0" }}
       >
 
         <div className="content-wrap" style={{ position: "relative", zIndex: 1 }}>
