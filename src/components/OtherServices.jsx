@@ -186,19 +186,22 @@ function SupaprintzPartnerModal({ open, onClose }) {
           borderTopRightRadius: 24,
           margin: "-1px -1px 0",
         }}>
-          <img
-            className="supaprintz-modal-banner"
-            src={SUPAPRINTZ_PARTNER.banner}
-            alt="Supaprintz.my Printing Advertising Design"
-            style={{
-              display: "block",
-              width: "100%",
-              height: "calc(100% + 10px)",
-              objectFit: "cover",
-              objectPosition: "center",
-              transform: "translateY(-6px)",
-            }}
-          />
+          <picture>
+            <source media="(min-width: 641px) and (max-width: 1024px)" srcSet="/images/partners/supaprintz-tablet.png" />
+            <img
+              className="supaprintz-modal-banner"
+              src="/images/partners/supaprintz-desktop.png"
+              alt="Supaprintz.my Printing Advertising Design"
+              style={{
+                display: "block",
+                width: "100%",
+                height: "calc(100% + 10px)",
+                objectFit: "cover",
+                objectPosition: "center",
+                transform: "translateY(-6px)",
+              }}
+            />
+          </picture>
           <button
             className="supaprintz-modal-close"
             type="button"
