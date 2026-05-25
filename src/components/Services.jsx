@@ -402,32 +402,34 @@ function ServiceCard({ service }) {
             </div>
 
             {/* Right: QR code panel */}
-            <div
-              onClick={() => setFlipped(false)}
-              style={{
-                flexShrink: 0,
-                alignSelf: "center",
-                display: "flex", flexDirection: "column", alignItems: "center", gap: 4,
-              }}
-            >
-              <div style={{
-                background: "#ffffff",
-                padding: 4,
-                borderRadius: 8,
-                boxShadow: "0 2px 10px rgba(0,0,0,0.18)",
-                lineHeight: 0,
-              }}>
-                <img src={qrUrl} alt="WhatsApp QR code"
-                  width={84} height={84}
-                  style={{ display: "block", borderRadius: 4 }} />
+            {!isMobile && (
+              <div
+                onClick={() => setFlipped(false)}
+                style={{
+                  flexShrink: 0,
+                  alignSelf: "center",
+                  display: "flex", flexDirection: "column", alignItems: "center", gap: 4,
+                }}
+              >
+                <div style={{
+                  background: "#ffffff",
+                  padding: 4,
+                  borderRadius: 8,
+                  boxShadow: "0 2px 10px rgba(0,0,0,0.18)",
+                  lineHeight: 0,
+                }}>
+                  <img src={qrUrl} alt="WhatsApp QR code"
+                    width={84} height={84}
+                    style={{ display: "block", borderRadius: 4 }} />
+                </div>
+                <div style={{
+                  fontSize: "0.5rem", fontWeight: 700, letterSpacing: "0.14em",
+                  textTransform: "uppercase", color: "#e8c97a",
+                }}>
+                  Scan to chat
+                </div>
               </div>
-              <div style={{
-                fontSize: "0.5rem", fontWeight: 700, letterSpacing: "0.14em",
-                textTransform: "uppercase", color: "#e8c97a",
-              }}>
-                Scan to chat
-              </div>
-            </div>
+            )}
           </div>
 
           {/* Bottom CTA buttons */}
