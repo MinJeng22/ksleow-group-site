@@ -142,11 +142,11 @@ function ProductCard({ product, productIndex, order, hovered, revealed, animateR
                 ? isHov 
                   ? `translate3d(${mousePos.x * 3}px, ${mousePos.y * 3}px, 10px) scale(1.02) rotateX(${mousePos.y * -1.5}deg) rotateY(${mousePos.x * 1.5}deg)`
                   : "translate3d(0px, 0px, 0px) scale(1) rotateX(0deg) rotateY(0deg)"
-                : "translate3d(0px, 30px, 0px) scale(0.85) rotateX(0deg) rotateY(0deg)",
+                : "translate3d(0px, 16px, 0px) scale(0.96) rotateX(0deg) rotateY(0deg)",
               transition: (!revealed) 
                 ? "none" 
                 : animateReveal && !isHov
-                  ? `opacity 0.4s ease ${order * 0.08}s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) ${order * 0.08}s`
+                  ? `opacity 0.55s cubic-bezier(0.25, 0.1, 0.25, 1) ${order * 0.06}s, transform 0.6s cubic-bezier(0.22, 0.68, 0.35, 1) ${order * 0.06}s`
                   : isHov ? "transform 0.15s ease-out, filter 0.15s ease-out" : "transform 0.35s ease, filter 0.35s ease",
               filter: isHov 
                 ? `drop-shadow(${mousePos.x * -2}px ${mousePos.y * -2 + 4}px 6px rgba(0,0,0,0.15))` 
