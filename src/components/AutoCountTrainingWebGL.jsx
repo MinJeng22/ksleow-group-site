@@ -111,7 +111,7 @@ export default function AutoCountTrainingWebGL() {
                   aspectRatio: '4/3',
                   borderRadius: '28px',
                   background: '#111', // iPad black bezel
-                  padding: '4% 5%', // thicker left/right bezel if it's an older iPad, or even padding
+                  padding: '2.5% 3.5%', // thinner modern bezels
                   boxShadow: '0 24px 60px rgba(15,17,40,0.2), inset 0 0 0 2px #2a2a2a, inset 0 0 12px rgba(0,0,0,1)',
                   position: 'relative',
                   cursor: 'pointer',
