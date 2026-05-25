@@ -27,8 +27,8 @@ export default function SectionSidebar({ items }) {
     function update() {
       if (lockedRef.current) return;
       // Find the section whose top is closest to (but above) the viewport
-      // top + 120px buffer. That section is the one the user is "in".
-      const probe = 120;
+      // top + 55% buffer. That section is the one the user is "in".
+      const probe = window.innerHeight * 0.55;
       let bestId = items[0]?.id;
       let bestTop = -Infinity;
       for (const s of items) {
