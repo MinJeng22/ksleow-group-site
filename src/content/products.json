@@ -15,7 +15,7 @@
     {
       "name": "AutoCount CloudAccounting",
       "desc": "Browser-based accounting with e-Invoice, AI SmartScan, bank connection, and anytime access.",
-      "image": "",
+      "image": "/images/products/cloudaccounting-logo.png",
       "background": "/images/products/autocount-accounting-hero.webp",
       "placeholder": "☁️",
       "gradient": "rgb(221, 234, 213)",
