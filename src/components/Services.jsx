@@ -518,7 +518,7 @@ export default function Services() {
       <section
         id="services"
         className="home-section"
-        style={{ position: "relative", overflow: "hidden", background: "#fafbf2", padding: "6rem 0" }}
+        style={{ position: "relative", overflow: "hidden", background: "#ffffff", padding: "6rem 0" }}
       >
 
         <div className="content-wrap" style={{ position: "relative", zIndex: 1 }}>
