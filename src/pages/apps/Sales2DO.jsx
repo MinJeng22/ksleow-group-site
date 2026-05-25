@@ -593,7 +593,7 @@ export default function Sales2DOPage({ onContact }) {
         </div>
       </div>
 
-      <div style={{ background: "linear-gradient(to bottom, #ffffff, #f5f5f8)", padding: "1rem 0" }}>
+      <div style={{ background: "linear-gradient(to bottom, #ffffff, #f5f5f8)", padding: 0 }}>
         <SectionDivider icon={IconClipboard} targetId="outstanding" />
       </div>
 
@@ -624,7 +624,7 @@ export default function Sales2DOPage({ onContact }) {
         </div>
       </div>
 
-      <div style={{ background: "linear-gradient(to bottom, #f5f5f8, #ffffff)", padding: "1rem 0" }}>
+      <div style={{ background: "linear-gradient(to bottom, #f5f5f8, #ffffff)", padding: 0 }}>
         <SectionDivider icon={IconStar} targetId="preset" />
       </div>
 
@@ -649,7 +649,7 @@ export default function Sales2DOPage({ onContact }) {
         </div>
       </div>
 
-      <div style={{ background: "linear-gradient(to bottom, #ffffff, #f5f5f8)", padding: "1rem 0" }}>
+      <div style={{ background: "linear-gradient(to bottom, #ffffff, #f5f5f8)", padding: 0 }}>
         <SectionDivider icon={IconSettings} targetId="settings" />
       </div>
 
@@ -677,7 +677,7 @@ export default function Sales2DOPage({ onContact }) {
         </div>
       </div>
 
-      <div style={{ background: "linear-gradient(to bottom, #f5f5f8, #ffffff)", padding: "1rem 0" }}>
+      <div style={{ background: "linear-gradient(to bottom, #f5f5f8, #ffffff)", padding: 0 }}>
         <SectionDivider icon={IconShield} targetId="license" />
       </div>
 
@@ -754,7 +754,7 @@ export default function Sales2DOPage({ onContact }) {
         </div>
       </div>
 
-      <div style={{ background: "linear-gradient(to bottom, #ffffff, #f4f6fb)", padding: "1rem 0" }}>
+      <div style={{ background: "linear-gradient(to bottom, #ffffff, #f4f6fb)", padding: 0 }}>
         <SectionDivider icon={IconRocket} />
       </div>
 

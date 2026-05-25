@@ -256,7 +256,7 @@ export default function FeedMePOSPage() {
         </div>
       </div>
 
-      <div style={{ background: "linear-gradient(to bottom, #ffffff, #f5f5f8)", padding: "1rem 0" }}>
+      <div style={{ background: "linear-gradient(to bottom, #ffffff, #f5f5f8)", padding: 0 }}>
         <SectionDivider icon={IconLayers} targetId="modules" />
       </div>
 
@@ -324,7 +324,7 @@ export default function FeedMePOSPage() {
         </div>
       </div>
 
-      <div style={{ background: "linear-gradient(to bottom, #f5f5f8, #ffffff)", padding: "1rem 0" }}>
+      <div style={{ background: "linear-gradient(to bottom, #f5f5f8, #ffffff)", padding: 0 }}>
         <SectionDivider icon={IconLink} targetId="integration" />
       </div>
 
@@ -360,7 +360,7 @@ export default function FeedMePOSPage() {
         </div>
       </div>
 
-      <div style={{ background: "linear-gradient(to bottom, #ffffff, #f8f9fc)", padding: "1rem 0" }}>
+      <div style={{ background: "linear-gradient(to bottom, #ffffff, #f8f9fc)", padding: 0 }}>
         <SectionDivider icon={IconHandshake} targetId="why-ksl" />
       </div>
 

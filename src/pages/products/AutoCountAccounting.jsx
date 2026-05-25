@@ -750,14 +750,14 @@ export default function AutoCountAccountingPage({ onContact }) {
         </div>
       </div>
 
-      <div style={{ background: "linear-gradient(to bottom, #ffffff, #f5f5f8)", padding: "1rem 0" }}>
+      <div style={{ background: "linear-gradient(to bottom, #ffffff, #f5f5f8)", padding: 0 }}>
         <SectionDivider icon={IconGrid} color="#2f315a" targetId="editions" />
       </div>
 
       {/* ══════════════════════════════════════════════════════════
        * COMPARING 5 EDITIONS OF ACCOUNTING 2.2
        * ══════════════════════════════════════════════════════════ */}
-      <div id="editions" className="ac-section-tight" style={{ background: "#f5f5f8", padding: "4.5rem 0", scrollMarginTop: 24 }}>
+      <div id="editions" className="ac-section-tight" style={{ background: "#f5f5f8", padding: "4.5rem 0 2rem 0", scrollMarginTop: 24 }}>
         <div className="content-wrap">
           <div style={{ textAlign: "center", marginBottom: "1.75rem" }}>
             <div style={{ fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#7AB317", marginBottom: "0.6rem" }}>
@@ -858,12 +858,10 @@ export default function AutoCountAccountingPage({ onContact }) {
         </div>
       </div>
 
-      <div style={{ padding: "1rem 0" }}>
-        <SectionDivider icon={IconLedger} color="#8a6a10" targetId="releases" />
-      </div>
+      <SectionDivider icon={IconLedger} color="#8a6a10" targetId="releases" />
 
       {/* ── Release Notes ── */}
-      <div id="releases" className="ac-section-tight" style={{ padding: "4rem 0", scrollMarginTop: 24 }}>
+      <div id="releases" className="ac-section-tight" style={{ padding: "2rem 0 4rem 0", scrollMarginTop: 24 }}>
         <div className="content-wrap">
 
           {/* ── Title + tab switcher ── */}
