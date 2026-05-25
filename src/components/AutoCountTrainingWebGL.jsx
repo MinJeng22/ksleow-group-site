@@ -6,6 +6,7 @@ export default function AutoCountTrainingWebGL() {
   const [showIframe, setShowIframe] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const videoRef = useRef(null);
+  const sectionRef = useRef(null);
 
   const handlePlay = () => {
     setShowIframe(true);
@@ -19,14 +20,19 @@ export default function AutoCountTrainingWebGL() {
 
   const handleClose = () => {
     setIsClosing(true);
+    if (sectionRef.current) {
+      const y = sectionRef.current.getBoundingClientRect().top + window.scrollY - 60;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
     setTimeout(() => {
       setShowIframe(false);
       setIsClosing(false);
-    }, 450);
+    }, 400);
   };
 
   return (
     <section
+      ref={sectionRef}
       style={{
         position: 'relative',
         width: '100%',
@@ -38,12 +44,12 @@ export default function AutoCountTrainingWebGL() {
         .training-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: center; }
         @media (max-width: 760px) { .training-grid { grid-template-columns: 1fr; gap: 1.5rem; } }
         @keyframes videoExpand {
-          from { opacity: 0; transform: scale(0.92) translateY(40px); }
+          from { opacity: 0; transform: scale(0.95) translateY(20px); }
           to { opacity: 1; transform: scale(1) translateY(0); }
         }
         @keyframes videoShrink {
           from { opacity: 1; transform: scale(1) translateY(0); }
-          to { opacity: 0; transform: scale(0.92) translateY(40px); }
+          to { opacity: 0; transform: scale(0.95) translateY(20px); }
         }
       `}</style>
       <div className="content-wrap">
