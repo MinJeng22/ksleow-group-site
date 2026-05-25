@@ -18,7 +18,7 @@
       "tag": "AutoCount - Plugin Development",
       "title": "AutoCount Plugin",
       "desc": "Custom AutoCount plugin development and workflow extensions designed to automate repetitive document flows, reduce manual entry, and adapt AutoCount Accounting to real business operations.",
-      "image": "",
+      "image": "/images/other-services/acplugin.png",
       "route": "/apps/autocount-plugin"
     },
     {
