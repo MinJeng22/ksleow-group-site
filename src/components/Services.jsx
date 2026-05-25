@@ -197,9 +197,9 @@ function ServiceCard({ service }) {
             willChange: "transform",
             contain: "paint",
             borderRadius: 18,
-            background: "#ffffff",
-            border: "1px solid rgba(47,49,90,0.06)",
-            boxShadow: "0 2px 10px rgba(0,0,0,0.02)",
+            background: "#0f1128",
+            border: "1px solid rgba(255,255,255,0.06)",
+            boxShadow: "0 2px 10px rgba(0,0,0,0.2)",
             padding: "1.4rem",
             display: "flex", flexDirection: "column",
             overflow: "hidden",
@@ -209,13 +209,13 @@ function ServiceCard({ service }) {
           }}
           onMouseOver={e => {
             setIsHovered(true);
-            e.currentTarget.style.borderColor = "rgba(47,49,90,0.15)";
-            e.currentTarget.style.boxShadow = "0 8px 24px rgba(47,49,90,0.08)";
+            e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)";
+            e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.3)";
           }}
           onMouseOut={e => {
             setIsHovered(false);
-            e.currentTarget.style.borderColor = "rgba(47,49,90,0.06)";
-            e.currentTarget.style.boxShadow = "0 2px 10px rgba(0,0,0,0.02)";
+            e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
+            e.currentTarget.style.boxShadow = "0 2px 10px rgba(0,0,0,0.2)";
           }}
         >
           {/* Hover Background Image with Overlay */}
@@ -235,7 +235,7 @@ function ServiceCard({ service }) {
           {showBadge && (
             <div className="service-badge-wrap" style={{ position: "relative", zIndex: 1, display: "flex", justifyContent: "center", alignItems: "flex-start", marginBottom: "1rem" }}>
               {activeBadge
-                ? <BadgeRow badge={activeBadge} onImage={hasFrontBackground || isActive} forceWhiteLabel={isActive} />
+                ? <BadgeRow badge={activeBadge} onImage={true} forceWhiteLabel={true} />
                 : <div />
               }
             </div>
@@ -244,7 +244,7 @@ function ServiceCard({ service }) {
             position: "relative", zIndex: 1,
             fontSize: "clamp(1.18rem, 1.5vw, 1.38rem)",
             fontWeight: 800,
-            color: isActive ? "#ffffff" : "#2f315a",
+            color: "#ffffff",
             marginTop: "auto",
             marginBottom: "0.6rem",
             lineHeight: 1.22,
@@ -256,7 +256,7 @@ function ServiceCard({ service }) {
           <p style={{
             position: "relative", zIndex: 1,
             fontSize: "0.83rem",
-            color: isActive ? "rgba(255,255,255,0.9)" : (hasFrontBackground ? "#4f577f" : "#6b6f91"),
+            color: isActive ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.7)",
             lineHeight: 1.6,
             margin: 0,
             /* Clamp to 4 lines max — paired with shorter descriptions in

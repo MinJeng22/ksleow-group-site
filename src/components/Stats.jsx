@@ -75,7 +75,7 @@ function CountUp({ raw, duration = 1800 }) {
 export default function Stats() {
   const items = stats.items || [];
   return (
-    <div className="home-section stats-section" style={{ background: "#ffffff", borderBottom: "0.5px solid rgba(47,49,90,0.1)" }}>
+    <div className="home-section stats-section" style={{ background: "#0f1128", borderBottom: "0.5px solid rgba(255,255,255,0.08)" }}>
       <div
         className="content-wrap stats-grid"
         style={{ display: "grid", gridTemplateColumns: `repeat(${items.length || 4}, 1fr)` }}
@@ -88,15 +88,15 @@ export default function Stats() {
               textAlign: "center",
               padding: "2.5rem 1rem",
               borderRight: i < items.length - 1
-                ? "0.5px solid rgba(47,49,90,0.1)"
+                ? "0.5px solid rgba(255,255,255,0.08)"
                 : "none",
             }}
           >
-            <div style={{ fontSize: "2.2rem", fontWeight: 700, color: "#2f315a", lineHeight: 1 }}>
+            <div style={{ fontSize: "2.2rem", fontWeight: 700, color: "#ffffff", lineHeight: 1 }}>
               {s.animate === false ? s.num : <CountUp raw={s.num} />}
             </div>
             <div style={{
-              fontSize: "0.7rem", fontWeight: 600, color: "#6b6f91",
+              fontSize: "0.7rem", fontWeight: 600, color: "#a8abcc",
               textTransform: "uppercase", letterSpacing: "0.09em", marginTop: "0.5rem",
             }}>
               {s.label}

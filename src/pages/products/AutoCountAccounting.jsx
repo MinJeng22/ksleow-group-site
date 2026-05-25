@@ -489,8 +489,8 @@ function EditionsTable({ selected = null, diffOnly = false }) {
   };
 
   return (
-    <div style={{ background: "#ffffff", borderRadius: 14, border: "1px solid rgba(47,49,90,0.08)", overflow: "hidden", boxShadow: "0 4px 20px rgba(47,49,90,0.05)" }}>
-      <div style={{ overflowX: "auto" }}>
+    <div style={{ background: "#ffffff", borderRadius: 14, border: "1px solid rgba(47,49,90,0.08)", boxShadow: "0 4px 20px rgba(47,49,90,0.05)" }}>
+      <div className="editions-table-wrap">
         <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.84rem" }}>
           <thead>
             <tr style={{ background: "#7AB317" }}>
