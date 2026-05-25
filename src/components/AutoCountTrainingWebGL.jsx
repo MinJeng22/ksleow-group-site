@@ -80,12 +80,7 @@ export default function AutoCountTrainingWebGL() {
       <div className="content-wrap">
         {/* ── Header — always visible, always centred ── */}
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-          <div style={{
-            fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.12em',
-            textTransform: 'uppercase', color: '#c9a84c', marginBottom: '0.6rem',
-          }}>
-            Free Training
-          </div>
+
           <h2 style={{
             fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', fontWeight: 700,
             color: '#2f315a', lineHeight: 1.2, margin: 0,

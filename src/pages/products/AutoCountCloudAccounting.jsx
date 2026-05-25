@@ -540,9 +540,7 @@ export default function AutoCountCloudAccountingPage() {
         <div id="training" ref={trainingRef} className="ac-section-tight" style={{ padding: "4.5rem 0", scrollMarginTop: 24 }}>
         <div className="content-wrap">
           <div style={{ textAlign: "center", marginBottom: "2.4rem" }}>
-            <div style={{ fontSize: "0.7rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.6rem" }}>
-              Free Training
-            </div>
+
             <h2 style={{ fontSize: "clamp(1.5rem, 2.8vw, 2.2rem)", fontWeight: 800, color: "#2f315a", lineHeight: 1.2, marginBottom: "0.85rem" }}>
               Learn AutoCount CloudAccounting in Just 30 Minutes
             </h2>
@@ -668,9 +666,7 @@ export default function AutoCountCloudAccountingPage() {
         <div className="content-wrap">
           <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: "1rem", flexWrap: "wrap", marginBottom: "1.75rem" }}>
             <div>
-              <div style={{ fontSize: "0.7rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.5rem" }}>
-                Changelog
-              </div>
+
               <h2 style={{ fontSize: "clamp(1.4rem, 2.5vw, 2rem)", fontWeight: 800, color: "#2f315a" }}>
                 Release Notes - CloudAccounting
               </h2>
