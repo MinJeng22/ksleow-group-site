@@ -63,7 +63,8 @@
         {
           "src": "/images/services/mof-logo.png",
           "alt": "Cert 2",
-          "h": 60
+          "h": 60,
+          "hoverSrc": "/images/services/mof-white-outline.png"
         }
       ]
     },
@@ -100,7 +101,8 @@
         {
           "src": "/images/logos/autocount-logo.png",
           "alt": "AutoCount",
-          "h": 60
+          "h": 60,
+          "hoverSrc": "/images/services/autocount-white.png"
         },
         {
           "src": "/images/logos/feedme-logo.png",
