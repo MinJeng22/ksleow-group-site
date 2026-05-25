@@ -10,7 +10,15 @@
       "key": "ksl_tax",
       "name": "K.S. LEOW TAX CONSULTANT SDN. BHD.",
       "tagline": "Taxation & Accounting Services",
-      "logo": ""
+      "logo": "",
+      "phones": [
+        {
+          "number": "+011-1283 3099 (Triang)"
+        },
+        {
+          "number": "+0 9-275 0338 (Mentakab)"
+        }
+      ]
     },
     {
       "key": "ksl_mgmt",
