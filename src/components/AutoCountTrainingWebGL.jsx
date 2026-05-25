@@ -4,6 +4,7 @@ const YOUTUBE_ID = 'ztmg4hvro6U';
 
 export default function AutoCountTrainingWebGL() {
   const [showIframe, setShowIframe] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const videoRef = useRef(null);
 
   const handlePlay = () => {
@@ -14,6 +15,14 @@ export default function AutoCountTrainingWebGL() {
         window.scrollTo({ top: y, behavior: 'smooth' });
       }
     }, 50);
+  };
+
+  const handleClose = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setShowIframe(false);
+      setIsClosing(false);
+    }, 450);
   };
 
   return (
@@ -31,6 +40,10 @@ export default function AutoCountTrainingWebGL() {
         @keyframes videoExpand {
           from { opacity: 0; transform: scale(0.92) translateY(40px); }
           to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        @keyframes videoShrink {
+          from { opacity: 1; transform: scale(1) translateY(0); }
+          to { opacity: 0; transform: scale(0.92) translateY(40px); }
         }
       `}</style>
       <div className="content-wrap">
@@ -56,12 +69,14 @@ export default function AutoCountTrainingWebGL() {
             ref={videoRef}
             style={{
               width: '100%',
-              animation: 'videoExpand 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+              animation: isClosing 
+                ? 'videoShrink 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards'
+                : 'videoExpand 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
             }}
           >
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1rem' }}>
               <button 
-                onClick={() => setShowIframe(false)}
+                onClick={handleClose}
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
                   background: 'rgba(47, 49, 90, 0.08)', color: '#2f315a', padding: '0.45rem 1.1rem',
