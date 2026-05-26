@@ -837,3 +837,40 @@ body.supaprintz-modal-open .back-to-top {
 @media (min-width: 640px) { 
   .editions-table-wrap { overflow-x: visible; overflow-y: visible; max-height: none; } 
 }
+
+/* ── Liquid Glass Shared Tokens ── */
+.lg-glass {
+  border: 0.5px solid rgba(255, 255, 255, 0.45);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.35) 0%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+  backdrop-filter: blur(40px) saturate(1.8);
+  -webkit-backdrop-filter: blur(40px) saturate(1.8);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    0 1px 3px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.04);
+}
+
+.lg-glass-btn {
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.25s ease,
+    background 0.25s ease,
+    color 0.3s ease;
+}
+.lg-glass-btn:hover {
+  background: linear-gradient(135deg, rgba(255,255,255,0.5), rgba(255,255,255,0.15));
+  box-shadow:
+    0 12px 40px rgba(0,0,0,0.12),
+    0 2px 6px rgba(0,0,0,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.7),
+    inset 0 -1px 0 rgba(0,0,0,0.05);
+  transform: translateY(-1px);
+}
+.lg-glass-btn:active {
+  transform: scale(0.96) translateY(0);
+}

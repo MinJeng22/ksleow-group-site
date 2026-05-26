@@ -28,19 +28,6 @@ export default function BackToTop() {
           width: 40px;
           height: 40px;
           border-radius: 50%;
-          border: 0.5px solid rgba(255, 255, 255, 0.45);
-          background: linear-gradient(
-            135deg,
-            rgba(255, 255, 255, 0.35) 0%,
-            rgba(255, 255, 255, 0.08) 100%
-          );
-          backdrop-filter: blur(40px) saturate(1.8);
-          -webkit-backdrop-filter: blur(40px) saturate(1.8);
-          box-shadow:
-            0 8px 32px rgba(0, 0, 0, 0.08),
-            0 1px 3px rgba(0, 0, 0, 0.06),
-            inset 0 1px 0 rgba(255, 255, 255, 0.6),
-            inset 0 -1px 0 rgba(0, 0, 0, 0.04);
           cursor: pointer;
           display: flex;
           align-items: center;
@@ -52,22 +39,6 @@ export default function BackToTop() {
             box-shadow 0.25s ease,
             background 0.25s ease,
             color 0.35s ease;
-        }
-        .back-to-top-glass:hover {
-          background: linear-gradient(
-            135deg,
-            rgba(255, 255, 255, 0.5) 0%,
-            rgba(255, 255, 255, 0.15) 100%
-          );
-          box-shadow:
-            0 12px 40px rgba(0, 0, 0, 0.12),
-            0 2px 6px rgba(0, 0, 0, 0.08),
-            inset 0 1px 0 rgba(255, 255, 255, 0.7),
-            inset 0 -1px 0 rgba(0, 0, 0, 0.05);
-          transform: translateY(-2px);
-        }
-        .back-to-top-glass:active {
-          transform: translateY(1px) scale(0.95);
         }
         /* Mobile sizing */
         @media (max-width: 767px) {
@@ -81,7 +52,7 @@ export default function BackToTop() {
       `}</style>
       <button
         ref={btnRef}
-        className="back-to-top-glass"
+        className="back-to-top-glass lg-glass lg-glass-btn"
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         aria-label="Back to top"
         title="Back to top"

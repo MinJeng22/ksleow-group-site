@@ -274,44 +274,11 @@ export default function Hero({ onContact }) {
           width: 48px;
           height: 48px;
           border-radius: 50%;
-          border: 0.5px solid rgba(255, 255, 255, 0.45);
-          background: linear-gradient(
-            135deg,
-            rgba(255, 255, 255, 0.25) 0%,
-            rgba(255, 255, 255, 0.05) 100%
-          );
-          backdrop-filter: blur(40px) saturate(1.8);
-          -webkit-backdrop-filter: blur(40px) saturate(1.8);
-          box-shadow:
-            0 8px 32px rgba(0, 0, 0, 0.08),
-            0 1px 3px rgba(0, 0, 0, 0.06),
-            inset 0 1px 0 rgba(255, 255, 255, 0.3),
-            inset 0 -1px 0 rgba(0, 0, 0, 0.04);
-          color: #ffffff; /* White icon for dark background */
+          color: #ffffff;
           cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
-          transition:
-            transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-            box-shadow 0.25s ease,
-            background 0.25s ease;
-        }
-        .hero-glass-btn:hover {
-          background: linear-gradient(
-            135deg,
-            rgba(255, 255, 255, 0.35) 0%,
-            rgba(255, 255, 255, 0.1) 100%
-          );
-          box-shadow:
-            0 12px 40px rgba(0, 0, 0, 0.12),
-            0 2px 6px rgba(0, 0, 0, 0.08),
-            inset 0 1px 0 rgba(255, 255, 255, 0.4),
-            inset 0 -1px 0 rgba(0, 0, 0, 0.05);
-          transform: translateY(-2px);
-        }
-        .hero-glass-btn:active {
-          transform: translateY(1px) scale(0.95);
         }
         /* Mobile: Keep bottom right, maybe slightly adjusted */
         @media (max-width: 767px) {
@@ -324,7 +291,7 @@ export default function Hero({ onContact }) {
         }
       `}</style>
       <button
-        className="hero-glass-btn"
+        className="hero-glass-btn lg-glass lg-glass-btn"
         onClick={() => setPaused(p => !p)}
         title={paused ? "Play background" : "Pause background"}
         aria-label={paused ? "Play background" : "Pause background"}

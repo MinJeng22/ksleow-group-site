@@ -72,23 +72,6 @@ const MENU_ITEMS = [
 
 /* ── CSS keyframes & styles ─────────────────────────────── */
 const STYLES = `
-/* ─── Liquid Glass shared token ─────────────────────────── */
-.lg-glass {
-  border: 0.5px solid rgba(255, 255, 255, 0.45);
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.35) 0%,
-    rgba(255, 255, 255, 0.08) 100%
-  );
-  backdrop-filter: blur(40px) saturate(1.8);
-  -webkit-backdrop-filter: blur(40px) saturate(1.8);
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.08),
-    0 1px 3px rgba(0, 0, 0, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.04);
-}
-
 /* ─── Menu & Search Container (Desktop/Tablet) ───────────── */
 .top-right-controls {
   position: fixed;
@@ -129,19 +112,6 @@ const STYLES = `
 }
 .search-fab {
   padding: 0 1rem;
-}
-.menu-fab:hover, .search-fab:hover {
-  background: linear-gradient(135deg, rgba(255,255,255,0.5), rgba(255,255,255,0.15));
-  box-shadow:
-    0 12px 40px rgba(0,0,0,0.12),
-    0 2px 6px rgba(0,0,0,0.08),
-    inset 0 1px 0 rgba(255,255,255,0.7),
-    inset 0 -1px 0 rgba(0,0,0,0.05);
-  color: rgba(0,0,0,0.8);
-  transform: translateY(-1px);
-}
-.menu-fab:active, .search-fab:active {
-  transform: scale(0.96);
 }
 
 /* ─── Mobile floating bar ──────────────────────────────── */
@@ -418,7 +388,7 @@ export default function MenuButton({ onOpenSearch }) {
       {/* ── Desktop/Tablet Controls ────────────────────────── */}
       <div className="top-right-controls" ref={fabRef}>
         <button
-          className="search-fab lg-glass"
+          className="search-fab lg-glass lg-glass-btn"
           onClick={onOpenSearch}
           aria-label="Search"
           style={{ color: isDesktopDark ? "#ffffff" : "rgba(0, 0, 0, 0.6)" }}
@@ -431,7 +401,7 @@ export default function MenuButton({ onOpenSearch }) {
         </button>
 
         <button
-          className="menu-fab lg-glass"
+          className="menu-fab lg-glass lg-glass-btn"
           onClick={() => setOpen(!open)}
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
@@ -476,6 +446,20 @@ export default function MenuButton({ onOpenSearch }) {
             <span style={{ height: 1.5, top: 9 }} />
           </div>
           <span>Menu</span>
+        </button>
+
+        <div className="mfb-divider" style={{ background: isMobileDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.1)" }} />
+
+        <button 
+          className="mfb-btn" 
+          onClick={() => navigate(-1)} 
+          aria-label="Back"
+          style={{ color: isMobileDark ? "#ffffff" : "rgba(0, 0, 0, 0.55)" }}
+        >
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          <span>Back</span>
         </button>
       </div>
 
