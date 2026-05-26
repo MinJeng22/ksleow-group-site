@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
 
+/**
+ * BackToTop — Apple Liquid Glass style.
+ * On desktop/tablet: fixed bottom-right circle.
+ * On mobile: rendered inside the FloatingBar, so this component hides itself.
+ */
 export default function BackToTop() {
   const [visible, setVisible] = useState(false);
 
@@ -10,41 +15,89 @@ export default function BackToTop() {
   }, []);
 
   return (
-    <button
-      className="back-to-top"
-      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      aria-label="Back to top"
-      title="Back to top"
-      style={{
-        position: "fixed",
-        bottom: 28,   /* lower slot — KS Omni FAB sits above this */
-        right: 28,
-        zIndex: 500,
-        width: 52,    /* identical to AI FAB */
-        height: 52,
-        borderRadius: "50%",
-        background: "#2f315a",
-        border: "2px solid rgba(201,168,76,0.5)",
-        color: "#c9a84c",
-        cursor: "pointer",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 0,
-        boxShadow: "0 6px 24px rgba(47,49,90,0.35)",
-        opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0) scale(1)" : "translateY(12px) scale(0.85)",
-        pointerEvents: visible ? "auto" : "none",
-        transition: "opacity 0.3s, transform 0.3s, background 0.2s",
-      }}
-      onMouseOver={e => e.currentTarget.style.background = "#3d4075"}
-      onMouseOut={e => e.currentTarget.style.background = "#2f315a"}
-    >
-      {/* Bolder up-arrow — matches the visual weight of the "?" KS Omni FAB */}
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-        stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-        <polyline points="18 15 12 9 6 15" />
-      </svg>
-    </button>
+    <>
+      <style>{`
+        .back-to-top-glass {
+          position: fixed;
+          bottom: 28px;
+          right: 28px;
+          z-index: 500;
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          border: 0.5px solid rgba(255, 255, 255, 0.45);
+          background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.35) 0%,
+            rgba(255, 255, 255, 0.08) 100%
+          );
+          backdrop-filter: blur(40px) saturate(1.8);
+          -webkit-backdrop-filter: blur(40px) saturate(1.8);
+          box-shadow:
+            0 8px 32px rgba(0, 0, 0, 0.08),
+            0 1px 3px rgba(0, 0, 0, 0.06),
+            inset 0 1px 0 rgba(255, 255, 255, 0.6),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.04);
+          color: rgba(0, 0, 0, 0.55);
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0;
+          transition:
+            opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+            transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+            box-shadow 0.25s ease,
+            background 0.25s ease;
+        }
+        .back-to-top-glass:hover {
+          background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.5) 0%,
+            rgba(255, 255, 255, 0.15) 100%
+          );
+          box-shadow:
+            0 12px 40px rgba(0, 0, 0, 0.12),
+            0 2px 6px rgba(0, 0, 0, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.7),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+          color: rgba(0, 0, 0, 0.75);
+          transform: translateY(-2px);
+        }
+        .back-to-top-glass:active {
+          transform: translateY(1px) scale(0.95);
+        }
+        /* Hide on mobile — FloatingBar handles it */
+        @media (max-width: 767px) {
+          .back-to-top-glass {
+            display: none !important;
+          }
+        }
+      `}</style>
+      <button
+        className="back-to-top-glass"
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        aria-label="Back to top"
+        title="Back to top"
+        style={{
+          opacity: visible ? 1 : 0,
+          transform: visible ? "translateY(0) scale(1)" : "translateY(12px) scale(0.85)",
+          pointerEvents: visible ? "auto" : "none",
+        }}
+      >
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <polyline points="18 15 12 9 6 15" />
+        </svg>
+      </button>
+    </>
   );
 }

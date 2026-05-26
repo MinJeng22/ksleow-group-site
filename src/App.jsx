@@ -68,7 +68,7 @@ function AppShell({ openContact, modalOpen, setModalOpen }) {
 
       <ContactModal open={modalOpen} onClose={() => setModalOpen(false)} />
       <BackToTop />
-      <MenuButton onClick={() => console.log('Menu clicked')} />
+      <MenuButton />
     </div>
   );
 }
