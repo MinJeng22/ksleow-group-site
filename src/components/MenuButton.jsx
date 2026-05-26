@@ -418,26 +418,7 @@ export default function MenuButton() {
       <div
         ref={mobileBarRef}
         className="mobile-float-bar lg-glass"
-        style={{
-          opacity: showScrollTop ? 1 : 1,
-        }}
       >
-        {showScrollTop && (
-          <>
-            <button 
-              className="mfb-btn" 
-              onClick={scrollTop} 
-              aria-label="Back to top"
-              style={{ color: isMobileDark ? "#ffffff" : "rgba(0, 0, 0, 0.55)" }}
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="18 15 12 9 6 15"/>
-              </svg>
-              <span>Top</span>
-            </button>
-            <div className="mfb-divider" style={{ background: isMobileDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.1)" }} />
-          </>
-        )}
         <button 
           className="mfb-btn" 
           onClick={() => setOpen(!open)} 

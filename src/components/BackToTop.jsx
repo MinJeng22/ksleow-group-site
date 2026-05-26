@@ -69,10 +69,13 @@ export default function BackToTop() {
         .back-to-top-glass:active {
           transform: translateY(1px) scale(0.95);
         }
-        /* Hide on mobile — FloatingBar handles it */
+        /* Mobile sizing */
         @media (max-width: 767px) {
           .back-to-top-glass {
-            display: none !important;
+            bottom: 20px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
           }
         }
       `}</style>
