@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import useDarkBg from "../hooks/useDarkBg";
 
 /* ── Menu items ─────────────────────────────────────────── */
 const MENU_ITEMS = [
@@ -342,6 +343,11 @@ export default function MenuButton() {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const panelRef = useRef(null);
   const fabRef = useRef(null);
+  const mobileBarRef = useRef(null);
+  
+  const isDesktopDark = useDarkBg(fabRef);
+  const isMobileDark = useDarkBg(mobileBarRef);
+
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -400,6 +406,7 @@ export default function MenuButton() {
         onClick={() => setOpen(!open)}
         aria-label={open ? "Close menu" : "Open menu"}
         aria-expanded={open}
+        style={{ color: isDesktopDark ? "#ffffff" : "rgba(0, 0, 0, 0.6)" }}
       >
         <div className={`menu-hamburger${open ? " is-open" : ""}`}>
           <span /><span /><span />
@@ -409,6 +416,7 @@ export default function MenuButton() {
 
       {/* ── Mobile floating bar ───────────────────────── */}
       <div
+        ref={mobileBarRef}
         className="mobile-float-bar lg-glass"
         style={{
           opacity: showScrollTop ? 1 : 1,
@@ -416,16 +424,26 @@ export default function MenuButton() {
       >
         {showScrollTop && (
           <>
-            <button className="mfb-btn" onClick={scrollTop} aria-label="Back to top">
+            <button 
+              className="mfb-btn" 
+              onClick={scrollTop} 
+              aria-label="Back to top"
+              style={{ color: isMobileDark ? "#ffffff" : "rgba(0, 0, 0, 0.55)" }}
+            >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="18 15 12 9 6 15"/>
               </svg>
               <span>Top</span>
             </button>
-            <div className="mfb-divider" />
+            <div className="mfb-divider" style={{ background: isMobileDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.1)" }} />
           </>
         )}
-        <button className="mfb-btn" onClick={() => setOpen(!open)} aria-label={open ? "Close menu" : "Open menu"}>
+        <button 
+          className="mfb-btn" 
+          onClick={() => setOpen(!open)} 
+          aria-label={open ? "Close menu" : "Open menu"}
+          style={{ color: isMobileDark ? "#ffffff" : "rgba(0, 0, 0, 0.55)" }}
+        >
           <div className={`menu-hamburger${open ? " is-open" : ""}`} style={{ width: 14, height: 11 }}>
             <span style={{ height: 1.5 }} />
             <span style={{ height: 1.5, top: 4.5, width: "70%" }} />

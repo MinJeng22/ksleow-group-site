@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import useDarkBg from "../hooks/useDarkBg";
 
 /**
  * BackToTop — Apple Liquid Glass style.
@@ -7,6 +8,8 @@ import { useState, useEffect } from "react";
  */
 export default function BackToTop() {
   const [visible, setVisible] = useState(false);
+  const btnRef = useRef(null);
+  const isDark = useDarkBg(btnRef);
 
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 400);
@@ -38,7 +41,6 @@ export default function BackToTop() {
             0 1px 3px rgba(0, 0, 0, 0.06),
             inset 0 1px 0 rgba(255, 255, 255, 0.6),
             inset 0 -1px 0 rgba(0, 0, 0, 0.04);
-          color: rgba(0, 0, 0, 0.55);
           cursor: pointer;
           display: flex;
           align-items: center;
@@ -48,7 +50,8 @@ export default function BackToTop() {
             opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
             transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
             box-shadow 0.25s ease,
-            background 0.25s ease;
+            background 0.25s ease,
+            color 0.35s ease;
         }
         .back-to-top-glass:hover {
           background: linear-gradient(
@@ -61,7 +64,6 @@ export default function BackToTop() {
             0 2px 6px rgba(0, 0, 0, 0.08),
             inset 0 1px 0 rgba(255, 255, 255, 0.7),
             inset 0 -1px 0 rgba(0, 0, 0, 0.05);
-          color: rgba(0, 0, 0, 0.75);
           transform: translateY(-2px);
         }
         .back-to-top-glass:active {
@@ -75,6 +77,7 @@ export default function BackToTop() {
         }
       `}</style>
       <button
+        ref={btnRef}
         className="back-to-top-glass"
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         aria-label="Back to top"
@@ -83,6 +86,7 @@ export default function BackToTop() {
           opacity: visible ? 1 : 0,
           transform: visible ? "translateY(0) scale(1)" : "translateY(12px) scale(0.85)",
           pointerEvents: visible ? "auto" : "none",
+          color: isDark ? "rgba(255, 255, 255, 0.95)" : "rgba(0, 0, 0, 0.55)",
         }}
       >
         <svg
