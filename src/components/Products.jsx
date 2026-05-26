@@ -304,8 +304,8 @@ export default function Products({ onContact }) {
     >
       <style>{`
         @keyframes products-autoplay-progress {
-          0% { width: 0%; }
-          100% { width: 100%; }
+          0% { width: 100%; }
+          100% { width: 0%; }
         }
       `}</style>
       <div className="content-wrap" style={{ position: "relative", zIndex: 1 }}>
@@ -395,7 +395,7 @@ export default function Products({ onContact }) {
                       bottom: 0,
                       background: "#ffffff",
                       borderRadius: "3px",
-                      width: isPlaying ? "0%" : "100%",
+                      width: isPlaying ? "100%" : "0%",
                       animation: isPlaying ? "products-autoplay-progress 3000ms linear forwards" : "none"
                     }}
                   />
