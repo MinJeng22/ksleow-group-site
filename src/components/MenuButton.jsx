@@ -415,7 +415,7 @@ const STYLES = `
 `;
 
 /* ── Component ──────────────────────────────────────────── */
-export default function MenuButton({ onOpenSearch }) {
+export default function MenuButton({ onOpenSearch, hideBar }) {
   const [open, setOpen] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [expandedMobile, setExpandedMobile] = useState([0]);
@@ -596,6 +596,7 @@ export default function MenuButton({ onOpenSearch }) {
       <div
         ref={mobileBarRef}
         className={`mobile-float-bar lg-glass${showScrollTop && mobileActionMode === "back" ? " has-scrolltop" : ""}`}
+        style={hideBar ? { opacity: 0, transform: "translateY(150%)", pointerEvents: "none" } : undefined}
       >
         {mobileActionMode && (
           <>

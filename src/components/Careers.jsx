@@ -41,6 +41,7 @@ function AnimatedWords({ text, startDelay = 0, stepMs = 60, visible }) {
 export default function Careers() {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
+  const [buttonsClickable, setButtonsClickable] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
@@ -67,6 +68,16 @@ export default function Careers() {
   const BODY_STEP  = 26;
   const bodyDur    = (careers.body || "").split(" ").length * BODY_STEP;
   const buttonsStart = bodyStart + bodyDur + 200;
+  
+  useEffect(() => {
+    if (visible) {
+      const timer = setTimeout(() => {
+        setButtonsClickable(true);
+      }, buttonsStart + 500);
+      return () => clearTimeout(timer);
+    }
+  }, [visible, buttonsStart]);
+
   const [density, setDensity] = useState(0.78);
   useEffect(() => {
     const update = () => {
@@ -162,6 +173,7 @@ export default function Careers() {
             transform: visible ? "translateY(0)" : "translateY(8px)",
             transition: "opacity 0.5s ease, transform 0.5s ease",
             transitionDelay: visible ? `${buttonsStart}ms` : "0ms",
+            pointerEvents: buttonsClickable ? "auto" : "none",
           }}
         >
           {/* Primary — career enquiry */}
