@@ -25,12 +25,13 @@ export default function BackToTop() {
           bottom: 28px;
           right: 28px;
           z-index: 500;
-          --lg-height: 44px;
+          --lg-height: 40px;
           --lg-px: 1.15rem;
-          font-weight: 500;
-          font-size: 0.9rem;
+          font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+          font-weight: 600;
+          font-size: 0.82rem;
           letter-spacing: 0.01em;
-          gap: 8px;
+          gap: 0.45rem;
           transition:
             opacity 0.38s cubic-bezier(0.22, 1, 0.36, 1),
             transform 0.46s cubic-bezier(0.2, 1.18, 0.36, 1),
@@ -77,18 +78,20 @@ export default function BackToTop() {
           color: isDark ? "rgba(255, 255, 255, 0.95)" : "rgba(0, 0, 0, 0.55)",
         }}
       >
-        <svg
-          width="15"
-          height="15"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <polyline points="18 15 12 9 6 15" />
-        </svg>
+        <span className="lg-glass-icon" aria-hidden="true">
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <polyline points="18 15 12 9 6 15" />
+          </svg>
+        </span>
         <span>To Top</span>
       </button>
     </>
