@@ -95,6 +95,7 @@ function ServiceCard({ service }) {
   const [isHovered, setIsHovered] = useState(false);
   const [isDelayedHover, setIsDelayedHover] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isInView, setIsInView] = useState(false);
   const cardRef = useRef(null);
   const contact = SERVICE_CONTACTS[service.key] || {};
   const office  = (service.officeKey && OFFICES[service.officeKey]) || null;
@@ -162,10 +163,11 @@ function ServiceCard({ service }) {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
+          setIsInView(entry.isIntersecting);
           if (!entry.isIntersecting) setFlipped(false);
         });
       },
-      { threshold: 0.12 }
+      { threshold: 0.5 }
     );
     observer.observe(node);
 
@@ -180,7 +182,13 @@ function ServiceCard({ service }) {
     };
   }, []);
 
-  const isActive = service.backgroundImage && (isDelayedHover || isMobile);
+  useEffect(() => {
+    if (isMobile) {
+      setIsHovered(isInView);
+    }
+  }, [isMobile, isInView]);
+
+  const isActive = service.backgroundImage && isDelayedHover;
 
   let activeBadge = service.dealer || service.certified;
   if (isActive && activeBadge) {
@@ -229,12 +237,12 @@ function ServiceCard({ service }) {
             transition: "border-color 0.2s, box-shadow 0.2s",
           }}
           onMouseOver={e => {
-            setIsHovered(true);
+            if (!isMobile) setIsHovered(true);
             e.currentTarget.style.borderColor = "#bfc4d8";
             e.currentTarget.style.boxShadow = "0 4px 16px rgba(47,49,90,0.09)";
           }}
           onMouseOut={e => {
-            setIsHovered(false);
+            if (!isMobile) setIsHovered(false);
             e.currentTarget.style.borderColor = "#d8dbe8";
             e.currentTarget.style.boxShadow = "none";
           }}
