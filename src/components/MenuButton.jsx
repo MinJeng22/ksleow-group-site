@@ -558,7 +558,7 @@ export default function MenuButton({ onOpenSearch }) {
 
   const hasHistory = window.history.state && window.history.state.idx > 0;
   const isHomeHero = pathname === "/" && scrollY < (typeof window !== "undefined" ? window.innerHeight * 0.8 : 0);
-  const mobileActionMode = isHomeHero ? "scroll" : (pathname === "/" || hasHistory ? "back" : null);
+  const mobileActionMode = isHomeHero ? "scroll" : (hasHistory ? "back" : null);
 
   const scrollForMore = () => {
     const distance = window.innerHeight * 0.9;
