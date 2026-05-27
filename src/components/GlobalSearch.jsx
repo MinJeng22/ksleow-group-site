@@ -154,43 +154,16 @@ export default function GlobalSearch({ open, onClose }) {
     <>
       <style>{`
         .search-backdrop {
-          position: fixed;
-          inset: 0;
-          z-index: 2000;
-          background:
-            radial-gradient(circle at 50% 8%, rgba(201,168,76,0.18), transparent 32%),
-            rgba(15, 17, 40, 0.48);
-          backdrop-filter: blur(14px) saturate(1.1);
-          -webkit-backdrop-filter: blur(14px) saturate(1.1);
           display: flex;
           align-items: flex-start;
           justify-content: center;
           padding: 10vh 1.25rem 1.25rem;
-          animation: searchFadeIn 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-        @keyframes searchFadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
         }
         .search-modal {
           width: min(680px, 100%);
           border-radius: 24px;
-          border: 0.5px solid rgba(255, 255, 255, 0.42);
-          background: linear-gradient(
-            145deg,
-            rgba(255, 255, 255, 0.96) 0%,
-            rgba(247, 247, 252, 0.9) 100%
-          );
-          box-shadow:
-            0 34px 86px rgba(11, 12, 28, 0.28),
-            0 8px 24px rgba(47, 49, 90, 0.12),
-            inset 0 1px 0 rgba(255, 255, 255, 0.86);
           overflow: hidden;
-          animation: searchSlideDown 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-        @keyframes searchSlideDown {
-          from { opacity: 0; transform: translateY(-20px) scale(0.98); }
-          to { opacity: 1; transform: translateY(0) scale(1); }
+          animation: ksNavPanelIn 0.35s cubic-bezier(0.22, 1, 0.36, 1);
         }
         .search-header {
           display: flex;
@@ -216,21 +189,7 @@ export default function GlobalSearch({ open, onClose }) {
           color: rgba(47,49,90,0.34);
         }
         .search-close-btn {
-          background: rgba(47,49,90,0.06);
-          border: 1px solid rgba(47,49,90,0.08);
-          width: 32px;
-          height: 32px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: rgba(47,49,90,0.55);
-          cursor: pointer;
-          transition: all 0.2s;
-        }
-        .search-close-btn:hover {
-          background: rgba(47,49,90,0.1);
-          color: #2f315a;
+          flex-shrink: 0;
         }
         .search-results {
           max-height: min(48vh, 420px);
@@ -325,8 +284,8 @@ export default function GlobalSearch({ open, onClose }) {
         }
       `}</style>
       
-      <div className="search-backdrop" onClick={onClose}>
-        <div className="search-modal" onClick={e => e.stopPropagation()}>
+      <div className="search-backdrop ks-nav-modal-backdrop" onClick={onClose}>
+        <div className="search-modal ks-nav-glass-panel" onClick={e => e.stopPropagation()}>
           <div className="search-header">
             <svg className="search-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="11" cy="11" r="8"></circle>
@@ -336,11 +295,11 @@ export default function GlobalSearch({ open, onClose }) {
               ref={inputRef}
               type="text" 
               className="search-input" 
-              placeholder="Search products, apps, etc..." 
+              placeholder="Search Pages"
               value={query}
               onChange={e => setQuery(e.target.value)}
             />
-            <button className="search-close-btn" onClick={onClose} aria-label="Close search">
+            <button className="search-close-btn ks-nav-close-btn" onClick={onClose} aria-label="Close search">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
                 <line x1="6" y1="6" x2="18" y2="18"></line>

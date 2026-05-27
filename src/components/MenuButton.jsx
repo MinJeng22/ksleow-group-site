@@ -6,37 +6,99 @@ import useDarkBg from "../hooks/useDarkBg";
 const MEGA_MENU = [
   {
     title: "Service Pillars",
+    icon: "briefcase",
     items: [
-      { label: "Taxation & Accounting",         scrollTo: "#services" },
-      { label: "Secretarial & Management",      scrollTo: "#services" },
-      { label: "Auditing",                      scrollTo: "#services" },
-      { label: "Computer Hardware & Technical",  scrollTo: "#services" },
-      { label: "Software Training & Support",   scrollTo: "#services" },
-      { label: "Webinar & Workshops",           scrollTo: "#services" },
+      { label: "Taxation & Accounting",         scrollTo: "#services", icon: "calculator" },
+      { label: "Secretarial & Management",      scrollTo: "#services", icon: "files" },
+      { label: "Auditing",                      scrollTo: "#services", icon: "shield" },
+      { label: "Computer Hardware & Technical", scrollTo: "#services", icon: "cpu" },
+      { label: "Software Training & Support",   scrollTo: "#services", icon: "graduation" },
+      { label: "Webinar & Workshops",           scrollTo: "#services", icon: "video" },
     ],
   },
   {
     title: "Products",
+    icon: "boxes",
     items: [
-      { label: "AutoCount Accounting",     path: "/products/autocount-accounting" },
-      { label: "FeedMe POS",               path: "/products/feedme-pos" },
-      { label: "AutoCount CloudAccounting", path: "/products/autocount-cloud-accounting" },
-      { label: "AutoCount POS",            scrollTo: "#products" },
-      { label: "ServerLink",               scrollTo: "#products" },
-      { label: "AutoCount HRMS",           scrollTo: "#products" },
-      { label: "AutoCount OneSale",        scrollTo: "#products" },
+      { label: "AutoCount Accounting",      path: "/products/autocount-accounting", icon: "monitor" },
+      { label: "FeedMe POS",                path: "/products/feedme-pos", icon: "pos" },
+      { label: "AutoCount CloudAccounting", path: "/products/autocount-cloud-accounting", icon: "cloud" },
+      { label: "AutoCount POS",             scrollTo: "#products", icon: "terminal" },
+      { label: "ServerLink",                scrollTo: "#products", icon: "server" },
+      { label: "AutoCount HRMS",            scrollTo: "#products", icon: "users" },
+      { label: "AutoCount OneSale",         scrollTo: "#products", icon: "cart" },
     ],
   },
   {
     title: "Other Services",
+    icon: "sparkles",
     items: [
-      { label: "Printing / Advertising / Design", scrollTo: "#other-services" },
-      { label: "AutoCount Plugin",                 path: "/apps/autocount-plugin" },
-      { label: "SiteGiant Integration",            scrollTo: "#other-services" },
-      { label: "AI Assistant (KS Omni)",           path: "/omni" },
+      { label: "Printing / Advertising / Design", scrollTo: "#other-services", icon: "printer" },
+      { label: "AutoCount Plugin",                path: "/apps/autocount-plugin", icon: "plug" },
+      { label: "SiteGiant Integration",           scrollTo: "#other-services", icon: "link" },
+      { label: "AI Assistant (KS Omni)",           path: "/omni", icon: "bot" },
     ],
   },
 ];
+
+function NavIcon({ name, size = 16 }) {
+  const common = {
+    width: size,
+    height: size,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    "aria-hidden": "true",
+  };
+
+  switch (name) {
+    case "briefcase":
+      return <svg {...common}><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /><path d="M3 13h18" /></svg>;
+    case "boxes":
+      return <svg {...common}><path d="m7 16 5 3 5-3" /><path d="m7 8 5-3 5 3" /><path d="m7 8 5 3 5-3" /><path d="M7 8v8" /><path d="M17 8v8" /><path d="M12 11v8" /></svg>;
+    case "sparkles":
+      return <svg {...common}><path d="m12 3 1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8L12 3Z" /><path d="m19 14 .9 2.1L22 17l-2.1.9L19 20l-.9-2.1L16 17l2.1-.9L19 14Z" /></svg>;
+    case "calculator":
+      return <svg {...common}><rect x="5" y="3" width="14" height="18" rx="2" /><path d="M8 7h8" /><path d="M8 11h.01" /><path d="M12 11h.01" /><path d="M16 11h.01" /><path d="M8 15h.01" /><path d="M12 15h.01" /><path d="M16 15h.01" /></svg>;
+    case "files":
+      return <svg {...common}><path d="M15 2H7a2 2 0 0 0-2 2v13" /><path d="M9 6h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Z" /></svg>;
+    case "shield":
+      return <svg {...common}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" /><path d="m9 12 2 2 4-5" /></svg>;
+    case "cpu":
+      return <svg {...common}><rect x="7" y="7" width="10" height="10" rx="2" /><path d="M9 1v3" /><path d="M15 1v3" /><path d="M9 20v3" /><path d="M15 20v3" /><path d="M20 9h3" /><path d="M20 15h3" /><path d="M1 9h3" /><path d="M1 15h3" /></svg>;
+    case "graduation":
+      return <svg {...common}><path d="m22 10-10-5-10 5 10 5 10-5Z" /><path d="M6 12v5c3 2 9 2 12 0v-5" /></svg>;
+    case "video":
+      return <svg {...common}><rect x="3" y="6" width="13" height="12" rx="2" /><path d="m16 10 5-3v10l-5-3" /></svg>;
+    case "monitor":
+      return <svg {...common}><rect x="3" y="4" width="18" height="13" rx="2" /><path d="M8 21h8" /><path d="M12 17v4" /></svg>;
+    case "pos":
+      return <svg {...common}><path d="M6 2h12v8H6z" /><path d="M4 10h16v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z" /><path d="M8 14h.01M12 14h.01M16 14h.01" /></svg>;
+    case "cloud":
+      return <svg {...common}><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10Z" /></svg>;
+    case "terminal":
+      return <svg {...common}><rect x="3" y="4" width="18" height="16" rx="2" /><path d="m8 9 3 3-3 3" /><path d="M13 15h3" /></svg>;
+    case "server":
+      return <svg {...common}><rect x="4" y="3" width="16" height="7" rx="2" /><rect x="4" y="14" width="16" height="7" rx="2" /><path d="M8 6h.01M8 17h.01" /></svg>;
+    case "users":
+      return <svg {...common}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>;
+    case "cart":
+      return <svg {...common}><circle cx="8" cy="21" r="1" /><circle cx="19" cy="21" r="1" /><path d="M2 2h3l2.6 13.5a2 2 0 0 0 2 1.5H18a2 2 0 0 0 2-1.6L21 8H6" /></svg>;
+    case "printer":
+      return <svg {...common}><path d="M6 9V2h12v7" /><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" /><path d="M6 14h12v8H6z" /></svg>;
+    case "plug":
+      return <svg {...common}><path d="M12 22v-5" /><path d="M9 8V2" /><path d="M15 8V2" /><path d="M6 8h12v3a6 6 0 0 1-12 0V8Z" /></svg>;
+    case "link":
+      return <svg {...common}><path d="M10 13a5 5 0 0 0 7.54.54l2-2a5 5 0 0 0-7.07-7.07l-1.15 1.15" /><path d="M14 11a5 5 0 0 0-7.54-.54l-2 2a5 5 0 0 0 7.07 7.07l1.15-1.15" /></svg>;
+    case "bot":
+      return <svg {...common}><rect x="4" y="8" width="16" height="12" rx="3" /><path d="M12 8V4" /><path d="M8 12h.01M16 12h.01" /><path d="M9 16h6" /></svg>;
+    default:
+      return <svg {...common}><circle cx="12" cy="12" r="8" /><path d="m12 8 4 4-4 4" /><path d="M8 12h8" /></svg>;
+  }
+}
 
 /* ── MenuGlyph icon ─────────────────────────────────────── */
 function MenuGlyph({ open, size = 17 }) {
@@ -257,19 +319,6 @@ const STYLES = `
   position: fixed;
   z-index: 1101;
   border-radius: 26px;
-  border: 0.5px solid rgba(255, 255, 255, 0.56);
-  background: linear-gradient(
-    160deg,
-    rgba(255, 255, 255, 0.84) 0%,
-    rgba(247, 247, 252, 0.54) 100%
-  );
-  backdrop-filter: blur(60px) saturate(2);
-  -webkit-backdrop-filter: blur(60px) saturate(2);
-  box-shadow:
-    0 28px 86px rgba(11, 12, 28, 0.18),
-    0 8px 24px rgba(47, 49, 90, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.7),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.03);
   padding: 18px;
   opacity: 0;
   transform: scale(0.92) translateY(-10px);
@@ -322,42 +371,120 @@ const STYLES = `
   display: flex;
   flex-direction: column;
   min-width: 0;
-  border-radius: 16px;
-  padding: 0.2rem;
+  border-radius: 18px;
+  padding: 0.35rem;
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(47, 49, 90, 0.06);
 }
 
 .menu-column-title {
+  align-items: center;
+  appearance: none;
+  background: rgba(255, 255, 255, 0.58);
+  border: 1px solid rgba(47, 49, 90, 0.07);
+  border-radius: 15px;
+  box-sizing: border-box;
+  color: #2f315a;
+  cursor: default;
+  display: flex;
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
-  font-size: 0.65rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: rgba(47, 49, 90, 0.52);
-  padding: 0.55rem 0.75rem 0.38rem;
+  justify-content: space-between;
+  min-height: 44px;
+  padding: 0.5rem 0.58rem;
   user-select: none;
+  width: 100%;
+}
+
+.menu-column-title-main {
+  align-items: center;
+  display: inline-flex;
+  flex: 1;
+  gap: 0.52rem;
+  min-width: 0;
+}
+
+.menu-parent-icon {
+  align-items: center;
+  background: rgba(201, 168, 76, 0.16);
+  border: 1px solid rgba(201, 168, 76, 0.18);
+  border-radius: 11px;
+  color: #9a7615;
+  display: inline-flex;
+  flex-shrink: 0;
+  height: 30px;
+  justify-content: center;
+  width: 30px;
+}
+
+.menu-parent-text {
+  color: #2f315a;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  line-height: 1.15;
+  overflow: hidden;
+  text-align: left;
+  text-transform: uppercase;
+  text-overflow: ellipsis;
+}
+
+.menu-parent-count {
+  align-items: center;
+  background: rgba(47, 49, 90, 0.06);
+  border-radius: 999px;
+  color: rgba(47, 49, 90, 0.56);
+  display: inline-flex;
+  flex-shrink: 0;
+  font-size: 0.68rem;
+  font-weight: 800;
+  height: 24px;
+  justify-content: center;
+  min-width: 24px;
+  padding: 0 0.4rem;
+}
+
+.menu-title-actions {
+  align-items: center;
+  display: inline-flex;
+  flex-shrink: 0;
+  gap: 0.38rem;
+  margin-left: 0.5rem;
+}
+
+.accordion-chevron-wrap {
+  align-items: center;
+  background: rgba(47, 49, 90, 0.08);
+  border: 1px solid rgba(47, 49, 90, 0.08);
+  border-radius: 50%;
+  color: rgba(47, 49, 90, 0.68);
+  display: none;
+  flex-shrink: 0;
+  height: 30px;
+  justify-content: center;
+  width: 30px;
 }
 
 /* Mobile accordion behavior */
 @media (max-width: 767px) {
   .menu-column {
-    border-bottom: 0.5px solid rgba(47,49,90,0.08);
-    border-radius: 14px;
+    border-radius: 18px;
+    margin-bottom: 0.45rem;
   }
   .menu-column:last-child {
-    border-bottom: none;
+    margin-bottom: 0;
   }
   .menu-column-title {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.78rem 0.75rem;
-    font-size: 0.72rem;
+    cursor: pointer;
+    min-height: 50px;
+    padding: 0.55rem 0.62rem;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
   }
+  .accordion-chevron-wrap {
+    display: inline-flex;
+  }
   .menu-column-title .accordion-chevron {
     transition: transform 0.3s ease;
-    opacity: 0.4;
   }
   .menu-column-title.is-expanded .accordion-chevron {
     transform: rotate(180deg);
@@ -373,16 +500,18 @@ const STYLES = `
 }
 /* Desktop: always show body, hide chevron */
 @media (min-width: 768px) {
-  .menu-column-title .accordion-chevron {
+  .accordion-chevron-wrap {
     display: none;
   }
 }
 
 /* ─── Menu Sub-item ────────────────────────────────────── */
 .menu-sub-item {
-  display: block;
+  align-items: center;
+  display: flex;
+  gap: 0.52rem;
   width: 100%;
-  padding: 0.55rem 0.75rem;
+  padding: 0.55rem 0.62rem;
   border-radius: 13px;
   border: none;
   background: none;
@@ -396,10 +525,31 @@ const STYLES = `
   -webkit-tap-highlight-color: transparent;
   line-height: 1.35;
 }
+.menu-sub-icon {
+  align-items: center;
+  background: rgba(47, 49, 90, 0.045);
+  border-radius: 10px;
+  color: rgba(47, 49, 90, 0.54);
+  display: inline-flex;
+  flex-shrink: 0;
+  height: 28px;
+  justify-content: center;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  width: 28px;
+}
+.menu-sub-label {
+  min-width: 0;
+}
 .menu-sub-item:hover {
   background: rgba(255, 255, 255, 0.68);
   color: #2f315a;
   box-shadow: 0 8px 18px rgba(47,49,90,0.07);
+}
+.menu-sub-item:hover .menu-sub-icon,
+.menu-sub-item.is-active .menu-sub-icon {
+  background: rgba(201, 168, 76, 0.16);
+  color: #9a7615;
+  transform: scale(1.02);
 }
 .menu-sub-item:active {
   transform: scale(0.97);
@@ -420,7 +570,14 @@ const STYLES = `
   }
   .menu-sub-item {
     font-size: 0.74rem;
-    padding: 0.5rem 0.62rem;
+    padding: 0.48rem 0.54rem;
+  }
+  .menu-parent-text {
+    font-size: 0.66rem;
+  }
+  .menu-parent-icon {
+    height: 28px;
+    width: 28px;
   }
 }
 @media (max-width: 767px) {
@@ -431,6 +588,9 @@ const STYLES = `
   .menu-sub-item {
     min-height: 40px;
     font-size: 0.8rem;
+  }
+  .menu-column-body {
+    padding-top: 0.28rem;
   }
 }
 
@@ -719,22 +879,32 @@ export default function MenuButton({ onOpenSearch, hideBar }) {
       {/* ── Mega Menu Panel ────────────────────────────── */}
       <div
         ref={panelRef}
-        className={`menu-panel${open ? " is-open" : ""}`}
+        className={`menu-panel ks-nav-glass-panel${open ? " is-open" : ""}`}
         role="menu"
         onMouseEnter={handleMenuEnter}
         onMouseLeave={handleMenuLeave}
       >
         {MEGA_MENU.map((column, ci) => (
           <div key={ci} className="menu-column">
-            <div
+            <button
+              type="button"
               className={`menu-column-title${expandedMobile.includes(ci) ? " is-expanded" : ""}`}
               onClick={() => toggleMobileSection(ci)}
+              aria-expanded={expandedMobile.includes(ci)}
             >
-              <span>{column.title}</span>
-              <svg className="accordion-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="6 9 12 15 18 9" />
-              </svg>
-            </div>
+              <span className="menu-column-title-main">
+                <span className="menu-parent-icon"><NavIcon name={column.icon} size={15} /></span>
+                <span className="menu-parent-text">{column.title}</span>
+              </span>
+              <span className="menu-title-actions">
+                <span className="menu-parent-count">{column.items.length}</span>
+                <span className="accordion-chevron-wrap">
+                  <svg className="accordion-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </span>
+              </span>
+            </button>
             <div className={`menu-column-body${expandedMobile.includes(ci) ? " is-expanded" : ""}`}>
               {column.items.map((item, ii) => (
                 <button
@@ -743,7 +913,8 @@ export default function MenuButton({ onOpenSearch, hideBar }) {
                   onClick={() => handleMenuAction(item)}
                   role="menuitem"
                 >
-                  {item.label}
+                  <span className="menu-sub-icon"><NavIcon name={item.icon} size={14} /></span>
+                  <span className="menu-sub-label">{item.label}</span>
                 </button>
               ))}
             </div>
