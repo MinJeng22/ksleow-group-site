@@ -203,8 +203,14 @@ export default function Hero({ onContact }) {
        *     the hero visible above the next section) */}
       <style>{`
         @keyframes scrollHintFadeIn { from { opacity: 0; transform: translate(-50%, 12px); } to { opacity: 1; transform: translate(-50%, 0); } }
+        @media (max-width: 767px) {
+          .hero-scroll-hint {
+            display: none !important;
+          }
+        }
       `}</style>
       <button
+        className="hero-scroll-hint"
         onClick={() => {
           /* Hand-paced scroll — native "smooth" is too fast and feels
            * like a jump cut. We RAF a slow ease-in-out over ~1.8s so it

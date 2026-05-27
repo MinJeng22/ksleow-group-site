@@ -333,10 +333,14 @@ export default function MenuButton({ onOpenSearch }) {
   const isMobileDark = useDarkBg(mobileBarRef);
 
   const navigate = useNavigate();
+  const [scrollY, setScrollY] = useState(0);
   const { pathname } = useLocation();
 
   useEffect(() => {
-    const onScroll = () => setShowScrollTop(window.scrollY > 400);
+    const onScroll = () => {
+      setScrollY(window.scrollY);
+      setShowScrollTop(window.scrollY > 400);
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -381,6 +385,9 @@ export default function MenuButton({ onOpenSearch }) {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const hasHistory = window.history.state && window.history.state.idx > 0;
+  const isHomeHero = location.pathname === "/" && scrollY < (typeof window !== "undefined" ? window.innerHeight * 0.8 : 0);
+
   return (
     <>
       <style>{STYLES}</style>
@@ -413,17 +420,19 @@ export default function MenuButton({ onOpenSearch }) {
           <span>Menu</span>
         </button>
 
-        <button
-          className="back-fab lg-glass lg-glass-btn"
-          onClick={() => navigate(-1)}
-          aria-label="Back"
-          style={{ color: isDesktopDark ? "#ffffff" : "rgba(0, 0, 0, 0.6)" }}
-        >
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="15 18 9 12 15 6"></polyline>
-          </svg>
-          <span>Back</span>
-        </button>
+        {hasHistory && (
+          <button
+            className="back-fab lg-glass lg-glass-btn"
+            onClick={() => navigate(-1)}
+            aria-label="Back"
+            style={{ color: isDesktopDark ? "#ffffff" : "rgba(0, 0, 0, 0.6)" }}
+          >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            <span>Back</span>
+          </button>
+        )}
       </div>
 
       {/* ── Mobile floating bar ───────────────────────── */}
@@ -460,19 +469,48 @@ export default function MenuButton({ onOpenSearch }) {
           <span>Menu</span>
         </button>
 
-        <div className="mfb-divider" style={{ background: isMobileDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.1)" }} />
-
-        <button 
-          className="mfb-btn" 
-          onClick={() => navigate(-1)} 
-          aria-label="Back"
-          style={{ color: isMobileDark ? "#ffffff" : "rgba(0, 0, 0, 0.55)" }}
-        >
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="15 18 9 12 15 6"></polyline>
-          </svg>
-          <span>Back</span>
-        </button>
+        {(hasHistory || isHomeHero) && (
+          <>
+            <div className="mfb-divider" style={{ background: isMobileDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.1)" }} />
+            {isHomeHero ? (
+              <button 
+                className="mfb-btn" 
+                onClick={() => {
+                  const distance = window.innerHeight * 0.9;
+                  const duration = 200;
+                  const startY = window.scrollY;
+                  const t0 = performance.now();
+                  const easeInOut = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+                  const tick = (now) => {
+                    const p = Math.min((now - t0) / duration, 1);
+                    window.scrollTo(0, startY + distance * easeInOut(p));
+                    if (p < 1) requestAnimationFrame(tick);
+                  };
+                  requestAnimationFrame(tick);
+                }} 
+                aria-label="Scroll for more"
+                style={{ color: isMobileDark ? "#ffffff" : "rgba(0, 0, 0, 0.55)" }}
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+                <span>Scroll</span>
+              </button>
+            ) : (
+              <button 
+                className="mfb-btn" 
+                onClick={() => navigate(-1)} 
+                aria-label="Back"
+                style={{ color: isMobileDark ? "#ffffff" : "rgba(0, 0, 0, 0.55)" }}
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+                <span>Back</span>
+              </button>
+            )}
+          </>
+        )}
       </div>
 
       {/* ── Backdrop ──────────────────────────────────── */}
