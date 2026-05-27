@@ -2,74 +2,43 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import useDarkBg from "../hooks/useDarkBg";
 
-/* ── Menu items ─────────────────────────────────────────── */
-const MENU_ITEMS = [
+/* ── Mega Menu Data ─────────────────────────────────────── */
+const MEGA_MENU = [
   {
-    label: "Home",
-    path: "/",
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
-        <polyline points="9 22 9 12 15 12 15 22"/>
-      </svg>
-    ),
+    title: "Service Pillars",
+    items: [
+      { label: "Taxation & Accounting",         scrollTo: "#services" },
+      { label: "Secretarial & Management",      scrollTo: "#services" },
+      { label: "Auditing",                      scrollTo: "#services" },
+      { label: "Computer Hardware & Technical",  scrollTo: "#services" },
+      { label: "Software Training & Support",   scrollTo: "#services" },
+      { label: "Webinar & Workshops",           scrollTo: "#services" },
+    ],
   },
   {
-    label: "AutoCount Accounting",
-    path: "/products/autocount-accounting",
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="2" y="3" width="20" height="14" rx="2"/>
-        <line x1="8" y1="21" x2="16" y2="21"/>
-        <line x1="12" y1="17" x2="12" y2="21"/>
-      </svg>
-    ),
+    title: "Products",
+    items: [
+      { label: "AutoCount Accounting",     path: "/products/autocount-accounting" },
+      { label: "FeedMe POS",               path: "/products/feedme-pos" },
+      { label: "AutoCount CloudAccounting", path: "/products/autocount-cloud-accounting" },
+      { label: "AutoCount POS",            scrollTo: "#products" },
+      { label: "ServerLink",               scrollTo: "#products" },
+      { label: "AutoCount HRMS",           scrollTo: "#products" },
+      { label: "AutoCount OneSale",        scrollTo: "#products" },
+    ],
   },
   {
-    label: "Cloud Accounting",
-    path: "/products/autocount-cloud-accounting",
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M18 10h-1.26A8 8 0 109 20h9a5 5 0 000-10z"/>
-      </svg>
-    ),
-  },
-  {
-    label: "FeedMe POS",
-    path: "/products/feedme-pos",
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
-        <line x1="3" y1="6" x2="21" y2="6"/>
-        <path d="M16 10a4 4 0 01-8 0"/>
-      </svg>
-    ),
-  },
-  {
-    label: "AC Plugins",
-    path: "/apps/autocount-plugin",
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="3" width="7" height="7" rx="1"/>
-        <rect x="14" y="3" width="7" height="7" rx="1"/>
-        <rect x="3" y="14" width="7" height="7" rx="1"/>
-        <rect x="14" y="14" width="7" height="7" rx="1"/>
-      </svg>
-    ),
-  },
-  {
-    label: "KS Omni",
-    path: "/omni",
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10"/>
-        <path d="M12 2a14.5 14.5 0 000 20 14.5 14.5 0 000-20"/>
-        <line x1="2" y1="12" x2="22" y2="12"/>
-      </svg>
-    ),
+    title: "Other Services",
+    items: [
+      { label: "Printing / Advertising / Design", scrollTo: "#other-services" },
+      { label: "AutoCount Plugin",                 path: "/apps/autocount-plugin" },
+      { label: "SiteGiant Integration",            scrollTo: "#other-services" },
+      { label: "AI Assistant (KS Omni)",           path: "/omni" },
+    ],
   },
 ];
 
+/* ── MenuGlyph icon ─────────────────────────────────────── */
 function MenuGlyph({ open, size = 17 }) {
   return (
     <svg
@@ -101,19 +70,21 @@ function MenuGlyph({ open, size = 17 }) {
   );
 }
 
-/* ── CSS keyframes & styles ─────────────────────────────── */
+/* ── CSS ─────────────────────────────────────────────────── */
 const STYLES = `
-/* ─── Menu & Search Container (Desktop/Tablet) ───────────── */
+/* ─── Desktop/Tablet Controls ───────────────────────────── */
 .top-right-controls {
   position: fixed;
   z-index: 1000;
   display: flex;
+  gap: 8px;
   align-items: center;
-  gap: 0.75rem;
+  top: 1.6rem;
+  right: 2rem;
 }
-@media (min-width: 768px) {
+@media (min-width: 768px) and (max-width: 1023px) {
   .top-right-controls {
-    top: 1.6rem;
+    top: 1.2rem;
     right: 2rem;
   }
 }
@@ -154,8 +125,10 @@ const STYLES = `
   .mobile-float-bar {
     position: fixed;
     bottom: calc(20px + env(safe-area-inset-bottom, 0px));
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
     z-index: 1000;
     display: flex;
     align-items: center;
@@ -257,7 +230,6 @@ const STYLES = `
   }
   @media (max-width: 360px) {
     .mobile-float-bar {
-      left: 10px;
       max-width: calc(100vw - 72px);
       gap: 2px;
       padding: 3px;
@@ -300,7 +272,12 @@ const STYLES = `
   -webkit-backdrop-filter: blur(8px);
   pointer-events: auto;
 }
+/* No backdrop overlay needed on desktop — hover-leave handles close */
+@media (min-width: 768px) {
+  .menu-overlay-backdrop { display: none !important; }
+}
 
+/* ─── Mega Menu Panel ──────────────────────────────────── */
 .menu-panel {
   position: fixed;
   z-index: 1101;
@@ -318,7 +295,7 @@ const STYLES = `
     0 4px 12px rgba(0, 0, 0, 0.06),
     inset 0 1px 0 rgba(255, 255, 255, 0.7),
     inset 0 -1px 0 rgba(0, 0, 0, 0.03);
-  padding: 12px;
+  padding: 16px;
   opacity: 0;
   transform: scale(0.92) translateY(-10px);
   transform-origin: top right;
@@ -332,16 +309,19 @@ const STYLES = `
   pointer-events: auto;
 }
 
-/* Desktop panel position */
+/* Desktop panel: 3-column grid */
 @media (min-width: 768px) {
   .menu-panel {
     top: 4.6rem;
     right: 2rem;
-    width: 260px;
+    width: min(620px, calc(100vw - 48px));
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 4px;
   }
 }
 
-/* Mobile panel position */
+/* Mobile panel: stacked accordion */
 @media (max-width: 767px) {
   .menu-panel {
     bottom: 80px;
@@ -350,69 +330,108 @@ const STYLES = `
     width: auto;
     transform-origin: bottom center;
     transform: scale(0.92) translateY(10px);
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-height: 65vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
   .menu-panel.is-open {
     transform: scale(1) translateY(0);
   }
 }
 
-.menu-panel-item {
+/* ─── Menu Column ──────────────────────────────────────── */
+.menu-column {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.7rem 0.85rem;
-  border-radius: 14px;
+  flex-direction: column;
+}
+
+.menu-column-title {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(0, 0, 0, 0.35);
+  padding: 0.55rem 0.7rem 0.35rem;
+  user-select: none;
+}
+
+/* Mobile accordion behavior */
+@media (max-width: 767px) {
+  .menu-column {
+    border-bottom: 0.5px solid rgba(0,0,0,0.06);
+  }
+  .menu-column:last-child {
+    border-bottom: none;
+  }
+  .menu-column-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 0.7rem;
+    font-size: 0.72rem;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .menu-column-title .accordion-chevron {
+    transition: transform 0.3s ease;
+    opacity: 0.4;
+  }
+  .menu-column-title.is-expanded .accordion-chevron {
+    transform: rotate(180deg);
+  }
+  .menu-column-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .menu-column-body.is-expanded {
+    max-height: 400px;
+  }
+}
+/* Desktop: always show body, hide chevron */
+@media (min-width: 768px) {
+  .menu-column-title .accordion-chevron {
+    display: none;
+  }
+}
+
+/* ─── Menu Sub-item ────────────────────────────────────── */
+.menu-sub-item {
+  display: block;
+  width: 100%;
+  padding: 0.48rem 0.7rem;
+  border-radius: 10px;
   border: none;
   background: none;
-  width: 100%;
   cursor: pointer;
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
-  font-size: 0.88rem;
+  font-size: 0.8rem;
   font-weight: 500;
-  color: rgba(0, 0, 0, 0.7);
-  letter-spacing: 0.005em;
-  transition: all 0.2s ease;
+  color: rgba(0, 0, 0, 0.65);
   text-align: left;
+  transition: all 0.2s ease;
   -webkit-tap-highlight-color: transparent;
+  line-height: 1.35;
 }
-.menu-panel-item:hover {
+.menu-sub-item:hover {
   background: rgba(255, 255, 255, 0.45);
   color: rgba(0, 0, 0, 0.9);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
-.menu-panel-item:active {
+.menu-sub-item:active {
   transform: scale(0.97);
   background: rgba(255, 255, 255, 0.6);
 }
-.menu-panel-item.is-active {
+.menu-sub-item.is-active {
   background: rgba(255, 255, 255, 0.5);
   color: rgba(0, 0, 0, 0.9);
   font-weight: 600;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.5);
 }
 
-.menu-panel-item-icon {
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.6), rgba(255,255,255,0.2));
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.6);
-  color: rgba(0, 0, 0, 0.5);
-  transition: all 0.2s ease;
-}
-.menu-panel-item:hover .menu-panel-item-icon {
-  background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,255,255,0.35));
-  color: rgba(0, 0, 0, 0.7);
-}
-.menu-panel-item.is-active .menu-panel-item-icon {
-  background: linear-gradient(135deg, rgba(47,49,90,0.12), rgba(47,49,90,0.04));
-  color: #2f315a;
-}
-
+/* ─── Menu Glyph icon ──────────────────────────────────── */
 .menu-glyph {
   flex-shrink: 0;
   transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.22s ease;
@@ -426,10 +445,12 @@ const STYLES = `
 export default function MenuButton({ onOpenSearch }) {
   const [open, setOpen] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [expandedMobile, setExpandedMobile] = useState([0]);
   const panelRef = useRef(null);
   const fabRef = useRef(null);
   const mobileBarRef = useRef(null);
-  
+  const hoverTimeoutRef = useRef(null);
+
   const isDesktopDark = useDarkBg(fabRef);
   const isMobileDark = useDarkBg(mobileBarRef);
 
@@ -446,7 +467,7 @@ export default function MenuButton({ onOpenSearch }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  /* Close on outside click */
+  /* Close on outside click (mobile) */
   useEffect(() => {
     if (!open) return;
     const handleClick = (e) => {
@@ -470,16 +491,59 @@ export default function MenuButton({ onOpenSearch }) {
   /* Close on route change */
   useEffect(() => { setOpen(false); }, [pathname]);
 
+  /* Cleanup hover timeout */
+  useEffect(() => {
+    return () => clearTimeout(hoverTimeoutRef.current);
+  }, []);
+
   if (pathname === "/omni") return null;
 
-  const handleNav = (path) => {
-    setOpen(false);
-    if (path === "/" && pathname === "/") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    } else {
-      navigate(path);
-      window.scrollTo({ top: 0, behavior: "instant" });
+  /* ── Hover handlers (desktop only) ── */
+  const handleMenuEnter = () => {
+    if (window.innerWidth >= 768) {
+      clearTimeout(hoverTimeoutRef.current);
+      setOpen(true);
     }
+  };
+  const handleMenuLeave = () => {
+    if (window.innerWidth >= 768) {
+      hoverTimeoutRef.current = setTimeout(() => setOpen(false), 200);
+    }
+  };
+
+  /* ── Menu item action handler ── */
+  const handleMenuAction = (item) => {
+    setOpen(false);
+
+    if (item.path) {
+      navigate(item.path);
+      window.scrollTo({ top: 0, behavior: "instant" });
+      return;
+    }
+
+    if (item.scrollTo) {
+      const doScroll = () => {
+        const el = document.querySelector(item.scrollTo);
+        if (el) {
+          const top = el.getBoundingClientRect().top + window.scrollY - 20;
+          window.scrollTo({ top, behavior: "smooth" });
+        }
+      };
+
+      if (pathname === "/") {
+        doScroll();
+      } else {
+        navigate("/");
+        setTimeout(doScroll, 400);
+      }
+    }
+  };
+
+  /* ── Mobile accordion toggle ── */
+  const toggleMobileSection = (index) => {
+    setExpandedMobile((prev) =>
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+    );
   };
 
   const hasHistory = window.history.state && window.history.state.idx > 0;
@@ -529,7 +593,9 @@ export default function MenuButton({ onOpenSearch }) {
 
         <button
           className="menu-fab lg-glass lg-glass-btn"
-          onClick={() => setOpen(!open)}
+          onMouseEnter={handleMenuEnter}
+          onMouseLeave={handleMenuLeave}
+          onClick={() => { if (window.innerWidth < 768) setOpen(!open); }}
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           style={{ color: isDesktopDark ? "#ffffff" : "rgba(0, 0, 0, 0.6)" }}
@@ -611,33 +677,44 @@ export default function MenuButton({ onOpenSearch }) {
         )}
       </div>
 
-      {/* ── Backdrop ──────────────────────────────────── */}
+      {/* ── Backdrop (mobile only) ─────────────────────── */}
       <div
         className={`menu-overlay-backdrop${open ? " is-open" : ""}`}
         onClick={() => setOpen(false)}
       />
 
-      {/* ── Menu Panel ────────────────────────────────── */}
+      {/* ── Mega Menu Panel ────────────────────────────── */}
       <div
         ref={panelRef}
         className={`menu-panel${open ? " is-open" : ""}`}
         role="menu"
+        onMouseEnter={handleMenuEnter}
+        onMouseLeave={handleMenuLeave}
       >
-        {MENU_ITEMS.map((item, i) => (
-          <button
-            key={item.path}
-            className={`menu-panel-item${pathname === item.path ? " is-active" : ""}`}
-            onClick={() => handleNav(item.path)}
-            role="menuitem"
-            style={{
-              transitionDelay: open ? `${i * 0.03}s` : "0s",
-            }}
-          >
-            <div className="menu-panel-item-icon">
-              {item.icon}
+        {MEGA_MENU.map((column, ci) => (
+          <div key={ci} className="menu-column">
+            <div
+              className={`menu-column-title${expandedMobile.includes(ci) ? " is-expanded" : ""}`}
+              onClick={() => toggleMobileSection(ci)}
+            >
+              <span>{column.title}</span>
+              <svg className="accordion-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
             </div>
-            {item.label}
-          </button>
+            <div className={`menu-column-body${expandedMobile.includes(ci) ? " is-expanded" : ""}`}>
+              {column.items.map((item, ii) => (
+                <button
+                  key={ii}
+                  className={`menu-sub-item${item.path === pathname ? " is-active" : ""}`}
+                  onClick={() => handleMenuAction(item)}
+                  role="menuitem"
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          </div>
         ))}
       </div>
     </>

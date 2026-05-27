@@ -299,6 +299,7 @@ export default function Products({ onContact }) {
 
   return (
     <section
+      id="products"
       className="home-section products-section"
       style={{
         position: "relative",
