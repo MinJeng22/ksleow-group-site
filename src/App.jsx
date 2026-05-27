@@ -69,7 +69,7 @@ function AppShell({ openContact, modalOpen, setModalOpen, searchOpen, setSearchO
 
       <ContactModal open={modalOpen} onClose={() => setModalOpen(false)} />
       <GlobalSearch open={searchOpen} onClose={() => setSearchOpen(false)} />
-      <BackToTop />
+      <BackToTop hideBar={modalOpen || searchOpen} />
       <MenuButton onOpenSearch={() => setSearchOpen(true)} hideBar={modalOpen || searchOpen} />
     </div>
   );

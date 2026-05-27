@@ -6,7 +6,7 @@ import useDarkBg from "../hooks/useDarkBg";
  * On desktop/tablet: fixed bottom-right circle.
  * On mobile: rendered inside the FloatingBar, so this component hides itself.
  */
-export default function BackToTop() {
+export default function BackToTop({ hideBar }) {
   const [visible, setVisible] = useState(false);
   const btnRef = useRef(null);
   const isDark = useDarkBg(btnRef);
@@ -60,17 +60,17 @@ export default function BackToTop() {
       `}</style>
       <button
         ref={btnRef}
-        className={`back-to-top-glass lg-glass lg-glass-btn lg-glass-pill${visible ? " is-visible" : ""}`}
+        className={`back-to-top-glass lg-glass lg-glass-btn${visible && !hideBar ? " is-visible" : ""}`}
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         aria-label="Back to top"
         title="Back to top"
         style={{
-          opacity: visible ? 1 : 0,
+          opacity: hideBar || !visible ? 0 : 1,
           "--lg-rest-transform": visible ? "translateY(0) scale(1)" : "translateY(12px) scale(0.85)",
           "--lg-hover-transform": "translateY(-2px) scale(1.04)",
           "--lg-active-transform": "translateY(0) scale(0.94)",
-          pointerEvents: visible ? "auto" : "none",
-          color: isDark ? "rgba(255, 255, 255, 0.95)" : "rgba(0, 0, 0, 0.55)",
+          pointerEvents: hideBar || !visible ? "none" : "auto",
+          color: isDark ? "#ffffff" : "rgba(0, 0, 0, 0.6)",
         }}
       >
         <span className="lg-glass-icon" aria-hidden="true">

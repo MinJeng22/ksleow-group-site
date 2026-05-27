@@ -548,7 +548,11 @@ export default function MenuButton({ onOpenSearch, hideBar }) {
       <style>{STYLES}</style>
 
       {/* ── Desktop/Tablet Controls ────────────────────────── */}
-      <div className="top-right-controls" ref={fabRef}>
+      <div 
+        className="top-right-controls" 
+        ref={fabRef}
+        style={hideBar ? { opacity: 0, transform: "translateY(-15px)", pointerEvents: "none", transition: "all 0.3s ease" } : { transition: "all 0.3s ease" }}
+      >
         <button
           className="search-fab lg-glass lg-glass-btn"
           onClick={onOpenSearch}
@@ -577,7 +581,11 @@ export default function MenuButton({ onOpenSearch, hideBar }) {
       </div>
 
       {hasHistory && (
-        <div className="top-left-controls" ref={leftFabRef}>
+        <div 
+          className="top-left-controls" 
+          ref={leftFabRef}
+          style={hideBar ? { opacity: 0, transform: "translateY(-15px)", pointerEvents: "none", transition: "all 0.3s ease" } : { transition: "all 0.3s ease" }}
+        >
           <button
             className="back-fab lg-glass lg-glass-btn"
             onClick={() => navigate(-1)}
