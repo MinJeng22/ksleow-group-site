@@ -412,6 +412,227 @@ const STYLES = `
 .menu-glyph.is-open {
   transform: rotate(90deg) scale(0.92);
 }
+
+/* ─── Premium responsive menu modal ───────────────────────────── */
+.menu-overlay-backdrop {
+  z-index: 999;
+  display: block !important;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(201,168,76,0.18), transparent 30%),
+    rgba(12, 13, 28, 0);
+}
+.menu-overlay-backdrop.is-open {
+  background:
+    radial-gradient(circle at 18% 20%, rgba(201,168,76,0.2), transparent 30%),
+    radial-gradient(circle at 82% 18%, rgba(47,49,90,0.18), transparent 34%),
+    rgba(12, 13, 28, 0.28);
+  backdrop-filter: blur(14px) saturate(1.15);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+}
+@media (min-width: 768px) {
+  .menu-overlay-backdrop {
+    display: block !important;
+  }
+}
+.menu-panel {
+  display: flex !important;
+  flex-direction: column;
+  gap: 0;
+  width: min(880px, calc(100vw - 64px));
+  padding: 0;
+  overflow: hidden;
+  border-radius: 30px;
+  border: 1px solid rgba(255,255,255,0.56);
+  background:
+    linear-gradient(160deg, rgba(255,255,255,0.94), rgba(248,248,252,0.86)),
+    rgba(255,255,255,0.88);
+  box-shadow:
+    0 34px 100px rgba(11,12,28,0.28),
+    inset 0 1px 0 rgba(255,255,255,0.9);
+  transform: translateY(16px) scale(0.965);
+  transform-origin: top right;
+}
+.menu-panel.is-open {
+  transform: translateY(0) scale(1);
+}
+.menu-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.05rem 1.15rem;
+  border-bottom: 1px solid rgba(47,49,90,0.08);
+  background:
+    linear-gradient(120deg, rgba(47,49,90,0.98), rgba(29,31,72,0.96)),
+    radial-gradient(circle at top right, rgba(201,168,76,0.28), transparent 40%);
+  color: #ffffff;
+}
+.menu-panel-brand {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.8rem;
+}
+.menu-panel-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  box-shadow: 0 14px 32px rgba(0,0,0,0.24);
+  flex: 0 0 auto;
+}
+.menu-panel-kicker {
+  display: block;
+  color: var(--gold-light);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.menu-panel-title {
+  display: block;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-top: 0.12rem;
+}
+.menu-panel-close {
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.82);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.22s ease, background 0.22s ease, color 0.22s ease;
+  flex: 0 0 auto;
+}
+.menu-panel-close:hover {
+  transform: translateY(-1px);
+  background: rgba(255,255,255,0.18);
+  color: #ffffff;
+}
+.menu-panel-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  padding: 1rem;
+}
+.menu-column {
+  min-width: 0;
+  border: 1px solid rgba(47,49,90,0.08);
+  border-radius: 22px;
+  background: rgba(255,255,255,0.62);
+  box-shadow: 0 14px 34px rgba(47,49,90,0.06);
+  overflow: hidden;
+}
+.menu-column-title {
+  padding: 0.95rem 1rem 0.72rem;
+  color: rgba(47,49,90,0.58);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+}
+.menu-column-body {
+  padding: 0 0.45rem 0.55rem;
+}
+.menu-sub-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  min-height: 38px;
+  padding: 0.58rem 0.66rem;
+  border-radius: 14px;
+  color: rgba(47,49,90,0.72);
+  font-size: 0.82rem;
+  font-weight: 650;
+}
+.menu-sub-item::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-top: 1.8px solid currentColor;
+  border-right: 1.8px solid currentColor;
+  opacity: 0;
+  transform: translateX(-3px) rotate(45deg);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.menu-sub-item:hover,
+.menu-sub-item.is-active {
+  background: rgba(47,49,90,0.06);
+  color: var(--brand);
+}
+.menu-sub-item:hover::after,
+.menu-sub-item.is-active::after {
+  opacity: 0.38;
+  transform: translateX(0) rotate(45deg);
+}
+@media (min-width: 768px) {
+  .menu-panel {
+    top: clamp(72px, 8vh, 92px);
+    right: 2rem;
+  }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .menu-panel {
+    left: 50%;
+    right: auto;
+    width: min(720px, calc(100vw - 48px));
+    transform: translateX(-50%) translateY(16px) scale(0.965);
+    transform-origin: top center;
+  }
+  .menu-panel.is-open {
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+  .menu-panel-grid {
+    gap: 0.65rem;
+    padding: 0.85rem;
+  }
+  .menu-sub-item {
+    font-size: 0.76rem;
+  }
+}
+@media (max-width: 767px) {
+  .menu-panel {
+    left: 12px;
+    right: 12px;
+    bottom: max(12px, env(safe-area-inset-bottom, 0px));
+    max-height: min(86dvh, 720px);
+    border-radius: 26px;
+    transform: translateY(24px) scale(0.97);
+    transform-origin: bottom center;
+  }
+  .menu-panel.is-open {
+    transform: translateY(0) scale(1);
+  }
+  .menu-panel-header {
+    padding: 0.95rem;
+  }
+  .menu-panel-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    padding: 0.8rem;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .menu-column {
+    border-radius: 18px;
+  }
+  .menu-column-title {
+    padding: 0.85rem 0.9rem;
+    color: rgba(47,49,90,0.68);
+  }
+  .menu-column-body {
+    padding: 0 0.45rem 0.5rem;
+  }
+  .menu-sub-item {
+    min-height: 42px;
+    font-size: 0.82rem;
+  }
+}
 `;
 
 /* ── Component ──────────────────────────────────────────── */
@@ -694,31 +915,52 @@ export default function MenuButton({ onOpenSearch, hideBar }) {
         onMouseEnter={handleMenuEnter}
         onMouseLeave={handleMenuLeave}
       >
-        {MEGA_MENU.map((column, ci) => (
-          <div key={ci} className="menu-column">
-            <div
-              className={`menu-column-title${expandedMobile.includes(ci) ? " is-expanded" : ""}`}
-              onClick={() => toggleMobileSection(ci)}
-            >
-              <span>{column.title}</span>
-              <svg className="accordion-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="6 9 12 15 18 9" />
-              </svg>
-            </div>
-            <div className={`menu-column-body${expandedMobile.includes(ci) ? " is-expanded" : ""}`}>
-              {column.items.map((item, ii) => (
-                <button
-                  key={ii}
-                  className={`menu-sub-item${item.path === pathname ? " is-active" : ""}`}
-                  onClick={() => handleMenuAction(item)}
-                  role="menuitem"
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
+        <div className="menu-panel-header">
+          <div className="menu-panel-brand">
+            <img className="menu-panel-logo" src="/images/branding/ksl-logo-circle.webp" alt="K.S. Leow Group" />
+            <span>
+              <span className="menu-panel-kicker">Navigation</span>
+              <span className="menu-panel-title">Explore K.S. Leow Group</span>
+            </span>
           </div>
-        ))}
+          <button
+            className="menu-panel-close"
+            type="button"
+            aria-label="Close menu"
+            onClick={() => setOpen(false)}
+          >
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round">
+              <path d="M18 6 6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div className="menu-panel-grid">
+          {MEGA_MENU.map((column, ci) => (
+            <div key={ci} className="menu-column">
+              <div
+                className={`menu-column-title${expandedMobile.includes(ci) ? " is-expanded" : ""}`}
+                onClick={() => toggleMobileSection(ci)}
+              >
+                <span>{column.title}</span>
+                <svg className="accordion-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </div>
+              <div className={`menu-column-body${expandedMobile.includes(ci) ? " is-expanded" : ""}`}>
+                {column.items.map((item, ii) => (
+                  <button
+                    key={ii}
+                    className={`menu-sub-item${item.path === pathname ? " is-active" : ""}`}
+                    onClick={() => handleMenuAction(item)}
+                    role="menuitem"
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </>
   );
