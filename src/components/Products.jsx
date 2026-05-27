@@ -4,6 +4,7 @@ import { Img } from "./Media.jsx";
 import productsContent from "../content/products.json";
 
 const PRODUCTS = (productsContent.items || []).map(p => ({
+
   name:        p.name,
   desc:        p.desc,
   img:         p.image      || null,
@@ -22,6 +23,13 @@ function getCarouselCount(width) {
   if (width <= 900) return 4;
   if (width <= 1180) return 5;
   return 5;
+}
+
+function getActualVisibleCount(width) {
+  if (width <= 640) return 1;
+  if (width <= 900) return 2;
+  if (width <= 1180) return 3;
+  return 4;
 }
 
 function Chevron({ direction }) {
@@ -380,9 +388,10 @@ export default function Products({ onContact }) {
             background: "rgba(255,255,255,0.06)", padding: "0 18px", height: "var(--btn-h-lg)", borderRadius: "var(--radius-pill)"
           }}>
             {PRODUCTS.map((_, i) => {
+              const actualVisible = getActualVisibleCount(viewportWidth);
               const isActive = i === progressIndex;
               const isVisible = (() => {
-                for (let j = 0; j < visibleCount; j++) {
+                for (let j = 0; j < actualVisible; j++) {
                   if ((progressIndex + j) % PRODUCTS.length === i) return true;
                 }
                 return false;
@@ -423,6 +432,7 @@ export default function Products({ onContact }) {
             onClick={() => setIsPlaying(!isPlaying)}
             style={{
               width: "var(--btn-h-lg)", height: "var(--btn-h-lg)", borderRadius: "50%",
+              background: "rgba(255,255,255,0.06)", border: "none",
               display: "flex", alignItems: "center", justifyContent: "center",
               cursor: "pointer", color: "#ffffff",
               transition: "background 0.2s"
