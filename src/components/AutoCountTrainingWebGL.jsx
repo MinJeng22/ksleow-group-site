@@ -22,6 +22,7 @@ const VIDEOS = [
 ];
 
 const getThumbnailUrl = (videoId) => `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
+const CLOTH_REVEAL_DURATION_MS = 8000;
 
 let threeModulePromise = null;
 
@@ -87,7 +88,7 @@ function UnfurlingClothReveal({ videoId, direction = 'open', onComplete }) {
     setCanvasReady(false);
 
     if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
-      const timer = window.setTimeout(() => onCompleteRef.current?.(), 80);
+      const timer = window.setTimeout(() => onCompleteRef.current?.(), CLOTH_REVEAL_DURATION_MS);
       return () => window.clearTimeout(timer);
     }
 
@@ -185,7 +186,7 @@ function UnfurlingClothReveal({ videoId, direction = 'open', onComplete }) {
           ? 4 * t * t * t
           : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
-        const duration = 8000;
+        const duration = CLOTH_REVEAL_DURATION_MS;
         const start = performance.now();
 
         const animate = (now) => {
@@ -239,7 +240,7 @@ function UnfurlingClothReveal({ videoId, direction = 'open', onComplete }) {
       } catch {
         if (!disposed && !finished) {
           finished = true;
-          finishTimer = window.setTimeout(() => onCompleteRef.current?.(), 120);
+          finishTimer = window.setTimeout(() => onCompleteRef.current?.(), CLOTH_REVEAL_DURATION_MS);
         }
       }
     })();
