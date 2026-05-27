@@ -6,7 +6,6 @@ import useDarkBg from "../hooks/useDarkBg";
 const MEGA_MENU = [
   {
     title: "Service Pillars",
-    icon: "briefcase",
     items: [
       { label: "Taxation & Accounting",         scrollTo: "#services", icon: "calculator" },
       { label: "Secretarial & Management",      scrollTo: "#services", icon: "files" },
@@ -18,7 +17,6 @@ const MEGA_MENU = [
   },
   {
     title: "Products",
-    icon: "boxes",
     items: [
       { label: "AutoCount Accounting",      path: "/products/autocount-accounting", icon: "monitor" },
       { label: "FeedMe POS",                path: "/products/feedme-pos", icon: "pos" },
@@ -31,7 +29,6 @@ const MEGA_MENU = [
   },
   {
     title: "Other Services",
-    icon: "sparkles",
     items: [
       { label: "Printing / Advertising / Design", scrollTo: "#other-services", icon: "printer" },
       { label: "AutoCount Plugin",                path: "/apps/autocount-plugin", icon: "plug" },
@@ -396,6 +393,7 @@ const STYLES = `
   cursor: default;
   display: flex;
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  gap: 0.46rem;
   justify-content: space-between;
   min-height: 40px;
   padding: 0.34rem 0.3rem 0.58rem;
@@ -409,16 +407,6 @@ const STYLES = `
   flex: 1;
   gap: 0.52rem;
   min-width: 0;
-}
-
-.menu-parent-icon {
-  align-items: center;
-  color: #9a7615;
-  display: inline-flex;
-  flex-shrink: 0;
-  height: 24px;
-  justify-content: center;
-  width: 24px;
 }
 
 .menu-parent-text {
@@ -435,10 +423,10 @@ const STYLES = `
 
 .menu-parent-count {
   align-items: center;
-  color: rgba(47, 49, 90, 0.42);
+  color: #9a7615;
   display: inline-flex;
   flex-shrink: 0;
-  font-size: 0.66rem;
+  font-size: 0.72rem;
   font-weight: 800;
   height: auto;
   justify-content: center;
@@ -578,10 +566,6 @@ const STYLES = `
   .menu-parent-text {
     font-size: 0.66rem;
   }
-  .menu-parent-icon {
-    height: 22px;
-    width: 22px;
-  }
 }
 @media (max-width: 767px) {
   .menu-panel {
@@ -709,14 +693,27 @@ export default function MenuButton({ onOpenSearch, hideBar }) {
 
   /* ── Mobile accordion toggle ── */
   const toggleMobileSection = (index) => {
+    const isExpanding = !expandedMobile.includes(index);
     setExpandedMobile((prev) =>
       prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
     );
+
+    if (isExpanding && window.innerWidth < 768) {
+      setTimeout(() => {
+        const panel = panelRef.current;
+        const column = panel?.querySelector(`[data-menu-column="${index}"]`);
+        if (!panel || !column) return;
+        panel.scrollTo({
+          top: Math.max(0, column.offsetTop - 8),
+          behavior: "smooth",
+        });
+      }, 80);
+    }
   };
 
   const hasHistory = window.history.state && window.history.state.idx > 0;
   const isHomeHero = pathname === "/" && scrollY < 10;
-  const mobileActionMode = hasHistory ? "back" : null;
+  const mobileActionMode = hasHistory && !isHomeHero ? "back" : null;
 
   const scrollForMore = () => {
     const distance = window.innerHeight * 0.9;
@@ -888,19 +885,18 @@ export default function MenuButton({ onOpenSearch, hideBar }) {
         onMouseLeave={handleMenuLeave}
       >
         {MEGA_MENU.map((column, ci) => (
-          <div key={ci} className="menu-column">
+          <div key={ci} className="menu-column" data-menu-column={ci}>
             <button
               type="button"
               className={`menu-column-title${expandedMobile.includes(ci) ? " is-expanded" : ""}`}
               onClick={() => toggleMobileSection(ci)}
               aria-expanded={expandedMobile.includes(ci)}
             >
+              <span className="menu-parent-count">{column.items.length}</span>
               <span className="menu-column-title-main">
-                <span className="menu-parent-icon"><NavIcon name={column.icon} size={15} /></span>
                 <span className="menu-parent-text">{column.title}</span>
               </span>
               <span className="menu-title-actions">
-                <span className="menu-parent-count">{column.items.length}</span>
                 <span className="accordion-chevron-wrap">
                   <svg className="accordion-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="6 9 12 15 18 9" />

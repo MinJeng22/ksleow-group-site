@@ -182,11 +182,12 @@ export default function GlobalSearch({ open, onClose }) {
           font-size: clamp(1.05rem, 2.1vw, 1.32rem);
           font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
           color: #2f315a;
-          font-weight: 650;
+          font-weight: 560;
           outline: none;
         }
         .search-input::placeholder {
           color: rgba(47,49,90,0.34);
+          font-weight: 460;
         }
         .search-close-btn {
           flex-shrink: 0;

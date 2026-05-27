@@ -17,6 +17,10 @@ const SUPAPRINTZ_PARTNER = {
   whatsappUrl: "https://wa.me/601155859576",
   facebookUrl: "https://www.facebook.com/supaprintz.my",
 };
+const SUPAPRINTZ_MODAL_IMAGES = [
+  "/images/partners/supaprintz-desktop.png",
+  "/images/partners/supaprintz-tablet.jpg",
+];
 const SUPAPRINTZ_COLORS = {
   yellow: "#ffc10e",
   navy: "#1d1848",
@@ -189,11 +193,14 @@ function SupaprintzPartnerModal({ open, onClose }) {
           margin: "-1px -1px 0",
         }}>
           <picture>
-            <source media="(min-width: 641px)" srcSet="/images/partners/supaprintz-desktop.png" />
+            <source media="(min-width: 641px)" srcSet={SUPAPRINTZ_MODAL_IMAGES[0]} />
             <img
               className="supaprintz-modal-banner"
-              src="/images/partners/supaprintz-tablet.jpg"
+              src={SUPAPRINTZ_MODAL_IMAGES[1]}
               alt="Supaprintz.my Printing Advertising Design"
+              loading="eager"
+              decoding="async"
+              fetchPriority="high"
               style={{
                 display: "block",
                 width: "100%",
@@ -322,6 +329,14 @@ function SupaprintzPartnerModal({ open, onClose }) {
 export default function OtherServices({ onContact }) {
   const navigate = useNavigate();
   const [partnerOpen, setPartnerOpen] = useState(false);
+
+  useEffect(() => {
+    SUPAPRINTZ_MODAL_IMAGES.forEach((src) => {
+      const img = new Image();
+      img.decoding = "async";
+      img.src = src;
+    });
+  }, []);
 
   useEffect(() => {
     if (!partnerOpen) return;

@@ -135,13 +135,21 @@ function ServiceCard({ service }) {
   const hasFrontBackground = false;
 
   useEffect(() => {
-    if (isHovered) {
-      const timer = setTimeout(() => setIsDelayedHover(true), 650);
-      return () => clearTimeout(timer);
-    } else {
-      setIsDelayedHover(false);
-    }
+    setIsDelayedHover(isHovered);
   }, [isHovered]);
+
+  useEffect(() => {
+    const preload = (src) => {
+      if (!src) return;
+      const img = new Image();
+      img.decoding = "async";
+      img.src = src;
+    };
+
+    preload(service.backgroundImage);
+    const logos = service.dealer?.logos || service.certified?.logos || [];
+    logos.forEach((logo) => preload(logo.hoverSrc || logo.src));
+  }, [service]);
 
   useEffect(() => {
     const node = cardRef.current;
