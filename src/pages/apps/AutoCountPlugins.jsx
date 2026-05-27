@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
 import ProductHero from "../../components/ProductHero.jsx";
@@ -135,30 +135,12 @@ function PluginCard({ plugin }) {
 }
 
 export default function AutoCountPluginsPage() {
-  const [search, setSearch] = useState("");
-  const query = normalize(search);
   const sections = pluginContent.sections || [];
   const plugins = useMemo(() => sections.flatMap((section) => section.items || []), [sections]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }, []);
-
-  const filteredPlugins = useMemo(() => {
-    return plugins.filter((plugin) => {
-      if (!query) return true;
-      const haystack = [
-        plugin.name,
-        plugin.tag,
-        plugin.dealer,
-        plugin.status,
-        plugin.summary,
-        ...(plugin.features || []),
-        ...(plugin.modules || []),
-      ].map(normalize).join(" ");
-      return haystack.includes(query);
-    });
-  }, [query, plugins]);
 
   return (
     <div className="pinned-hero-page" style={{ background: "#f5f5f8", minHeight: "100vh" }}>
@@ -177,58 +159,14 @@ export default function AutoCountPluginsPage() {
       <main className="pinned-page-content">
         <section id="plugin-library" style={{ padding: "3.5rem 0 4.5rem" }}>
         <div className="content-wrap">
-          <div style={{
-            display: "flex",
-            justifyContent: "center",
-            marginBottom: "2rem",
-          }}>
-            <label style={{
-              position: "relative",
-              width: "min(100%, 620px)",
-            }}>
-              <span style={{
-                position: "absolute",
-                left: 18,
-                top: "50%",
-                transform: "translateY(-50%)",
-                color: "#a8abcc",
-                pointerEvents: "none",
-              }}>
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="11" cy="11" r="8" />
-                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                </svg>
-              </span>
-              <input
-                id="plugin-search"
-                value={search}
-                onChange={(event) => setSearch(event.target.value)}
-                placeholder="Search AutoCount plugins..."
-                style={{
-                  width: "100%",
-                  height: 52,
-                  border: "1px solid rgba(47,49,90,0.14)",
-                  borderRadius: 50,
-                  padding: "0 1.2rem 0 3rem",
-                  color: "#2f315a",
-                  fontSize: "0.95rem",
-                  fontFamily: "inherit",
-                  outline: "none",
-                  background: "#ffffff",
-                  boxShadow: "0 10px 30px rgba(47,49,90,0.06)",
-                }}
-              />
-            </label>
-          </div>
-
-          {filteredPlugins.length > 0 ? (
+          {plugins.length > 0 ? (
             <div style={{
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 320px), 360px))",
               gap: "1.25rem",
               justifyContent: "center",
             }}>
-              {filteredPlugins.map((plugin) => <PluginCard key={plugin.name} plugin={plugin} />)}
+              {plugins.map((plugin) => <PluginCard key={plugin.name} plugin={plugin} />)}
             </div>
           ) : (
             <div style={{
@@ -240,7 +178,7 @@ export default function AutoCountPluginsPage() {
               fontSize: "0.9rem",
               textAlign: "center",
             }}>
-              No plugin matches "{search}".
+              No plugins available.
             </div>
           )}
         </div>
