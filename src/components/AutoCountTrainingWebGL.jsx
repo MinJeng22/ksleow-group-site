@@ -21,9 +21,9 @@ const VIDEOS = [
   }
 ];
 
-const MORPH_OPEN_MS = 2200;
-const MORPH_CLOSE_MS = 2400;
-const MORPH_SETTLE_MS = 320;
+const MORPH_OPEN_MS = 1350;
+const MORPH_CLOSE_MS = 1450;
+const MORPH_SETTLE_MS = 180;
 const APPLE_EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
 
 const getThumbnailUrl = (videoId) => `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
@@ -116,7 +116,7 @@ function MorphingTutorialPreview({ direction, videoId, startRect, endRect, onCom
   useEffect(() => {
     let rafOne = 0;
     let rafTwo = 0;
-    const timer = window.setTimeout(onComplete, duration + (direction === 'close' ? 220 : 150));
+    const timer = window.setTimeout(onComplete, duration + (direction === 'close' ? 140 : 100));
 
     rafOne = window.requestAnimationFrame(() => {
       rafTwo = window.requestAnimationFrame(() => setActive(true));
@@ -333,7 +333,7 @@ export default function AutoCountTrainingWebGL() {
       setStageConcealed(false);
       morphSettleTimerRef.current = window.setTimeout(() => {
         setMorph(null);
-        releaseStageHeight(320);
+        releaseStageHeight(220);
       }, MORPH_SETTLE_MS);
       return;
     }
@@ -344,7 +344,7 @@ export default function AutoCountTrainingWebGL() {
     setStageConcealed(false);
     morphSettleTimerRef.current = window.setTimeout(() => {
       setMorph(null);
-      releaseStageHeight(360);
+      releaseStageHeight(260);
     }, MORPH_SETTLE_MS + 80);
   };
 
