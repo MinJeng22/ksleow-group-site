@@ -83,6 +83,10 @@ function getCollapsedTabletRect(contentWrap, stageNode) {
   };
 }
 
+function easeOutQuint(value) {
+  return 1 - Math.pow(1 - value, 5);
+}
+
 function MorphingTutorialPreview({ direction, videoId, startRect, endRect, onComplete }) {
   const [active, setActive] = useState(false);
   const duration = direction === 'open' ? MORPH_OPEN_MS : MORPH_CLOSE_MS;
@@ -178,6 +182,8 @@ export default function AutoCountTrainingWebGL() {
   const [playerOpen, setPlayerOpen] = useState(false);
   const [iframeMounted, setIframeMounted] = useState(false);
   const [iframeReady, setIframeReady] = useState(false);
+  const [stageHeight, setStageHeight] = useState(null);
+  const [stageTransitionMs, setStageTransitionMs] = useState(MORPH_OPEN_MS);
   const [morph, setMorph] = useState(null);
   const tabletRef = useRef(null);
   const openTargetRef = useRef(null);
@@ -188,6 +194,10 @@ export default function AutoCountTrainingWebGL() {
   const sectionRef = useRef(null);
   const contentWrapRef = useRef(null);
   const iframeReadyTimerRef = useRef(null);
+  const stageHeightTimerRef = useRef(null);
+  const stageHeightRafRef = useRef(0);
+  const scrollFollowRafRef = useRef(0);
+  const lastClosedStageHeightRef = useRef(null);
 
   useEffect(() => {
     preloadImage(getThumbnailUrl(activeVideo));
@@ -195,6 +205,9 @@ export default function AutoCountTrainingWebGL() {
 
   useEffect(() => () => {
     window.clearTimeout(iframeReadyTimerRef.current);
+    window.clearTimeout(stageHeightTimerRef.current);
+    window.cancelAnimationFrame(stageHeightRafRef.current);
+    window.cancelAnimationFrame(scrollFollowRafRef.current);
   }, []);
 
   useEffect(() => {
@@ -203,36 +216,44 @@ export default function AutoCountTrainingWebGL() {
     const { style: bodyStyle } = document.body;
     const { style: htmlStyle } = document.documentElement;
     const previousBody = {
-      overflow: bodyStyle.overflow,
       touchAction: bodyStyle.touchAction,
       overscrollBehavior: bodyStyle.overscrollBehavior,
     };
     const previousHtml = {
-      overflow: htmlStyle.overflow,
       overscrollBehavior: htmlStyle.overscrollBehavior,
       scrollbarGutter: htmlStyle.scrollbarGutter,
     };
     const stopScroll = event => event.preventDefault();
+    const stopScrollKeys = event => {
+      const blockedKeys = new Set([
+        'ArrowDown',
+        'ArrowUp',
+        'PageDown',
+        'PageUp',
+        'Home',
+        'End',
+        ' ',
+      ]);
+      if (blockedKeys.has(event.key)) event.preventDefault();
+    };
 
-    bodyStyle.overflow = 'hidden';
     bodyStyle.touchAction = 'none';
     bodyStyle.overscrollBehavior = 'none';
-    htmlStyle.overflow = 'hidden';
     htmlStyle.overscrollBehavior = 'none';
     htmlStyle.scrollbarGutter = 'stable';
 
     window.addEventListener('wheel', stopScroll, { passive: false });
     window.addEventListener('touchmove', stopScroll, { passive: false });
+    window.addEventListener('keydown', stopScrollKeys, { passive: false });
 
     return () => {
-      bodyStyle.overflow = previousBody.overflow;
       bodyStyle.touchAction = previousBody.touchAction;
       bodyStyle.overscrollBehavior = previousBody.overscrollBehavior;
-      htmlStyle.overflow = previousHtml.overflow;
       htmlStyle.overscrollBehavior = previousHtml.overscrollBehavior;
       htmlStyle.scrollbarGutter = previousHtml.scrollbarGutter;
       window.removeEventListener('wheel', stopScroll);
       window.removeEventListener('touchmove', stopScroll);
+      window.removeEventListener('keydown', stopScrollKeys);
     };
   }, [morph]);
 
@@ -246,22 +267,73 @@ export default function AutoCountTrainingWebGL() {
     return () => window.clearTimeout(fallbackTimer);
   }, [iframeMounted, activeVideo]);
 
+  const releaseStageHeight = () => {
+    window.clearTimeout(stageHeightTimerRef.current);
+    stageHeightTimerRef.current = window.setTimeout(() => {
+      setStageHeight(null);
+    }, 80);
+  };
+
+  const animateStageHeight = (fromHeight, toHeight, duration) => {
+    window.clearTimeout(stageHeightTimerRef.current);
+    window.cancelAnimationFrame(stageHeightRafRef.current);
+    setStageTransitionMs(duration);
+    setStageHeight(Math.max(1, Math.round(fromHeight)));
+    stageHeightRafRef.current = window.requestAnimationFrame(() => {
+      stageHeightRafRef.current = window.requestAnimationFrame(() => {
+        setStageHeight(Math.max(1, Math.round(toHeight)));
+      });
+    });
+  };
+
+  const followOpeningScroll = (startHeight, endHeight, endRect) => {
+    window.cancelAnimationFrame(scrollFollowRafRef.current);
+
+    const heightDelta = Math.max(0, endHeight - startHeight);
+    const viewportTarget = Math.max(
+      window.scrollY,
+      window.scrollY + endRect.top + endRect.height - window.innerHeight + 84
+    );
+    const targetScrollY = Math.max(
+      window.scrollY,
+      Math.min(window.scrollY + heightDelta, viewportTarget)
+    );
+    const startScrollY = window.scrollY;
+    const scrollDelta = targetScrollY - startScrollY;
+
+    if (scrollDelta <= 1) return;
+
+    const startTime = performance.now();
+    const tick = now => {
+      const progress = Math.min(1, (now - startTime) / MORPH_OPEN_MS);
+      window.scrollTo(0, startScrollY + scrollDelta * easeOutQuint(progress));
+      if (progress < 1) {
+        scrollFollowRafRef.current = window.requestAnimationFrame(tick);
+      }
+    };
+
+    scrollFollowRafRef.current = window.requestAnimationFrame(tick);
+  };
+
   const completeMorph = () => {
     const currentMorph = morph;
     if (!currentMorph) return;
 
+    window.cancelAnimationFrame(scrollFollowRafRef.current);
     setMorph(null);
 
     if (currentMorph.direction === 'open') {
       setPlayerOpen(true);
       setIframeMounted(true);
       setIframeReady(false);
+      releaseStageHeight();
       return;
     }
 
     setPlayerOpen(false);
     setIframeMounted(false);
     setIframeReady(false);
+    releaseStageHeight();
   };
 
   const handlePlay = () => {
@@ -278,8 +350,13 @@ export default function AutoCountTrainingWebGL() {
     const endRect = openTargetRect
       ? toPlainRect(openTargetRect)
       : getExpandedRect(contentWrapRef.current, stageRef.current);
+    const currentStageHeight = stageRef.current?.getBoundingClientRect().height || startRect.height;
+    const nextStageHeight = endRect.height;
+    lastClosedStageHeightRef.current = currentStageHeight;
     preloadImage(getThumbnailUrl(activeVideo));
     window.clearTimeout(iframeReadyTimerRef.current);
+    animateStageHeight(currentStageHeight, nextStageHeight, MORPH_OPEN_MS);
+    followOpeningScroll(currentStageHeight, nextStageHeight, endRect);
     setIframeMounted(false);
     setIframeReady(false);
     setPlayerOpen(false);
@@ -308,8 +385,11 @@ export default function AutoCountTrainingWebGL() {
       width: fallbackWidth,
       height: fallbackWidth * 3 / 4,
     };
+    const currentStageHeight = stageRef.current?.getBoundingClientRect().height || startRect.height;
+    const nextStageHeight = lastClosedStageHeightRef.current || currentStageHeight;
 
     window.clearTimeout(iframeReadyTimerRef.current);
+    animateStageHeight(currentStageHeight, nextStageHeight, MORPH_CLOSE_MS);
     setIframeMounted(false);
     setIframeReady(false);
     setPlayerOpen(false);
@@ -342,6 +422,15 @@ export default function AutoCountTrainingWebGL() {
           position: relative;
           width: 100%;
         }
+        .tutorial-stage-content {
+          position: relative;
+          z-index: 1;
+          transition: opacity 260ms cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .tutorial-stage.is-morphing .tutorial-stage-content {
+          opacity: 0;
+          pointer-events: none;
+        }
         .tutorial-measure-target {
           position: absolute;
           top: 0;
@@ -359,11 +448,6 @@ export default function AutoCountTrainingWebGL() {
           position: relative;
           width: 100%;
           opacity: 1;
-        }
-        .tutorial-player-actions {
-          display: flex;
-          justify-content: flex-end;
-          margin-top: 0.85rem;
         }
         .tutorial-video-frame {
           position: relative;
@@ -412,6 +496,10 @@ export default function AutoCountTrainingWebGL() {
           background: rgba(0,0,0,0.18);
         }
         .tutorial-close-btn {
+          position: absolute;
+          top: 14px;
+          right: 14px;
+          z-index: 4;
           display: inline-flex;
           align-items: center;
           justify-content: center;
@@ -551,9 +639,6 @@ export default function AutoCountTrainingWebGL() {
           opacity: 0;
         }
         @media (max-width: 760px) {
-          .tutorial-player-actions {
-            justify-content: center;
-          }
           .ipad-frame {
             aspect-ratio: 16/9;
             padding: 0;
@@ -578,7 +663,17 @@ export default function AutoCountTrainingWebGL() {
           </h2>
         </div>
 
-        <div ref={stageRef} className="tutorial-stage">
+        <div
+          ref={stageRef}
+          className={`tutorial-stage${morph ? ' is-morphing' : ''}`}
+          style={{
+            height: stageHeight != null ? `${stageHeight}px` : undefined,
+            overflow: stageHeight != null ? 'hidden' : undefined,
+            transition: stageHeight != null
+              ? `height ${stageTransitionMs}ms ${APPLE_EASE}`
+              : undefined,
+          }}
+        >
           <div className="tutorial-measure-target" aria-hidden="true">
             <div ref={openTargetRef} className="tutorial-video-frame" />
           </div>
@@ -598,12 +693,28 @@ export default function AutoCountTrainingWebGL() {
               <div />
             </div>
           </div>
-          {playerOpen ? (
-            <div ref={videoRef} className="tutorial-player-shell">
-              <div
-                ref={videoFrameRef}
-                className={`tutorial-video-frame${iframeReady ? ' is-ready' : ''}`}
-              >
+          <div className="tutorial-stage-content">
+            {playerOpen ? (
+              <div ref={videoRef} className="tutorial-player-shell">
+                <div
+                  ref={videoFrameRef}
+                  className={`tutorial-video-frame${iframeReady ? ' is-ready' : ''}`}
+                >
+                  <button
+                    className="tutorial-close-btn"
+                    type="button"
+                    onClick={handleClose}
+                    disabled={Boolean(morph)}
+                  >
+                    <svg className="tutorial-close-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <polyline points="4 14 10 14 10 20" />
+                      <polyline points="20 10 14 10 14 4" />
+                      <line x1="14" y1="10" x2="21" y2="3" />
+                      <line x1="3" y1="21" x2="10" y2="14" />
+                    </svg>
+                    Minimize
+                  </button>
+
                 {iframeMounted && (
                   <iframe
                     src={`https://www.youtube.com/embed/${activeVideo}?autoplay=1&rel=0&modestbranding=1${activeVideoMeta.playlistId ? '&list=' + activeVideoMeta.playlistId : ''}`}
@@ -614,34 +725,18 @@ export default function AutoCountTrainingWebGL() {
                   />
                 )}
 
-                <div className={`tutorial-video-cover${iframeReady ? ' is-hidden' : ''}`}>
-                  <img
-                    src={getThumbnailUrl(activeVideo)}
-                    alt=""
-                    decoding="async"
-                    crossOrigin="anonymous"
-                  />
+                  <div className={`tutorial-video-cover${iframeReady ? ' is-hidden' : ''}`}>
+                    <img
+                      src={getThumbnailUrl(activeVideo)}
+                      alt=""
+                      decoding="async"
+                      crossOrigin="anonymous"
+                    />
+                  </div>
                 </div>
               </div>
-              <div className="tutorial-player-actions">
-                <button
-                  className="tutorial-close-btn"
-                  type="button"
-                  onClick={handleClose}
-                  disabled={Boolean(morph)}
-                >
-                  <svg className="tutorial-close-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <polyline points="4 14 10 14 10 20" />
-                    <polyline points="20 10 14 10 14 4" />
-                    <line x1="14" y1="10" x2="21" y2="3" />
-                    <line x1="3" y1="21" x2="10" y2="14" />
-                  </svg>
-                  Minimize
-                </button>
-              </div>
-            </div>
-          ) : (
-            <div className="training-grid">
+            ) : (
+              <div className="training-grid">
               <div>
                 <div
                   ref={tabletRef}
@@ -750,8 +845,9 @@ export default function AutoCountTrainingWebGL() {
                   </span>
                 </div>
               </div>
-            </div>
-          )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
