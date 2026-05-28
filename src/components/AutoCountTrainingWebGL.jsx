@@ -21,8 +21,8 @@ const VIDEOS = [
   }
 ];
 
-const MORPH_OPEN_MS = 2400;
-const MORPH_CLOSE_MS = 1900;
+const MORPH_OPEN_MS = 2200;
+const MORPH_CLOSE_MS = 1700;
 const APPLE_EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
 
 const getThumbnailUrl = (videoId) => `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
@@ -44,35 +44,43 @@ function toPlainRect(rect) {
   };
 }
 
-function constrain(value, min, max) {
-  return Math.min(Math.max(value, min), max);
+function getExpandedRect(contentWrap, stageNode) {
+  const wrapRect = contentWrap?.getBoundingClientRect();
+  const stageRect = stageNode?.getBoundingClientRect() || wrapRect;
+  const width = Math.max(280, wrapRect?.width || window.innerWidth - 56);
+  const height = width * 9 / 16;
+
+  return {
+    left: wrapRect?.left || 28,
+    top: stageRect?.top || 120,
+    width,
+    height,
+  };
 }
 
-function getExpandedRect(sourceRect, contentWrap) {
-  const isMobile = window.innerWidth <= 760;
-  const margin = isMobile ? 8 : 28;
+function getCollapsedTabletRect(contentWrap, stageNode) {
   const wrapRect = contentWrap?.getBoundingClientRect();
-  const maxWidth = isMobile
-    ? window.innerWidth - margin * 2
-    : Math.min(
-      wrapRect?.width || window.innerWidth - margin * 2,
-      window.innerWidth - margin * 2
-    );
-  const maxHeight = window.innerHeight - margin * 2;
-  let width = Math.max(280, maxWidth);
-  let height = width * 9 / 16;
+  const stageRect = stageNode?.getBoundingClientRect() || wrapRect;
+  if (!wrapRect || !stageRect) return null;
 
-  if (height > maxHeight) {
-    height = maxHeight;
-    width = height * 16 / 9;
+  const isMobile = window.innerWidth <= 760;
+  if (isMobile) {
+    return {
+      left: wrapRect.left,
+      top: stageRect.top,
+      width: wrapRect.width,
+      height: wrapRect.width * 9 / 16,
+    };
   }
 
-  const sourceCenterX = sourceRect.left + sourceRect.width / 2;
-  const sourceCenterY = sourceRect.top + sourceRect.height / 2;
-  const left = constrain(sourceCenterX - width / 2, margin, window.innerWidth - width - margin);
-  const top = constrain(sourceCenterY - height / 2, margin, window.innerHeight - height - margin);
-
-  return { left, top, width, height };
+  const gridGap = 40;
+  const width = (wrapRect.width - gridGap) / 2;
+  return {
+    left: wrapRect.left,
+    top: stageRect.top,
+    width,
+    height: width * 3 / 4,
+  };
 }
 
 function MorphingTutorialPreview({ direction, videoId, startRect, endRect, onComplete }) {
@@ -167,18 +175,35 @@ function MorphingTutorialPreview({ direction, videoId, startRect, endRect, onCom
 
 export default function AutoCountTrainingWebGL() {
   const [activeVideo, setActiveVideo] = useState(VIDEOS[0].id);
-  const [showIframe, setShowIframe] = useState(false);
+  const [playerOpen, setPlayerOpen] = useState(false);
+  const [iframeMounted, setIframeMounted] = useState(false);
+  const [iframeReady, setIframeReady] = useState(false);
   const [morph, setMorph] = useState(null);
   const tabletRef = useRef(null);
   const videoRef = useRef(null);
   const videoFrameRef = useRef(null);
+  const stageRef = useRef(null);
   const sectionRef = useRef(null);
   const contentWrapRef = useRef(null);
-  const lastTabletRectRef = useRef(null);
+  const iframeReadyTimerRef = useRef(null);
 
   useEffect(() => {
     preloadImage(getThumbnailUrl(activeVideo));
   }, [activeVideo]);
+
+  useEffect(() => () => {
+    window.clearTimeout(iframeReadyTimerRef.current);
+  }, []);
+
+  useEffect(() => {
+    if (!iframeMounted) return undefined;
+
+    const fallbackTimer = window.setTimeout(() => {
+      setIframeReady(true);
+    }, 2600);
+
+    return () => window.clearTimeout(fallbackTimer);
+  }, [iframeMounted, activeVideo]);
 
   const completeMorph = () => {
     const currentMorph = morph;
@@ -187,38 +212,33 @@ export default function AutoCountTrainingWebGL() {
     setMorph(null);
 
     if (currentMorph.direction === 'open') {
-      setShowIframe(true);
-      window.requestAnimationFrame(() => {
-        if (videoRef.current) {
-          const y = videoRef.current.getBoundingClientRect().top + window.scrollY - 80;
-          window.scrollTo({ top: y, behavior: 'smooth' });
-        }
-      });
+      setPlayerOpen(true);
+      setIframeMounted(true);
+      setIframeReady(false);
       return;
     }
 
-    setShowIframe(false);
-    window.requestAnimationFrame(() => {
-      if (sectionRef.current) {
-        const y = sectionRef.current.getBoundingClientRect().top + window.scrollY - 60;
-        window.scrollTo({ top: y, behavior: 'smooth' });
-      }
-    });
+    setPlayerOpen(false);
+    setIframeMounted(false);
+    setIframeReady(false);
   };
 
   const handlePlay = () => {
     if (morph) return;
     const tabletRect = tabletRef.current?.getBoundingClientRect();
     if (!tabletRect) {
-      setShowIframe(true);
+      setPlayerOpen(true);
+      setIframeMounted(true);
       return;
     }
 
     const startRect = toPlainRect(tabletRect);
-    const endRect = getExpandedRect(startRect, contentWrapRef.current);
-    lastTabletRectRef.current = startRect;
+    const endRect = getExpandedRect(contentWrapRef.current, stageRef.current);
     preloadImage(getThumbnailUrl(activeVideo));
-    setShowIframe(false);
+    window.clearTimeout(iframeReadyTimerRef.current);
+    setIframeMounted(false);
+    setIframeReady(false);
+    setPlayerOpen(false);
     setMorph({ direction: 'open', videoId: activeVideo, startRect, endRect });
   };
 
@@ -227,22 +247,36 @@ export default function AutoCountTrainingWebGL() {
     const startSource = videoFrameRef.current || videoRef.current;
     const startDomRect = startSource?.getBoundingClientRect();
     if (!startDomRect) {
-      setShowIframe(false);
+      setPlayerOpen(false);
+      setIframeMounted(false);
+      setIframeReady(false);
       return;
     }
 
     const startRect = toPlainRect(startDomRect);
-    const fallbackWidth = Math.min(startRect.width * 0.42, 560);
-    const fallbackHeight = fallbackWidth * 3 / 4;
-    const endRect = lastTabletRectRef.current || {
+    const fallbackWidth = Math.min(startRect.width * 0.44, 560);
+    const endRect = getCollapsedTabletRect(contentWrapRef.current, stageRef.current) || {
       left: startRect.left + startRect.width / 2 - fallbackWidth / 2,
-      top: startRect.top + startRect.height / 2 - fallbackHeight / 2,
+      top: startRect.top + startRect.height / 2 - fallbackWidth * 3 / 8,
       width: fallbackWidth,
-      height: fallbackHeight,
+      height: fallbackWidth * 3 / 4,
     };
 
+    window.clearTimeout(iframeReadyTimerRef.current);
+    setIframeMounted(false);
+    setIframeReady(false);
+    setPlayerOpen(false);
     setMorph({ direction: 'close', videoId: activeVideo, startRect, endRect });
   };
+
+  const handleIframeLoad = () => {
+    window.clearTimeout(iframeReadyTimerRef.current);
+    iframeReadyTimerRef.current = window.setTimeout(() => {
+      setIframeReady(true);
+    }, 700);
+  };
+
+  const activeVideoMeta = VIDEOS.find(video => video.id === activeVideo) || VIDEOS[0];
 
   return (
     <section
@@ -257,9 +291,84 @@ export default function AutoCountTrainingWebGL() {
       <style>{`
         .training-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: center; }
         @media (max-width: 760px) { .training-grid { grid-template-columns: 1fr; gap: 1.5rem; } }
-        @keyframes videoExpand {
-          from { opacity: 0; transform: scale(0.985) translateY(8px); }
-          to { opacity: 1; transform: scale(1) translateY(0); }
+        .tutorial-stage {
+          position: relative;
+          width: 100%;
+        }
+        .tutorial-player-shell {
+          position: relative;
+          width: 100%;
+          opacity: 1;
+        }
+        .tutorial-video-frame {
+          position: relative;
+          width: 100%;
+          aspect-ratio: 16/9;
+          border-radius: 18px;
+          overflow: hidden;
+          background: #0f1128;
+          box-shadow: 0 24px 64px rgba(15,17,40,0.14);
+          transform: translateZ(0);
+        }
+        .tutorial-video-frame iframe {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          border: none;
+          opacity: 0;
+          transition: opacity 520ms cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .tutorial-video-frame.is-ready iframe {
+          opacity: 1;
+        }
+        .tutorial-video-cover {
+          position: absolute;
+          inset: 0;
+          z-index: 2;
+          background: #0f1128;
+          opacity: 1;
+          transition: opacity 520ms cubic-bezier(0.22, 1, 0.36, 1);
+          pointer-events: none;
+        }
+        .tutorial-video-cover.is-hidden {
+          opacity: 0;
+        }
+        .tutorial-video-cover img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+        .tutorial-video-cover::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: rgba(0,0,0,0.18);
+        }
+        .tutorial-close-btn {
+          position: absolute;
+          top: 14px;
+          right: 14px;
+          z-index: 4;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
+          background: rgba(255,255,255,0.9);
+          color: #2f315a;
+          padding: 0.48rem 1.05rem;
+          border-radius: 999px;
+          font-size: 0.8rem;
+          font-weight: 700;
+          border: 1px solid rgba(47,49,90,0.08);
+          cursor: pointer;
+          font-family: inherit;
+          box-shadow: 0 12px 28px rgba(15,17,40,0.12);
+          transition: background 0.2s, transform 0.2s;
+        }
+        .tutorial-close-btn:hover {
+          background: #ffffff;
+          transform: translateY(-1px);
         }
         .ipad-frame {
           aspect-ratio: 4/3;
@@ -395,67 +504,59 @@ export default function AutoCountTrainingWebGL() {
           </h2>
         </div>
 
-        {showIframe ? (
-          <div
-            ref={videoRef}
-            style={{
-              width: '100%',
-              opacity: morph?.direction === 'close' ? 0 : 1,
-              animation: 'videoExpand 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards',
-            }}
-          >
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1rem' }}>
-              <button
-                onClick={handleClose}
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
-                  background: 'rgba(47, 49, 90, 0.08)', color: '#2f315a', padding: '0.45rem 1.1rem',
-                  borderRadius: 50, fontSize: '0.8rem', fontWeight: 600,
-                  border: 'none', cursor: 'pointer', fontFamily: 'inherit',
-                  transition: 'background 0.2s, transform 0.2s'
-                }}
-                onMouseOver={e => { e.currentTarget.style.background = 'rgba(47, 49, 90, 0.15)'; e.currentTarget.style.transform = 'scale(1.03)'; }}
-                onMouseOut={e => { e.currentTarget.style.background = 'rgba(47, 49, 90, 0.08)'; e.currentTarget.style.transform = 'scale(1)'; }}
+        <div ref={stageRef} className="tutorial-stage">
+          {playerOpen ? (
+            <div ref={videoRef} className="tutorial-player-shell">
+              <div
+                ref={videoFrameRef}
+                className={`tutorial-video-frame${iframeReady ? ' is-ready' : ''}`}
               >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="4 14 10 14 10 20" />
-                  <polyline points="20 10 14 10 14 4" />
-                  <line x1="14" y1="10" x2="21" y2="3" />
-                  <line x1="3" y1="21" x2="10" y2="14" />
-                </svg>
-                Minimize
-              </button>
-            </div>
+                <button
+                  className="tutorial-close-btn"
+                  type="button"
+                  onClick={handleClose}
+                  disabled={Boolean(morph)}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="4 14 10 14 10 20" />
+                    <polyline points="20 10 14 10 14 4" />
+                    <line x1="14" y1="10" x2="21" y2="3" />
+                    <line x1="3" y1="21" x2="10" y2="14" />
+                  </svg>
+                  Minimize
+                </button>
 
-            <div
-              ref={videoFrameRef}
-              style={{
-                width: '100%',
-                aspectRatio: '16/9',
-                borderRadius: '18px',
-                overflow: 'hidden',
-                background: '#0f1128',
-                boxShadow: '0 20px 60px rgba(15,17,40,0.12)',
-              }}
-            >
-              <iframe
-                src={`https://www.youtube.com/embed/${activeVideo}?autoplay=1&rel=0&modestbranding=1${VIDEOS.find(v => v.id === activeVideo)?.playlistId ? '&list=' + VIDEOS.find(v => v.id === activeVideo).playlistId : ''}`}
-                title="AutoCount Training Video"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                style={{ width: '100%', height: '100%', border: 'none' }}
-              />
+                {iframeMounted && (
+                  <iframe
+                    src={`https://www.youtube.com/embed/${activeVideo}?autoplay=1&rel=0&modestbranding=1${activeVideoMeta.playlistId ? '&list=' + activeVideoMeta.playlistId : ''}`}
+                    title="AutoCount Training Video"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    onLoad={handleIframeLoad}
+                  />
+                )}
+
+                <div className={`tutorial-video-cover${iframeReady ? ' is-hidden' : ''}`}>
+                  <img
+                    src={getThumbnailUrl(activeVideo)}
+                    alt=""
+                    decoding="async"
+                    crossOrigin="anonymous"
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-        ) : (
-          <>
+          ) : (
             <div className="training-grid">
               <div>
                 <div
                   ref={tabletRef}
                   className="ipad-frame"
                   onClick={handlePlay}
-                  style={{ opacity: morph?.direction === 'open' ? 0 : 1 }}
+                  style={{
+                    opacity: morph ? 0 : 1,
+                    pointerEvents: morph ? 'none' : 'auto',
+                  }}
                 >
                   <div style={{
                     flex: 1,
@@ -534,6 +635,7 @@ export default function AutoCountTrainingWebGL() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
                   <button
                     onClick={handlePlay}
+                    disabled={Boolean(morph)}
                     style={{
                       display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
                       background: '#2f315a', color: '#fff', padding: '0.75rem 1.75rem',
@@ -555,8 +657,8 @@ export default function AutoCountTrainingWebGL() {
                 </div>
               </div>
             </div>
-          </>
-        )}
+          )}
+        </div>
       </div>
 
       {morph && (
