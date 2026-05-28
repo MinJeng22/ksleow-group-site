@@ -25,6 +25,8 @@ const MORPH_OPEN_MS = 1350;
 const MORPH_CLOSE_MS = 1450;
 const MORPH_SETTLE_MS = 180;
 const APPLE_EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
+const TABLET_SHADOW = '0 24px 60px rgba(15,17,40,0.2), inset 0 0 0 2px #2a2a2a, inset 0 0 12px rgba(0,0,0,1)';
+const VIDEO_SHADOW = '0 24px 64px rgba(15,17,40,0.14)';
 
 const getThumbnailUrl = (videoId) => `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
 
@@ -111,8 +113,11 @@ function MorphingTutorialPreview({ direction, videoId, startRect, endRect, onCom
       ? 'perspective(1200px) rotateX(0deg) rotateY(0deg) scale(1)'
       : `${initialTransform} perspective(1200px) rotateX(7deg) rotateY(-6deg)`)
     : (active
-      ? 'translate3d(0, 0, 0) scale(1, 1) perspective(1200px) rotateX(7deg) rotateY(-6deg)'
+      ? 'translate3d(0, 0, 0) scale(1, 1)'
       : initialTransform);
+  const shellShadow = direction === 'open'
+    ? (active ? VIDEO_SHADOW : TABLET_SHADOW)
+    : (active ? TABLET_SHADOW : VIDEO_SHADOW);
 
   const finishMorph = useCallback(() => {
     if (completedRef.current) return;
@@ -154,6 +159,7 @@ function MorphingTutorialPreview({ direction, videoId, startRect, endRect, onCom
           borderRadius: `${borderRadius}px`,
           transform: shellTransform,
           '--morph-duration': `${duration}ms`,
+          boxShadow: shellShadow,
           transitionDuration: `${duration}ms`,
           transitionTimingFunction: APPLE_EASE,
         }}
@@ -212,6 +218,7 @@ export default function AutoCountTrainingWebGL() {
   const stageHeightRafRef = useRef(0);
   const scrollFollowRafRef = useRef(0);
   const morphSettleTimerRef = useRef(null);
+  const morphPaintRafRef = useRef(0);
   const lastClosedStageHeightRef = useRef(null);
 
   useEffect(() => {
@@ -224,6 +231,7 @@ export default function AutoCountTrainingWebGL() {
     window.clearTimeout(morphSettleTimerRef.current);
     window.cancelAnimationFrame(stageHeightRafRef.current);
     window.cancelAnimationFrame(scrollFollowRafRef.current);
+    window.cancelAnimationFrame(morphPaintRafRef.current);
   }, []);
 
   useEffect(() => {
@@ -337,6 +345,7 @@ export default function AutoCountTrainingWebGL() {
 
     window.cancelAnimationFrame(scrollFollowRafRef.current);
     window.clearTimeout(morphSettleTimerRef.current);
+    window.cancelAnimationFrame(morphPaintRafRef.current);
 
     if (currentMorph.direction === 'open') {
       setPlayerOpen(true);
@@ -354,8 +363,12 @@ export default function AutoCountTrainingWebGL() {
     setIframeMounted(false);
     setIframeReady(false);
     setStageConcealed(false);
-    setMorph(null);
-    releaseStageHeight(0);
+    morphPaintRafRef.current = window.requestAnimationFrame(() => {
+      morphPaintRafRef.current = window.requestAnimationFrame(() => {
+        setMorph(null);
+        releaseStageHeight(0);
+      });
+    });
   };
 
   const handlePlay = () => {
@@ -449,10 +462,10 @@ export default function AutoCountTrainingWebGL() {
         .tutorial-stage-content {
           position: relative;
           z-index: 1;
-          transition: opacity 260ms cubic-bezier(0.22, 1, 0.36, 1);
         }
         .tutorial-stage.is-morphing .tutorial-stage-content {
           opacity: 0;
+          visibility: hidden;
           pointer-events: none;
         }
         .tutorial-measure-target {
@@ -480,7 +493,7 @@ export default function AutoCountTrainingWebGL() {
           border-radius: 18px;
           overflow: hidden;
           background: #0f1128;
-          box-shadow: 0 24px 64px rgba(15,17,40,0.14);
+          box-shadow: ${VIDEO_SHADOW};
           transform: translateZ(0);
         }
         .tutorial-video-frame iframe {
@@ -557,7 +570,7 @@ export default function AutoCountTrainingWebGL() {
           background: #111;
           box-sizing: border-box;
           padding: 3.5%;
-          box-shadow: 0 24px 60px rgba(15,17,40,0.2), inset 0 0 0 2px #2a2a2a, inset 0 0 12px rgba(0,0,0,1);
+          box-shadow: ${TABLET_SHADOW};
           position: relative;
           cursor: pointer;
           display: flex;
@@ -580,20 +593,10 @@ export default function AutoCountTrainingWebGL() {
           position: fixed;
           overflow: hidden;
           background: #0f1128;
-          box-shadow:
-            0 34px 90px rgba(15,17,40,0.32),
-            0 12px 28px rgba(15,17,40,0.18),
-            inset 0 0 0 1px rgba(255,255,255,0.08);
           transform-origin: center;
           backface-visibility: hidden;
           will-change: border-radius, transform, box-shadow, filter;
           transition-property: border-radius, transform, box-shadow, filter;
-        }
-        .tutorial-morph-shell[data-active="true"] {
-          box-shadow:
-            0 42px 110px rgba(15,17,40,0.22),
-            0 12px 34px rgba(15,17,40,0.16),
-            inset 0 0 0 1px rgba(255,255,255,0.04);
         }
         .tutorial-morph-shell::before {
           content: "";
@@ -603,20 +606,23 @@ export default function AutoCountTrainingWebGL() {
           background:
             linear-gradient(115deg, transparent 20%, rgba(255,255,255,0.2) 42%, transparent 58%),
             radial-gradient(circle at 28% 18%, rgba(255,255,255,0.2), transparent 24%);
-          opacity: 0.8;
+          opacity: 0.55;
           transform: translateX(-30%) rotate(2deg);
           transition: transform var(--morph-duration, 4200ms) cubic-bezier(0.22, 1, 0.36, 1), opacity 700ms ease;
           pointer-events: none;
         }
+        .tutorial-morph-shell[data-direction="close"]::before {
+          opacity: 0;
+        }
         .tutorial-morph-shell[data-active="true"]::before {
-          opacity: 0.3;
+          opacity: 0;
           transform: translateX(26%) rotate(2deg);
         }
         .tutorial-morph-screen {
           position: absolute;
           overflow: hidden;
           background: #0f1128;
-          box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+          box-shadow: none;
           transition-property: inset, border-radius, box-shadow;
         }
         .tutorial-morph-image {
@@ -636,11 +642,15 @@ export default function AutoCountTrainingWebGL() {
         .tutorial-morph-dim {
           position: absolute;
           inset: 0;
-          background: rgba(0,0,0,0.28);
+          background: rgba(0,0,0,0.3);
           transition: background var(--morph-duration, 4200ms) cubic-bezier(0.22, 1, 0.36, 1);
         }
-        .tutorial-morph-shell[data-active="true"] .tutorial-morph-dim {
+        .tutorial-morph-shell[data-direction="close"] .tutorial-morph-dim,
+        .tutorial-morph-shell[data-direction="open"][data-active="true"] .tutorial-morph-dim {
           background: rgba(0,0,0,0.12);
+        }
+        .tutorial-morph-shell[data-direction="close"][data-active="true"] .tutorial-morph-dim {
+          background: rgba(0,0,0,0.3);
         }
         .tutorial-morph-play {
           position: absolute;
@@ -653,14 +663,19 @@ export default function AutoCountTrainingWebGL() {
           padding-left: 4px;
           border-radius: 50%;
           background: #e8c97a;
-          box-shadow: 0 12px 30px rgba(232,201,122,0.32);
-          transform: translate(-50%, -50%) scale(0.92);
-          opacity: 0.92;
+          box-shadow: 0 8px 24px rgba(232,201,122,0.4);
+          transform: translate(-50%, -50%) scale(1);
+          opacity: 1;
           transition: transform var(--morph-duration, 4200ms) cubic-bezier(0.22, 1, 0.36, 1), opacity 900ms ease;
         }
-        .tutorial-morph-shell[data-active="true"] .tutorial-morph-play {
+        .tutorial-morph-shell[data-direction="close"] .tutorial-morph-play,
+        .tutorial-morph-shell[data-direction="open"][data-active="true"] .tutorial-morph-play {
           transform: translate(-50%, -50%) scale(0.74);
           opacity: 0;
+        }
+        .tutorial-morph-shell[data-direction="close"][data-active="true"] .tutorial-morph-play {
+          transform: translate(-50%, -50%) scale(1);
+          opacity: 1;
         }
         @media (max-width: 760px) {
           .ipad-frame {
