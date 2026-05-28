@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 const VIDEOS = [
   {
@@ -90,6 +90,7 @@ function easeOutQuint(value) {
 
 function MorphingTutorialPreview({ direction, videoId, startRect, endRect, onComplete }) {
   const [active, setActive] = useState(false);
+  const completedRef = useRef(false);
   const duration = direction === 'open' ? MORPH_OPEN_MS : MORPH_CLOSE_MS;
   const startCenterX = startRect.left + startRect.width / 2;
   const startCenterY = startRect.top + startRect.height / 2;
@@ -113,10 +114,17 @@ function MorphingTutorialPreview({ direction, videoId, startRect, endRect, onCom
       ? 'translate3d(0, 0, 0) scale(1, 1) perspective(1200px) rotateX(7deg) rotateY(-6deg)'
       : initialTransform);
 
+  const finishMorph = useCallback(() => {
+    if (completedRef.current) return;
+    completedRef.current = true;
+    onComplete();
+  }, [onComplete]);
+
   useEffect(() => {
     let rafOne = 0;
     let rafTwo = 0;
-    const timer = window.setTimeout(onComplete, duration + (direction === 'close' ? 140 : 100));
+    completedRef.current = false;
+    const timer = window.setTimeout(finishMorph, duration + (direction === 'close' ? 180 : 140));
 
     rafOne = window.requestAnimationFrame(() => {
       rafTwo = window.requestAnimationFrame(() => setActive(true));
@@ -127,7 +135,7 @@ function MorphingTutorialPreview({ direction, videoId, startRect, endRect, onCom
       window.cancelAnimationFrame(rafTwo);
       window.clearTimeout(timer);
     };
-  }, [duration, onComplete]);
+  }, [duration, direction, finishMorph]);
 
   return (
     <div
@@ -148,6 +156,10 @@ function MorphingTutorialPreview({ direction, videoId, startRect, endRect, onCom
           '--morph-duration': `${duration}ms`,
           transitionDuration: `${duration}ms`,
           transitionTimingFunction: APPLE_EASE,
+        }}
+        onTransitionEnd={event => {
+          if (event.currentTarget !== event.target || event.propertyName !== 'transform' || !active) return;
+          finishMorph();
         }}
       >
         <div
@@ -342,10 +354,8 @@ export default function AutoCountTrainingWebGL() {
     setIframeMounted(false);
     setIframeReady(false);
     setStageConcealed(false);
-    morphSettleTimerRef.current = window.setTimeout(() => {
-      setMorph(null);
-      releaseStageHeight(260);
-    }, MORPH_SETTLE_MS + 80);
+    setMorph(null);
+    releaseStageHeight(0);
   };
 
   const handlePlay = () => {
