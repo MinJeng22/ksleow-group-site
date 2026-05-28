@@ -180,6 +180,8 @@ export default function AutoCountTrainingWebGL() {
   const [iframeReady, setIframeReady] = useState(false);
   const [morph, setMorph] = useState(null);
   const tabletRef = useRef(null);
+  const openTargetRef = useRef(null);
+  const collapseTargetRef = useRef(null);
   const videoRef = useRef(null);
   const videoFrameRef = useRef(null);
   const stageRef = useRef(null);
@@ -198,44 +200,39 @@ export default function AutoCountTrainingWebGL() {
   useEffect(() => {
     if (!morph) return undefined;
 
-    const scrollY = window.scrollY;
     const { style: bodyStyle } = document.body;
     const { style: htmlStyle } = document.documentElement;
     const previousBody = {
-      position: bodyStyle.position,
-      top: bodyStyle.top,
-      left: bodyStyle.left,
-      right: bodyStyle.right,
-      width: bodyStyle.width,
       overflow: bodyStyle.overflow,
       touchAction: bodyStyle.touchAction,
+      overscrollBehavior: bodyStyle.overscrollBehavior,
     };
     const previousHtml = {
       overflow: htmlStyle.overflow,
       overscrollBehavior: htmlStyle.overscrollBehavior,
+      scrollbarGutter: htmlStyle.scrollbarGutter,
     };
+    const stopScroll = event => event.preventDefault();
 
-    bodyStyle.position = 'fixed';
-    bodyStyle.top = `-${scrollY}px`;
-    bodyStyle.left = '0';
-    bodyStyle.right = '0';
-    bodyStyle.width = '100%';
     bodyStyle.overflow = 'hidden';
     bodyStyle.touchAction = 'none';
+    bodyStyle.overscrollBehavior = 'none';
     htmlStyle.overflow = 'hidden';
     htmlStyle.overscrollBehavior = 'none';
+    htmlStyle.scrollbarGutter = 'stable';
+
+    window.addEventListener('wheel', stopScroll, { passive: false });
+    window.addEventListener('touchmove', stopScroll, { passive: false });
 
     return () => {
-      bodyStyle.position = previousBody.position;
-      bodyStyle.top = previousBody.top;
-      bodyStyle.left = previousBody.left;
-      bodyStyle.right = previousBody.right;
-      bodyStyle.width = previousBody.width;
       bodyStyle.overflow = previousBody.overflow;
       bodyStyle.touchAction = previousBody.touchAction;
+      bodyStyle.overscrollBehavior = previousBody.overscrollBehavior;
       htmlStyle.overflow = previousHtml.overflow;
       htmlStyle.overscrollBehavior = previousHtml.overscrollBehavior;
-      window.scrollTo(0, scrollY);
+      htmlStyle.scrollbarGutter = previousHtml.scrollbarGutter;
+      window.removeEventListener('wheel', stopScroll);
+      window.removeEventListener('touchmove', stopScroll);
     };
   }, [morph]);
 
@@ -277,7 +274,10 @@ export default function AutoCountTrainingWebGL() {
     }
 
     const startRect = toPlainRect(tabletRect);
-    const endRect = getExpandedRect(contentWrapRef.current, stageRef.current);
+    const openTargetRect = openTargetRef.current?.getBoundingClientRect();
+    const endRect = openTargetRect
+      ? toPlainRect(openTargetRect)
+      : getExpandedRect(contentWrapRef.current, stageRef.current);
     preloadImage(getThumbnailUrl(activeVideo));
     window.clearTimeout(iframeReadyTimerRef.current);
     setIframeMounted(false);
@@ -299,7 +299,10 @@ export default function AutoCountTrainingWebGL() {
 
     const startRect = toPlainRect(startDomRect);
     const fallbackWidth = Math.min(startRect.width * 0.44, 560);
-    const endRect = getCollapsedTabletRect(contentWrapRef.current, stageRef.current) || {
+    const collapseTargetRect = collapseTargetRef.current?.getBoundingClientRect();
+    const endRect = collapseTargetRect
+      ? toPlainRect(collapseTargetRect)
+      : getCollapsedTabletRect(contentWrapRef.current, stageRef.current) || {
       left: startRect.left + startRect.width / 2 - fallbackWidth / 2,
       top: startRect.top + startRect.height / 2 - fallbackWidth * 3 / 8,
       width: fallbackWidth,
@@ -337,6 +340,19 @@ export default function AutoCountTrainingWebGL() {
         @media (max-width: 760px) { .training-grid { grid-template-columns: 1fr; gap: 1.5rem; } }
         .tutorial-stage {
           position: relative;
+          width: 100%;
+        }
+        .tutorial-measure-target {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          visibility: hidden;
+          pointer-events: none;
+          opacity: 0;
+          z-index: -1;
+        }
+        .tutorial-measure-target .training-grid {
           width: 100%;
         }
         .tutorial-player-shell {
@@ -563,6 +579,25 @@ export default function AutoCountTrainingWebGL() {
         </div>
 
         <div ref={stageRef} className="tutorial-stage">
+          <div className="tutorial-measure-target" aria-hidden="true">
+            <div ref={openTargetRef} className="tutorial-video-frame" />
+          </div>
+          <div className="tutorial-measure-target" aria-hidden="true">
+            <div className="training-grid">
+              <div>
+                <div ref={collapseTargetRef} className="ipad-frame">
+                  <div style={{
+                    flex: 1,
+                    borderRadius: '10px',
+                    overflow: 'hidden',
+                    background: '#0f1128',
+                    position: 'relative',
+                  }} />
+                </div>
+              </div>
+              <div />
+            </div>
+          </div>
           {playerOpen ? (
             <div ref={videoRef} className="tutorial-player-shell">
               <div
