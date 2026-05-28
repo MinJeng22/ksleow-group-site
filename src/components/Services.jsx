@@ -188,6 +188,12 @@ function ServiceCard({ service }) {
     }
   }, [isMobile, isInView]);
 
+  useEffect(() => {
+    if (!isMobile) {
+      setIsHovered(false);
+    }
+  }, [isMobile]);
+
   const isActive = service.backgroundImage && isDelayedHover;
 
   let activeBadge = service.dealer || service.certified;
