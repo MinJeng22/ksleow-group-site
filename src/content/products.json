@@ -52,7 +52,7 @@
       "name": "AutoCount Cloud Payroll",
       "desc": "Automated payroll compliant with EPF, SOCSO, PCB, and EIS. Payslips in minutes.",
       "image": "/images/products/hrms-logo-2024_white-1024x288.png",
-      "background": "/images/products/autocount-hrms.png",
+      "background": "",
       "placeholder": "☁️",
       "gradient": "rgb(168, 198, 232)",
       "route": ""
