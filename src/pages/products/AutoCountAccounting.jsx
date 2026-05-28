@@ -555,13 +555,6 @@ const FEATURES = [
   },
 ];
 
-const FEATURE_SLOTS = [
-  { side: "left", slot: "top" },
-  { side: "right", slot: "top" },
-  { side: "left", slot: "bottom" },
-  { side: "right", slot: "bottom" },
-];
-
 function FeatureHighlights() {
   const gridRef = useRef(null);
   const [inView, setInView] = useState(true);
@@ -582,32 +575,22 @@ function FeatureHighlights() {
   return (
     <div id="features" className="ac-section-tight ac-features-showcase" style={{ scrollMarginTop: 24, position: "relative", zIndex: 1 }}>
       <div className="content-wrap">
-        <div ref={gridRef} className={`ac-features-orbit${inView ? " is-in-view" : ""}`}>
-          <div className="ac-features-center" aria-hidden="true">
-            <div className="ac-features-center-card">
-              <Img src="/images/logos/autocount-logo.png" alt="AutoCount" className="ac-features-logo" />
-            </div>
-          </div>
-
-          {FEATURES.map((f, i) => {
-            const slot = FEATURE_SLOTS[i] || FEATURE_SLOTS[0];
-            return (
-              <article
-                key={f.title}
-                tabIndex={0}
-                className={`ac-feature-node ac-feature-node-${slot.side} ac-feature-node-${slot.slot}`}
-                style={{ "--feature-delay": `${i * 90}ms` }}
-              >
-                <span className="ac-feature-icon">
-                  <Img src={f.icon} alt="" />
-                </span>
-                <span className="ac-feature-copy">
-                  <span className="ac-feature-title">{f.title}</span>
-                  <span className="ac-feature-desc">{f.desc}</span>
-                </span>
-              </article>
-            );
-          })}
+        <div ref={gridRef} className={`ac-features-grid${inView ? " is-in-view" : ""}`}>
+          {FEATURES.map((f, i) => (
+            <article
+              key={f.title}
+              className="ac-feature-card"
+              style={{ "--feature-delay": `${i * 90}ms` }}
+            >
+              <span className="ac-feature-icon">
+                <Img src={f.icon} alt="" />
+              </span>
+              <span className="ac-feature-copy">
+                <span className="ac-feature-title">{f.title}</span>
+                <span className="ac-feature-desc">{f.desc}</span>
+              </span>
+            </article>
+          ))}
         </div>
       </div>
     </div>

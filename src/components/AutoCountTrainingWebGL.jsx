@@ -778,8 +778,10 @@ export default function AutoCountTrainingWebGL() {
                 </div>
 
                 <div style={{
-                  marginTop: '1.25rem',
-                  background: '#2f315a',
+                  margin: '1.5rem auto 0',
+                  width: '85%',
+                  background: 'rgba(0,0,0,0.7)',
+                  backdropFilter: 'blur(10px)',
                   borderRadius: '20px',
                   padding: '6px',
                   display: 'flex',
@@ -795,8 +797,8 @@ export default function AutoCountTrainingWebGL() {
                           flex: 1,
                           display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px',
                           padding: '12px 4px',
-                          background: isActive ? '#f5f5f8' : 'transparent',
-                          color: isActive ? '#1c1e36' : 'rgba(255,255,255,0.7)',
+                          background: isActive ? 'rgba(255,255,255,0.15)' : 'transparent',
+                          color: isActive ? '#ffffff' : 'rgba(255,255,255,0.6)',
                           border: 'none', borderRadius: '14px',
                           cursor: 'pointer',
                           transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
