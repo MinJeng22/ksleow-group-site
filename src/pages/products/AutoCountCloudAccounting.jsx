@@ -506,7 +506,7 @@ export default function AutoCountCloudAccountingPage() {
 
       <main className="pinned-page-content product-app-content">
       {/* ── Feature highlights ── */}
-      <div className="product-app-section product-app-section-paper product-app-section-to-mist product-app-section-clean">
+      <div className="product-app-section product-app-section-paper product-app-section-to-mist product-app-section-clean product-app-section-white-hold">
         <FeatureHighlights />
       </div>
 

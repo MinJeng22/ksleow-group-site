@@ -172,14 +172,16 @@ textarea {
   --product-section-bg: var(--ks-page-paper);
   --product-section-from: var(--product-section-bg);
   --product-section-to: var(--product-section-bg);
+  --product-section-start: 30%;
+  --product-section-end: 70%;
   position: relative;
   overflow: hidden;
   background:
     linear-gradient(
       180deg,
       var(--product-section-from) 0%,
-      var(--product-section-bg) 30%,
-      var(--product-section-bg) 70%,
+      var(--product-section-bg) var(--product-section-start),
+      var(--product-section-bg) var(--product-section-end),
       var(--product-section-to) 100%
     );
 }
@@ -220,6 +222,10 @@ textarea {
 .product-app-section-to-warm { --product-section-to: var(--ks-page-warm); }
 .product-app-section-to-ice { --product-section-to: var(--ks-page-ice); }
 .product-app-section-clean { --product-section-glow: 0; }
+.product-app-section-white-hold {
+  --product-section-start: 82%;
+  --product-section-end: 92%;
+}
 
 .product-app-divider {
   --section-from: var(--ks-page-paper);
@@ -322,10 +328,7 @@ textarea {
 .ac-features-showcase {
   padding: 3.4rem 0 3.6rem !important;
   overflow: hidden;
-  background:
-    radial-gradient(circle at 12% 12%, rgba(201,168,76,0.14), transparent 30%),
-    radial-gradient(circle at 88% 8%, rgba(47,49,90,0.08), transparent 32%),
-    linear-gradient(180deg, #ffffff 0%, #f5f5f8 100%);
+  background: transparent;
   color: #2f315a;
 }
 
