@@ -152,7 +152,7 @@ function MorphingTutorialPreview({ direction, videoId, startRect, endRect, onCom
     : (active
       ? 'translate3d(0, 0, 0) scale(1, 1)'
       : initialTransform);
-  const shellShadow = isSettling ? 'none' : VIDEO_SHADOW;
+  const shellOpacity = isSettling ? 0 : 1;
 
   const finishMorph = useCallback(() => {
     if (completedRef.current) return;
@@ -194,13 +194,16 @@ function MorphingTutorialPreview({ direction, videoId, startRect, endRect, onCom
           borderRadius: `${borderRadius}px`,
           transform: shellTransform,
           '--morph-duration': `${duration}ms`,
-          boxShadow: shellShadow,
-          transitionDuration: `${duration}ms`,
-          transitionTimingFunction: APPLE_EASE,
+          boxShadow: VIDEO_SHADOW,
+          opacity: shellOpacity,
+          transitionDuration: isSettling ? '200ms' : `${duration}ms`,
+          transitionTimingFunction: isSettling ? 'ease' : APPLE_EASE,
+          transitionProperty: isSettling ? 'opacity' : 'border-radius, transform',
         }}
         onTransitionEnd={event => {
-          if (event.currentTarget !== event.target || event.propertyName !== 'transform' || !active) return;
-          finishMorph();
+          if (event.currentTarget !== event.target) return;
+          if (isSettling && event.propertyName === 'opacity') { onComplete(); return; }
+          if (!isSettling && event.propertyName === 'transform' && active) finishMorph();
         }}
       >
         <div
@@ -401,18 +404,20 @@ export default function AutoCountTrainingWebGL() {
       setIframeMounted(true);
       setIframeReady(false);
       setStageConcealed(false);
-      
+      // Trigger opacity fade-out on the morph shell after 2 frames
+      // so the real video frame's shadow is painted before shell disappears.
       morphPaintRafRef.current = window.requestAnimationFrame(() => {
         morphPaintRafRef.current = window.requestAnimationFrame(() => {
           setMorphSettling(true);
+          // setMorph(null) is called by the shell's onTransitionEnd after opacity:0
+          // Safety fallback if transitionend doesn't fire (e.g. reduced-motion)
+          morphSettleTimerRef.current = window.setTimeout(() => {
+            setMorph(null);
+            setMorphSettling(false);
+            releaseStageHeight(220);
+          }, 280);
         });
       });
-
-      morphSettleTimerRef.current = window.setTimeout(() => {
-        setMorph(null);
-        setMorphSettling(false);
-        releaseStageHeight(220);
-      }, MORPH_SETTLE_MS);
       return;
     }
 
