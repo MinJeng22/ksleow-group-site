@@ -79,8 +79,7 @@ export default function SectionSidebar({ items }) {
   return (
     <nav ref={navRef} className="ac-sidebar lg-glass" style={{
       position: "fixed",
-      top: "50%", right: 24,
-      transform: "translateY(-50%)",
+      bottom: 84, right: 28,
       zIndex: 150,
       display: "flex", flexDirection: "column", gap: 4,
       borderRadius: 14,
