@@ -241,6 +241,7 @@ export default function AutoCountTrainingWebGL() {
   const [stageHeight, setStageHeight] = useState(null);
   const [stageTransitionMs, setStageTransitionMs] = useState(MORPH_OPEN_MS);
   const [morph, setMorph] = useState(null);
+  const [morphSettling, setMorphSettling] = useState(false);
   const [stageConcealed, setStageConcealed] = useState(false);
   const tabletRef = useRef(null);
   const openTargetRef = useRef(null);
@@ -400,8 +401,16 @@ export default function AutoCountTrainingWebGL() {
       setIframeMounted(true);
       setIframeReady(false);
       setStageConcealed(false);
+      
+      morphPaintRafRef.current = window.requestAnimationFrame(() => {
+        morphPaintRafRef.current = window.requestAnimationFrame(() => {
+          setMorphSettling(true);
+        });
+      });
+
       morphSettleTimerRef.current = window.setTimeout(() => {
         setMorph(null);
+        setMorphSettling(false);
         releaseStageHeight(220);
       }, MORPH_SETTLE_MS);
       return;
@@ -414,6 +423,7 @@ export default function AutoCountTrainingWebGL() {
     morphPaintRafRef.current = window.requestAnimationFrame(() => {
       morphPaintRafRef.current = window.requestAnimationFrame(() => {
         setMorph(null);
+        setMorphSettling(false);
         releaseStageHeight(0);
       });
     });
@@ -1014,7 +1024,7 @@ export default function AutoCountTrainingWebGL() {
           startRect={morph.startRect}
           endRect={morph.endRect}
           onComplete={completeMorph}
-          isSettling={!stageConcealed && morph.direction === 'open'}
+          isSettling={morphSettling}
         />
       )}
     </section>
