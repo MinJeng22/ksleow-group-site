@@ -642,7 +642,9 @@ export default function AutoCountTrainingWebGL() {
           transform: translateY(-1px);
         }
         .tutorial-copy-panel {
-          align-self: start;
+          align-self: stretch;
+          display: flex;
+          flex-direction: column;
         }
         .tutorial-stage.is-morphing.is-closing .tutorial-selector,
         .tutorial-stage.is-morphing.is-closing .tutorial-description,
@@ -962,34 +964,36 @@ export default function AutoCountTrainingWebGL() {
                     );
                   })}
                 </div>
-                <p className="tutorial-description" style={{
-                  fontSize: '0.95rem', color: '#6b6f91', lineHeight: 1.8,
-                  maxWidth: 480, marginBottom: '1.5rem', marginTop: 0,
-                }}>
-                  {activeVideoMeta.description}
-                </p>
-                <div className="tutorial-actions" style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-                  <button
-                    onClick={handlePlay}
-                    disabled={Boolean(morph)}
-                    style={{
-                      display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-                      background: '#7ab317', color: '#fff', padding: '0.75rem 1.75rem',
-                      borderRadius: 50, fontSize: '0.88rem', fontWeight: 600,
-                      border: 'none', cursor: morph ? 'default' : 'pointer',
-                      transition: 'transform 0.15s, background 0.15s'
-                    }}
-                    onMouseOver={e => { if (!morph) e.currentTarget.style.background = '#8bc34a'; }}
-                    onMouseOut={e => { if (!morph) e.currentTarget.style.background = '#7ab317'; }}
-                  >
-                    <svg className="tutorial-play-icon" width="14" height="14" viewBox="0 0 24 24" fill="white" aria-hidden="true">
-                      <polygon points="5,3 19,12 5,21" />
-                    </svg>
-                    Watch on Youtube
-                  </button>
-                  <span style={{ fontSize: '0.82rem', color: '#a8abcc', fontWeight: 500 }}>
-                    Free - {activeVideoMeta.note}
-                  </span>
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                  <p className="tutorial-description" style={{
+                    fontSize: '0.95rem', color: '#6b6f91', lineHeight: 1.8,
+                    maxWidth: 480, marginBottom: '1.5rem', marginTop: 0,
+                  }}>
+                    {activeVideoMeta.description}
+                  </p>
+                  <div className="tutorial-actions" style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+                    <button
+                      onClick={handlePlay}
+                      disabled={Boolean(morph)}
+                      style={{
+                        display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
+                        background: '#7ab317', color: '#fff', padding: '0.75rem 1.75rem',
+                        borderRadius: 50, fontSize: '0.88rem', fontWeight: 600,
+                        border: 'none', cursor: morph ? 'default' : 'pointer',
+                        transition: 'transform 0.15s, background 0.15s'
+                      }}
+                      onMouseOver={e => { if (!morph) e.currentTarget.style.background = '#8bc34a'; }}
+                      onMouseOut={e => { if (!morph) e.currentTarget.style.background = '#7ab317'; }}
+                    >
+                      <svg className="tutorial-play-icon" width="14" height="14" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+                        <polygon points="5,3 19,12 5,21" />
+                      </svg>
+                      Watch on Youtube
+                    </button>
+                    <span style={{ fontSize: '0.82rem', color: '#a8abcc', fontWeight: 500 }}>
+                      Free - {activeVideoMeta.note}
+                    </span>
+                  </div>
                 </div>
               </div>
               </div>
