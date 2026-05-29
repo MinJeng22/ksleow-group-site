@@ -33,7 +33,6 @@ const MORPH_SETTLE_MS = 180;
 const APPLE_EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
 const TABLET_SHADOW = '0 24px 60px rgba(15,17,40,0.2), inset 0 0 0 2px #2a2a2a, inset 0 0 12px rgba(0,0,0,1)';
 const VIDEO_SHADOW = '0 24px 64px rgba(15,17,40,0.14)';
-const MORPH_SHADOW = '0 24px 60px rgba(15,17,40,0.16)';
 const thumbnailDecodeCache = new Map();
 
 const getThumbnailUrl = (videoId) => `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
@@ -153,9 +152,7 @@ function MorphingTutorialPreview({ direction, videoId, startRect, endRect, onCom
     : (active
       ? 'translate3d(0, 0, 0) scale(1, 1)'
       : initialTransform);
-  const shellShadow = direction === 'open'
-    ? TABLET_SHADOW
-    : VIDEO_SHADOW;
+  const shellShadow = VIDEO_SHADOW;
 
   const finishMorph = useCallback(() => {
     if (completedRef.current) return;
@@ -197,7 +194,7 @@ function MorphingTutorialPreview({ direction, videoId, startRect, endRect, onCom
           borderRadius: `${borderRadius}px`,
           transform: shellTransform,
           '--morph-duration': `${duration}ms`,
-          boxShadow: shellShadow || MORPH_SHADOW,
+          boxShadow: shellShadow,
           transitionDuration: `${duration}ms`,
           transitionTimingFunction: APPLE_EASE,
         }}
@@ -598,7 +595,7 @@ export default function AutoCountTrainingWebGL() {
           content: "";
           position: absolute;
           inset: 0;
-          background: rgba(0,0,0,0.18);
+          background: rgba(0,0,0,0.12);
         }
         .tutorial-close-btn {
           position: absolute;
