@@ -127,7 +127,7 @@ function getTabletScreenRadius(rect) {
   return isDesktopTabletRect(rect) ? 10 : 10;
 }
 
-function MorphingTutorialPreview({ direction, videoId, startRect, endRect, onComplete }) {
+function MorphingTutorialPreview({ direction, videoId, startRect, endRect, onComplete, isSettling }) {
   const [active, setActive] = useState(false);
   const completedRef = useRef(false);
   const duration = direction === 'open' ? MORPH_OPEN_MS : MORPH_CLOSE_MS;
@@ -152,7 +152,7 @@ function MorphingTutorialPreview({ direction, videoId, startRect, endRect, onCom
     : (active
       ? 'translate3d(0, 0, 0) scale(1, 1)'
       : initialTransform);
-  const shellShadow = VIDEO_SHADOW;
+  const shellShadow = isSettling ? 'none' : VIDEO_SHADOW;
 
   const finishMorph = useCallback(() => {
     if (completedRef.current) return;
@@ -555,9 +555,6 @@ export default function AutoCountTrainingWebGL() {
           width: 100%;
           opacity: 1;
         }
-        .tutorial-video-frame.no-shadow {
-          box-shadow: none !important;
-        }
         .tutorial-video-frame {
           position: relative;
           width: 100%;
@@ -865,7 +862,7 @@ export default function AutoCountTrainingWebGL() {
               <div ref={videoRef} className="tutorial-player-shell">
                 <div
                   ref={videoFrameRef}
-                  className={`tutorial-video-frame${iframeReady ? ' is-ready' : ''}${morph ? ' no-shadow' : ''}`}
+                  className={`tutorial-video-frame${iframeReady ? ' is-ready' : ''}`}
                 >
                   <button
                     className="tutorial-close-btn"
@@ -1017,6 +1014,7 @@ export default function AutoCountTrainingWebGL() {
           startRect={morph.startRect}
           endRect={morph.endRect}
           onComplete={completeMorph}
+          isSettling={!stageConcealed && morph.direction === 'open'}
         />
       )}
     </section>
