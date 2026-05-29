@@ -250,10 +250,10 @@ function EditionTable({ selected = null, diffOnly = false }) {
   });
 
   return (
-    <div className="ks-panel" style={{ overflow: "hidden", boxShadow: "0 4px 20px rgba(47,49,90,0.05)" }}>
-      <div style={{ overflowX: "auto", maxHeight: "min(72vh, 760px)", overflowY: "auto" }}>
+    <div className="ks-panel" style={{ boxShadow: "0 4px 20px rgba(47,49,90,0.05)" }}>
+      <div className="editions-table-wrap">
         <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--text-sm)" }}>
-          <thead>
+          <thead style={{ position: "sticky", top: 0, zIndex: 3 }}>
             <tr style={{ background: "#2f315a" }}>
               <th style={{ position: "sticky", top: 0, zIndex: 3, minWidth: 190, padding: "0.7rem", color: "#ffffff", textAlign: "left" }}></th>
               {cols.map((edition) => (

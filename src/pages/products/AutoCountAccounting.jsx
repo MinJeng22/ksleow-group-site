@@ -481,7 +481,7 @@ function EditionsTable({ selected = null, diffOnly = false }) {
     <div style={{ background: "#ffffff", borderRadius: 14, border: "1px solid rgba(47,49,90,0.08)", boxShadow: "0 4px 20px rgba(47,49,90,0.05)" }}>
       <div className="editions-table-wrap">
         <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.84rem" }}>
-          <thead>
+          <thead style={{ position: "sticky", top: 0, zIndex: 3 }}>
             <tr style={{ background: "#7AB317" }}>
               <th style={{ ...stickyHeaderCell, padding: cellPad, textAlign: "left", color: "#ffffff", fontWeight: 600, minWidth: 190 }}></th>
               {cols.map(e => (

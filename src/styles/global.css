@@ -61,10 +61,10 @@ body {
   font-family: 'Poppins', sans-serif;
   color: var(--brand);
   background: var(--white);
-  overflow-x: clip;
+  /* overflow-x: clip; removed for sticky */
 }
 
-.app { overflow-x: clip; }
+.app { /* overflow-x: clip; removed for sticky */ }
 
 button,
 input,
