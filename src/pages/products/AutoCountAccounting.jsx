@@ -1063,24 +1063,36 @@ export default function AutoCountAccountingPage({ onContact }) {
       </div>
       <div id="why-ksl" className="product-app-section product-app-section-warm" style={{ padding: "4rem 0", scrollMarginTop: 24 }}>
         <div className="content-wrap">
-          <div style={{ fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "#7ab317", marginBottom: "1rem" }}>Why Partner With KSL</div>
           <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.4rem)", fontWeight: 700, color: "#2f315a", lineHeight: 1.15, letterSpacing: "-0.02em", marginBottom: "0.75rem" }}>Why Choose Us?</h2>
-          <p style={{ fontSize: "1.05rem", color: "#6b6f91", lineHeight: 1.6, marginBottom: "2rem", maxWidth: 720 }}>
-            Software is only as good as the people who set it up. KSL Business Solutions brings over 40 years of industry experience to ensure your success.
-          </p>
-
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "1rem" }}>
-            {[
-              { title: "Authorized Platinum Dealer", body: "We are the top-tier authorized dealer with deep technical knowledge of AutoCount systems." },
-              { title: "Local On-Site Support", body: "Prompt on-site installation, troubleshooting, and face-to-face training across Pahang." },
-              { title: "Dedicated Training Team", body: "We provide comprehensive training sessions and a dedicated support channel for your team." },
-              { title: "Decades of Experience", body: "With over 40 years in the industry, we understand both accounting principles and business logic." },
-            ].map((c, i) => (
-              <div key={i} style={{ background: "#f8f9fc", border: "1px solid rgba(47,49,90,0.09)", borderRadius: 14, padding: "1.3rem 1.4rem" }}>
-                <h3 style={{ fontSize: "1rem", fontWeight: 700, color: "#2f315a", marginBottom: "0.4rem" }}>{c.title}</h3>
-                <p style={{ fontSize: "0.88rem", color: "#6b6f91", margin: 0, lineHeight: 1.5 }}>{c.body}</p>
+          
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "2.5rem", marginTop: "2rem", alignItems: "center" }}>
+            
+            <div style={{ paddingRight: "1rem" }}>
+              <div style={{ fontSize: "1rem", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "#7ab317", marginBottom: "1.2rem" }}>
+                7 Consecutive Years
               </div>
-            ))}
+              <h3 style={{ fontSize: "clamp(1.6rem, 2.8vw, 2rem)", fontWeight: 800, color: "#2f315a", lineHeight: 1.2, marginBottom: "1.25rem" }}>
+                Pahang State Top AutoCount Dealer
+              </h3>
+              <p style={{ fontSize: "1.05rem", color: "#6b6f91", lineHeight: 1.6, marginBottom: "1.5rem" }}>
+                Software is only as good as the people who set it up. KSL Business Solutions brings over 40 years of industry experience and has been awarded the Top AutoCount Dealer in Pahang State for 7 consecutive years.
+              </p>
+              <p style={{ fontSize: "0.95rem", color: "#6b6f91", lineHeight: 1.6 }}>
+                Our deep technical knowledge, prompt on-site support, and dedicated training team ensure your business runs smoothly and successfully. We are proud to be the trusted partner for countless businesses across Pahang.
+              </p>
+            </div>
+            
+            <div style={{ position: "relative", borderRadius: 16, overflow: "hidden", boxShadow: "0 12px 32px rgba(47,49,90,0.12)", background: "#ffffff", border: "1px solid rgba(47,49,90,0.06)" }}>
+              <img 
+                src="/images/autocount-awards-placeholder.png" 
+                alt="7 Consecutive Years Pahang State Top AutoCount Dealer Trophies and Certificates"
+                style={{ width: "100%", height: "auto", display: "block", aspectRatio: "4/3", objectFit: "cover" }}
+              />
+              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "rgba(47,49,90,0.85)", backdropFilter: "blur(4px)", padding: "0.8rem", color: "#fff", fontSize: "0.8rem", textAlign: "center", fontWeight: 600 }}>
+                Please replace placeholder with your actual trophies & certificates photo
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
