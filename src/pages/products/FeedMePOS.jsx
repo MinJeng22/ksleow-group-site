@@ -201,7 +201,7 @@ export default function FeedMePOSPage() {
 
       <main className="pinned-page-content product-app-content">
       {/* ── Key Features ── */}
-      <div id="features" className="product-app-section product-app-section-paper product-app-section-to-mist product-app-section-clean product-app-section-white-hold" style={{ ...S.section, scrollMarginTop: 24 }}>
+      <div id="features" className="product-app-section product-app-section-paper product-app-section-clean" style={{ ...S.section, scrollMarginTop: 24 }}>
         <div className="content-wrap">
           <div style={S.label}>What's Inside</div>
           <h2 style={{ ...S.h2, marginBottom: "0.75rem" }}>Everything an F&amp;B Outlet Needs</h2>
