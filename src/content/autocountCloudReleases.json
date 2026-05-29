@@ -145,7 +145,7 @@
     "version": "1.1.74",
     "rev": "Release 74",
     "date": "2025-10-14",
-    "postedLabel": "7 months ago",
+    "postedLabel": "8 months ago",
     "features": [
       "Cloud Accounting Release Note - April to May 2021",
       "Cloud Accounting Release Note - June 2021",
@@ -251,5 +251,857 @@
       "These enhancements were made available on 31 July 2025!"
     ],
     "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000713235"
+  },
+  {
+    "version": "1.1.70",
+    "rev": "Release 70",
+    "date": "2025-07-22",
+    "postedLabel": "10 months ago",
+    "features": [
+      "Support Automatic ‘Issue Date Time’ setting for Malaysia e-Invoice",
+      "Support Default Classification Code for Malaysia e-Invoice",
+      "Enhanced to allow editing Tax Entity field in Customer and Supplier",
+      "Enhanced Malaysia e-Invoice’s Annexure fields to match with LHDN latest field length size",
+      "Improved user experience when using Upload QR, Search TIN, and Validate TIN, even without selecting a Tax Entity in the Company Profile."
+    ],
+    "fixes": [
+      "Fixed error where Cash Book was able to generate recurring transactions even when the Payment Method, Tax Code, or Department was set to inactive",
+      "Fixed error where editing Tax Entity could not change TIN field to empty (leaving it blank) TIN for foreign businesses",
+      "Fixed error where the Consolidated e-Invoice detail drill down information to trace source documents are matched incorrectly"
+    ],
+    "highlights": [
+      "We valued your feedback and here are some of the updates from v1.1.70!",
+      "1. Support Automatic ‘Issue Date Time’ setting for Malaysia e-Invoice",
+      "But first, what is ‘Issue Date Time’? On LHDN MyInvois Portal, taxpayers are only allowed to submit e-Invoices no earlier than 3 days before the invoice’s document date. This function is designed to handle backdated invoices where the document date is more than 3 days before the current date, and the Invoice has not yet been submitted to LHDN for validation. Example:",
+      "New  Automatic ‘Issue Date Time’ setting : Previously, you had to set this date manually. Now, with the Automatic ‘Issue Date Time’ setting:",
+      "2. Support Default Classification Code for Malaysia e-Invoice",
+      "This feature automatically applies the selected default classification code to all new line items during document entry. It is especially useful when most of your products fall under the same classification, eliminating the need to assign the classification code to each product individually in ‘Product’ maintenance.",
+      "3. Enhanced to allow editing Tax Entity field in Customer and Supplier",
+      "We understand mistakes can happen when mapping Tax Entities to customers or suppliers, we have now enhanced to allow edit so you can switch to the correct Tax Entity easily."
+    ],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000713231"
+  },
+  {
+    "version": "1.1.69",
+    "rev": "Release 69",
+    "date": "2025-06-27",
+    "postedLabel": "11 months ago",
+    "features": [
+      "Added new function – Search TIN at Tax Entity",
+      "Added new function – Upload Taxpayer's QR Code",
+      "Enhanced to not allow duplicate Supplier Invoice Number in Purchase Invoice on the same supplier",
+      "Added save layout function in Master Data and Product Inquiry",
+      "Enhanced Product Maintenance to show Classification Code column in Master Listing and Print Listing function",
+      "Enhanced Customer and Supplier Maintenance to show Tax Entity column in Master Listing and Print Listing function",
+      "Enhanced presentation of payment details in Receipt Voucher and Payment Voucher report",
+      "Enhanced Bank Transactions able to reconcile and match with document transaction date that is later than bank transaction date",
+      "Added Batch Delete at Bank Transactions",
+      "Added Date Filter at Bank Transactions",
+      "Added new setting to resize Letter Size to A4 size in report printing",
+      "Enhanced Subscription to allow user to renew subscription even when the next cycle recurring bill exists",
+      "Support API for Tax Entity"
+    ],
+    "fixes": [
+      "Fixed error when renewing account book with multiple promotion codes having different extension month",
+      "Fixed error when applying knock off from Cash Book entry where the knock off entry’s Outstanding amount will double if the knock off date was changed to earlier date and then changed back to the current date",
+      "Fixed Multi-Select filter issue when filtering many selections",
+      "Fixed duplicate Debtor or Creditor control account in Trial Balance under certain scenarios",
+      "Fixed Fiscal Year validation in Seamless Filing"
+    ],
+    "highlights": [
+      "    1. Added new function – Search TIN at Tax Entity",
+      "I’m sure you’ll appreciate this new addition — the Search TIN feature is directly integrated with LHDN via API. It allows suppliers to easily obtain a customer’s TIN using their Business Registration Number (for businesses) or Identity Card Number (for MyKAD holders). You can access this feature under ‘Tax Entity’ in Master Data .",
+      "Please note: Only the TIN will be provided by LHDN. Other fields such as address, state, etc., will need to be filled in manually.",
+      "    2. Added new function – Upload  Taxpayer's QR Code",
+      "Say goodbye to manual input — simply ask your customer to send their QR code from the MyInvois Portal. All you need to do is upload it here, and their Tax Entity information will be auto populated.",
+      "    3. Enhanced to not allow duplicate Supplier Invoice Number in Purchase Invoice for the same supplier",
+      "This enhancement helps prevent duplicate entry of the same supplier invoice in Purchase Invoice. An error prompt will appear upon saving if the same supplier invoice number is entered for the same supplier.",
+      "    4. Added Save Layout function in Master Data and Product Inquiry"
+    ],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000713209"
+  },
+  {
+    "version": "1.1.68",
+    "rev": "Release 68",
+    "date": "2025-06-03",
+    "postedLabel": "12 months ago",
+    "features": [
+      "Support Batch actions in Sales, Purchase, Accounting and Stock Documents"
+    ],
+    "fixes": [
+      "Fixed incorrect validation “Payment amount must be less than or equal to total amount” when the invoice was partially knocked off and then edited to key deposit amount",
+      "Fixed an issue with auto generating customer or supplier code after hitting 1000 codes"
+    ],
+    "highlights": [
+      "v1.1.68 is here!",
+      "1. Support Batch actions in Sales, Purchase, Accounting and Stock Documents",
+      "To enhance the user experience, we've introduced batch functions that allow you to perform actions in bulk — including batch approval (Invoices and Credit Notes), batch submission for approval, batch email sending, batch deletion, and batch voiding.",
+      "Batch void, send email and delete",
+      "Batch submit for approval and approve",
+      "The new release is available on 2 June 2025. That’s it about it today!"
+    ],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000713195"
+  },
+  {
+    "version": "1.1.67",
+    "rev": "Release 67",
+    "date": "2025-05-26",
+    "postedLabel": "about 1 year ago",
+    "features": [
+      "Added a new “Invoice with Payment” system report"
+    ],
+    "fixes": [],
+    "highlights": [
+      "A useful enhancement for you in v1.1.67!",
+      "1. Added a new “Invoice with Payment” system report",
+      "We understand that you would like the outstanding balance of your invoice to be displayed after a customer makes a partial payment, so they are aware of the outstanding amount due. Yes, here it is!",
+      "Note, it will be able to detect the amount received keyed in at invoice entry ‘Deposit Payment Amount’ and at Cash Book Entry’s Receipt. [ Different between ‘Payment Amount in invoice entry and Cash Book Entry ]",
+      "Example of how this report works:",
+      "On 23/5/2025, you issued an invoice for RM1,000 to Flower Sdn Bhd. On the same day, Flower Sdn Bhd made a partial payment of RM100. On 26/5/2025, they made another payment of RM200, leaving an outstanding balance of RM700.",
+      "Step 1: You create an invoice amounted to RM1000",
+      "Step 2: Then at invoice entry, you keyed in ‘RM100’ under ‘Deposit Payment Amount’"
+    ],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000713182"
+  },
+  {
+    "version": "1.1.66",
+    "rev": "Release 66",
+    "date": "2025-05-26",
+    "postedLabel": "about 1 year ago",
+    "features": [
+      "Displays a short phrase indicating that status-filtered results are results for the last 365 days."
+    ],
+    "fixes": [
+      "Fixed Document Scanner when account book tax setting is “No Tax” however prompted error ‘No Tax Code associated with Tax Rate’",
+      "Enhanced to prevent duplicate transaction issues when importing transactions from Maybank",
+      "Fixed error message \"'Activation StartDate must be greater than dd/MM/yy'\" when reactivating account book.",
+      "Fixed Create Consolidated e-Invoice hit error if the plan does not have Accounting Plan (Accounting is not activated) but only activated ‘Point of Sales’"
+    ],
+    "highlights": [
+      "v1.1.66 is here!",
+      "1. Displays a short phrase indicating that status-filtered results are results for the last 365 days.",
+      "We’ve added a short phrase to indicate that when filtering by status (e.g., Full Payment, Partial Payment, Pending, etc.), only transactions from the last 365 days are shown.",
+      "The new releases are available on 20 May 2025. That’s it about it today!"
+    ],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000713181"
+  },
+  {
+    "version": "1.1.65",
+    "rev": "Release 65",
+    "date": "2025-04-12",
+    "postedLabel": "about 1 year ago",
+    "features": [
+      "Import from Excel – Limit row size for better performance",
+      "Import from Excel – Error shown for wrong Excel date format",
+      "Optimize some performance issue with Knock Off Entry form when there are too many documents available for knock off"
+    ],
+    "fixes": [],
+    "highlights": [
+      "1. Import from Excel – Limit row size for better performance",
+      "To ensure a smooth import process, we have optimized the import as outlined below.",
+      "1.1. Transactions import (Quotation, Invoice, Purchase Order, Cash Book Entries, etc)",
+      "- Each import is limited to 300 records. Please note that this count refers to master records only—for example, count invoice row (master records), not invoice detail row, so you can upload up to 300 invoice rows.",
+      "1.2. Master Data import (Customer, Supplier, Product, etc) - Each import is limited to 1000 records.",
+      "If the limit is exceeded, an error message will be displayed after selecting the Excel file, and the data will not be loaded into the preview.",
+      "2. Import from Excel – Error shown for wrong Excel date format Now it prompts the correct error message when the Date provided in the Excel column does not match with the date format chosen.",
+      "The new releases are available on 9 April 2025. That’s it about it today!"
+    ],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000713127"
+  },
+  {
+    "version": "1.1.64",
+    "rev": "Release 64",
+    "date": "2025-02-26",
+    "postedLabel": "over 1 year ago",
+    "features": [
+      "Enhance to display Supplier Document Number in Purchase Invoice and Purchase Return Audit Trail Listing Report"
+    ],
+    "fixes": [
+      "Fix Import Cash Book Entry from Excel did not auto correct Payment Method field to uppercase",
+      "Fix an error when deleting Consolidated e-Invoice",
+      "Fix an error when resubmit Consolidated e-invoice",
+      "Fix unable to delete Bank Account even though there are no more transactions using it",
+      "Fix unable to select country currency when creating company in USD",
+      "Fix Product Inquiry Price History section did not handle display of records according to Roles applied to the user"
+    ],
+    "highlights": [
+      "    1. Enhance to display Supplier Document Number in Purchase Invoice and Purchase Return Audit Trail Listing Report",
+      "For convenience, we have added ‘Supplier Invoice No.’ to the report template of the Purchase Invoice and Purchase Return Audit Trail Listing. If a Supplier Invoice No. is entered in a Purchase Invoice transaction, it will be displayed in both the Purchase Invoice and Purchase Return Audit Trail.",
+      "Preview Purchase Invoice",
+      "Preview Purchase Return Audit Trail Listing ",
+      "The new releases are available on 25 February 2025. That’s it about it today!"
+    ],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712918"
+  },
+  {
+    "version": "1.1.63",
+    "rev": "Release 63",
+    "date": "2025-02-07",
+    "postedLabel": "over 1 year ago",
+    "features": [
+      "Added option “Show Supplier Doc. No” to show supplier document number In Creditor statement",
+      "Added new filter option ‘Document Status in ‘Print Quotation Listing’ report",
+      "Enhanced Import Chart of Account Excel Template to include information about SpecialAccType at ‘Guide’ tab",
+      "Enhanced subscription to prompt warning if there is another Paid Plan for similar company name"
+    ],
+    "fixes": [
+      "Fix Financial Report will show incorrectly when using This Year vs Last Year format and the fiscal year for both years has different number of months",
+      "Fix Import Cash Book Entry from Excel did not validate Bank Rate correctly",
+      "Fix Import Cash Book Entry from Excel did not block supply tax code for Bank Charge tax code",
+      "Fix Import Cash Book Entry from Excel shows incorrect error when applying Purchase Tax Code in Receipt Voucher or applying Supply Tax Code in Payment Voucher",
+      "Fix Import Cash Book Entry from Excel able to import Local Tax Adjustment if the imported transaction is in local or home currency"
+    ],
+    "highlights": [
+      "    1. Added option “Show Supplier Doc. No” to show supplier document number In Creditor statement",
+      "With this option ‘Show Supplier Doc. No’ in Creditor Statement, now your suppliers can easily do cross-checking against their own original document (sales invoices) if you provide them with your statement. You can enable this option at the Print Report window!",
+      "Please note Supplier Doc. No is being captured in ‘Supplier Invoice No.’ field in Purchase Invoice.",
+      "    2. Added new filter option ‘Document Status in ‘Print Quotation Listing’ report",
+      "Need a report to show how many quotations are Success, Pending, or Loss? Yes, with this new filter option, you can easily generate a report based on filter options, All, Pending, Success, Lost and Closed.",
+      "    3. Enhanced Import Chart of Account Excel Template to include information about SpecialAccType at ‘Guide’ tab",
+      "The newly added table will definitely be helpful in guiding you when importing the Chart of Account! Please remember to always check the informational Guide tab when using the import function in AutoCount Cloud Accounting!",
+      "    4. Enhanced to prompt warning if there is another Paid Plan for similar company name "
+    ],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712899"
+  },
+  {
+    "version": "1.1.62",
+    "rev": "Release 62",
+    "date": "2025-01-17",
+    "postedLabel": "over 1 year ago",
+    "features": [
+      "File attachment function in transactions",
+      "Enhance Recurring Template to support last day of each month",
+      "Enhance Recurring Template to support filling Date format at Description to capture billing date and year"
+    ],
+    "fixes": [
+      "Fix incorrect Next Date in Recurring Template"
+    ],
+    "highlights": [
+      "    1. File attachment function in transactions",
+      "The upload attachment function is now available in Invoice, Purchase Invoice, Receipt Voucher, and Payment Voucher. This function allows you to store your source digital copy (PDF, Word, Excel etc) together with your transactions so they can be easily tracked. Each individual file attachment must not exceed 10MB .",
+      "    2. Enhance Recurring Template to support last day of each month",
+      "We have added ‘last day’ selection so that if you want to set the recurrence to be on last day of the month, 30 th or 31 st , you can now do so. Example, if you set last day, the invoice generated in June will 30 th , while July will be 31 st .",
+      "    3. Enhance Recurring Template to support filling Date format at Description to capture billing date and year",
+      "Additional enhancements have been made to Recurring Transactions. If you are creating a recurring payment voucher for monthly rental and want to include the date in the description, this is now possible. This function allows the description to be updated automatically without manual editing.",
+      "The new releases are available on 11 January 2025.That’s it about it today!"
+    ],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712874"
+  },
+  {
+    "version": "1.1.61",
+    "rev": "Release 61",
+    "date": "2024-12-02",
+    "postedLabel": "over 1 year ago",
+    "features": [
+      "Added Recurring function in Invoice, Journal Entry and Cash Book (Payment Voucher)",
+      "Added Access Right control for Bank Balance, Document Summary and Journal Entry for Accounting Role",
+      "Added Access Right control for Dashboard and Document Summary for Sales and Purchase Role",
+      "Support Other Country – United Kingdom",
+      "Improve similar name detection for Product, Customer and Supplier",
+      "Hide inactive bank account for Bank Account Widget",
+      "Aging Report – Calculate Future Aging",
+      "Remove month end restriction for using “Issue Date Time” function for e-Invoicing",
+      "[SG] Seamless Filling – Imported Balance Sheet Statement differ with Cloud Accounting",
+      "[SG] Accounting API for SG Seamless Filling – Incorrect Revenue Balance",
+      "Optimize Consolidated e-Invoice performance",
+      "Improve Import Chart of Account to highlight columns for easy viewing if mandatory column data is missing during import",
+      "Improve Import Chart of Account when import to auto set values to uppercase for AccType, SpecialAccType, CurrencyCode and TaxCode to maintain data consistency"
+    ],
+    "fixes": [
+      "Fix Import Cash Book with same document number will create an additional record in GL instead of updating existing record",
+      "Fix Date Filter issue in monthly drill down for e-Invoice Document Inquiry",
+      "Fix Journal Entry when select Customer or Supplier accounts will not prompt to knock off after save",
+      "Fix Import Chart of Account unable to import in Lite Plan if the Excel file does not contain value for CurrencyCode column as Multi Currency function is not available in Lite Plan"
+    ],
+    "highlights": [
+      "    1. Added Recurring function",
+      "You can now set up instruction to recur your Invoice, Journal Entry and Payment voucher. You can set it up at their respective modules. The recurring transaction function in AutoCount Cloud Accounting automatically generates transactions for you once the recurring instructions are set up. Say goodbye to manually creating transactions for every billing cycle!",
+      "    2. Access Right control for Bank Balance, Document Summary and Journal Entry for Accounting Role",
+      "If you do not want your employee to view Journal Entry, now you can do so in our enhanced User Setting.",
+      "    3. Access Right control for Dashboard and Document Summary for Accounting, Sales and Purchase Role",
+      "Dashboard and Document Summary might be sensitive information to your employees, you can also turn it off now under User Setting.",
+      "    4. Support Other Country – United Kingdom",
+      "If you have United Kingdom company with home currency Great British Pound (GBP), AutoCount Cloud Accounting can support your business too.     5. Improve similar name detection for Product, Customer and Supplier"
+    ],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712813"
+  },
+  {
+    "version": "1.1.60",
+    "rev": "Release 60",
+    "date": "2024-10-22",
+    "postedLabel": "over 1 year ago",
+    "features": [
+      "Added Singapore Seamless e-Filling",
+      "Enhance Consolidated e-Invoice for OneSales POS transaction to group no tax with zero tax details together"
+    ],
+    "fixes": [
+      "Fix unable to get some Consolidated OneSales POS transaction due to incorrect time fitler",
+      "Fix Consolidated e-Invoice for OneSales POS transaction to include service charge and service tax"
+    ],
+    "highlights": [
+      "In the release note of v1.1.60, we have added a new function for Singapore and some enhancement when posting from OneSales POS to Cloud Accounting !",
+      "    1. Singapore Seamless e-Filling",
+      "Now our Singapore users can enjoy Seamless e-Filing in Cloud Accounting, upon clicking on the ‘Seamless e-Filing’, you will be redirected to a new tab to start performing your e-filing. You are able to submit and download your Financial Statement (in simplified XBRL format) and your Annual return to ACRA. In addition, you are able to submit your Form CS to IRAS as well as download the detailed P&L and tax computation generated.",
+      "    ",
+      "    2. Enhance Consolidated e-Invoice for OneSales POS transaction to group no tax and zero tax details together",
+      "The new release are available on 18 October 2024. That's it about it today !"
+    ],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712722"
+  },
+  {
+    "version": "1.1.59",
+    "rev": "Release 59",
+    "date": "2024-10-21",
+    "postedLabel": "over 1 year ago",
+    "features": [
+      "Add Import Chart of Account",
+      "Add Import Cash Book Entry",
+      "Add Import Journal Entry",
+      "Enhance to hide S-0 or SV-0 when tax code is not enabled in Configure Malaysia SST"
+    ],
+    "fixes": [
+      "Fix Tax Entity unable to enter more than 10 characters in ‘City’ field",
+      "Fix incorrect void error message in Journal Entry when performing void"
+    ],
+    "highlights": [
+      "In the release note of v1.1.59, we have added THREE new Import templates – just for you, as well as some minor enhancement and fixes. Let’s see what we have for you!",
+      "    1. Import Chart of Account, Cash Book Entry and Journal Entry ",
+      "The Import templates will help to ease the process of migration from another accounting system or Word/Excel to AutoCount Cloud Accounting. The new templates are Chart of Account,  Cash Book Entry (Receipt Voucher & Payment Voucher) and Journal Entry . You easily download the templates in our system. There is always a ‘Guide’ tab in the Excel to let you know how to import.",
+      "            a. Import Chart of Account",
+      "               ",
+      "               ",
+      "            b. Import Cash Book Entry",
+      "               "
+    ],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712719"
+  },
+  {
+    "version": "1.1.58",
+    "rev": "Release 58",
+    "date": "2024-10-17",
+    "postedLabel": "over 1 year ago",
+    "features": [
+      "Enhance to not show \"Draft\" watermark for Invoice if print using Delivery Order format",
+      "Added Document Inquiry to keep track of e-Invoice submission records",
+      "Enhance to not allow to create new Consolidated e-Invoice instead of unable to access the function when \"Allow Consolidated e-Invoice\" setting is turn off",
+      "Enhance when saving e-Invoice documents will validate existing customer TIN and Annexure TIN and prompt warning if is not a valid TIN",
+      "Enhance Invoice, Consolidated e-Invoice and Self Bill document to auto refresh status if e-Invoice submission status is invalid due to connection issue"
+    ],
+    "fixes": [
+      "Fix Singapore company unable to save Payment Method due to some incorrect constraint with Tax Entity",
+      "Fix when edit validated e-Invoice unable to edit Total Cost column",
+      "Fix deactivated account book still able to create, update, void, delete Consolidated e-Invoice",
+      "Fix unable to void Consolidated e-Invoice that has no e-Invoice status or invalid",
+      "Fix when edit e-Invoice that are yet to be validated will sometimes cause editing fields to be auto reset"
+    ],
+    "highlights": [
+      "In the release note of v.1.1.58, there are some minor fixes and also few enhancements on the e-Invoice module to make everything better. Remember we also have a series of guide file on e-Invoice here .",
+      "Now let's us have a look at the new enhancements together !",
+      "    1. Not showing watermark \"Draft\" for Delivery Order",
+      "We have enhanced to not show the \"Draft\" watermark when preview or printing your invoice using \"Delivery Order\" format. ",
+      "    2. Document Inquiry in e-Invoice Module",
+      "Under Document Inquiry, we had added two new functions 'Submission Summary’ and ‘Submitted Documents’ to keep track of e-Invoice submission records.",
+      "Submission Summary : A summary to show the numbers of documents that are valid, invalid, in progress, cancelled, consolidated and to be consolidate. This will give you an idea of how many e-invoices are valid, and most importantly, pending to be consolidated!",
+      "Submitted Documents:  Shows you a list of submitted documents with details such as Document number, date, total, e-Invoice status etc."
+    ],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712717"
+  },
+  {
+    "version": "1.1.57",
+    "rev": "Release 57",
+    "date": "2024-09-25",
+    "postedLabel": "over 1 year ago",
+    "features": [
+      "Support to edit fields that are not related to e-Invoice submission",
+      "Support Print Document at Consolidated e-Invoice",
+      "Enhance Consolidated e-Invoice function to handle consolidated e-Invoice with many lines, avoiding maximum file size limit of 300kb during submission of e-Invoice"
+    ],
+    "fixes": [
+      "Fix Stock User Role did not have option to only create Draft document like Sales or Purchase",
+      "Fix mouse hover to Void wording did not show Void Reason at Quotation and Purchase Order",
+      "Fix some inconsistency status caption for \"Fully Applied\" across Cloud Accounting functions",
+      "Fix Invoice and Credit Note when filter by status, consolidated e-Invoice DocNo will not show in grid"
+    ],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712692"
+  },
+  {
+    "version": "1.1.56",
+    "rev": "Release 56",
+    "date": "2024-09-25",
+    "postedLabel": "over 1 year ago",
+    "features": [
+      "Rename \"LHDN Validated Link\" to \"e-Invoice Validation QR\"",
+      "Redesign transaction draft watermark wording to be lighter and smaller",
+      "Enhance to prompt user untick \"Submit e-Invoice\" if transaction date is in future date",
+      "Enhance to prompt user to set Issue Date if transaction date is older then 3 days and needs e-Invoice submission"
+    ],
+    "fixes": [
+      "Fix showing incorrect caption \"Draft\" instead of \"Awaiting Approval\" at detail title dialog"
+    ],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712691"
+  },
+  {
+    "version": "1.1.55",
+    "rev": "Release 55",
+    "date": "2024-09-25",
+    "postedLabel": "over 1 year ago",
+    "features": [
+      "Support to submit Invoice and Credit Note as consolidate in corresponding to the implementation of Relaxation period",
+      "Enhance listing to include e-Invoice UUID field",
+      "Add Issue Date Time for e-Invoice transaction",
+      "Enhance to prompt warning if save e-Invoice transaction with future date",
+      "Enhance detail tax code must link to a GovTaxCode if transaction is used for e-Invoice submission"
+    ],
+    "fixes": [
+      "Fix Tax Entity did not handle blank NRIC for individual when only TIN is provided",
+      "Fix did not handle Foreign business without TIN with General TIN correctly",
+      "Fix Tax Exemption No. (Tax Exemption Reason) column missing for e-Invoicing submission",
+      "Fix not hiding \"Re-submit\" button for voided and invalid status transaction",
+      "Fix post wrong tax category due to following TaxCode instead of GovTaxCode column",
+      "Fix Cash Book record did not prompt knock off if selected customer or supplier",
+      "Fix running Stock Adjustment and Stock Transfer listing report not following filter by selected DocDate range"
+    ],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712690"
+  },
+  {
+    "version": "1.1.54",
+    "rev": "Release 54",
+    "date": "2024-08-09",
+    "postedLabel": "almost 2 years ago",
+    "features": [
+      "Disable e-Invoice for AR Refund"
+    ],
+    "fixes": [
+      "Fix did not enable approval flow for Invoice and Credit Note if turn on e-Invoice",
+      "Fix Submit e-Invoice checkbox at transaction level did not follow e-Invoice Start Date correctly",
+      "Fix some issue with layout go hidden when viewing in mobile mode",
+      "Fix create Cash Book with Debtor and Creditor did not prompt for knock off"
+    ],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712617"
+  },
+  {
+    "version": "1.1.53",
+    "rev": "Release 53",
+    "date": "2024-08-09",
+    "postedLabel": "almost 2 years ago",
+    "features": [
+      "Added reason field when void document",
+      "Add Consolidate e-Invoice checkbox at transaction level to accommodate Relaxation Period of the implementation of e-Invoice for Malaysia"
+    ],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712616"
+  },
+  {
+    "version": "1.1.52",
+    "rev": "Release 52",
+    "date": "2024-08-09",
+    "postedLabel": "almost 2 years ago",
+    "features": [
+      "Support Malaysia e-Invoice",
+      "[SG] Support Singapore PEPPOL e-Invoice ",
+      "[SG] Updated sample Chart of Accounts for Seamless Filing",
+      "Support Document Approval Flow API",
+      "Enhance import document to allow import as Draft or Approved",
+      "Added watermark \"Draft\" for preview or print transaction in Draft mode"
+    ],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712615"
+  },
+  {
+    "version": "1.1.51",
+    "rev": "Release 51",
+    "date": "2024-08-09",
+    "postedLabel": "almost 2 years ago",
+    "features": [
+      "New API to call Product Balance Quantity",
+      "Add banner and notification message at Bank Reconciliation page",
+      "Resize Stock Code size to 100 characters"
+    ],
+    "fixes": [
+      "Fix caption of Lampiran A in SST Processor to 6% dan/Atau 8%",
+      "[SG] Fix Singapore company when create transaction and select NR tax code with tax adjustment will cause error",
+      "Fix tax based report format did not show tax payable description amount in correct form"
+    ],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712614"
+  },
+  {
+    "version": "1.1.50",
+    "rev": "Release 50",
+    "date": "2024-08-09",
+    "postedLabel": "almost 2 years ago",
+    "features": [
+      "Support Malaysia SST Processor for 8% Service Tax",
+      "Support Japanese Yen system currency for Singapore company"
+    ],
+    "fixes": [
+      "[PH] Fix BIR Invoice when no select tax code will cause footer display to show zero amount",
+      "[PH] Fix BIR Invoice if bill foreign currency will cause footer display amount in Peso which is not consistent with Invoice currency"
+    ],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712613"
+  },
+  {
+    "version": "1.1.49",
+    "rev": "Release 49",
+    "date": "2024-08-09",
+    "postedLabel": "almost 2 years ago",
+    "features": [
+      "Add MayBank integration to update bank account balance based on \"EndingBalance\" of the last imported bank feed record",
+      "Add MayBank integration to show \"Connected\" status after able to get account details"
+    ],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712612"
+  },
+  {
+    "version": "1.1.48",
+    "rev": "Release 48",
+    "date": "2024-04-08",
+    "postedLabel": "about 2 years ago",
+    "features": [
+      "Add new report option at Stock Card - Print Stock Transaction only. This is to print a list of transactions within the inquiry period in stock card result. Read more",
+      "Add new report option at Trial Balance, Profit and Loss Statement and Balance Sheet Statement - Show Report Header. This is to print company profile header if tick this option. Read more",
+      "Remove unvoid function"
+    ],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712322"
+  },
+  {
+    "version": "1.1.46",
+    "rev": "Release 46",
+    "date": "2024-03-06",
+    "postedLabel": "about 2 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712275"
+  },
+  {
+    "version": "1.1.45",
+    "rev": "Release 45",
+    "date": "2024-03-06",
+    "postedLabel": "about 2 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712274"
+  },
+  {
+    "version": "1.1.44",
+    "rev": "Release 44",
+    "date": "2024-03-06",
+    "postedLabel": "about 2 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712273"
+  },
+  {
+    "version": "1.1.43",
+    "rev": "Release 43",
+    "date": "2024-03-06",
+    "postedLabel": "about 2 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712272"
+  },
+  {
+    "version": "1.1.42",
+    "rev": "Release 42",
+    "date": "2024-03-06",
+    "postedLabel": "about 2 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712271"
+  },
+  {
+    "version": "1.1.41",
+    "rev": "Release 41",
+    "date": "2023-11-28",
+    "postedLabel": "over 2 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712106"
+  },
+  {
+    "version": "1.1.39",
+    "rev": "Release 39",
+    "date": "2023-10-04",
+    "postedLabel": "over 2 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712058"
+  },
+  {
+    "version": "1.1.37",
+    "rev": "Release 37",
+    "date": "2023-09-22",
+    "postedLabel": "over 2 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712046"
+  },
+  {
+    "version": "1.1.36",
+    "rev": "Release 36",
+    "date": "2023-09-22",
+    "postedLabel": "over 2 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712045"
+  },
+  {
+    "version": "1.1.35",
+    "rev": "Release 35",
+    "date": "2023-09-07",
+    "postedLabel": "over 2 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712030"
+  },
+  {
+    "version": "1.1.33",
+    "rev": "Release 33",
+    "date": "2023-08-22",
+    "postedLabel": "almost 3 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712011"
+  },
+  {
+    "version": "1.1.32",
+    "rev": "Release 32",
+    "date": "2023-08-22",
+    "postedLabel": "almost 3 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712010"
+  },
+  {
+    "version": "1.1.31",
+    "rev": "Release 31",
+    "date": "2023-08-22",
+    "postedLabel": "almost 3 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712009"
+  },
+  {
+    "version": "1.1.29",
+    "rev": "Release 29",
+    "date": "2023-07-28",
+    "postedLabel": "almost 3 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000711968"
+  },
+  {
+    "version": "1.1.28",
+    "rev": "Release 28",
+    "date": "2023-07-28",
+    "postedLabel": "almost 3 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000711967"
+  },
+  {
+    "version": "1.1.27",
+    "rev": "Release 27",
+    "date": "2023-07-28",
+    "postedLabel": "almost 3 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000711966"
+  },
+  {
+    "version": "1.1.26",
+    "rev": "Release 26",
+    "date": "2023-07-28",
+    "postedLabel": "almost 3 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000711965"
+  },
+  {
+    "version": "1.1.25",
+    "rev": "Release 25",
+    "date": "2023-07-28",
+    "postedLabel": "almost 3 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000711964"
+  },
+  {
+    "version": "1.1.24",
+    "rev": "Release 24",
+    "date": "2023-07-28",
+    "postedLabel": "almost 3 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000711963"
+  },
+  {
+    "version": "1.1.23",
+    "rev": "Release 23",
+    "date": "2023-07-28",
+    "postedLabel": "almost 3 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000711962"
+  },
+  {
+    "version": "1.1.22",
+    "rev": "Release 22",
+    "date": "2023-06-01",
+    "postedLabel": "almost 3 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000711872"
+  },
+  {
+    "version": "1.1.21",
+    "rev": "Release 21",
+    "date": "2023-06-01",
+    "postedLabel": "almost 3 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000711871"
+  },
+  {
+    "version": "1.1.20",
+    "rev": "Release 20",
+    "date": "2023-05-15",
+    "postedLabel": "about 3 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000711848"
+  },
+  {
+    "version": "1.1.19",
+    "rev": "Release 19",
+    "date": "2023-05-15",
+    "postedLabel": "about 3 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000711847"
+  },
+  {
+    "version": "1.1.18",
+    "rev": "Release 18",
+    "date": "2023-05-02",
+    "postedLabel": "about 3 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000711823"
+  },
+  {
+    "version": "1.1.17",
+    "rev": "Release 17",
+    "date": "2023-05-02",
+    "postedLabel": "about 3 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000711822"
+  },
+  {
+    "version": "1.1.16",
+    "rev": "Release 16",
+    "date": "2023-05-02",
+    "postedLabel": "about 3 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000711821"
+  },
+  {
+    "version": "1.1.15",
+    "rev": "Release 15",
+    "date": "2023-05-02",
+    "postedLabel": "about 3 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000711820"
+  },
+  {
+    "version": "1.1.14",
+    "rev": "Release 14",
+    "date": "2023-05-02",
+    "postedLabel": "about 3 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000711819"
+  },
+  {
+    "version": "1.1.13",
+    "rev": "Release 13",
+    "date": "2023-05-02",
+    "postedLabel": "about 3 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000711818"
+  },
+  {
+    "version": "1.1.12",
+    "rev": "Release 12",
+    "date": "2023-05-02",
+    "postedLabel": "about 3 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000711817"
+  },
+  {
+    "version": "1.1.11",
+    "rev": "Release 11",
+    "date": "2023-05-02",
+    "postedLabel": "about 3 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000711816"
+  },
+  {
+    "version": "1.1.10",
+    "rev": "Release 10",
+    "date": "2023-02-17",
+    "postedLabel": "over 3 years ago",
+    "features": [],
+    "fixes": [],
+    "highlights": [],
+    "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000711674"
   }
 ]
