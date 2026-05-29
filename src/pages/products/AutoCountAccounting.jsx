@@ -1104,8 +1104,8 @@ export default function AutoCountAccountingPage({ onContact }) {
           backgroundStart="#f8f9fd"
           backgroundEnd="#eef1f8"
           lineRgb="47,49,90"
-          dotRgb="128,195,30"
-          highlightRgb="128,195,30"
+          dotRgb="201,168,76"
+          highlightRgb="201,168,76"
           vignetteEnd="rgba(47,49,90,0.08)"
           densityScale={0.78}
           mobileDensityScale={2.2}
