@@ -253,11 +253,11 @@ function EditionTable({ selected = null, diffOnly = false }) {
     <div className="ks-panel" style={{ boxShadow: "0 4px 20px rgba(47,49,90,0.05)" }}>
       <div className="editions-table-wrap">
         <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--text-sm)" }}>
-          <thead style={{ position: "sticky", top: 56, zIndex: 3 }}>
+          <thead style={{ position: "sticky", top: 0, zIndex: 3 }}>
             <tr style={{ background: "#2f315a" }}>
-              <th style={{ position: "sticky", top: 56, zIndex: 3, minWidth: 190, padding: "0.7rem", color: "#ffffff", textAlign: "left" }}></th>
+              <th style={{ position: "sticky", top: 0, zIndex: 3, minWidth: 190, padding: "0.7rem", color: "#ffffff", textAlign: "left" }}></th>
               {cols.map((edition) => (
-                <th key={edition} style={{ position: "sticky", top: 56, zIndex: 3, minWidth: 130, padding: "0.7rem", color: "#ffffff", textAlign: "center", fontWeight: 800 }}>
+                <th key={edition} style={{ position: "sticky", top: 0, zIndex: 3, minWidth: 130, padding: "0.7rem", color: "#ffffff", textAlign: "center", fontWeight: 800 }}>
                   {edition}
                 </th>
               ))}
