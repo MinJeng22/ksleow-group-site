@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 const VIDEOS = [
   {
@@ -179,60 +180,89 @@ function MorphingTutorialPreview({ direction, videoId, startRect, endRect, onCom
     };
   }, [duration, direction, finishMorph]);
 
-  return (
+  // Portal shadow: same position/animation as the shell, but rendered in document.body
+  // (NOT inside the overlay). This puts it in the same compositing layer as the real
+  // video frame, enabling a clean cross-fade between portal shadow (fading out)
+  // and real frame shadow (fading in). boxShadow is always VIDEO_SHADOW.
+  const portalShadow = createPortal(
     <div
-      className="tutorial-morph-overlay"
       aria-hidden="true"
-    >
+      style={{
+        position: 'fixed',
+        left: endRect.left,
+        top: endRect.top,
+        width: endRect.width,
+        height: endRect.height,
+        borderRadius: `${borderRadius}px`,
+        transform: shellTransform,
+        boxShadow: VIDEO_SHADOW,
+        pointerEvents: 'none',
+        zIndex: 9998,
+        // opacity always has a transition — reliably fires when isSettling changes
+        opacity: isSettling ? 0 : 1,
+        transition: `border-radius ${duration}ms ${APPLE_EASE}, transform ${duration}ms ${APPLE_EASE}, opacity 200ms ease`,
+      }}
+    />,
+    document.body
+  );
+
+  return (
+    <>
+      {portalShadow}
       <div
-        className={`tutorial-morph-shell${isSettling ? ' is-settling' : ''}`}
-        data-direction={direction}
-        data-active={active ? 'true' : 'false'}
-        style={{
-          left: `${endRect.left}px`,
-          top: `${endRect.top}px`,
-          width: `${endRect.width}px`,
-          height: `${endRect.height}px`,
-          borderRadius: `${borderRadius}px`,
-          transform: shellTransform,
-          '--morph-duration': `${duration}ms`,
-          '--morph-ease': APPLE_EASE,
-          boxShadow: VIDEO_SHADOW,
-          opacity: isSettling ? 0 : 1,
-        }}
-        onTransitionEnd={event => {
-          if (event.currentTarget !== event.target) return;
-          if (isSettling && event.propertyName === 'opacity') { onComplete(); return; }
-          if (!isSettling && event.propertyName === 'transform' && active) finishMorph();
-        }}
+        className="tutorial-morph-overlay"
+        aria-hidden="true"
       >
         <div
-          className="tutorial-morph-screen"
+          className={`tutorial-morph-shell${isSettling ? ' is-settling' : ''}`}
+          data-direction={direction}
+          data-active={active ? 'true' : 'false'}
           style={{
-            inset: screenInset,
-            borderRadius: `${screenRadius}px`,
-            transitionDuration: `${duration}ms`,
-            transitionTimingFunction: APPLE_EASE,
+            left: `${endRect.left}px`,
+            top: `${endRect.top}px`,
+            width: `${endRect.width}px`,
+            height: `${endRect.height}px`,
+            borderRadius: `${borderRadius}px`,
+            transform: shellTransform,
+            '--morph-duration': `${duration}ms`,
+            '--morph-ease': APPLE_EASE,
+            boxShadow: 'none',
+            opacity: isSettling ? 0 : 1,
+          }}
+          onTransitionEnd={event => {
+            if (event.currentTarget !== event.target) return;
+            if (isSettling && event.propertyName === 'opacity') { onComplete(); return; }
+            if (!isSettling && event.propertyName === 'transform' && active) finishMorph();
           }}
         >
-          <img
-            className="tutorial-morph-image"
-            src={getThumbnailUrl(videoId)}
-            alt=""
-            decoding="async"
-            loading="eager"
-            fetchPriority="high"
-            crossOrigin="anonymous"
-          />
-          <div className="tutorial-morph-dim" />
-          <div className="tutorial-morph-play tutorial-play-button">
-            <svg className="tutorial-play-icon" width="24" height="24" viewBox="0 0 24 24" fill="#2f315a" aria-hidden="true">
-              <polygon points="5,3 19,12 5,21" />
-            </svg>
+          <div
+            className="tutorial-morph-screen"
+            style={{
+              inset: screenInset,
+              borderRadius: `${screenRadius}px`,
+              transitionDuration: `${duration}ms`,
+              transitionTimingFunction: APPLE_EASE,
+            }}
+          >
+            <img
+              className="tutorial-morph-image"
+              src={getThumbnailUrl(videoId)}
+              alt=""
+              decoding="async"
+              loading="eager"
+              fetchPriority="high"
+              crossOrigin="anonymous"
+            />
+            <div className="tutorial-morph-dim" />
+            <div className="tutorial-morph-play tutorial-play-button">
+              <svg className="tutorial-play-icon" width="24" height="24" viewBox="0 0 24 24" fill="#2f315a" aria-hidden="true">
+                <polygon points="5,3 19,12 5,21" />
+              </svg>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
