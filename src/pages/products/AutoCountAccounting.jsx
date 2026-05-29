@@ -29,7 +29,7 @@ const RELEASES = autocountReleases;
 /* ── Feature pill colours by type ── */
 const TAG = {
   feature: { bg: "rgba(47,49,90,0.08)", color: "#2f315a" },
-  fix: { bg: "rgba(201,168,76,0.12)", color: "#8a6a10" },
+  fix: { bg: "rgba(122,179,23,0.12)", color: "#4a6e0e" },
 };
 
 /* ── Copy release notes to clipboard (WhatsApp format) ── */
@@ -88,11 +88,11 @@ function CopyBtn({ onClick, gold }) {
       title="Copy for WhatsApp"
       style={{
         display: "inline-flex", alignItems: "center", gap: "0.3rem",
-        background: copied ? (gold ? "rgba(201,168,76,0.2)" : "rgba(47,49,90,0.12)") : "transparent",
-        border: `1px solid ${gold ? "rgba(201,168,76,0.35)" : "rgba(47,49,90,0.18)"}`,
+        background: copied ? (gold ? "rgba(122,179,23,0.2)" : "rgba(47,49,90,0.12)") : "transparent",
+        border: `1px solid ${gold ? "rgba(122,179,23,0.35)" : "rgba(47,49,90,0.18)"}`,
         borderRadius: 50, padding: "0.2rem 0.6rem",
         fontSize: "0.62rem", fontWeight: 600,
-        color: copied ? (gold ? "#8a6a10" : "#2f315a") : "#a8abcc",
+        color: copied ? (gold ? "#4a6e0e" : "#2f315a") : "#a8abcc",
         cursor: "pointer", fontFamily: "inherit",
         transition: "all 0.2s",
       }}
@@ -152,11 +152,11 @@ function ShareLinkButton({ params, hash, compact = false, title = "Copy a sharea
       title={title}
       style={{
         display: "inline-flex", alignItems: "center", gap: compact ? "0.3rem" : "0.4rem",
-        background: copied ? "rgba(201,168,76,0.18)" : (compact ? "transparent" : "rgba(47,49,90,0.06)"),
-        border: `1px solid ${copied ? "rgba(201,168,76,0.4)" : "rgba(47,49,90,0.16)"}`,
+        background: copied ? "rgba(122,179,23,0.18)" : (compact ? "transparent" : "rgba(47,49,90,0.06)"),
+        border: `1px solid ${copied ? "rgba(122,179,23,0.4)" : "rgba(47,49,90,0.16)"}`,
         borderRadius: 50, padding: compact ? "0.2rem 0.6rem" : "0.4rem 0.9rem",
         fontSize: compact ? "0.62rem" : "0.74rem", fontWeight: 600,
-        color: copied ? "#8a6a10" : "#2f315a",
+        color: copied ? "#4a6e0e" : "#2f315a",
         cursor: "pointer", fontFamily: "inherit",
         transition: "all 0.2s",
       }}
@@ -199,24 +199,24 @@ function ReleaseAssetLink({ url }) {
         alignItems: "center",
         gap: "0.3rem",
         background: "transparent",
-        border: "1px solid rgba(201,168,76,0.35)",
+        border: "1px solid rgba(122,179,23,0.35)",
         borderRadius: 50,
         padding: "0.2rem 0.6rem",
         fontSize: "0.62rem",
         fontWeight: 600,
-        color: "#8a6a10",
+        color: "#4a6e0e",
         cursor: "pointer",
         fontFamily: "inherit",
         textDecoration: "none",
         transition: "all 0.2s",
       }}
       onMouseOver={(event) => {
-        event.currentTarget.style.background = "rgba(201,168,76,0.12)";
-        event.currentTarget.style.borderColor = "rgba(201,168,76,0.55)";
+        event.currentTarget.style.background = "rgba(122,179,23,0.12)";
+        event.currentTarget.style.borderColor = "rgba(122,179,23,0.55)";
       }}
       onMouseOut={(event) => {
         event.currentTarget.style.background = "transparent";
-        event.currentTarget.style.borderColor = "rgba(201,168,76,0.35)";
+        event.currentTarget.style.borderColor = "rgba(122,179,23,0.35)";
       }}
     >
       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round">
@@ -269,7 +269,7 @@ function ReleaseCard({ r, expanded, onToggle }) {
           </div>
           <div className="release-card-actions" style={{ display: "flex", alignItems: "center", gap: "0.6rem", flexWrap: "wrap", marginTop: "0.42rem" }}>
             {isLatest && (
-              <span style={{ fontSize: "0.6rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", background: "#2f315a", color: "#c9a84c", padding: "0.18rem 0.6rem", borderRadius: 50 }}>
+              <span style={{ fontSize: "0.6rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", background: "#2f315a", color: "#7ab317", padding: "0.18rem 0.6rem", borderRadius: 50 }}>
                 Latest
               </span>
             )}
@@ -288,7 +288,7 @@ function ReleaseCard({ r, expanded, onToggle }) {
         {/* counts */}
         <div className="release-card-counts" style={{ display: "flex", gap: "0.75rem", flexShrink: 0 }}>
           <span style={{ fontSize: "0.72rem", color: "#2f315a", fontWeight: 600 }}>{r.features.length} New</span>
-          <span style={{ fontSize: "0.72rem", color: "#8a6a10", fontWeight: 600 }}>{r.fixes.length} Fix</span>
+          <span style={{ fontSize: "0.72rem", color: "#4a6e0e", fontWeight: 600 }}>{r.fixes.length} Fix</span>
         </div>
         {/* chevron */}
         <svg className="release-card-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a8abcc" strokeWidth="2"
@@ -319,7 +319,7 @@ function ReleaseCard({ r, expanded, onToggle }) {
             {/* Bug Fixes */}
             <div>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.65rem" }}>
-                <div style={{ fontSize: "0.82rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#8a6a10" }}>
+                <div style={{ fontSize: "0.82rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#4a6e0e" }}>
                   Bug Fixes
                 </div>
                 <CopyBtn onClick={() => copyToClipboard(r, "fixes")} gold />
@@ -735,7 +735,7 @@ export default function AutoCountAccountingPage({ onContact }) {
       </div>
 
       <div className="product-app-divider" style={{ "--section-from": "var(--ks-page-paper)", "--section-to": "var(--ks-page-mist)", marginTop: "-1.5rem", marginBottom: "-1.5rem" }}>
-        <SectionDivider icon={IconVideo} color="#c9a84c" targetId="training" />
+        <SectionDivider icon={IconVideo} color="#7ab317" targetId="training" />
       </div>
 
       {/* ══════════════════════════════════════════════════════════
@@ -807,7 +807,7 @@ export default function AutoCountAccountingPage({ onContact }) {
                     {EDITIONS.map(e => <option key={e} value={e}>{e}</option>)}
                   </select>
                 </div>
-                <div style={{ textAlign: "center", fontSize: "1.1rem", fontWeight: 700, color: "#c9a84c", marginTop: "1.2rem" }}>VS</div>
+                <div style={{ textAlign: "center", fontSize: "1.1rem", fontWeight: 700, color: "#7ab317", marginTop: "1.2rem" }}>VS</div>
                 <div>
                   <label style={{ fontSize: "0.68rem", fontWeight: 600, color: "#6b6f91", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "0.4rem" }}>Edition B</label>
                   <select value={editionB} onChange={e => setEditionB(e.target.value)}
@@ -818,7 +818,7 @@ export default function AutoCountAccountingPage({ onContact }) {
               </div>
 
               {editionA === editionB && (
-                <p style={{ fontSize: "0.78rem", color: "#c9a84c", textAlign: "center", marginTop: "0.65rem" }}>
+                <p style={{ fontSize: "0.78rem", color: "#7ab317", textAlign: "center", marginTop: "0.65rem" }}>
                   Pick two different editions to see how they differ.
                 </p>
               )}
@@ -854,7 +854,7 @@ export default function AutoCountAccountingPage({ onContact }) {
       </div>
 
       <div className="product-app-divider" style={{ "--section-from": "var(--ks-page-ice)", "--section-to": "var(--ks-page-cloud)" }}>
-        <SectionDivider icon={IconLedger} color="#8a6a10" targetId="releases" />
+        <SectionDivider icon={IconLedger} color="#4a6e0e" targetId="releases" />
       </div>
 
       {/* ── Release Notes ── */}
@@ -917,7 +917,7 @@ export default function AutoCountAccountingPage({ onContact }) {
                       {RELEASES.map(r => <option key={r.version} value={r.version}>{r.version} ({r.rev})</option>)}
                     </select>
                   </div>
-                  <div style={{ textAlign: "center", fontSize: "1.3rem", color: "#c9a84c", marginTop: "1.2rem" }}>→</div>
+                  <div style={{ textAlign: "center", fontSize: "1.3rem", color: "#7ab317", marginTop: "1.2rem" }}>→</div>
                   <div>
                     <label style={{ fontSize: "0.68rem", fontWeight: 600, color: "#6b6f91", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "0.4rem" }}>To version</label>
                     <select value={compareB} onChange={e => setCompareB(e.target.value)}
@@ -942,7 +942,7 @@ export default function AutoCountAccountingPage({ onContact }) {
                   {[
                     { label: "Revisions covered", val: between.length, bg: "rgba(47,49,90,0.06)", col: "#2f315a" },
                     { label: "New features", val: allFeatures.length, bg: "rgba(47,49,90,0.06)", col: "#2f315a" },
-                    { label: "Bug fixes", val: allFixes.length, bg: "rgba(201,168,76,0.1)", col: "#8a6a10" },
+                    { label: "Bug fixes", val: allFixes.length, bg: "rgba(122,179,23,0.1)", col: "#4a6e0e" },
                   ].map(s => (
                     <div key={s.label} style={{ flex: 1, minWidth: 120, background: s.bg, borderRadius: 12, padding: "1rem 1.25rem" }}>
                       <div style={{ fontSize: "1.6rem", fontWeight: 700, color: s.col, lineHeight: 1 }}>{s.val}</div>
@@ -968,13 +968,13 @@ export default function AutoCountAccountingPage({ onContact }) {
                   </div>
                   <div style={{ background: "#ffffff", borderRadius: 14, padding: "1.4rem", border: "1px solid rgba(47,49,90,0.1)" }}>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1rem" }}>
-                      <div style={{ fontSize: "0.82rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#8a6a10" }}>Bug Fixes ({allFixes.length})</div>
+                      <div style={{ fontSize: "0.82rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#4a6e0e" }}>Bug Fixes ({allFixes.length})</div>
                       {allFixes.length > 0 && <CopyBtn onClick={() => copyCompare(allFixes, compareA, compareB, "fixes")} gold />}
                     </div>
                     {allFixes.length === 0 && <div style={{ fontSize: "0.82rem", color: "#a8abcc" }}>No bug fixes in this range.</div>}
                     {allFixes.map((f, i) => (
                       <div key={i} style={{ display: "flex", gap: "0.55rem", alignItems: "flex-start", marginBottom: "0.65rem" }}>
-                        <span style={{ fontSize: "0.6rem", fontWeight: 700, letterSpacing: "0.06em", padding: "0.2rem 0.5rem", borderRadius: 50, background: "rgba(201,168,76,0.12)", color: "#8a6a10", flexShrink: 0, marginTop: 2 }}>{f.rev}</span>
+                        <span style={{ fontSize: "0.6rem", fontWeight: 700, letterSpacing: "0.06em", padding: "0.2rem 0.5rem", borderRadius: 50, background: "rgba(122,179,23,0.12)", color: "#4a6e0e", flexShrink: 0, marginTop: 2 }}>{f.rev}</span>
                         <span style={{ fontSize: "0.83rem", color: "#444", lineHeight: 1.6 }}>{f.text}</span>
                       </div>
                     ))}
@@ -1043,7 +1043,7 @@ export default function AutoCountAccountingPage({ onContact }) {
       </div>
       <div id="why-ksl" className="product-app-section product-app-section-warm" style={{ padding: "4rem 0", scrollMarginTop: 24 }}>
         <div className="content-wrap">
-          <div style={{ fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "1rem" }}>Why Partner With KSL</div>
+          <div style={{ fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "#7ab317", marginBottom: "1rem" }}>Why Partner With KSL</div>
           <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.4rem)", fontWeight: 700, color: "#2f315a", lineHeight: 1.15, letterSpacing: "-0.02em", marginBottom: "0.75rem" }}>Why Choose Us?</h2>
           <p style={{ fontSize: "1.05rem", color: "#6b6f91", lineHeight: 1.6, marginBottom: "2rem", maxWidth: 720 }}>
             Software is only as good as the people who set it up. KSL Business Solutions brings over 40 years of industry experience to ensure your success.
@@ -1072,8 +1072,8 @@ export default function AutoCountAccountingPage({ onContact }) {
           backgroundStart="#f8f9fd"
           backgroundEnd="#eef1f8"
           lineRgb="47,49,90"
-          dotRgb="201,168,76"
-          highlightRgb="201,168,76"
+          dotRgb="122,179,23"
+          highlightRgb="122,179,23"
           vignetteEnd="rgba(47,49,90,0.08)"
           densityScale={0.78}
           mobileDensityScale={2.2}
