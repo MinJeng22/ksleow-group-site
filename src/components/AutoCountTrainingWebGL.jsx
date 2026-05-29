@@ -404,18 +404,16 @@ export default function AutoCountTrainingWebGL() {
       setIframeMounted(true);
       setIframeReady(false);
       setStageConcealed(false);
-      // Trigger opacity fade-out on the morph shell after 2 frames
-      // so the real video frame's shadow is painted before shell disappears.
+      // Release the stage height constraint immediately - the video frame has the same
+      // natural height, so there's no layout shift. This also removes any overflow
+      // that would clip the video frame's box-shadow.
+      setStageHeight(null);
+      // After 2 frames (real frame has been painted), remove the morph overlay.
+      // No opacity fade needed - the 2-frame gap ensures no visual pop.
       morphPaintRafRef.current = window.requestAnimationFrame(() => {
         morphPaintRafRef.current = window.requestAnimationFrame(() => {
-          setMorphSettling(true);
-          // setMorph(null) is called by the shell's onTransitionEnd after opacity:0
-          // Safety fallback if transitionend doesn't fire (e.g. reduced-motion)
-          morphSettleTimerRef.current = window.setTimeout(() => {
-            setMorph(null);
-            setMorphSettling(false);
-            releaseStageHeight(220);
-          }, 280);
+          setMorph(null);
+          setMorphSettling(false);
         });
       });
       return;
