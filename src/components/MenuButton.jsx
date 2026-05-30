@@ -638,6 +638,12 @@ export default function MenuButton({ onOpenSearch, hideBar }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    const handleOpenMenu = () => setOpen(true);
+    window.addEventListener("openGlobalMenu", handleOpenMenu);
+    return () => window.removeEventListener("openGlobalMenu", handleOpenMenu);
+  }, []);
+
   /* Close on outside click (mobile) */
   useEffect(() => {
     if (!open) return;
@@ -758,7 +764,7 @@ export default function MenuButton({ onOpenSearch, hideBar }) {
       <div 
         className="top-right-controls" 
         ref={fabRef}
-        style={hideBar ? { opacity: 0, transform: "translateY(-15px)", pointerEvents: "none", transition: "all 0.3s ease" } : { transition: "all 0.3s ease" }}
+        style={(hideBar || open) ? { opacity: 0, transform: "translateY(-15px)", pointerEvents: "none", transition: "all 0.3s ease" } : (pathname === "/omni" ? { display: "none" } : { transition: "all 0.3s ease" })}
       >
         <button
           className="search-fab lg-glass lg-glass-btn"
@@ -796,7 +802,7 @@ export default function MenuButton({ onOpenSearch, hideBar }) {
         <div 
           className="top-left-controls" 
           ref={leftFabRef}
-          style={hideBar ? { opacity: 0, transform: "translateY(-15px)", pointerEvents: "none", transition: "all 0.3s ease" } : { transition: "all 0.3s ease" }}
+          style={hideBar ? { opacity: 0, transform: "translateY(-15px)", pointerEvents: "none", transition: "all 0.3s ease" } : (pathname === "/omni" ? { display: "none" } : { transition: "all 0.3s ease" })}
         >
           <button
             className="back-fab lg-glass lg-glass-btn"
@@ -816,7 +822,7 @@ export default function MenuButton({ onOpenSearch, hideBar }) {
       <div
         ref={mobileBarRef}
         className={`mobile-float-bar lg-glass${showScrollTop && mobileActionMode === "back" ? " has-scrolltop" : ""}`}
-        style={(hideBar || open) ? { opacity: 0, transform: "translateY(150%)", pointerEvents: "none" } : undefined}
+        style={pathname === "/omni" ? { display: "none" } : ((hideBar || open) ? { opacity: 0, transform: "translateY(150%)", pointerEvents: "none" } : undefined)}
       >
         {mobileActionMode && (
           <>

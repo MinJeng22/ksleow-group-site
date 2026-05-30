@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import useDarkBg from "../hooks/useDarkBg";
 
 /**
@@ -11,11 +12,15 @@ export default function BackToTop({ hideBar }) {
   const btnRef = useRef(null);
   const isDark = useDarkBg(btnRef);
 
+  const { pathname } = useLocation();
+
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 400);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  if (pathname === "/omni") return null;
 
   return (
     <>

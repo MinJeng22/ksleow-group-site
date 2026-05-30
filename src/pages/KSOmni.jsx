@@ -504,87 +504,186 @@ export default function KSLOmniPage() {
     );
   }
 
-  /* ── Reusable: header action buttons (Back / QR / Clear) ── */
-  function HeaderActions({ variant }) {
-    const dark = variant === "dark";
-    const baseBtn = {
-      display: "inline-flex", alignItems: "center", gap: "0.4rem",
-      padding: "0.45rem 0.95rem", borderRadius: 50,
-      fontSize: "0.78rem", fontWeight: 600,
-      cursor: "pointer", fontFamily: "inherit",
-      transition: "background 0.2s, border-color 0.2s",
-    };
-    const ghost = dark
-      ? { ...baseBtn, background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.18)", color: "rgba(255,255,255,0.78)" }
-      : { ...baseBtn, background: "rgba(47,49,90,0.06)",   border: "1px solid rgba(47,49,90,0.15)",     color: "#2f315a" };
-    const gold  = dark
-      ? { ...baseBtn, background: "rgba(201,168,76,0.18)", border: "1px solid rgba(201,168,76,0.45)",   color: "#e8c97a" }
-      : { ...baseBtn, background: "rgba(201,168,76,0.12)", border: "1px solid rgba(201,168,76,0.4)",    color: "#a17f1e" };
-    return (
-      <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
-        <button onClick={goHome} style={ghost}><BackIcon /> Back</button>
-        <button onClick={() => setShowQR(true)} style={gold}><QRIcon /> Open on Phone</button>
-        <button onClick={clearChat} style={ghost}><TrashIcon /> Clear Chat</button>
-      </div>
-    );
-  }
-
   /* ══════════════════════════════════════════════════════════
-   * MOBILE: fullscreen chat
+   * UNIFIED LAYOUT: Fullscreen chat for both Desktop and Mobile
    * ══════════════════════════════════════════════════════════ */
-  if (isMobile) {
-    return (
-      <div style={{ position: "fixed", inset: 0, zIndex: 300, display: "flex", flexDirection: "column", background: "#ffffff" }}>
-        <ChatbotKeyframes />
-        <style>{`
-          @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-          @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-        `}</style>
+  return (
+    <div style={{ position: "fixed", inset: 0, zIndex: 300, display: "flex", flexDirection: "column", background: "#f5f5f8" }}>
+      <ChatbotKeyframes />
+      <style>{`
+        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        @keyframes typingPulse{0%,80%,100%{opacity:0.3;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
+        
+        .omni-lg-glass {
+          background: rgba(255, 255, 255, 0.75);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.4);
+          box-shadow: 0 4px 24px rgba(47, 49, 90, 0.05);
+        }
+        
+        .omni-lg-glass-btn {
+          background: rgba(255, 255, 255, 0.5);
+          border: 1px solid rgba(255, 255, 255, 0.4);
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: background 0.2s, transform 0.2s;
+          color: rgba(0,0,0,0.6);
+        }
+        .omni-lg-glass-btn:hover {
+          background: rgba(255, 255, 255, 0.85);
+          transform: translateY(-2px);
+        }
+        .omni-lg-glass-btn:active {
+          transform: translateY(0) scale(0.96);
+        }
+        
+        .omni-top-bar {
+          position: fixed;
+          top: 0; left: 0; right: 0;
+          padding: max(12px, env(safe-area-inset-top)) 12px 12px;
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          pointer-events: none;
+          z-index: 1000;
+        }
+        .omni-top-group {
+          display: flex;
+          gap: 0.25rem;
+          pointer-events: auto;
+          border-radius: 50px;
+          padding: 0.35rem;
+        }
+        .omni-btn-pill {
+          height: 38px;
+          border-radius: 20px;
+          padding: 0 1rem;
+          font-size: 0.82rem;
+          font-weight: 600;
+          gap: 0.4rem;
+        }
+        .omni-btn-circle {
+          width: 38px; height: 38px;
+          border-radius: 50%;
+        }
+        .omni-divider {
+          width: 1px;
+          height: 20px;
+          background: rgba(0,0,0,0.1);
+          margin: auto 4px;
+        }
+      `}</style>
 
-        {/* Mobile header removed: now integrated into floating action bar */}
+      {/* ── Top Liquid Glass Navigation ── */}
+      <div className="omni-top-bar">
+        {/* Left Group: Back + KS Omni Branding */}
+        <div className="omni-lg-glass omni-top-group">
+          <button className="omni-lg-glass-btn omni-btn-circle" onClick={goHome} aria-label="Back" title="Back">
+            <BackIcon />
+          </button>
+          <div className="omni-divider" />
+          <div style={{ display: "flex", alignItems: "center", gap: 8, paddingRight: 10, paddingLeft: 4 }}>
+            <div style={{ width: 26, height: 26, borderRadius: "50%", overflow: "hidden", border: "1.5px solid rgba(201,168,76,0.5)", flexShrink: 0 }}>
+              <img src="/images/branding/ksl-logo-circle.webp" alt="KSL" loading="eager" decoding="async" fetchPriority="high" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            </div>
+            <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "#2f315a", whiteSpace: "nowrap" }}>KS Omni</span>
+          </div>
+        </div>
 
-        {/* Messages OR empty greeting.
-         * When empty: vertically center, but the greeting block itself stays
-         * left-aligned (textAlign: left inside EmptyGreeting). */}
+        {/* Right Group: Phone + Search + Menu + Clear */}
+        <div className="omni-lg-glass omni-top-group" style={{ flexWrap: "wrap", justifyContent: "flex-end", maxWidth: "60%" }}>
+          <button 
+            className="omni-lg-glass-btn omni-btn-pill" 
+            onClick={() => setShowQR(true)} 
+            aria-label="Open on Phone"
+            title="Open on Phone"
+            style={{ color: "#a17f1e" }}
+          >
+            <QRIcon />
+            {isMobile ? "" : "Phone"}
+          </button>
+          <div className="omni-divider" />
+          <button 
+            className="omni-lg-glass-btn omni-btn-circle" 
+            onClick={() => window.dispatchEvent(new Event("openGlobalSearch"))} 
+            aria-label="Search"
+            title="Search"
+          >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </button>
+          <div className="omni-divider" />
+          <button 
+            className="omni-lg-glass-btn omni-btn-circle" 
+            onClick={() => window.dispatchEvent(new Event("openGlobalMenu"))} 
+            aria-label="Menu"
+            title="Menu"
+          >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <div className="omni-divider" />
+          <button 
+            className="omni-lg-glass-btn omni-btn-circle" 
+            onClick={clearChat} 
+            aria-label="Clear chat"
+            title="Clear chat"
+            style={{ color: "#991b1b" }}
+          >
+            <TrashIcon />
+          </button>
+        </div>
+      </div>
+
+      {/* Hidden file input shared by both desktop & mobile InputRow upload buttons */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept={ACCEPT_ATTR}
+        onChange={handleFileSelected}
+        style={{ display: "none" }}
+      />
+      <input
+        ref={cameraInputRef}
+        type="file"
+        accept={IMAGE_FILE_ACCEPT}
+        capture="environment"
+        onChange={handleFileSelected}
+        style={{ display: "none" }}
+      />
+
+      {/* ── Chat Content Area ── */}
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", maxWidth: 900, margin: "0 auto", width: "100%", paddingTop: "max(80px, env(safe-area-inset-top) + 80px)", minHeight: 0 }}>
         <div ref={chatScrollRef} style={{
           flex: 1, overflowY: "auto",
-          padding: isEmpty ? "1rem 1.25rem 1rem" : "1rem",
+          padding: isEmpty ? "1rem 1.25rem 1rem" : "1rem 1.25rem 0",
           display: "flex", flexDirection: "column",
           justifyContent: isEmpty ? "center" : "flex-start",
         }}>
           {isEmpty
             ? <EmptyGreeting />
-            : messages.map((msg, i) => <Message key={i} msg={msg} fontSize="0.88rem" />)
+            : messages.map((msg, i) => <Message key={i} msg={msg} fontSize={isMobile ? "0.88rem" : "0.95rem"} />)
           }
         </div>
+      </div>
 
-        {/* Hidden file input for the upload button */}
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept={ACCEPT_ATTR}
-          onChange={handleFileSelected}
-          style={{ display: "none" }}
-        />
-        <input
-          ref={cameraInputRef}
-          type="file"
-          accept={IMAGE_FILE_ACCEPT}
-          capture="environment"
-          onChange={handleFileSelected}
-          style={{ display: "none" }}
-        />
-
-        {/* Gemini-style input box (mobile) — textarea on top, action row below */}
-        <div style={{
-          margin: "0.6rem 0.75rem",
-          marginBottom: "max(84px, env(safe-area-inset-bottom) + 84px)",
+      {/* ── Liquid Glass Input Row ── */}
+      <div style={{ maxWidth: 900, margin: "0 auto", width: "100%", padding: "0.5rem 1rem" }}>
+        <div className="omni-lg-glass" style={{
+          marginBottom: "max(0.5rem, env(safe-area-inset-bottom))",
           padding: "0.65rem 0.8rem 0.5rem",
-          background: "#f0f0f6",
-          border: "1px solid rgba(47,49,90,0.1)",
-          borderRadius: 22,
+          borderRadius: 24,
           display: "flex", flexDirection: "column", gap: "0.35rem",
-          flexShrink: 0,
         }}>
           {/* Inline attachment preview (inside the input container) */}
           {attachedImage && (
@@ -647,20 +746,22 @@ export default function KSLOmniPage() {
                   display: "flex", alignItems: "center", justifyContent: "center",
                 }}
               ><ImageUploadIcon /></button>
-              <button
-                onClick={openCameraPicker}
-                disabled={loading || attachedImage?.uploading}
-                title="Take photo"
-                aria-label="Take photo"
-                style={{
-                  width: 34, height: 34, borderRadius: "50%", flexShrink: 0,
-                  background: "transparent",
-                  border: "1px solid rgba(47,49,90,0.18)",
-                  color: (loading || attachedImage?.uploading) ? "#a8abcc" : "#2f315a",
-                  cursor: (loading || attachedImage?.uploading) ? "not-allowed" : "pointer",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                }}
-              ><CameraIcon /></button>
+              {isMobile && (
+                <button
+                  onClick={openCameraPicker}
+                  disabled={loading || attachedImage?.uploading}
+                  title="Take photo"
+                  aria-label="Take photo"
+                  style={{
+                    width: 34, height: 34, borderRadius: "50%", flexShrink: 0,
+                    background: "transparent",
+                    border: "1px solid rgba(47,49,90,0.18)",
+                    color: (loading || attachedImage?.uploading) ? "#a8abcc" : "#2f315a",
+                    cursor: (loading || attachedImage?.uploading) ? "not-allowed" : "pointer",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                  }}
+                ><CameraIcon /></button>
+              )}
             </div>
             <button
               onClick={sendMessage}
@@ -681,211 +782,8 @@ export default function KSLOmniPage() {
             </button>
           </div>
         </div>
-        {showQR && <QRModal onClose={() => setShowQR(false)} pageUrl={pageUrl} qrUrl={qrUrl} qrReady={qrReady} />}
-      </div>
-    );
-  }
-
-  /* ══════════════════════════════════════════════════════════
-   * DESKTOP: site Nav at top, Gemini-style centered empty state,
-   * input falls to the bottom once the conversation starts.
-   * ══════════════════════════════════════════════════════════ */
-
-  /* Reusable Gemini-style input box — image preview + textarea on top,
-   * action row below. Same component in centered (empty state) and
-   * bottom (active chat) layouts. */
-  function renderInputRow(centered = false) {
-    const sendDisabled = loading || attachedImage?.uploading || (!input.trim() && !attachedImage?.gsUri);
-    const uploadBusy   = loading || attachedImage?.uploading;
-    return (
-      <div style={{
-        margin: centered ? "0" : "0.75rem 1rem",
-        padding: "0.75rem 0.85rem 0.55rem",
-        background: "#f0f0f6",
-        border: "1px solid rgba(47,49,90,0.1)",
-        borderRadius: 24,
-        boxShadow: centered ? "0 2px 12px rgba(47,49,90,0.05)" : "none",
-        display: "flex", flexDirection: "column", gap: "0.4rem",
-        flexShrink: 0,
-        transition: "border-color 0.2s, box-shadow 0.2s",
-      }}>
-        {/* Inline attachment preview (sits inside the input container, above the textarea) */}
-        {attachedImage && (
-          <div style={{ position: "relative", display: "inline-block", alignSelf: "flex-start", margin: "0.15rem 0 0.25rem" }}>
-            {renderAttachmentTile(64)}
-            {!attachedImage.uploading && (
-              <button
-                onClick={() => setAttachedImage(null)}
-                title="Remove attachment"
-                aria-label="Remove attachment"
-                style={{
-                  position: "absolute", top: -6, right: -6,
-                  width: 20, height: 20, borderRadius: "50%",
-                  background: "#2f315a", color: "#ffffff",
-                  border: "2px solid #f0f0f6", cursor: "pointer",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  padding: 0,
-                }}
-              ><CloseSmallIcon /></button>
-            )}
-          </div>
-        )}
-        {pasteError && (
-          <div style={{ fontSize: "0.72rem", color: "#991b1b", background: "#fef2f2", border: "1px solid #fecaca", borderRadius: 8, padding: "0.3rem 0.55rem", margin: "0 0 0.15rem" }}>
-            {pasteError}
-          </div>
-        )}
-
-        {/* Textarea with no visible border, blends into the container */}
-        <textarea
-          ref={inputRef}
-          value={input}
-          onChange={handleInputChange}
-          onKeyDown={handleKey}
-          onPaste={handlePaste}
-          placeholder="Ask KS Omni."
-          disabled={loading}
-          rows={1}
-          style={{
-            width: "100%",
-            padding: "0.45rem 0.3rem",
-            border: "none", outline: "none",
-            background: "transparent",
-            color: "#2f315a",
-            fontSize: centered ? "1rem" : "0.95rem",
-            fontFamily: "inherit",
-            resize: "none", lineHeight: 1.55,
-            maxHeight: centered ? "38dvh" : "32dvh", overflowY: "hidden",
-          }}
-        />
-
-        {/* Bottom action row: upload (left) + send (right) */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <button
-            onClick={openFilePicker}
-            disabled={uploadBusy}
-            title="Upload image"
-            aria-label="Upload image"
-            style={{
-              width: 36, height: 36, borderRadius: "50%",
-              background: "transparent",
-              border: "1px solid rgba(47,49,90,0.18)",
-              color: uploadBusy ? "#a8abcc" : "#2f315a",
-              cursor: uploadBusy ? "not-allowed" : "pointer",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              flexShrink: 0, transition: "background 0.2s",
-            }}
-            onMouseOver={e => { if (!uploadBusy) e.currentTarget.style.background = "rgba(47,49,90,0.08)"; }}
-            onMouseOut={e => { if (!uploadBusy) e.currentTarget.style.background = "transparent"; }}
-          >
-            <ImageUploadIcon />
-          </button>
-
-          <button
-            onClick={sendMessage}
-            disabled={sendDisabled}
-            title="Send"
-            aria-label="Send"
-            style={{
-              width: 36, height: 36, borderRadius: "50%",
-              background: sendDisabled ? "rgba(47,49,90,0.18)" : "#2f315a",
-              border: "none",
-              color: sendDisabled ? "#a8abcc" : "#ffffff",
-              cursor: sendDisabled ? "not-allowed" : "pointer",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              flexShrink: 0, transition: "background 0.2s",
-            }}
-            onMouseOver={e => { if (!sendDisabled) e.currentTarget.style.background = "#3d4075"; }}
-            onMouseOut={e => { if (!sendDisabled) e.currentTarget.style.background = "#2f315a"; }}
-          >
-            {loading
-              ? <div style={{ width: 14, height: 14, border: "2px solid rgba(255,255,255,0.3)", borderTopColor: "#fff", borderRadius: "50%", animation: "spin 0.7s linear infinite" }} />
-              : <SendIcon />
-            }
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div style={{ background: "#f5f5f8", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-      <style>{`
-        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-        @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-        @keyframes spin{to{transform:rotate(360deg)}}
-        @keyframes typingPulse{0%,80%,100%{opacity:0.3;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
-      `}</style>
-
-      {/* Hidden file input shared by both desktop & mobile InputRow upload buttons */}
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept={ACCEPT_ATTR}
-        onChange={handleFileSelected}
-        style={{ display: "none" }}
-      />
-
-      {/* Chatbot header — navy bar with KS Omni branding + Back / QR / Clear actions */}
-      <div style={{ background: "#2f315a", borderBottom: "1px solid rgba(0,0,0,0.2)" }}>
-        <div className="content-wrap" style={{ padding: "1.4rem var(--px)", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem", flexWrap: "wrap", minHeight: 80 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.85rem" }}>
-            <div style={{ width: 48, height: 48, borderRadius: "50%", overflow: "hidden", border: "1.5px solid rgba(201,168,76,0.55)" }}>
-              <img src="/images/branding/ksl-logo-circle.webp" alt="KS Omni" loading="eager" decoding="async" fetchPriority="high" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-            </div>
-            <div>
-              <div style={{ fontSize: "1.15rem", fontWeight: 700, color: "#ffffff", lineHeight: 1.2 }}>KS Omni</div>
-              <div style={{ fontSize: "0.74rem", color: "rgba(255,255,255,0.65)", display: "flex", alignItems: "center", gap: 5, marginTop: 2 }}>
-                <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#4ade80", display: "inline-block" }} />
-                K.S. Leow Group AI Assistant
-              </div>
-            </div>
-          </div>
-          <HeaderActions variant="dark" />
-        </div>
       </div>
 
-      {/* Chat card */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-        <div className="content-wrap" style={{ flex: 1, display: "flex", flexDirection: "column", padding: "1.5rem var(--px) 2rem" }}>
-          <div style={{
-            flex: 1, background: "#ffffff", borderRadius: 20,
-            border: "1px solid rgba(47,49,90,0.09)",
-            boxShadow: "0 4px 24px rgba(47,49,90,0.07)",
-            display: "flex", flexDirection: "column", overflow: "hidden",
-            minHeight: "calc(100dvh - 320px)",
-          }}>
-            {isEmpty ? (
-              /* ── Gemini-style centered empty state ── */
-              <div style={{
-                flex: 1, display: "flex", flexDirection: "column",
-                alignItems: "center", justifyContent: "center",
-                padding: "2rem 1.5rem",
-                animation: "fadeIn 0.4s ease",
-              }}>
-                <EmptyGreeting />
-                <div style={{ width: "100%", maxWidth: 720 }}>
-                  {renderInputRow(true)}
-                </div>
-              </div>
-            ) : (
-              /* ── Active chat: messages scroll, input pinned bottom ── */
-              <>
-                <div ref={chatScrollRef} style={{ flex: 1, overflowY: "auto", padding: "1.5rem 1.75rem", display: "flex", flexDirection: "column" }}>
-                  {messages.map((msg, i) => <Message key={i} msg={msg} fontSize="0.88rem" />)}
-                </div>
-                {renderInputRow()}
-              </>
-            )}
-
-            <div style={{ padding: "0.5rem 1.25rem 0.75rem", fontSize: "0.68rem", color: "#c8cadd", textAlign: "center" }}>
-              AI responses may be inaccurate. · Enter to send, Shift+Enter for new line. · Paste an image with Ctrl+V.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <Footer />
       {showQR && <QRModal onClose={() => setShowQR(false)} pageUrl={pageUrl} qrUrl={qrUrl} qrReady={qrReady} />}
     </div>
   );
