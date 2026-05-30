@@ -1150,17 +1150,19 @@ export default function AutoCountAccountingPage({ onContact }) {
           }
           .ac-awards-item {
             flex: 0 0 auto;
-            width: 140px;
-            height: 180px;
+            width: 120px;
+            height: 160px;
             border-radius: 12px;
             box-shadow: 0 6px 20px rgba(47,49,90,0.08);
             overflow: hidden;
             background: #fff;
             border: 1px solid rgba(47,49,90,0.04);
-            transition: transform 0.3s ease;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
           }
           .ac-awards-item:hover {
-            transform: translateY(-5px);
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 12px 30px rgba(47,49,90,0.15);
+            z-index: 10;
           }
           .ac-awards-item img {
             width: 100%;
@@ -1183,8 +1185,8 @@ export default function AutoCountAccountingPage({ onContact }) {
               justify-content: flex-start;
             }
             .ac-awards-item {
-              width: 120px;
-              height: 160px;
+              width: 100px;
+              height: 140px;
             }
             .ac-awards-item.dup {
               display: block;
@@ -1201,10 +1203,7 @@ export default function AutoCountAccountingPage({ onContact }) {
             7 Consecutive Years Pahang State Top AutoCount Dealer
           </p>
 
-          <div className="ac-awards-container" style={{
-            maskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
-            WebkitMaskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)"
-          }}>
+          <div className="ac-awards-container">
             <div className="ac-awards-track">
               {AWARDS_IMAGES.map((src, i) => (
                 <div key={`orig-${i}`} className="ac-awards-item">
