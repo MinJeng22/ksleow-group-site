@@ -573,6 +573,23 @@ const BRAND_LOGOS = [
   "/images/brands/ac-brand-15.png",
 ];
 
+const AWARDS_IMAGES = [
+  "/images/awards/ksl-award-1.png",
+  "/images/awards/ksl-award-2.jpg",
+  "/images/awards/ksl-award-3.jpg",
+  "/images/awards/ksl-award-4.jpg",
+  "/images/awards/ksl-award-5.png",
+  "/images/awards/ksl-award-6.png",
+  "/images/awards/ksl-award-7.png",
+  "/images/awards/ksl-award-8.png",
+  "/images/awards/ksl-award-9.png",
+  "/images/awards/ksl-award-10.png",
+  "/images/awards/ksl-award-11.png",
+  "/images/awards/ksl-award-12.png",
+  "/images/awards/ksl-award-13.jpg",
+  "/images/awards/ksl-award-14.jpg",
+];
+
 function FeatureHighlights() {
   const gridRef = useRef(null);
   const [inView, setInView] = useState(true);
@@ -1112,38 +1129,92 @@ export default function AutoCountAccountingPage({ onContact }) {
         <SectionDivider icon={IconHandshake} targetId="why-ksl" />
       </div>
       <div id="why-ksl" className="product-app-section product-app-section-warm" style={{ padding: "4rem 0", scrollMarginTop: 24 }}>
-        <div className="content-wrap">
-          <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.4rem)", fontWeight: 700, color: "#2f315a", lineHeight: 1.15, letterSpacing: "-0.02em", marginBottom: "0.75rem" }}>Why Choose Us?</h2>
+        <style>{`
+          .ac-awards-container {
+            position: relative;
+            margin: 2rem auto 0;
+            padding: 1.5rem 0;
+            overflow: hidden;
+            max-width: 1100px;
+          }
+          .ac-awards-track {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+          }
+          .ac-awards-item {
+            flex: 0 0 auto;
+            width: 140px;
+            height: 180px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(47,49,90,0.08);
+            overflow: hidden;
+            background: #fff;
+            border: 1px solid rgba(47,49,90,0.04);
+            transition: transform 0.3s ease;
+          }
+          .ac-awards-item:hover {
+            transform: translateY(-5px);
+          }
+          .ac-awards-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+          .ac-awards-item.dup {
+            display: none;
+          }
+          @media (max-width: 900px) {
+            .ac-awards-container {
+              margin: 2rem -1rem 0;
+              max-width: none;
+              padding: 1.5rem 0;
+              background: linear-gradient(to right, rgba(128,195,30,0.02), rgba(128,195,30,0.06), rgba(128,195,30,0.02));
+            }
+            .ac-awards-track {
+              flex-wrap: nowrap;
+              width: max-content;
+              animation: ac-marquee 30s linear infinite;
+              justify-content: flex-start;
+            }
+            .ac-awards-item {
+              width: 120px;
+              height: 160px;
+            }
+            .ac-awards-item.dup {
+              display: block;
+            }
+          }
+        `}</style>
+        <div className="content-wrap" style={{ textAlign: "center" }}>
+          <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.4rem)", fontWeight: 700, color: "#2f315a", lineHeight: 1.15, letterSpacing: "-0.02em", marginBottom: "1.5rem" }}>Why Choose Us?</h2>
           
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "2.5rem", marginTop: "2rem", alignItems: "center" }}>
-            
-            <div style={{ paddingRight: "1rem" }}>
-              <div style={{ fontSize: "1rem", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "#80c31e", marginBottom: "1.2rem" }}>
-                7 Consecutive Years
-              </div>
-              <h3 style={{ fontSize: "clamp(1.6rem, 2.8vw, 2rem)", fontWeight: 800, color: "#2f315a", lineHeight: 1.2, marginBottom: "1.25rem" }}>
-                Pahang State Top AutoCount Dealer
-              </h3>
-              <p style={{ fontSize: "1.05rem", color: "#6b6f91", lineHeight: 1.6, marginBottom: "1.5rem" }}>
-                Software is only as good as the people who set it up. KSL Business Solutions brings over 40 years of industry experience and has been awarded the Top AutoCount Dealer in Pahang State for 7 consecutive years.
-              </p>
-              <p style={{ fontSize: "0.95rem", color: "#6b6f91", lineHeight: 1.6 }}>
-                Our deep technical knowledge, prompt on-site support, and dedicated training team ensure your business runs smoothly and successfully. We are proud to be the trusted partner for countless businesses across Pahang.
-              </p>
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: "1.5rem" }}>
+            <div style={{ padding: "0.8rem 2rem", background: "#ffffff", borderRadius: "100px", boxShadow: "0 8px 30px rgba(47,49,90,0.12)", color: "#2f315a", fontSize: "1.1rem", fontWeight: 700, letterSpacing: "-0.01em", border: "1px solid rgba(47,49,90,0.05)" }}>
+              <span style={{ color: "#80c31e", fontWeight: 800 }}>7 Consecutive Years</span> Pahang State Top AutoCount Dealer
             </div>
-            
-            <div style={{ position: "relative", borderRadius: 16, overflow: "hidden", boxShadow: "0 12px 32px rgba(47,49,90,0.12)", background: "#ffffff", border: "1px solid rgba(47,49,90,0.06)" }}>
-              <img 
-                src="/images/autocount-awards-placeholder.png" 
-                alt="7 Consecutive Years Pahang State Top AutoCount Dealer Trophies and Certificates"
-                style={{ width: "100%", height: "auto", display: "block", aspectRatio: "4/3", objectFit: "cover" }}
-              />
-              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "rgba(47,49,90,0.85)", backdropFilter: "blur(4px)", padding: "0.8rem", color: "#fff", fontSize: "0.8rem", textAlign: "center", fontWeight: 600 }}>
-                Please replace placeholder with your actual trophies & certificates photo
-              </div>
-            </div>
-
           </div>
+
+          <p style={{ fontSize: "1.05rem", color: "#6b6f91", lineHeight: 1.6, maxWidth: "800px", margin: "0 auto 1.5rem" }}>
+            Software is only as good as the people who set it up. KSL Business Solutions brings over 40 years of industry experience. Our deep technical knowledge, prompt on-site support, and dedicated training team ensure your business runs smoothly and successfully. We are proud to be the trusted partner for countless businesses across Pahang.
+          </p>
+
+          <div className="ac-awards-container">
+            <div className="ac-awards-track">
+              {AWARDS_IMAGES.map((src, i) => (
+                <div key={`orig-${i}`} className="ac-awards-item">
+                  <img src={src} alt="Top AutoCount Dealer Award" loading="lazy" />
+                </div>
+              ))}
+              {AWARDS_IMAGES.map((src, i) => (
+                <div key={`dup1-${i}`} className="ac-awards-item dup">
+                  <img src={src} alt="Top AutoCount Dealer Award" loading="lazy" />
+                </div>
+              ))}
+            </div>
+          </div>
+
         </div>
       </div>
 
