@@ -583,10 +583,9 @@ export default function Services() {
         <div style={{
           position: "absolute",
           inset: 0,
-          backgroundImage: "url(/images/services/ksLeow-group-bg.jpg)",
-          backgroundSize: "auto 100%",
+          backgroundImage: "url(/images/services/ksLeow-group-bg.png)",
+          backgroundSize: "cover",
           backgroundPosition: "left center",
-          backgroundRepeat: "no-repeat",
           opacity: 0.35,
           zIndex: 0
         }} />
