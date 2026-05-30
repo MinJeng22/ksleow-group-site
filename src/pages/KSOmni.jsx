@@ -159,11 +159,8 @@ export default function KSLOmniPage() {
   const [showQR, setShowQR]                = useState(false);
   const [attachedImage, setAttachedImage]  = useState(null);   /* { gsUri, dataUrl, sizeKb, uploading } */
   const [pasteError, setPasteError]        = useState("");
-  const [viewportHeight, setViewportHeight] = useState(
-    typeof window !== "undefined" ? window.innerHeight : "100vh"
-  );
 
-  /* Machine ID read from URL (?mid=XXXX) — passed to worker silently, not shown in UI */
+  const containerRef = useRef(null);  /* Machine ID read from URL (?mid=XXXX) — passed to worker silently, not shown in UI */
   const [machineId] = useState(() => {
     const params = new URLSearchParams(window.location.search);
     return params.get("mid") || null;
@@ -232,7 +229,10 @@ export default function KSLOmniPage() {
   useEffect(() => {
     if (typeof window === "undefined" || !window.visualViewport) return;
     const updateViewport = () => {
-      setViewportHeight(window.visualViewport.height);
+      if (containerRef.current) {
+        containerRef.current.style.height = `${window.visualViewport.height}px`;
+        containerRef.current.style.top = `${window.visualViewport.offsetTop}px`;
+      }
       window.scrollTo(0, 0);
     };
     window.visualViewport.addEventListener("resize", updateViewport);
@@ -526,7 +526,7 @@ export default function KSLOmniPage() {
    * UNIFIED LAYOUT: Fullscreen chat for both Desktop and Mobile
    * ══════════════════════════════════════════════════════════ */
   return (
-    <div style={{ position: "fixed", top: 0, left: 0, right: 0, height: viewportHeight, zIndex: 300, display: "flex", flexDirection: "column", background: "radial-gradient(circle at 85% 15%, rgba(201, 168, 76, 0.15) 0%, transparent 50%), linear-gradient(to bottom, #f8f9fd, #eef1f8)" }}>
+    <div ref={containerRef} style={{ position: "fixed", top: 0, left: 0, right: 0, height: "100dvh", zIndex: 300, display: "flex", flexDirection: "column", background: "radial-gradient(circle at 85% 15%, rgba(201, 168, 76, 0.15) 0%, transparent 50%), linear-gradient(to bottom, #f8f9fd, #eef1f8)" }}>
       <ChatbotKeyframes />
       <style>{`
         @keyframes fadeIn{from{opacity:0}to{opacity:1}}
