@@ -134,7 +134,7 @@ const CloseSmallIcon = () => (
  * Rendered above the centered input box on the empty state.
  * Mirrors Gemini's home screen: small lighter top line + large gradient prompt. */
 function EmptyGreeting() {
-  return <AnimatedGreeting />;
+  return <AnimatedGreeting darkTheme />;
 }
 
 /* ── Mobile detection ── */
@@ -508,7 +508,7 @@ export default function KSLOmniPage() {
    * UNIFIED LAYOUT: Fullscreen chat for both Desktop and Mobile
    * ══════════════════════════════════════════════════════════ */
   return (
-    <div style={{ position: "fixed", inset: 0, zIndex: 300, display: "flex", flexDirection: "column", background: "#f5f5f8" }}>
+    <div style={{ position: "fixed", inset: 0, zIndex: 300, display: "flex", flexDirection: "column", backgroundColor: "#0f1128" }}>
       <ChatbotKeyframes />
       <style>{`
         @keyframes fadeIn{from{opacity:0}to{opacity:1}}
@@ -581,12 +581,17 @@ export default function KSLOmniPage() {
 
       {/* ── Top Liquid Glass Navigation ── */}
       <div className="omni-top-bar">
-        {/* Left Group: Back + KS Omni Branding */}
+        {/* Left Group: Back (desktop) + KS Omni Branding */}
         <div className="omni-lg-glass omni-top-group">
-          <button className="omni-lg-glass-btn omni-btn-circle" onClick={goHome} aria-label="Back" title="Back">
-            <BackIcon />
-          </button>
-          <div className="omni-divider" />
+          {!isMobile && (
+            <>
+              <button className="omni-lg-glass-btn omni-btn-pill" onClick={goHome} aria-label="Back" title="Back">
+                <BackIcon />
+                <span>Back</span>
+              </button>
+              <div className="omni-divider" />
+            </>
+          )}
           <div style={{ display: "flex", alignItems: "center", gap: 8, paddingRight: 10, paddingLeft: 4 }}>
             <div style={{ width: 26, height: 26, borderRadius: "50%", overflow: "hidden", border: "1.5px solid rgba(201,168,76,0.5)", flexShrink: 0 }}>
               <img src="/images/branding/ksl-logo-circle.webp" alt="KSL" loading="eager" decoding="async" fetchPriority="high" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
@@ -595,7 +600,7 @@ export default function KSLOmniPage() {
           </div>
         </div>
 
-        {/* Right Group: Phone + Search + Menu + Clear */}
+        {/* Right Group: Phone + Search (desktop) + Menu (desktop) + Clear */}
         <div className="omni-lg-glass omni-top-group" style={{ flexWrap: "wrap", justifyContent: "flex-end", maxWidth: "60%" }}>
           <button 
             className="omni-lg-glass-btn omni-btn-pill" 
@@ -605,34 +610,42 @@ export default function KSLOmniPage() {
             style={{ color: "#a17f1e" }}
           >
             <QRIcon />
-            {isMobile ? "" : "Phone"}
+            <span>Open on Phone</span>
           </button>
           <div className="omni-divider" />
-          <button 
-            className="omni-lg-glass-btn omni-btn-circle" 
-            onClick={() => window.dispatchEvent(new Event("openGlobalSearch"))} 
-            aria-label="Search"
-            title="Search"
-          >
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-          </button>
-          <div className="omni-divider" />
-          <button 
-            className="omni-lg-glass-btn omni-btn-circle" 
-            onClick={() => window.dispatchEvent(new Event("openGlobalMenu"))} 
-            aria-label="Menu"
-            title="Menu"
-          >
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="3" y1="12" x2="21" y2="12"></line>
-              <line x1="3" y1="6" x2="21" y2="6"></line>
-              <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
-          </button>
-          <div className="omni-divider" />
+          
+          {!isMobile && (
+            <>
+              <button 
+                className="omni-lg-glass-btn omni-btn-pill" 
+                onClick={() => window.dispatchEvent(new Event("openGlobalSearch"))} 
+                aria-label="Search"
+                title="Search"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <span>Search</span>
+              </button>
+              <div className="omni-divider" />
+              <button 
+                className="omni-lg-glass-btn omni-btn-pill" 
+                onClick={() => window.dispatchEvent(new Event("openGlobalMenu"))} 
+                aria-label="Menu"
+                title="Menu"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="3" y1="12" x2="21" y2="12"></line>
+                  <line x1="3" y1="6" x2="21" y2="6"></line>
+                  <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+                <span>Menu</span>
+              </button>
+              <div className="omni-divider" />
+            </>
+          )}
+
           <button 
             className="omni-lg-glass-btn omni-btn-circle" 
             onClick={clearChat} 
@@ -680,7 +693,7 @@ export default function KSLOmniPage() {
       {/* ── Liquid Glass Input Row ── */}
       <div style={{ maxWidth: 900, margin: "0 auto", width: "100%", padding: "0.5rem 1rem" }}>
         <div className="omni-lg-glass" style={{
-          marginBottom: "max(0.5rem, env(safe-area-inset-bottom))",
+          marginBottom: isMobile ? "max(64px, env(safe-area-inset-bottom) + 64px)" : "max(0.5rem, env(safe-area-inset-bottom))",
           padding: "0.65rem 0.8rem 0.5rem",
           borderRadius: 24,
           display: "flex", flexDirection: "column", gap: "0.35rem",
@@ -746,22 +759,6 @@ export default function KSLOmniPage() {
                   display: "flex", alignItems: "center", justifyContent: "center",
                 }}
               ><ImageUploadIcon /></button>
-              {isMobile && (
-                <button
-                  onClick={openCameraPicker}
-                  disabled={loading || attachedImage?.uploading}
-                  title="Take photo"
-                  aria-label="Take photo"
-                  style={{
-                    width: 34, height: 34, borderRadius: "50%", flexShrink: 0,
-                    background: "transparent",
-                    border: "1px solid rgba(47,49,90,0.18)",
-                    color: (loading || attachedImage?.uploading) ? "#a8abcc" : "#2f315a",
-                    cursor: (loading || attachedImage?.uploading) ? "not-allowed" : "pointer",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                  }}
-                ><CameraIcon /></button>
-              )}
             </div>
             <button
               onClick={sendMessage}
@@ -785,6 +782,27 @@ export default function KSLOmniPage() {
       </div>
 
       {showQR && <QRModal onClose={() => setShowQR(false)} pageUrl={pageUrl} qrUrl={qrUrl} qrReady={qrReady} />}
+
+      {/* ── Mobile Float Bar (Back, Search, Menu) ── */}
+      {isMobile && (
+        <div className="mobile-float-bar lg-glass" style={{ display: "flex" }}>
+          <button className="mfb-btn mfb-action" onClick={goHome} aria-label="Back">
+            <span className="mfb-action-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </span>
+            <span className="mfb-action-label">Back</span>
+          </button>
+          <div className="mfb-divider" aria-hidden="true" />
+          <button className="mfb-btn mfb-search" onClick={() => window.dispatchEvent(new Event("openGlobalSearch"))} aria-label="Search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: 1 }}><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <span className="mfb-label">Search</span>
+          </button>
+          <button className="mfb-btn mfb-menu" onClick={() => window.dispatchEvent(new Event("openGlobalMenu"))} aria-label="Menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            <span className="mfb-label">Menu</span>
+          </button>
+        </div>
+      )}
     </div>
   );
 }
