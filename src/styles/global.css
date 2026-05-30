@@ -1278,16 +1278,16 @@ body.partner-modal-open .back-to-top-glass {
   }
 
   .products-section .product-card {
-    min-height: 280px !important;
+    min-height: 320px !important;
   }
 
   .products-section .products-grid-carousel {
     grid-template-columns: repeat(var(--products-render-count, 3), var(--products-card-width)) !important;
-    min-height: 340px !important;
+    min-height: 380px !important;
   }
 
   .products-section .products-grid-carousel > * {
-    min-height: 340px !important;
+    min-height: 380px !important;
   }
 }
 .editions-table-wrap { overflow-x: auto; overflow-y: auto; max-height: 80vh; } 
