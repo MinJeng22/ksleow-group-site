@@ -6,7 +6,7 @@ import {
   Message, ChatbotKeyframes, streamChat,
   AnimatedGreeting, autoResizeTextarea,
 } from "../components/chatbotShared.jsx";
-import { BackIcon, MenuIcon } from "../components/icons.jsx";
+import { BackIcon, MenuGlyph } from "../components/icons.jsx";
 
 function getOmniPageUrl(machineId) {
   const origin = typeof window !== "undefined" ? window.location.origin : "https://ksleow.vercel.app";
@@ -574,32 +574,6 @@ export default function KSLOmniPage() {
         @keyframes spin{to{transform:rotate(360deg)}}
         @keyframes typingPulse{0%,80%,100%{opacity:0.3;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
         
-        .omni-lg-glass {
-          background: rgba(255, 255, 255, 0.06);
-          backdrop-filter: blur(24px);
-          -webkit-backdrop-filter: blur(24px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          box-shadow: 0 4px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.05);
-        }
-        
-        .omni-lg-glass-btn {
-          background: rgba(255, 255, 255, 0.07);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: background 0.2s, transform 0.2s;
-          color: rgba(255,255,255,0.7);
-        }
-        .omni-lg-glass-btn:hover {
-          background: rgba(255, 255, 255, 0.14);
-          transform: translateY(-2px);
-        }
-        .omni-lg-glass-btn:active {
-          transform: translateY(0) scale(0.96);
-        }
-        
         .omni-top-bar {
           position: fixed;
           top: 0; left: 0; right: 0;
@@ -617,32 +591,6 @@ export default function KSLOmniPage() {
           border-radius: 50px;
           padding: 0.35rem;
         }
-        .omni-btn-pill {
-          height: 38px;
-          border-radius: 20px;
-          padding: 0 1rem;
-          font-size: 0.82rem;
-          font-weight: 600;
-          gap: 0.4rem;
-        }
-        .omni-btn-circle {
-          width: 38px; height: 38px;
-          border-radius: 50%;
-        }
-
-        /* ── Dark theme overrides for bottom mobile float bar ── */
-        .mobile-float-bar.lg-glass {
-          background: rgba(255, 255, 255, 0.06) !important;
-          border: 1px solid rgba(255, 255, 255, 0.1) !important;
-          box-shadow: 0 4px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.05) !important;
-        }
-        .mobile-float-bar .mfb-btn {
-          color: rgba(255, 255, 255, 0.7) !important;
-        }
-        .mobile-float-bar .mfb-btn:active {
-          background: rgba(255, 255, 255, 0.1) !important;
-        }
-        .mobile-float-bar .mfb-divider {
           background: rgba(255, 255, 255, 0.12) !important;
         }
       `}</style>
@@ -652,12 +600,12 @@ export default function KSLOmniPage() {
         {/* Left Group: Back (desktop) + KS Omni Branding */}
         <div className="omni-top-group">
           {!isMobile && (
-            <button className="omni-lg-glass-btn omni-btn-pill" onClick={goHome} aria-label="Back" title="Back">
+            <button className="lg-glass lg-glass-btn lg-glass-pill" style={{ color: "#ffffff", gap: "0.4rem" }} onClick={goHome} aria-label="Back" title="Back">
               <BackIcon />
               <span>Back</span>
             </button>
           )}
-          <div className="omni-lg-glass-btn omni-btn-pill" style={{ cursor: "default", paddingLeft: "0.4rem", paddingRight: "0.8rem", pointerEvents: "none" }}>
+          <div className="lg-glass lg-glass-pill" style={{ cursor: "default", paddingLeft: "0.4rem", paddingRight: "0.8rem", pointerEvents: "none", color: "#ffffff", display: "inline-flex", alignItems: "center", gap: "0.4rem", minHeight: "44px" }}>
             <div style={{ width: 26, height: 26, borderRadius: "50%", overflow: "hidden", border: "1.5px solid rgba(201,168,76,0.5)", flexShrink: 0 }}>
               <img src="/images/branding/ksl-logo-circle.webp" alt="KSL" loading="eager" decoding="async" fetchPriority="high" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
             </div>
@@ -669,7 +617,8 @@ export default function KSLOmniPage() {
         <div className="omni-top-group" style={{ flexWrap: "wrap", justifyContent: "flex-end" }}>
           {!isMobile && (
             <button 
-              className="omni-lg-glass-btn omni-btn-pill" 
+              className="lg-glass lg-glass-btn lg-glass-pill" 
+              style={{ color: "#ffffff", gap: "0.4rem" }}
               onClick={() => setShowQR(true)} 
               aria-label="Open on Phone"
               title="Open on Phone"
@@ -680,7 +629,8 @@ export default function KSLOmniPage() {
           )}
           
           <button 
-            className="omni-lg-glass-btn omni-btn-pill" 
+            className="lg-glass lg-glass-btn lg-glass-pill" 
+            style={{ color: "#ffffff", gap: "0.4rem" }}
             onClick={clearChat} 
             aria-label="Clear chat"
             title="Clear chat"
@@ -692,12 +642,13 @@ export default function KSLOmniPage() {
           {!isMobile && (
             <>
               <button 
-                className="omni-lg-glass-btn omni-btn-pill" 
+                className="lg-glass lg-glass-btn lg-glass-pill" 
+                style={{ color: "#ffffff", gap: "0.4rem" }}
                 onClick={() => window.dispatchEvent(new Event("openGlobalMenu"))} 
                 aria-label="Menu"
                 title="Menu"
               >
-                <MenuIcon />
+                <MenuGlyph open={false} size={15} />
                 <span>Menu</span>
               </button>
             </>
@@ -834,15 +785,15 @@ export default function KSLOmniPage() {
       {/* ── Mobile Float Bar (Back, Search, Menu) ── */}
       {isMobile && !keyboardOpen && (
         <div className="mobile-float-bar lg-glass" style={{ display: "flex" }}>
-          <button className="mfb-btn mfb-action" onClick={goHome} aria-label="Back">
+          <button className="mfb-btn mfb-action" style={{ color: "#ffffff" }} onClick={goHome} aria-label="Back">
             <span className="mfb-action-icon" aria-hidden="true">
               <BackIcon />
             </span>
             <span className="mfb-action-label">Back</span>
           </button>
-          <div className="mfb-divider" aria-hidden="true" />
-          <button className="mfb-btn mfb-menu" onClick={() => window.dispatchEvent(new Event("openGlobalMenu"))} aria-label="Menu">
-            <MenuIcon />
+          <div className="mfb-divider" style={{ background: "rgba(255,255,255,0.25)" }} aria-hidden="true" />
+          <button className="mfb-btn mfb-menu" style={{ color: "#ffffff" }} onClick={() => window.dispatchEvent(new Event("openGlobalMenu"))} aria-label="Menu">
+            <MenuGlyph open={false} size={15} />
             <span className="mfb-label">Menu</span>
           </button>
         </div>
