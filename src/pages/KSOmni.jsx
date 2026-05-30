@@ -153,9 +153,14 @@ function useIsMobile() {
   return mobile;
 }
 
-function getChatStorageKey(machineId) {
-  const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kuala_Lumpur" }).format(new Date());
-  return `ks_omni_chat_${machineId || "default"}_${today}`;
+function generateId() {
+  return Date.now().toString(36) + Math.random().toString(36).substring(2);
+}
+function getSessionsListKey(machineId) {
+  return `ks_omni_sessions_${machineId || "default"}`;
+}
+function getSessionMessagesKey(machineId, sessionId) {
+  return `ks_omni_chat_${machineId || "default"}_${sessionId}`;
 }
 
 /* ── Main page ── */
@@ -168,13 +173,42 @@ export default function KSLOmniPage() {
     return params.get("mid") || null;
   });
 
-  const [messages, setMessages] = useState(() => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sessions, setSessions] = useState(() => {
     try {
-      const saved = localStorage.getItem(getChatStorageKey(machineId));
+      const saved = localStorage.getItem(getSessionsListKey(machineId));
       if (saved) return JSON.parse(saved);
     } catch (e) {}
     return [];
   });
+  const [activeSessionId, setActiveSessionId] = useState(() => {
+    try {
+      const saved = localStorage.getItem(getSessionsListKey(machineId));
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.length > 0) return parsed[0].id;
+      }
+    } catch (e) {}
+    return generateId();
+  });
+  const [messages, setMessages] = useState(() => {
+    try {
+      const saved = localStorage.getItem(getSessionMessagesKey(machineId, activeSessionId));
+      if (saved) return JSON.parse(saved);
+    } catch (e) {}
+    return [];
+  });
+
+  // When active session changes, load messages
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(getSessionMessagesKey(machineId, activeSessionId));
+      setMessages(saved ? JSON.parse(saved) : []);
+    } catch (e) {
+      setMessages([]);
+    }
+  }, [activeSessionId, machineId]);
+
   const [input, setInput]                  = useState("");
   const [loading, setLoading]              = useState(false);
   const [showQR, setShowQR]                = useState(false);
@@ -231,26 +265,34 @@ export default function KSLOmniPage() {
     autoResizeTextarea(inputRef.current);
   }, [input, isMobile]);
 
-  // Save messages to local storage and clean up old days
+    // Save messages and update session list preview
   useEffect(() => {
-    try {
-      const key = getChatStorageKey(machineId);
-      if (messages.length > 0) {
-        localStorage.setItem(key, JSON.stringify(messages));
-      } else {
-        localStorage.removeItem(key);
-      }
+    if (messages.length === 0) return;
+    const msgKey = getSessionMessagesKey(machineId, activeSessionId);
+    localStorage.setItem(msgKey, JSON.stringify(messages));
+
+    setSessions(prev => {
+      const existingIdx = prev.findIndex(s => s.id === activeSessionId);
+      const userMsg = messages.find(m => m.role === "user");
+      const preview = userMsg ? userMsg.text.substring(0, 50) : "New Conversation";
       
-      const keysToRemove = [];
-      for (let i = 0; i < localStorage.length; i++) {
-        const k = localStorage.key(i);
-        if (k && k.startsWith("ks_omni_chat_") && k !== key) {
-          keysToRemove.push(k);
-        }
+      const newSessionInfo = {
+        id: activeSessionId,
+        date: new Date().toISOString(),
+        preview: preview
+      };
+
+      let next;
+      if (existingIdx >= 0) {
+        next = [...prev];
+        next[existingIdx] = { ...next[existingIdx], preview, date: existingIdx === 0 ? next[existingIdx].date : new Date().toISOString() };
+      } else {
+        next = [newSessionInfo, ...prev];
       }
-      keysToRemove.forEach(k => localStorage.removeItem(k));
-    } catch (e) {}
-  }, [messages, machineId]);
+      localStorage.setItem(getSessionsListKey(machineId), JSON.stringify(next));
+      return next;
+    });
+  }, [messages, activeSessionId, machineId]);
   useEffect(() => {
     setQrReady(false);
     const img = new Image();
@@ -315,15 +357,26 @@ export default function KSLOmniPage() {
     autoResizeTextarea(e.currentTarget);
   }
 
-  function clearChat() {
+  function startNewChat() {
     abortRef.current?.abort();
-    setMessages([]);
-    try {
-      localStorage.removeItem(getChatStorageKey(machineId));
-    } catch (e) {}
+    setActiveSessionId(generateId());
     setInput("");
     setAttachedImage(null);
     setPasteError("");
+    if (isMobile) setSidebarOpen(false);
+  }
+
+  function deleteSession(id) {
+    localStorage.removeItem(getSessionMessagesKey(machineId, id));
+    setSessions(prev => {
+      const next = prev.filter(s => s.id !== id);
+      localStorage.setItem(getSessionsListKey(machineId), JSON.stringify(next));
+      if (id === activeSessionId) {
+        if (next.length > 0) setActiveSessionId(next[0].id);
+        else startNewChat();
+      }
+      return next;
+    });
   }
 
   /* Try the browser back stack first — keeps users on whatever page
@@ -595,8 +648,60 @@ export default function KSLOmniPage() {
    * UNIFIED LAYOUT: Fullscreen chat for both Desktop and Mobile
    * ══════════════════════════════════════════════════════════ */
   return (
-    <div style={{ position: "fixed", inset: 0, zIndex: 300, background: "radial-gradient(ellipse at 50% 0%, rgba(47, 49, 90, 0.5) 0%, transparent 60%), radial-gradient(circle at 85% 15%, rgba(201, 168, 76, 0.08) 0%, transparent 45%), linear-gradient(to bottom, #111328, #0c0e1a)" }}>
-    <div ref={contentRef} style={{ position: "absolute", top: 0, left: 0, right: 0, height: "100dvh", display: "flex", flexDirection: "column" }}>
+    <div style={{ position: "fixed", inset: 0, zIndex: 300, background: "radial-gradient(ellipse at 50% 0%, rgba(47, 49, 90, 0.5) 0%, transparent 60%), radial-gradient(circle at 85% 15%, rgba(201, 168, 76, 0.08) 0%, transparent 45%), linear-gradient(to bottom, #111328, #0c0e1a)", display: "flex" }}>
+      
+      {/* -- Sidebar (Desktop Fixed, Mobile Overlay) -- */}
+      <div style={{
+        width: isMobile ? 280 : (sidebarOpen ? 260 : 0),
+        position: isMobile ? "fixed" : "relative",
+        top: 0, bottom: 0, left: 0, zIndex: 2000,
+        background: isMobile ? "rgba(12, 14, 26, 0.95)" : "rgba(12, 14, 26, 0.3)",
+        backdropFilter: "blur(20px)",
+        borderRight: (isMobile || sidebarOpen) ? "1px solid rgba(255,255,255,0.05)" : "none",
+        transform: isMobile ? (sidebarOpen ? "translateX(0)" : "translateX(-100%)") : "none",
+        transition: "width 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)",
+        overflow: "hidden",
+      }}>
+        <div style={{ width: isMobile ? 280 : 260, padding: "max(1rem, env(safe-area-inset-top)) 1rem 1rem", height: "100%", display: "flex", flexDirection: "column" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
+            <span style={{ color: "rgba(255,255,255,0.9)", fontWeight: 700, fontSize: "1rem", letterSpacing: "0.02em" }}>Chat History</span>
+            {isMobile && (
+              <button onClick={() => setSidebarOpen(false)} style={{ background: "transparent", border: "none", color: "#6b6f91", padding: "0.5rem", cursor: "pointer" }}>
+                <CloseIcon />
+              </button>
+            )}
+          </div>
+          <button onClick={startNewChat} className="lg-glass lg-glass-btn lg-glass-pill" style={{ width: "100%", justifyContent: "center", marginBottom: "1.5rem", color: "#ffffff", gap: "0.4rem" }}>
+            <NewChatIcon />
+            <span>New Chat</span>
+          </button>
+          <div style={{ flex: 1, overflowY: "auto", display: "flex", flexDirection: "column", gap: "0.5rem", paddingRight: "0.25rem" }}>
+            {sessions.map(s => (
+              <div key={s.id} onClick={() => { setActiveSessionId(s.id); if(isMobile) setSidebarOpen(false); }}
+                   style={{ padding: "0.85rem 1rem", borderRadius: "12px", background: activeSessionId === s.id ? "rgba(255,255,255,0.08)" : "transparent", cursor: "pointer", transition: "background 0.2s", display: "flex", justifyContent: "space-between", alignItems: "center", border: "1px solid rgba(255,255,255,0.03)" }}>
+                 <div style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", flex: 1, color: "rgba(255,255,255,0.8)", fontSize: "0.85rem" }}>
+                   {s.preview || "New Conversation"}
+                 </div>
+                 <button onClick={(e) => { e.stopPropagation(); deleteSession(s.id); }} style={{ background: "transparent", border: "none", color: "#6b6f91", padding: "0.25rem", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+                   <DeleteIcon size={14} />
+                 </button>
+              </div>
+            ))}
+            {sessions.length === 0 && (
+              <div style={{ color: "#6b6f91", fontSize: "0.85rem", textAlign: "center", marginTop: "2rem" }}>No history found</div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* -- Mobile Overlay -- */}
+      {isMobile && sidebarOpen && (
+        <div onClick={() => setSidebarOpen(false)} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 1999 }} />
+      )}
+
+      {/* -- Main Chat Area -- */}
+      <div style={{ flex: 1, position: "relative" }}>
+        <div ref={contentRef} style={{ position: "absolute", top: 0, left: 0, right: 0, height: "100dvh", display: "flex", flexDirection: "column" }}>
       <ChatbotKeyframes />
       <style>{`
         @keyframes fadeIn{from{opacity:0}to{opacity:1}}
@@ -636,6 +741,10 @@ export default function KSLOmniPage() {
       <div className="omni-top-bar">
         {/* Left Group: Back (desktop) */}
         <div className="omni-top-group">
+          <button className="lg-glass lg-glass-btn lg-glass-pill" style={{ color: "#ffffff", gap: "0.4rem" }} onClick={() => setSidebarOpen(prev => !prev)} aria-label="History" title="History">
+            <HistoryIcon />
+            {!isMobile && <span>History</span>}
+          </button>
           {!isMobile && (
             <button className="lg-glass lg-glass-btn lg-glass-pill" style={{ color: "#ffffff", gap: "0.4rem" }} onClick={goHome} aria-label="Back" title="Back">
               <BackIcon />
@@ -659,16 +768,7 @@ export default function KSLOmniPage() {
             </button>
           )}
           
-          <button 
-            className="lg-glass lg-glass-btn lg-glass-pill" 
-            style={{ color: "#ffffff", gap: "0.4rem" }}
-            onClick={clearChat} 
-            aria-label="New Chat"
-            title="New Chat"
-          >
-            <NewChatIcon />
-            <span>New Chat</span>
-          </button>
+
           
           {!isMobile && (
             <>
@@ -832,6 +932,7 @@ export default function KSLOmniPage() {
         </div>
       )}
     </div>
+      </div>
     </div>
   );
 }
