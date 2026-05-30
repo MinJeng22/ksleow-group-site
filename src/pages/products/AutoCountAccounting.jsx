@@ -561,6 +561,11 @@ const BRAND_LOGOS = [
   "/images/brands/ac-brand-3.png",
   "/images/brands/ac-brand-4.png",
   "/images/brands/ac-brand-5.png",
+  "/images/brands/ac-brand-6.png",
+  "/images/brands/ac-brand-7.png",
+  "/images/brands/ac-brand-8.png",
+  "/images/brands/ac-brand-9.png",
+  "/images/brands/ac-brand-10.png",
 ];
 
 function FeatureHighlights() {
@@ -609,7 +614,7 @@ function FeatureHighlights() {
             textAlign: "center", fontSize: "0.75rem", fontWeight: 600, letterSpacing: "0.1em",
             color: "#6b6f91", textTransform: "uppercase", marginBottom: "2rem"
           }}>
-            Trusted by these growing brands
+            Over 240,000 businesses trust AutoCount to drive their growth
           </p>
           <div style={{
             position: "absolute", left: 0, bottom: 0, top: "2rem", width: "80px",
