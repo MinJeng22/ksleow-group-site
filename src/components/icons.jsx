@@ -32,9 +32,34 @@ export const ScrollDownIcon = () => (
 );
 
 export const MenuGlyph = ({ open, size = 15 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ overflow: "visible" }}>
-    <line x1="3" y1="12" x2="21" y2="12" style={{ transformOrigin: "center", transition: "transform 0.3s ease, opacity 0.3s ease", opacity: open ? 0 : 1, transform: open ? "scaleX(0)" : "scaleX(1)" }} />
-    <line x1="3" y1="6" x2="21" y2="6" style={{ transformOrigin: "center", transition: "transform 0.3s ease", transform: open ? "translateY(6px) rotate(45deg)" : "translateY(0) rotate(0)" }} />
-    <line x1="3" y1="18" x2="21" y2="18" style={{ transformOrigin: "center", transition: "transform 0.3s ease", transform: open ? "translateY(-6px) rotate(-45deg)" : "translateY(0) rotate(0)" }} />
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    style={{
+      flexShrink: 0,
+      transition: "transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.22s ease",
+      transform: open ? "rotate(90deg) scale(0.92)" : "rotate(0deg) scale(1)",
+    }}
+    aria-hidden="true"
+  >
+    {open ? (
+      <>
+        <path d="M18 6 6 18" />
+        <path d="m6 6 12 12" />
+      </>
+    ) : (
+      <>
+        <rect x="4" y="4" width="6" height="6" rx="1.6" />
+        <rect x="14" y="4" width="6" height="6" rx="1.6" />
+        <rect x="4" y="14" width="6" height="6" rx="1.6" />
+        <rect x="14" y="14" width="6" height="6" rx="1.6" />
+      </>
+    )}
   </svg>
 );
