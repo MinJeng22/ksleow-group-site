@@ -191,7 +191,7 @@ export default function KSLOmniPage() {
     return params.get("mid") || null;
   });
 
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(window.innerWidth >= 768);
   const [sessions, setSessions] = useState(() => {
     try {
       const saved = localStorage.getItem(getSessionsListKey(machineId));
@@ -683,11 +683,9 @@ export default function KSLOmniPage() {
         <div style={{ width: isMobile ? 280 : 260, padding: "max(1rem, env(safe-area-inset-top)) 1rem 1rem", height: "100%", display: "flex", flexDirection: "column" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
             <span style={{ color: "rgba(255,255,255,0.9)", fontWeight: 700, fontSize: "1rem", letterSpacing: "0.02em" }}>Chat History</span>
-            {isMobile && (
-              <button onClick={() => setSidebarOpen(false)} style={{ background: "transparent", border: "none", color: "#6b6f91", padding: "0.5rem", cursor: "pointer" }}>
-                <CloseIcon />
-              </button>
-            )}
+            <button onClick={() => setSidebarOpen(false)} style={{ background: "transparent", border: "none", color: "#6b6f91", padding: "0.5rem", cursor: "pointer" }} aria-label="Close Sidebar">
+              <CloseIcon />
+            </button>
           </div>
           <button onClick={startNewChat} className="lg-glass lg-glass-btn lg-glass-pill" style={{ width: "100%", justifyContent: "center", marginBottom: "1.5rem", color: "#ffffff", gap: "0.4rem" }}>
             <NewChatIcon />
@@ -759,10 +757,12 @@ export default function KSLOmniPage() {
       <div className="omni-top-bar">
         {/* Left Group: Back (desktop) */}
         <div className="omni-top-group">
-          <button className="lg-glass lg-glass-btn lg-glass-pill" style={{ color: "#ffffff", gap: "0.4rem" }} onClick={() => setSidebarOpen(prev => !prev)} aria-label="History" title="History">
-            <HistoryIcon />
-            {!isMobile && <span>History</span>}
-          </button>
+          {!isMobile && (
+            <button className="lg-glass lg-glass-btn lg-glass-pill" style={{ color: "#ffffff", gap: "0.4rem" }} onClick={() => setSidebarOpen(prev => !prev)} aria-label="History" title="History">
+              <HistoryIcon />
+              <span>History</span>
+            </button>
+          )}
           {!isMobile && (
             <button className="lg-glass lg-glass-btn lg-glass-pill" style={{ color: "#ffffff", gap: "0.4rem" }} onClick={goHome} aria-label="Back" title="Back">
               <BackIcon />
@@ -946,6 +946,13 @@ export default function KSLOmniPage() {
           <button className="mfb-btn mfb-menu" style={{ color: "#ffffff" }} onClick={() => window.dispatchEvent(new Event("toggleGlobalMenu"))} aria-label="Menu">
             <MenuGlyph open={menuOpen} size={15} />
             <span className="mfb-label">Menu</span>
+          </button>
+          <div className="mfb-divider" style={{ background: "rgba(255,255,255,0.25)" }} aria-hidden="true" />
+          <button className="mfb-btn mfb-action" style={{ color: "#ffffff" }} onClick={() => setSidebarOpen(true)} aria-label="History">
+            <span className="mfb-action-icon" aria-hidden="true">
+              <HistoryIcon />
+            </span>
+            <span className="mfb-action-label">History</span>
           </button>
         </div>
       )}
