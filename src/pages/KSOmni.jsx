@@ -134,7 +134,7 @@ const CloseSmallIcon = () => (
  * Rendered above the centered input box on the empty state.
  * Mirrors Gemini's home screen: small lighter top line + large gradient prompt. */
 function EmptyGreeting() {
-  return <AnimatedGreeting darkTheme />;
+  return <AnimatedGreeting />;
 }
 
 /* ── Mobile detection ── */
@@ -508,7 +508,7 @@ export default function KSLOmniPage() {
    * UNIFIED LAYOUT: Fullscreen chat for both Desktop and Mobile
    * ══════════════════════════════════════════════════════════ */
   return (
-    <div style={{ position: "fixed", inset: 0, zIndex: 300, display: "flex", flexDirection: "column", backgroundColor: "#0f1128" }}>
+    <div style={{ position: "fixed", inset: 0, zIndex: 300, display: "flex", flexDirection: "column", background: "linear-gradient(to bottom, #f8f9fd, #eef1f8)" }}>
       <ChatbotKeyframes />
       <style>{`
         @keyframes fadeIn{from{opacity:0}to{opacity:1}}
@@ -582,7 +582,7 @@ export default function KSLOmniPage() {
       {/* ── Top Liquid Glass Navigation ── */}
       <div className="omni-top-bar">
         {/* Left Group: Back (desktop) + KS Omni Branding */}
-        <div className="omni-lg-glass omni-top-group">
+        <div className="omni-top-group">
           {!isMobile && (
             <>
               <button className="omni-lg-glass-btn omni-btn-pill" onClick={goHome} aria-label="Back" title="Back">
@@ -601,7 +601,7 @@ export default function KSLOmniPage() {
         </div>
 
         {/* Right Group: Phone + Search (desktop) + Menu (desktop) + Clear */}
-        <div className="omni-lg-glass omni-top-group" style={{ flexWrap: "wrap", justifyContent: "flex-end", maxWidth: "60%" }}>
+        <div className="omni-top-group" style={{ flexWrap: "wrap", justifyContent: "flex-end", maxWidth: "60%" }}>
           <button 
             className="omni-lg-glass-btn omni-btn-pill" 
             onClick={() => setShowQR(true)} 
