@@ -249,24 +249,9 @@ export default function KSLOmniPage() {
   }, []);
 
   useEffect(() => {
-    const handleTouchMove = (e) => {
-      if (chatScrollRef.current && chatScrollRef.current.contains(e.target)) return;
-      if (inputRef.current && inputRef.current.contains(e.target)) return;
-      if (e.cancelable) e.preventDefault();
-    };
-    document.addEventListener("touchmove", handleTouchMove, { passive: false });
-    return () => document.removeEventListener("touchmove", handleTouchMove);
-  }, []);
-
-  useEffect(() => {
     if (typeof window === "undefined" || !window.visualViewport) return;
     const threshold = 150; // keyboard is considered open if viewport shrinks by 150px+
     const fullHeight = window.innerHeight;
-    const savedBodyOv = document.body.style.overflow;
-    const savedHtmlOv = document.documentElement.style.overflow;
-    const savedBodyPos = document.body.style.position;
-    const savedBodyW = document.body.style.width;
-    const savedBodyH = document.body.style.height;
 
     const updateViewport = () => {
       const vv = window.visualViewport;
@@ -276,23 +261,6 @@ export default function KSLOmniPage() {
       }
       const isOpen = fullHeight - vv.height > threshold;
       setKeyboardOpen(isOpen);
-      if (isOpen) {
-        document.body.style.overflow = "hidden";
-        document.documentElement.style.overflow = "hidden";
-        document.body.style.position = "fixed";
-        document.body.style.width = "100%";
-        document.body.style.height = "100%";
-      } else {
-        document.body.style.overflow = "";
-        document.documentElement.style.overflow = "";
-        document.body.style.position = "";
-        document.body.style.width = "";
-        document.body.style.height = "";
-        if (contentRef.current) {
-          contentRef.current.style.top = "0px";
-        }
-      }
-      window.scrollTo(0, 0);
     };
     window.visualViewport.addEventListener("resize", updateViewport);
     window.visualViewport.addEventListener("scroll", updateViewport);
@@ -303,11 +271,6 @@ export default function KSLOmniPage() {
     }
 
     return () => {
-      document.body.style.overflow = savedBodyOv;
-      document.documentElement.style.overflow = savedHtmlOv;
-      document.body.style.position = savedBodyPos;
-      document.body.style.width = savedBodyW;
-      document.body.style.height = savedBodyH;
       window.visualViewport.removeEventListener("resize", updateViewport);
       window.visualViewport.removeEventListener("scroll", updateViewport);
     };
