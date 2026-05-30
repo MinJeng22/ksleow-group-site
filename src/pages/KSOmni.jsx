@@ -101,9 +101,11 @@ const HistoryIcon = () => (
     <path d="M12 7v5l4 2" />
   </svg>
 );
-const CloseIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+const CloseSidebarIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+    <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+    <path d="M9 3v18" />
+    <path d="m16 15-3-3 3-3" />
   </svg>
 );
 const DeleteIcon = ({ size = 15 }) => (
@@ -682,9 +684,14 @@ export default function KSLOmniPage() {
       }}>
         <div style={{ width: isMobile ? 280 : 260, padding: "max(1rem, env(safe-area-inset-top)) 1rem 1rem", height: "100%", display: "flex", flexDirection: "column" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
-            <span style={{ color: "rgba(255,255,255,0.9)", fontWeight: 700, fontSize: "1rem", letterSpacing: "0.02em" }}>Chat History</span>
-            <button onClick={() => setSidebarOpen(false)} style={{ background: "transparent", border: "none", color: "#6b6f91", padding: "0.5rem", cursor: "pointer" }} aria-label="Close Sidebar">
-              <CloseIcon />
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <div style={{ width: 26, height: 26, borderRadius: "50%", overflow: "hidden", border: "1.5px solid rgba(201,168,76,0.5)", flexShrink: 0 }}>
+                <img src="/images/branding/ksl-logo-circle.webp" alt="KSL" loading="eager" decoding="async" fetchPriority="high" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+              </div>
+              <span style={{ color: "rgba(255,255,255,0.9)", fontWeight: 700, fontSize: "1rem", letterSpacing: "0.02em", whiteSpace: "nowrap" }}>KS Omni</span>
+            </div>
+            <button onClick={() => setSidebarOpen(false)} style={{ background: "transparent", border: "none", color: "#6b6f91", padding: "0.5rem", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }} aria-label="Close Sidebar">
+              <CloseSidebarIcon />
             </button>
           </div>
           <button onClick={startNewChat} className="lg-glass lg-glass-btn lg-glass-pill" style={{ width: "100%", justifyContent: "center", marginBottom: "1.5rem", color: "#ffffff", gap: "0.4rem" }}>
