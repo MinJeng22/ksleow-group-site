@@ -620,6 +620,22 @@ export default function KSLOmniPage() {
           width: 38px; height: 38px;
           border-radius: 50%;
         }
+
+        /* ── Dark theme overrides for bottom mobile float bar ── */
+        .mobile-float-bar.lg-glass {
+          background: rgba(255, 255, 255, 0.06) !important;
+          border: 1px solid rgba(255, 255, 255, 0.1) !important;
+          box-shadow: 0 4px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.05) !important;
+        }
+        .mobile-float-bar .mfb-btn {
+          color: rgba(255, 255, 255, 0.7) !important;
+        }
+        .mobile-float-bar .mfb-btn:active {
+          background: rgba(255, 255, 255, 0.1) !important;
+        }
+        .mobile-float-bar .mfb-divider {
+          background: rgba(255, 255, 255, 0.12) !important;
+        }
       `}</style>
 
       {/* ── Top Liquid Glass Navigation ── */}
