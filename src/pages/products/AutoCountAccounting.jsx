@@ -616,10 +616,15 @@ function FeatureHighlights() {
           }}>
             Over 240,000 businesses trust AutoCount to drive their growth
           </p>
-          <div className="ac-brand-marquee-container" style={{
-            maskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
-            WebkitMaskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)"
-          }}>
+          <div style={{
+            position: "absolute", left: 0, bottom: 0, top: "2rem", width: "80px",
+            background: "linear-gradient(to right, #fbfbfd, transparent)", zIndex: 2, pointerEvents: "none"
+          }} />
+          <div style={{
+            position: "absolute", right: 0, bottom: 0, top: "2rem", width: "80px",
+            background: "linear-gradient(to left, #fbfbfd, transparent)", zIndex: 2, pointerEvents: "none"
+          }} />
+          <div className="ac-brand-marquee-container">
             <div className="ac-brand-marquee">
               {[...BRAND_LOGOS, ...BRAND_LOGOS, ...BRAND_LOGOS, ...BRAND_LOGOS].map((src, i) => (
                 <div key={i} className="ac-brand-item">

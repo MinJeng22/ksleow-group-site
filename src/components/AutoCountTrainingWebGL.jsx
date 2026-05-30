@@ -1058,9 +1058,7 @@ export default function AutoCountTrainingWebGL() {
                       </svg>
                       Watch on Youtube
                     </button>
-                    <span style={{ fontSize: '0.82rem', color: '#a8abcc', fontWeight: 500 }}>
-                      Free - {activeVideoMeta.note}
-                    </span>
+
                   </div>
                 </div>
               </div>
