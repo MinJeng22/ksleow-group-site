@@ -248,12 +248,23 @@ export default function KSLOmniPage() {
     if (typeof window === "undefined" || !window.visualViewport) return;
     const threshold = 150; // keyboard is considered open if viewport shrinks by 150px+
     const fullHeight = window.innerHeight;
+    const savedBodyOv = document.body.style.overflow;
+    const savedHtmlOv = document.documentElement.style.overflow;
+
     const updateViewport = () => {
       const vvh = window.visualViewport.height;
       if (contentRef.current) {
         contentRef.current.style.height = `${vvh}px`;
       }
-      setKeyboardOpen(fullHeight - vvh > threshold);
+      const isOpen = fullHeight - vvh > threshold;
+      setKeyboardOpen(isOpen);
+      if (isOpen) {
+        document.body.style.overflow = "hidden";
+        document.documentElement.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "";
+        document.documentElement.style.overflow = "";
+      }
       window.scrollTo(0, 0);
     };
     window.visualViewport.addEventListener("resize", updateViewport);
@@ -265,6 +276,8 @@ export default function KSLOmniPage() {
     }
 
     return () => {
+      document.body.style.overflow = savedBodyOv;
+      document.documentElement.style.overflow = savedHtmlOv;
       window.visualViewport.removeEventListener("resize", updateViewport);
       window.visualViewport.removeEventListener("scroll", updateViewport);
     };
