@@ -764,7 +764,7 @@ export default function MenuButton({ onOpenSearch, hideBar }) {
       <div 
         className="top-right-controls" 
         ref={fabRef}
-        style={(hideBar || open) ? { opacity: 0, transform: "translateY(-15px)", pointerEvents: "none", transition: "all 0.3s ease" } : (pathname === "/omni" ? { display: "none" } : { transition: "all 0.3s ease" })}
+        style={hideBar ? { opacity: 0, transform: "translateY(-15px)", pointerEvents: "none", transition: "all 0.3s ease" } : (pathname === "/omni" ? { display: "none" } : { transition: "all 0.3s ease" })}
       >
         <button
           className="search-fab lg-glass lg-glass-btn"
