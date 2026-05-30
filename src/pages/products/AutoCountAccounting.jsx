@@ -605,36 +605,28 @@ function FeatureHighlights() {
 
         {/* Brand Marquee */}
         <div style={{ marginTop: "4rem", position: "relative" }}>
+          <p style={{
+            textAlign: "center", fontSize: "0.85rem", fontWeight: 700, letterSpacing: "0.15em",
+            color: "#6b6f91", textTransform: "uppercase", marginBottom: "2.5rem"
+          }}>
+            Over 240,000 businesses trust AutoCount to drive their growth
+          </p>
           <div style={{
-            position: "absolute", left: 0, bottom: 0, top: 0, width: "80px",
+            position: "absolute", left: 0, bottom: 0, top: "2rem", width: "80px",
             background: "linear-gradient(to right, #fbfbfd, transparent)", zIndex: 2, pointerEvents: "none"
           }} />
           <div style={{
-            position: "absolute", right: 0, bottom: 0, top: 0, width: "80px",
+            position: "absolute", right: 0, bottom: 0, top: "2rem", width: "80px",
             background: "linear-gradient(to left, #fbfbfd, transparent)", zIndex: 2, pointerEvents: "none"
           }} />
           <div className="ac-brand-marquee-container">
             <div className="ac-brand-marquee">
-              {[...BRAND_LOGOS, ...BRAND_LOGOS].map((src, i) => (
+              {[...BRAND_LOGOS, ...BRAND_LOGOS, ...BRAND_LOGOS, ...BRAND_LOGOS].map((src, i) => (
                 <div key={i} className="ac-brand-item">
                   <img src={src} alt="Brand logo" />
                 </div>
               ))}
             </div>
-          </div>
-          <div style={{
-            position: "absolute", inset: 0, zIndex: 3, pointerEvents: "none",
-            display: "flex", alignItems: "center", justifyContent: "center"
-          }}>
-            <p style={{
-              fontSize: "0.85rem", fontWeight: 700, letterSpacing: "0.15em",
-              color: "#2f315a", textTransform: "uppercase", margin: 0,
-              background: "rgba(251, 251, 253, 0.85)", padding: "0.5rem 1.5rem",
-              borderRadius: "50px", backdropFilter: "blur(4px)",
-              boxShadow: "0 4px 12px rgba(47,49,90,0.05)"
-            }}>
-              Over 240,000 businesses trust AutoCount to drive their growth
-            </p>
           </div>
         </div>
       </div>
