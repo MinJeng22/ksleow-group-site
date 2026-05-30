@@ -508,7 +508,7 @@ export default function KSLOmniPage() {
    * UNIFIED LAYOUT: Fullscreen chat for both Desktop and Mobile
    * ══════════════════════════════════════════════════════════ */
   return (
-    <div style={{ position: "fixed", top: 0, left: 0, right: 0, height: "100dvh", zIndex: 300, display: "flex", flexDirection: "column", background: "linear-gradient(to bottom, #f8f9fd, #eef1f8)" }}>
+    <div style={{ position: "fixed", top: 0, left: 0, right: 0, height: "100dvh", zIndex: 300, display: "flex", flexDirection: "column", background: "radial-gradient(circle at 85% 15%, rgba(201, 168, 76, 0.15) 0%, transparent 50%), linear-gradient(to bottom, #f8f9fd, #eef1f8)" }}>
       <ChatbotKeyframes />
       <style>{`
         @keyframes fadeIn{from{opacity:0}to{opacity:1}}
