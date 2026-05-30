@@ -158,9 +158,7 @@ export default function KSLOmniPage() {
   const [loading, setLoading]              = useState(false);
   const [showQR, setShowQR]                = useState(false);
   const [attachedImage, setAttachedImage]  = useState(null);   /* { gsUri, dataUrl, sizeKb, uploading } */
-  const [pasteError, setPasteError]        = useState("");
-
-  const containerRef = useRef(null);  /* Machine ID read from URL (?mid=XXXX) — passed to worker silently, not shown in UI */
+  const [pasteError, setPasteError]        = useState("");  /* Machine ID read from URL (?mid=XXXX) — passed to worker silently, not shown in UI */
   const [machineId] = useState(() => {
     const params = new URLSearchParams(window.location.search);
     return params.get("mid") || null;
@@ -226,23 +224,7 @@ export default function KSLOmniPage() {
     return () => window.removeEventListener("openOmniQR", onOpenQR);
   }, []);
 
-  useEffect(() => {
-    if (typeof window === "undefined" || !window.visualViewport) return;
-    const updateViewport = () => {
-      if (containerRef.current) {
-        containerRef.current.style.height = `${window.visualViewport.height}px`;
-        containerRef.current.style.top = `${window.visualViewport.offsetTop}px`;
-      }
-      window.scrollTo(0, 0);
-    };
-    window.visualViewport.addEventListener("resize", updateViewport);
-    window.visualViewport.addEventListener("scroll", updateViewport);
-    updateViewport();
-    return () => {
-      window.visualViewport.removeEventListener("resize", updateViewport);
-      window.visualViewport.removeEventListener("scroll", updateViewport);
-    };
-  }, []);
+  // Let native browser scroll handle the keyboard animation
 
   function handleInputChange(e) {
     setInput(e.target.value);
@@ -526,7 +508,7 @@ export default function KSLOmniPage() {
    * UNIFIED LAYOUT: Fullscreen chat for both Desktop and Mobile
    * ══════════════════════════════════════════════════════════ */
   return (
-    <div ref={containerRef} style={{ position: "fixed", top: 0, left: 0, right: 0, height: "100dvh", zIndex: 300, display: "flex", flexDirection: "column", background: "radial-gradient(circle at 85% 15%, rgba(201, 168, 76, 0.15) 0%, transparent 50%), linear-gradient(to bottom, #f8f9fd, #eef1f8)" }}>
+    <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "100dvh", zIndex: 300, display: "flex", flexDirection: "column", background: "radial-gradient(circle at 85% 15%, rgba(201, 168, 76, 0.15) 0%, transparent 50%), linear-gradient(to bottom, #f8f9fd, #eef1f8)" }}>
       <ChatbotKeyframes />
       <style>{`
         @keyframes fadeIn{from{opacity:0}to{opacity:1}}
