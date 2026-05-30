@@ -461,9 +461,7 @@ textarea {
   animation: ac-marquee 60s linear infinite;
 }
 
-.ac-brand-marquee:hover {
-  animation-play-state: paused;
-}
+
 
 .ac-brand-item {
   display: flex;

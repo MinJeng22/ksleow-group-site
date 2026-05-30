@@ -575,8 +575,6 @@ function FeatureHighlights() {
     const node = gridRef.current;
     if (!node) return;
     if (typeof IntersectionObserver === "undefined") { setInView(true); return; }
-    /* Replayable: toggle both ways so the stagger runs each time the
-     * grid scrolls into view. */
     const io = new IntersectionObserver(
       (entries) => entries.forEach(e => setInView(e.isIntersecting)),
       { threshold: 0.25 }
@@ -585,47 +583,62 @@ function FeatureHighlights() {
     return () => io.disconnect();
   }, []);
 
-  return (
-    <div id="features" className="ac-section-tight ac-features-showcase" style={{ scrollMarginTop: 24, position: "relative", zIndex: 1 }}>
-      <div className="content-wrap">
-        <div ref={gridRef} className={`ac-features-grid${inView ? " is-in-view" : ""}`}>
-          {FEATURES.map((f, i) => (
-            <article
-              key={f.title}
-              className="ac-feature-card"
-              style={{ "--feature-delay": `${i * 90}ms` }}
-            >
-              <span className="ac-feature-copy" style={{ position: "relative", zIndex: 2 }}>
-                <span className="ac-feature-title" style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                  {f.icon && (
-                    <img src={f.icon} alt="" style={{ width: "22px", height: "22px", objectFit: "contain", flexShrink: 0 }} />
-                  )}
-                  {f.title}
-                </span>
-                <span className="ac-feature-desc">{f.desc}</span>
-              </span>
-            </article>
-          ))}
-        </div>
+  const [isMarqueePaused, setIsMarqueePaused] = useState(false);
 
-        {/* Brand Marquee */}
-        <div style={{ marginTop: "2rem", position: "relative" }}>
-          <p style={{
-            textAlign: "center", fontSize: "0.85rem", fontWeight: 700, letterSpacing: "0.15em",
-            color: "#6b6f91", textTransform: "uppercase", marginBottom: "2.5rem"
-          }}>
-            Over 240,000 businesses trust AutoCount to drive their growth
-          </p>
-          <div className="ac-brand-marquee-container" style={{
-            maskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
-            WebkitMaskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)"
-          }}>
-            <div className="ac-brand-marquee">
-              {[...BRAND_LOGOS, ...BRAND_LOGOS, ...BRAND_LOGOS, ...BRAND_LOGOS].map((src, i) => (
-                <div key={i} className="ac-brand-item">
-                  <img src={src} alt="Brand logo" />
-                </div>
+  return (
+    <div className="ac-section-wrapper" style={{ background: "#ffffff" }}>
+      <div className="ac-container">
+        <SectionDivider
+          icon={IconStar}
+          title="Highlights"
+          subtitle="Why thousands choose AutoCount 2.2"
+        />
+
+        <div id="features" className="ac-section-tight ac-features-showcase" style={{ scrollMarginTop: 24, position: "relative", zIndex: 1 }}>
+          <div className="content-wrap">
+            <div ref={gridRef} className={`ac-features-grid${inView ? " is-in-view" : ""}`}>
+              {FEATURES.map((f, i) => (
+                <article
+                  key={f.title}
+                  className="ac-feature-card"
+                  style={{ "--feature-delay": `${i * 90}ms` }}
+                >
+                  <span className="ac-feature-copy" style={{ position: "relative", zIndex: 2 }}>
+                    <span className="ac-feature-title" style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                      {f.icon && (
+                        <div style={{ width: "24px", height: "24px", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                          <img src={f.icon} alt="" style={{ width: "100%", height: "100%", objectFit: "contain", filter: "brightness(0) saturate(100%) invert(35%) sepia(21%) saturate(3065%) hue-rotate(204deg) brightness(97%) contrast(89%)" }} />
+                        </div>
+                      )}
+                      {f.title}
+                    </span>
+                    <span className="ac-feature-desc">{f.desc}</span>
+                  </span>
+                </article>
               ))}
+            </div>
+
+            {/* Brand Marquee */}
+            <div style={{ marginTop: "2rem", position: "relative" }}>
+              <p style={{
+                textAlign: "center", fontSize: "0.85rem", fontWeight: 700, letterSpacing: "0.15em",
+                color: "#6b6f91", textTransform: "uppercase", marginBottom: "2.5rem"
+              }}>
+                Over 240,000 businesses trust AutoCount to drive their growth
+              </p>
+              <div className="ac-brand-marquee-container" style={{
+                maskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
+                WebkitMaskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
+                cursor: "pointer"
+              }} onClick={() => setIsMarqueePaused(!isMarqueePaused)}>
+                <div className="ac-brand-marquee" style={{ animationPlayState: isMarqueePaused ? "paused" : "running" }}>
+                  {[...BRAND_LOGOS, ...BRAND_LOGOS, ...BRAND_LOGOS, ...BRAND_LOGOS].map((src, i) => (
+                    <div key={i} className="ac-brand-item">
+                      <img src={src} alt="Brand logo" />
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
