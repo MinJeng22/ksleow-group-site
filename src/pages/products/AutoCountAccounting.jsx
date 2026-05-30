@@ -588,12 +588,6 @@ function FeatureHighlights() {
   return (
     <div className="ac-section-wrapper" style={{ background: "#ffffff" }}>
       <div className="ac-container">
-        <SectionDivider
-          icon={IconStar}
-          title="Highlights"
-          subtitle="Why thousands choose AutoCount 2.2"
-        />
-
         <div id="features" className="ac-section-tight ac-features-showcase" style={{ scrollMarginTop: 24, position: "relative", zIndex: 1 }}>
           <div className="content-wrap">
             <div ref={gridRef} className={`ac-features-grid${inView ? " is-in-view" : ""}`}>
@@ -606,9 +600,7 @@ function FeatureHighlights() {
                   <span className="ac-feature-copy" style={{ position: "relative", zIndex: 2 }}>
                     <span className="ac-feature-title" style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
                       {f.icon && (
-                        <div style={{ width: "24px", height: "24px", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                          <img src={f.icon} alt="" style={{ width: "100%", height: "100%", objectFit: "contain", filter: "brightness(0) saturate(100%) invert(35%) sepia(21%) saturate(3065%) hue-rotate(204deg) brightness(97%) contrast(89%)" }} />
-                        </div>
+                        <img src={f.icon} alt="" style={{ width: "22px", height: "22px", objectFit: "contain", flexShrink: 0 }} />
                       )}
                       {f.title}
                     </span>
