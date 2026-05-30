@@ -50,11 +50,11 @@
 html { scroll-behavior: smooth; }
 
 @media (min-width: 641px) and (max-width: 1024px) {
-  html { font-size: 15.5px; }
+  html { font-size: 14px; }
 }
 
 @media (min-width: 641px) and (max-width: 900px) {
-  html { font-size: 15px; }
+  html { font-size: 13px; }
 }
 
 body {
