@@ -457,7 +457,6 @@ function EditionsTable({ selected = null, diffOnly = false }) {
   /* selected: optional array of edition names to render (otherwise all 5).
      diffOnly: when true (compare mode), hide rows whose values are identical
      across the selected editions. */
-  const cellPad = "0.62rem 0.58rem";
   const cols = (selected && selected.length > 0) ? selected : EDITIONS;
   const colIdx = cols.map(c => EDITIONS.indexOf(c));
   const stickyHeaderCell = {
@@ -479,21 +478,35 @@ function EditionsTable({ selected = null, diffOnly = false }) {
 
   return (
     <div style={{ background: "#ffffff", borderRadius: 14, border: "1px solid rgba(47,49,90,0.08)", boxShadow: "0 4px 20px rgba(47,49,90,0.05)" }}>
+      <style>{`
+        .ac-editions-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+        .ac-editions-table th, .ac-editions-table td { padding: 0.62rem 0.58rem; }
+        .ac-editions-table .th-main { min-width: 190px; }
+        .ac-editions-table .th-col { min-width: 86px; }
+        @media (max-width: 900px) {
+          .ac-editions-table { font-size: 0.58rem; word-break: break-word; }
+          .ac-editions-table th, .ac-editions-table td { padding: 0.35rem 0.12rem; }
+          .ac-editions-table .th-main { min-width: 0; width: 38%; }
+          .ac-editions-table .th-col { min-width: 0; width: 12.4%; font-size: 0.55rem; }
+          .ac-editions-table .section-th { font-size: 0.6rem !important; padding: 0.4rem 0.5rem !important; }
+          .editions-table-wrap { overflow-x: visible !important; }
+        }
+      `}</style>
       <div className="editions-table-wrap">
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.84rem" }}>
+        <table className="ac-editions-table">
           <thead style={{ position: "sticky", top: 0, zIndex: 3 }}>
             <tr style={{ background: "#80c31e" }}>
-              <th style={{ ...stickyHeaderCell, padding: cellPad, textAlign: "left", color: "#ffffff", fontWeight: 600, minWidth: 190 }}></th>
+              <th className="th-main" style={{ ...stickyHeaderCell, textAlign: "left", color: "#ffffff", fontWeight: 600 }}></th>
               {cols.map(e => (
-                <th key={e} style={{ ...stickyHeaderCell, padding: cellPad, color: "#ffffff", fontWeight: 700, textAlign: "center", minWidth: 86, lineHeight: 1.25 }}>{e}</th>
+                <th key={e} className="th-col" style={{ ...stickyHeaderCell, color: "#ffffff", fontWeight: 700, textAlign: "center", lineHeight: 1.25 }}>{e}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             <tr style={{ background: "#fafafb", borderBottom: "1px solid rgba(47,49,90,0.08)" }}>
-              <td style={{ ...stickyBookCell, padding: cellPad, color: "#2f315a", fontWeight: 500 }}>Default Account Book</td>
+              <td style={{ ...stickyBookCell, color: "#2f315a", fontWeight: 500 }}>Default Account Book</td>
               {filterRow(EDITION_TABLE.defaultAccountBook).map((v, i) => (
-                <td key={i} style={{ ...stickyBookCell, padding: cellPad, color: "#2f315a", fontWeight: 600, textAlign: "center" }}>{v}</td>
+                <td key={i} style={{ ...stickyBookCell, color: "#2f315a", fontWeight: 600, textAlign: "center" }}>{v}</td>
               ))}
             </tr>
             {EDITION_TABLE.sections.map((section) => {
@@ -504,7 +517,7 @@ function EditionsTable({ selected = null, diffOnly = false }) {
               return (
                 <React.Fragment key={section.name}>
                   <tr style={{ background: "#eaeaef" }}>
-                    <td colSpan={cols.length + 1} style={{ padding: "0.55rem 0.85rem", color: "#6b6f91", fontSize: "0.7rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                    <td className="section-th" colSpan={cols.length + 1} style={{ padding: "0.55rem 0.85rem", color: "#6b6f91", fontSize: "0.7rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase" }}>
                       {section.name}
                     </td>
                   </tr>
@@ -512,9 +525,9 @@ function EditionsTable({ selected = null, diffOnly = false }) {
                     const visibleVals = filterRow(values);
                     return (
                       <tr key={rowName} style={{ background: ri % 2 === 0 ? "#ffffff" : "#fafafb", borderBottom: "1px solid rgba(47,49,90,0.05)" }}>
-                        <td style={{ padding: cellPad, color: "#2f315a" }}>{rowName}</td>
+                        <td style={{ color: "#2f315a" }}>{rowName}</td>
                         {visibleVals.map((v, vi) => (
-                          <td key={vi} style={{ padding: cellPad, textAlign: "center" }}>
+                          <td key={vi} style={{ textAlign: "center" }}>
                             <EditionMarker value={v} />
                           </td>
                         ))}
