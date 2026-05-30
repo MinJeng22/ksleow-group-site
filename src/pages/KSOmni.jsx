@@ -601,7 +601,7 @@ export default function KSLOmniPage() {
         {/* Gemini-style input box (mobile) — textarea on top, action row below */}
         <div style={{
           margin: "0.6rem 0.75rem",
-          marginBottom: "max(0.6rem, env(safe-area-inset-bottom))",
+          marginBottom: "max(84px, env(safe-area-inset-bottom) + 84px)",
           padding: "0.65rem 0.8rem 0.5rem",
           background: "#f0f0f6",
           border: "1px solid rgba(47,49,90,0.1)",

@@ -667,8 +667,6 @@ export default function MenuButton({ onOpenSearch, hideBar }) {
     return () => clearTimeout(hoverTimeoutRef.current);
   }, []);
 
-  if (pathname === "/omni") return null;
-
   /* ── Hover handlers (desktop only) ── */
   const handleMenuEnter = () => {
     if (window.innerWidth >= 1024 && window.matchMedia("(hover: hover)").matches) {
