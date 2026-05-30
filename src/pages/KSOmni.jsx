@@ -6,6 +6,7 @@ import {
   Message, ChatbotKeyframes, streamChat,
   AnimatedGreeting, autoResizeTextarea,
 } from "../components/chatbotShared.jsx";
+import { BackIcon, MenuIcon } from "../components/icons.jsx";
 
 function getOmniPageUrl(machineId) {
   const origin = typeof window !== "undefined" ? window.location.origin : "https://ksleow.vercel.app";
@@ -104,11 +105,6 @@ const QRIcon = () => (
     <rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" />
     <rect x="3" y="14" width="7" height="7" rx="1" />
     <path d="M14 14h1v1h-1zM18 14h2v2h-2zM14 19h3v2h-1v-1h-2zM21 19v2h-1v-1" />
-  </svg>
-);
-const BackIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-    <line x1="19" y1="12" x2="5" y2="12" /><polyline points="12 19 5 12 12 5" />
   </svg>
 );
 /* Paperclip — generic "attach a file" since the picker accepts both
@@ -688,11 +684,7 @@ export default function KSLOmniPage() {
                 aria-label="Menu"
                 title="Menu"
               >
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="3" y1="12" x2="21" y2="12"></line>
-                  <line x1="3" y1="6" x2="21" y2="6"></line>
-                  <line x1="3" y1="18" x2="21" y2="18"></line>
-                </svg>
+                <MenuIcon />
                 <span>Menu</span>
               </button>
             </>
@@ -831,13 +823,13 @@ export default function KSLOmniPage() {
         <div className="mobile-float-bar lg-glass" style={{ display: "flex" }}>
           <button className="mfb-btn mfb-action" onClick={goHome} aria-label="Back">
             <span className="mfb-action-icon" aria-hidden="true">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              <BackIcon />
             </span>
             <span className="mfb-action-label">Back</span>
           </button>
           <div className="mfb-divider" aria-hidden="true" />
           <button className="mfb-btn mfb-menu" onClick={() => window.dispatchEvent(new Event("openGlobalMenu"))} aria-label="Menu">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            <MenuIcon />
             <span className="mfb-label">Menu</span>
           </button>
         </div>

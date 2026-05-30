@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import useDarkBg from "../hooks/useDarkBg";
+import { SearchIcon, BackIcon, MenuIcon, ToTopIcon, ScrollDownIcon } from "./icons";
 
 /* ── Mega Menu Data ─────────────────────────────────────── */
 const MEGA_MENU = [
@@ -772,10 +773,7 @@ export default function MenuButton({ onOpenSearch, hideBar }) {
           aria-label="Search"
           style={{ color: isDesktopDark ? "#ffffff" : "rgba(0, 0, 0, 0.6)" }}
         >
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
+          <SearchIcon />
           <span>Search</span>
         </button>
 
@@ -810,9 +808,7 @@ export default function MenuButton({ onOpenSearch, hideBar }) {
             aria-label="Back"
             style={{ color: isLeftDesktopDark ? "#ffffff" : "rgba(0, 0, 0, 0.6)" }}
           >
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
+            <BackIcon />
             <span>Back</span>
           </button>
         </div>
@@ -834,9 +830,7 @@ export default function MenuButton({ onOpenSearch, hideBar }) {
               style={{ color: isMobileDark ? "#ffffff" : "rgba(0, 0, 0, 0.55)" }}
             >
               <span className="mfb-action-icon" aria-hidden="true">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="15 18 9 12 15 6"></polyline>
-                </svg>
+                <BackIcon />
               </span>
               <span className="mfb-action-label">Back</span>
             </button>
@@ -877,10 +871,7 @@ export default function MenuButton({ onOpenSearch, hideBar }) {
           aria-label="Search"
           style={{ color: isMobileDark ? "#ffffff" : "rgba(0, 0, 0, 0.55)" }}
         >
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
+          <SearchIcon />
           <span>Search</span>
         </button>
 
@@ -908,15 +899,7 @@ export default function MenuButton({ onOpenSearch, hideBar }) {
               style={{ color: isMobileDark ? "#ffffff" : "rgba(0, 0, 0, 0.55)" }}
             >
               <span className="mfb-action-icon" aria-hidden="true">
-                {isHomeHero ? (
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="6 9 12 15 18 9" />
-                  </svg>
-                ) : (
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="18 15 12 9 6 15" />
-                  </svg>
-                )}
+                {isHomeHero ? <ScrollDownIcon /> : <ToTopIcon />}
               </span>
               <span className="mfb-action-label">{isHomeHero ? "Scroll" : "To Top"}</span>
             </button>
