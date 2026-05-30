@@ -561,6 +561,11 @@ const BRAND_LOGOS = [
   "/images/brands/ac-brand-3.png",
   "/images/brands/ac-brand-4.png",
   "/images/brands/ac-brand-5.png",
+  "/images/brands/ac-brand-6.png",
+  "/images/brands/ac-brand-7.png",
+  "/images/brands/ac-brand-8.png",
+  "/images/brands/ac-brand-9.png",
+  "/images/brands/ac-brand-10.png",
 ];
 
 function FeatureHighlights() {
