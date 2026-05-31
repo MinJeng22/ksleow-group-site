@@ -574,20 +574,20 @@ const BRAND_LOGOS = [
 ];
 
 const AWARDS_IMAGES = [
-  "/images/awards/ksl-award-1.png",
-  "/images/awards/ksl-award-2.jpg",
-  "/images/awards/ksl-award-3.jpg",
-  "/images/awards/ksl-award-4.jpg",
-  "/images/awards/ksl-award-5.png",
-  "/images/awards/ksl-award-6.png",
-  "/images/awards/ksl-award-7.png",
-  "/images/awards/ksl-award-8.png",
-  "/images/awards/ksl-award-9.png",
-  "/images/awards/ksl-award-10.png",
-  "/images/awards/ksl-award-11.png",
-  "/images/awards/ksl-award-12.png",
-  "/images/awards/ksl-award-13.jpg",
-  "/images/awards/ksl-award-14.jpg",
+  "/images/awards/ac-trophy.png",
+  "/images/awards/ac-trophy.png",
+  "/images/awards/ac-trophy.png",
+  "/images/awards/ac-trophy.png",
+  "/images/awards/ac-trophy.png",
+  "/images/awards/ac-trophy.png",
+  "/images/awards/ac-trophy.png",
+  "/images/awards/ac-medal.jpg",
+  "/images/awards/ac-medal.jpg",
+  "/images/awards/ac-medal.jpg",
+  "/images/awards/ac-medal.jpg",
+  "/images/awards/ac-medal.jpg",
+  "/images/awards/ac-medal.jpg",
+  "/images/awards/ac-medal.jpg",
 ];
 
 function FeatureHighlights() {
