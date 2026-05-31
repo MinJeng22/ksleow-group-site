@@ -1130,16 +1130,22 @@ export default function AutoCountAccountingPage({ onContact }) {
       </div>
       <div id="why-ksl" className="product-app-section product-app-section-warm" style={{ padding: "4rem 0", scrollMarginTop: 24 }}>
         <style>{`
+          .ac-awards-container-new {
+            margin-top: 1.5rem;
+            padding: 2.5rem 0;
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+          }
           .ac-awards-item {
             flex: 0 0 auto;
-            width: 100px;
-            height: 135px;
+            width: 80px;
+            height: 110px;
             background: transparent;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            padding: 0 1rem;
+            padding: 0 0.5rem;
           }
           .ac-awards-item:hover {
             transform: translateY(-5px);
@@ -1154,9 +1160,30 @@ export default function AutoCountAccountingPage({ onContact }) {
           .ac-awards-item:hover img {
             transform: scale(1.15);
           }
-          .ac-awards-marquee:hover .ac-brand-marquee {
+          .ac-awards-container-new:hover .ac-brand-marquee {
             animation-play-state: paused !important;
           }
+
+          /* Desktop: Static, fit 14 items */
+          @media (min-width: 901px) {
+            .ac-awards-container-new {
+              mask-image: none;
+              -webkit-mask-image: none;
+            }
+            .ac-awards-marquee-track {
+              animation: none !important;
+              justify-content: center;
+            }
+            .ac-awards-item.dup {
+              display: none;
+            }
+            .ac-awards-item {
+              width: 76px;
+              height: 105px;
+              padding: 0 0.25rem;
+            }
+          }
+          /* Mobile: Keep marquee sizes */
           @media (max-width: 900px) {
             .ac-awards-item {
               width: 80px;
@@ -1175,15 +1202,15 @@ export default function AutoCountAccountingPage({ onContact }) {
             Top AutoCount Dealer in Pahang State for 7 Consecutive Years — Empowering Your Business with 7 Years of Expertise, Prompt On-Site Support & Dedicated Training
           </p>
 
-          <div className="ac-brand-marquee-container ac-awards-marquee" style={{
-            maskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
-            WebkitMaskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
-            marginTop: "1.5rem",
-            padding: "2.5rem 0"
-          }}>
-            <div className="ac-brand-marquee" style={{ animationDuration: "35s" }}>
-              {[...AWARDS_IMAGES, ...AWARDS_IMAGES, ...AWARDS_IMAGES, ...AWARDS_IMAGES].map((src, i) => (
-                <div key={i} className="ac-awards-item">
+          <div className="ac-brand-marquee-container ac-awards-container-new">
+            <div className="ac-brand-marquee ac-awards-marquee-track" style={{ animationDuration: "35s" }}>
+              {AWARDS_IMAGES.map((src, i) => (
+                <div key={`orig-${i}`} className="ac-awards-item">
+                  <img src={src} alt="Top AutoCount Dealer Award" loading="lazy" />
+                </div>
+              ))}
+              {[...AWARDS_IMAGES, ...AWARDS_IMAGES, ...AWARDS_IMAGES].map((src, i) => (
+                <div key={`dup-${i}`} className="ac-awards-item dup">
                   <img src={src} alt="Top AutoCount Dealer Award" loading="lazy" />
                 </div>
               ))}
