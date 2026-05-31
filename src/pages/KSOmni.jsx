@@ -170,9 +170,9 @@ function EmptyGreeting() {
 
 /* ── Mobile detection ── */
 function useIsMobile() {
-  const [mobile, setMobile] = useState(window.innerWidth < 1200);
+  const [mobile, setMobile] = useState(window.innerWidth < 768);
   useEffect(() => {
-    const fn = () => setMobile(window.innerWidth < 1200);
+    const fn = () => setMobile(window.innerWidth < 768);
     window.addEventListener("resize", fn);
     return () => window.removeEventListener("resize", fn);
   }, []);
@@ -971,7 +971,7 @@ export default function KSLOmniPage() {
         </div>
           
         {/* Disclaimer text under input */}
-        <div style={{ textAlign: "center", fontSize: "0.72rem", color: "rgba(255,255,255,0.4)", marginTop: "0.4rem", marginBottom: isMobile ? "max(64px, env(safe-area-inset-bottom) + 64px)" : "max(0.5rem, env(safe-area-inset-bottom))" }}>
+        <div style={{ textAlign: "center", fontSize: "0.72rem", color: "rgba(255,255,255,0.4)", marginTop: "0.4rem", marginBottom: (isMobile && !keyboardOpen) ? "max(64px, env(safe-area-inset-bottom) + 64px)" : "max(0.5rem, env(safe-area-inset-bottom))" }}>
           AI Responses may be inaccurate
         </div>
       </div>
