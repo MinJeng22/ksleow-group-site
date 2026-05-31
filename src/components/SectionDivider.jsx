@@ -63,6 +63,8 @@ export default function SectionDivider({ icon, color = "#2f315a", targetId }) {
           top: 0,
           height: 2,
           background: `linear-gradient(to right, transparent, ${color}80, transparent)`,
+          filter: inView ? "grayscale(0)" : "grayscale(1)",
+          transition: "filter 0.65s cubic-bezier(0.22, 1, 0.36, 1)",
         }}
       />
 
