@@ -882,7 +882,7 @@ export default function KSLOmniPage() {
         {/* ── Liquid Glass Input Row ── */}
         <div style={{ maxWidth: 900, margin: "0 auto", width: "100%", padding: "0.5rem 1rem" }}>
           <div className="lg-glass" style={{
-            marginBottom: (isMobile && !isEmpty) ? "max(64px, env(safe-area-inset-bottom) + 64px)" : "max(0.5rem, env(safe-area-inset-bottom))",
+            marginBottom: 0,
             padding: "0.65rem 0.8rem 0.5rem",
             borderRadius: 24,
             display: "flex", flexDirection: "column", gap: "0.35rem",
@@ -967,11 +967,11 @@ export default function KSLOmniPage() {
               }
             </button>
           </div>
+        </div>
           
-          {/* Disclaimer text under input */}
-          <div style={{ textAlign: "center", fontSize: "0.72rem", color: "rgba(255,255,255,0.4)", marginTop: "0.4rem", marginBottom: (isMobile && isEmpty) ? "max(64px, env(safe-area-inset-bottom) + 64px)" : "0" }}>
-            AI Responses may be inaccurate
-          </div>
+        {/* Disclaimer text under input */}
+        <div style={{ textAlign: "center", fontSize: "0.72rem", color: "rgba(255,255,255,0.4)", marginTop: "0.4rem", marginBottom: isMobile ? "max(64px, env(safe-area-inset-bottom) + 64px)" : "max(0.5rem, env(safe-area-inset-bottom))" }}>
+          AI Responses may be inaccurate
         </div>
       </div>
     </div>
