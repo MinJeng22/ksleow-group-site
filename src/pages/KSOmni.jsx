@@ -678,7 +678,7 @@ export default function KSLOmniPage() {
       
       {/* -- Sidebar (Desktop Fixed, Mobile Overlay) -- */}
       <div style={{
-        width: isMobile ? 280 : (sidebarOpen ? 260 : 0),
+        width: isMobile ? 320 : (sidebarOpen ? 300 : 0),
         position: isMobile ? "fixed" : "relative",
         top: 0, bottom: 0, left: 0, zIndex: 2000,
         background: isMobile ? "rgba(12, 14, 26, 0.95)" : "rgba(12, 14, 26, 0.3)",
@@ -688,7 +688,7 @@ export default function KSLOmniPage() {
         transition: "width 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)",
         overflow: "hidden",
       }}>
-        <div style={{ width: isMobile ? 280 : 260, padding: "max(1rem, env(safe-area-inset-top)) 1rem 1rem", height: "100%", display: "flex", flexDirection: "column" }}>
+        <div style={{ width: isMobile ? 320 : 300, padding: "max(1rem, env(safe-area-inset-top)) 1rem 1rem", height: "100%", display: "flex", flexDirection: "column" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
               <div style={{ width: 32, height: 32, borderRadius: "50%", overflow: "hidden", border: "1.5px solid rgba(201,168,76,0.5)", flexShrink: 0 }}>
@@ -860,6 +860,7 @@ export default function KSLOmniPage() {
         flexDirection: "column", 
         justifyContent: isEmpty ? "center" : "space-between",
         paddingTop: "max(80px, env(safe-area-inset-top) + 80px)", 
+        paddingBottom: isEmpty ? "15vh" : 0,
         minHeight: 0
       }}>
         {/* ── Chat Content Area ── */}
