@@ -226,6 +226,11 @@ export default function KSLOmniPage() {
     }
   }, [activeSessionId, machineId]);
 
+  const [isIOS] = useState(() => {
+    if (typeof navigator === "undefined") return false;
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  });
+
   const [input, setInput]                  = useState("");
   const [loading, setLoading]              = useState(false);
   const [showQR, setShowQR]                = useState(false);
@@ -244,6 +249,13 @@ export default function KSLOmniPage() {
   const chatScrollRef = useRef(null);
 
   const isEmpty = messages.length === 0;
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
 
   function focusInputSoon(delay = 50) {
     window.setTimeout(() => {
@@ -345,7 +357,6 @@ export default function KSLOmniPage() {
     if (typeof window === "undefined" || !window.visualViewport) return;
     const threshold = 150; 
     const initialHeight = window.innerHeight;
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
     const updateViewport = () => {
       const vv = window.visualViewport;
@@ -356,10 +367,6 @@ export default function KSLOmniPage() {
         }
         setKeyboardOpen(initialHeight - vv.height > threshold);
       } else {
-        if (contentRef.current) {
-          contentRef.current.style.height = "100dvh";
-          contentRef.current.style.top = "0px";
-        }
         const active = document.activeElement;
         const isFocused = active && (active.tagName === 'TEXTAREA' || active.tagName === 'INPUT');
         setKeyboardOpen(!!isFocused);
@@ -373,7 +380,7 @@ export default function KSLOmniPage() {
       window.visualViewport.removeEventListener("resize", updateViewport);
       window.visualViewport.removeEventListener("scroll", updateViewport);
     };
-  }, []);
+  }, [isIOS]);
 
   function handleInputChange(e) {
     setInput(e.target.value);
@@ -680,7 +687,7 @@ export default function KSLOmniPage() {
    * UNIFIED LAYOUT: Fullscreen chat for both Desktop and Mobile
    * ══════════════════════════════════════════════════════════ */
   return (
-    <div style={{ position: "fixed", inset: 0, zIndex: 300, background: "radial-gradient(ellipse at 50% 0%, rgba(47, 49, 90, 0.5) 0%, transparent 60%), radial-gradient(circle at 85% 15%, rgba(201, 168, 76, 0.08) 0%, transparent 45%), linear-gradient(to bottom, #111328, #0c0e1a)", display: "flex" }}>
+    <div style={{ position: "absolute", inset: 0, zIndex: 300, background: "radial-gradient(ellipse at 50% 0%, rgba(47, 49, 90, 0.5) 0%, transparent 60%), radial-gradient(circle at 85% 15%, rgba(201, 168, 76, 0.08) 0%, transparent 45%), linear-gradient(to bottom, #111328, #0c0e1a)", display: "flex", overflow: "hidden" }}>
       
       {/* -- Sidebar (Desktop Fixed, Mobile Overlay) -- */}
       <div style={{
@@ -744,16 +751,17 @@ export default function KSLOmniPage() {
         </div>
       </div>
 
-      {/* -- Mobile Overlay -- */}
+{/* -- Mobile Overlay -- */}
       {isMobile && sidebarOpen && (
         <div onClick={() => setSidebarOpen(false)} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 1999 }} />
       )}
 
       {/* -- Main Chat Area -- */}
       <div style={{ flex: 1, position: "relative" }}>
-        <div ref={contentRef} style={{ position: "absolute", top: 0, left: 0, right: 0, height: "100dvh", display: "flex", flexDirection: "column" }}>
-      <ChatbotKeyframes />
-      <style>{`
+        <div ref={contentRef} style={{ position: isIOS ? "absolute" : "relative", top: 0, left: 0, right: 0, height: isIOS ? "100dvh" : "100%", display: "flex", flexDirection: "column" }}>
+          <div style={{ flex: 1, display: "flex", flexDirection: "column", maxWidth: "100%", overflowX: "hidden" }}>
+            <ChatbotKeyframes />
+            <style>{`
         @keyframes fadeIn{from{opacity:0}to{opacity:1}}
         @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
         @keyframes spin{to{transform:rotate(360deg)}}
@@ -1013,6 +1021,7 @@ export default function KSLOmniPage() {
       )}
     </div>
       </div>
+    </div>
     </div>
   );
 }
