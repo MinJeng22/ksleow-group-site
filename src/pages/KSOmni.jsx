@@ -238,6 +238,7 @@ export default function KSLOmniPage() {
   const [pasteError, setPasteError]        = useState("");
   const [keyboardOpen, setKeyboardOpen]    = useState(false);
   const [menuOpen, setMenuOpen]            = useState(false);
+  const [showFileMenu, setShowFileMenu]    = useState(false);
   const containerRef = useRef(null);
   const contentRef = useRef(null);
   const maxHeights = useRef({ portrait: 0, landscape: 0 });
@@ -538,14 +539,10 @@ export default function KSLOmniPage() {
 
   /* ── Trigger hidden file input from the upload button ── */
   const fileInputRef = useRef(null);
-  const cameraInputRef = useRef(null);
+  const fileInputCameraRef = useRef(null);
   function openFilePicker() {
     if (loading || attachedImage?.uploading) return;
     fileInputRef.current?.click();
-  }
-  function openCameraPicker() {
-    if (loading || attachedImage?.uploading) return;
-    cameraInputRef.current?.click();
   }
   async function handleFileSelected(e) {
     const file = e.target.files?.[0];
@@ -833,21 +830,21 @@ export default function KSLOmniPage() {
         </>
       )}
 
-      {/* Hidden file input shared by both desktop & mobile InputRow upload buttons */}
+      {/* Hidden file input for manual picking */}
       <input
-        ref={fileInputRef}
         type="file"
+        ref={fileInputRef}
+        style={{ display: "none" }}
         accept={ACCEPT_ATTR}
         onChange={handleFileSelected}
-        style={{ display: "none" }}
       />
       <input
-        ref={cameraInputRef}
         type="file"
-        accept={IMAGE_FILE_ACCEPT}
+        ref={fileInputCameraRef}
+        style={{ display: "none" }}
+        accept="image/*"
         capture="environment"
         onChange={handleFileSelected}
-        style={{ display: "none" }}
       />
 
       {/* ── Main Flex Container for Chat + Input ── */}
@@ -934,12 +931,12 @@ export default function KSLOmniPage() {
             }}
           />
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, position: "relative" }}>
               <button
-                onClick={openFilePicker}
+                onClick={() => setShowFileMenu(!showFileMenu)}
                 disabled={loading || attachedImage?.uploading}
-                title="Upload image"
-                aria-label="Upload image"
+                title="Upload image or file"
+                aria-label="Upload image or file"
                 style={{
                   width: 34, height: 34, borderRadius: "50%", flexShrink: 0,
                   background: "transparent",
@@ -948,7 +945,43 @@ export default function KSLOmniPage() {
                   cursor: (loading || attachedImage?.uploading) ? "not-allowed" : "pointer",
                   display: "flex", alignItems: "center", justifyContent: "center",
                 }}
-              ><ImageUploadIcon /></button>
+              >
+                <ImageUploadIcon />
+              </button>
+
+              {showFileMenu && !loading && !attachedImage?.uploading && (
+                <>
+                  <div 
+                    style={{ position: "fixed", inset: 0, zIndex: 99 }} 
+                    onClick={() => setShowFileMenu(false)} 
+                  />
+                  <div style={{
+                    position: "absolute", bottom: "100%", left: 0, marginBottom: "0.5rem",
+                    background: "#2f315a", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.15)",
+                    padding: "0.4rem", display: "flex", flexDirection: "column", gap: "2px",
+                    zIndex: 100, boxShadow: "0 4px 16px rgba(0,0,0,0.3)"
+                  }}>
+                    <style>{`
+                      .omni-file-btn {
+                        display: flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1rem;
+                        color: #fff; background: transparent; border: none; border-radius: 8px;
+                        font-size: 0.9rem; font-weight: 500; cursor: pointer; text-align: left;
+                        white-space: nowrap; transition: background 0.2s;
+                      }
+                      .omni-file-btn:hover { background: rgba(255,255,255,0.1); }
+                      @media (min-width: 1024px) {
+                        .omni-file-btn.camera-btn { display: none !important; }
+                      }
+                    `}</style>
+                    <button className="omni-file-btn camera-btn" onClick={() => { setShowFileMenu(false); fileInputCameraRef.current?.click(); }}>
+                      <CameraIcon /> Camera
+                    </button>
+                    <button className="omni-file-btn" onClick={() => { setShowFileMenu(false); openFilePicker(); }}>
+                      <ImageUploadIcon /> Photos
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
             <button
               onClick={sendMessage}
