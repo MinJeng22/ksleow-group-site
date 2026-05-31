@@ -1130,25 +1130,6 @@ export default function AutoCountAccountingPage({ onContact }) {
       </div>
       <div id="why-ksl" className="product-app-section product-app-section-warm" style={{ padding: "4rem 0", scrollMarginTop: 24 }}>
         <style>{`
-          .ac-awards-container {
-            position: relative;
-            margin: 2rem auto 0;
-            padding: 2.5rem 0;
-            overflow: hidden;
-            width: 100%;
-          }
-          .ac-awards-track {
-            display: flex;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            scrollbar-width: none;
-            gap: 1rem;
-            padding-bottom: 1rem;
-            justify-content: center;
-          }
-          .ac-awards-track::-webkit-scrollbar {
-            display: none;
-          }
           .ac-awards-item {
             flex: 0 0 auto;
             width: 100px;
@@ -1158,6 +1139,7 @@ export default function AutoCountAccountingPage({ onContact }) {
             align-items: center;
             justify-content: center;
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 0 1rem;
           }
           .ac-awards-item:hover {
             transform: translateY(-5px);
@@ -1172,28 +1154,14 @@ export default function AutoCountAccountingPage({ onContact }) {
           .ac-awards-item:hover img {
             transform: scale(1.15);
           }
-          .ac-awards-item.dup {
-            display: none;
+          .ac-awards-marquee:hover .ac-brand-marquee {
+            animation-play-state: paused !important;
           }
           @media (max-width: 900px) {
-            .ac-awards-container {
-              margin: 2rem -1rem 0;
-              max-width: none;
-              background: linear-gradient(to right, rgba(128,195,30,0.02), rgba(128,195,30,0.06), rgba(128,195,30,0.02));
-            }
-            .ac-awards-track {
-              overflow-x: visible;
-              width: max-content;
-              animation: ac-marquee 30s linear infinite;
-              justify-content: flex-start;
-              gap: 1rem;
-            }
             .ac-awards-item {
               width: 80px;
               height: 110px;
-            }
-            .ac-awards-item.dup {
-              display: block;
+              padding: 0 0.5rem;
             }
           }
         `}</style>
@@ -1207,15 +1175,15 @@ export default function AutoCountAccountingPage({ onContact }) {
             Top AutoCount Dealer in Pahang State for 7 Consecutive Years — Empowering Your Business with 7 Years of Expertise, Prompt On-Site Support & Dedicated Training
           </p>
 
-          <div className="ac-awards-container">
-            <div className="ac-awards-track">
-              {AWARDS_IMAGES.map((src, i) => (
-                <div key={`orig-${i}`} className="ac-awards-item">
-                  <img src={src} alt="Top AutoCount Dealer Award" loading="lazy" />
-                </div>
-              ))}
-              {AWARDS_IMAGES.map((src, i) => (
-                <div key={`dup1-${i}`} className="ac-awards-item dup">
+          <div className="ac-brand-marquee-container ac-awards-marquee" style={{
+            maskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+            WebkitMaskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+            marginTop: "1.5rem",
+            padding: "2.5rem 0"
+          }}>
+            <div className="ac-brand-marquee" style={{ animationDuration: "35s" }}>
+              {[...AWARDS_IMAGES, ...AWARDS_IMAGES, ...AWARDS_IMAGES, ...AWARDS_IMAGES].map((src, i) => (
+                <div key={i} className="ac-awards-item">
                   <img src={src} alt="Top AutoCount Dealer Award" loading="lazy" />
                 </div>
               ))}
