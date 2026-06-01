@@ -1168,7 +1168,7 @@ export default function AutoCountAccountingPage({ onContact }) {
           }
 
           /* Desktop: Static, fit 14 items */
-          @media (min-width: 901px) {
+          @media (min-width: 1025px) {
             .ac-awards-container-new {
               mask-image: none;
               -webkit-mask-image: none;
@@ -1190,7 +1190,7 @@ export default function AutoCountAccountingPage({ onContact }) {
             }
           }
           /* Mobile: Keep marquee sizes */
-          @media (max-width: 900px) {
+          @media (max-width: 1024px) {
             .ac-awards-item {
               width: 80px;
               height: 110px;

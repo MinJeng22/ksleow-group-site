@@ -290,7 +290,17 @@ export default function OtherServices({ onContact }) {
     };
     handleHash(); // Run on mount
     window.addEventListener('hashchange', handleHash);
-    return () => window.removeEventListener('hashchange', handleHash);
+
+    const handleCustomOpen = (e) => {
+      if (e.detail === 'supaprintz') setPartnerOpen(true);
+      if (e.detail === 'sitegiant') setSitegiantOpen(true);
+    };
+    window.addEventListener('openOtherServiceModal', handleCustomOpen);
+
+    return () => {
+      window.removeEventListener('hashchange', handleHash);
+      window.removeEventListener('openOtherServiceModal', handleCustomOpen);
+    };
   }, []);
 
 
@@ -369,6 +379,7 @@ export default function OtherServices({ onContact }) {
           const clickable = !!c.route || opensPartnerModal || opensSitegiantModal;
           return (
             <div
+              id={c.modal ? `${c.modal}-card` : undefined}
               key={c.key || i}
               onClick={clickable ? () => {
                 if (opensPartnerModal) setPartnerOpen(true);

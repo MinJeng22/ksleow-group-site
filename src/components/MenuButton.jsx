@@ -20,6 +20,7 @@ const MEGA_MENU = [
     title: "Products",
     items: [
       { label: "AutoCount Accounting",      path: "/products/autocount-accounting", icon: "monitor" },
+        { label: "FeedMe POS",              scrollTo: "#feedmepos-card", icon: "shopping-cart" },
       
       { label: "AutoCount CloudAccounting", path: "/products/autocount-cloud-accounting", icon: "cloud" },
       { label: "AutoCount POS",             scrollTo: "#products", icon: "cash-register" },

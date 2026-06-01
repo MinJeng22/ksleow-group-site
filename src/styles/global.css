@@ -49,21 +49,7 @@
 
 html { scroll-behavior: smooth; }
 
-/* Desktop: > 1024px uses default 16px */
-/* Tablet */
-@media (max-width: 1024px) {
-  html { font-size: 14px; }
-}
 
-/* Small Tablet / Large Mobile */
-@media (max-width: 768px) {
-  html { font-size: 13px; }
-}
-
-/* Small Mobile */
-@media (max-width: 480px) {
-  html { font-size: 12px; }
-}
 
 body {
   font-family: 'Poppins', sans-serif;

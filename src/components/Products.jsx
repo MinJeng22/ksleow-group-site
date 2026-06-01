@@ -89,7 +89,8 @@ function ProductCard({ product, productIndex, order, hovered, revealed, animateR
       onMouseEnter={() => onHover(productIndex)}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      onClick={() => clickable && onOpen(product.route)}
+      id={product.name.replace(/\s+/g, '').toLowerCase() + '-card'}
+                onClick={() => clickable && onOpen(product.route)}
       className="product-card"
       style={{
         borderRadius: 0, overflow: "hidden",
