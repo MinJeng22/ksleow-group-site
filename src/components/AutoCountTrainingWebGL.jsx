@@ -1021,14 +1021,14 @@ export default function AutoCountTrainingWebGL({ customVideos, themeColor = '#80
               </div>
 
               <div className="tutorial-copy-panel">
-                <div className="tutorial-selector" style={{ display: videos.length <= 1 ? 'none' : 'flex' }} style={{
+                <div className="tutorial-selector" style={{ 
+                  display: videos.length <= 1 ? 'none' : 'flex', 
                   margin: '0 0 1.35rem',
                   width: '100%',
                   maxWidth: 480,
                   background: '#f2f2f7',
                   borderRadius: '20px',
                   padding: '6px',
-                  display: 'flex',
                   gap: '6px'
                 }}>
                   {videos.map(v => {

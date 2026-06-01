@@ -70,20 +70,80 @@ const CODE_TO_EDITION = Object.fromEntries(
   Object.entries(EDITION_CODE).map(([name, code]) => [code, name])
 );
 
-const EDITION_ROWS = [
-  ["Monthly price", ["RM 70", "RM 100", "RM 140", "RM 180", "RM 10"]],
-  ["Best for", ["Start-up / Micro Company", "Professional Services", "Trading of products", "Multi-warehouse", "Accounting firm"]],
-  ["Included users", ["1 user", "2 users", "3 users", "3 users", "2 users"]],
-  ["Accountant access", ["1 accountant", "1 accountant", "1 accountant", "1 accountant", "Client account books"]],
-  ["Sales documents", ["Invoice, Credit Note", "Quotation, Invoice, Credit Note", "Quotation, Invoice, Credit Note", "Quotation, Invoice, Credit Note", "Client review"]],
-  ["Purchase documents", ["Purchase Invoice, Purchase Return", "Purchase Order, Purchase Invoice, Purchase Return", "Purchase Order, Purchase Invoice, Purchase Return", "Purchase Order, Purchase Invoice, Purchase Return", "Client review"]],
-  ["LHDN e-Invoice", ["Included", "Included", "Included", "Included", "Included"]],
-  ["AI SmartScan", ["Included", "Included", "Included", "Included", "Included"]],
-  ["Bank connection", ["Available", "Available", "Available", "Available", "Available"]],
-  ["Attachment storage", ["5GB", "5GB", "10GB", "20GB", "5GB"]],
-  ["Operating fit", ["Simple online billing", "Service business", "Product trading", "Inventory and branches", "Manage client books"]],
-  ["Add-on user", ["RM10 / month", "RM10 / month", "RM20 / month", "RM20 / month", "RM10 / month"]],
-];
+const CLOUD_EDITION_TABLE = {
+  topRows: [
+    ["Monthly price", ["RM 70 /mo", "RM 100 /mo", "RM 140 /mo", "RM 180 /mo", "RM 10 /mo"]],
+    ["Best for", ["Start-up / Micro Company", "Professional Services", "Trading of products", "Multi-warehouse", "Accounting firm"]],
+    ["Included users", ["1 user", "2 users", "3 users", "3 users", "2 users"]],
+    ["Accountant access", ["1 accountant", "1 accountant", "1 accountant", "1 accountant", ""]],
+  ],
+  sections: [
+    {
+      name: "ACCOUNTING MODULES",
+      rows: [
+        ["Accounting", ["+", "+", "+", "+", "+"]],
+        ["Auto Bank Reconciliation", ["+", "+", "+", "+", "+"]],
+      ],
+    },
+    {
+      name: "SALES MODULES",
+      rows: [
+        ["Quotation, Invoice, Credit Note", ["+", "+", "+", "+", "Only Invoice, Credit Note"]],
+        ["Printing of Sales Document", ["+", "+", "+", "+", ""]],
+        ["Sales Report - Monthly Sales Analysis", ["", "+", "+", "+", ""]],
+        ["Sales Report - Profit & Loss of Document", ["", "", "+", "+", ""]],
+      ],
+    },
+    {
+      name: "PURCHASE MODULES",
+      rows: [
+        ["Purchase Order, Invoice, Return", ["+", "+", "+", "+", "Only Purchase Invoice, Purchase Return"]],
+        ["Printing of Purchase Document", ["Only Purchase Order", "+", "+", "+", ""]],
+        ["Purchase Report - Monthly Purchase Analysis", ["", "+", "+", "+", ""]],
+      ],
+    },
+    {
+      name: "OTHERS MODULES",
+      rows: [
+        ["LHDN e-Invoice", ["+", "+", "+", "+", "+"]],
+        ["SST", ["", "+", "+", "+", "+"]],
+        ["Recurring Transaction", ["", "+", "+", "+", "+"]],
+        ["Multi-Currency", ["", "", "+", "+", "+"]],
+        ["Track Inventory", ["", "", "+", "+", ""]],
+        ["Track Product Variant", ["", "", "+", "+", ""]],
+        ["Department", ["", "", "+", "+", "+"]],
+        ["Multi-Location", ["", "", "", "+", ""]],
+        ["Customize Financial Report Layout", ["", "", "", "+", "+"]],
+        ["AI SmartScan *", ["+", "+", "+", "+", "+"]],
+        ["Attachment", ["5GB", "5GB", "10GB", "20GB", "5GB"]],
+      ],
+    },
+    {
+      name: "SUPPORT",
+      rows: [
+        ["Email Ticketing", ["+", "+", "+", "+", "+"]],
+        ["Live Chat", ["+", "+", "+", "+", "+"]],
+        ["Phone Support", ["A fee is chargeable", "A fee is chargeable", "A fee is chargeable", "A fee is chargeable", "A fee is chargeable"]],
+      ],
+    },
+    {
+      name: "ADD-ON",
+      rows: [
+        ["Add-on User", ["RM10 /month /per user", "RM10 /month /per user", "RM20 /month /per user", "RM20 /month /per user", "RM10 /month /per user"]],
+      ],
+    },
+  ],
+};
+
+function EditionMarker({ value }) {
+  if (value === "+") {
+    return <span style={{ color: "#16a14b", fontWeight: 700, fontSize: "1.1rem", lineHeight: 1 }}>✔</span>;
+  }
+  if (!value) {
+    return null;
+  }
+  return <span style={{ color: "#444", fontWeight: 500, fontSize: "0.84rem", lineHeight: 1.3 }}>{value}</span>;
+}
 
 const fmtDate = (value) => {
   if (!value) return "";
@@ -252,40 +312,97 @@ function FeatureHighlights() {
 
 function EditionTable({ selected = null, diffOnly = false }) {
   const cols = selected?.length ? selected : EDITIONS;
-  const indexes = cols.map((col) => EDITIONS.indexOf(col));
-  const visibleRows = EDITION_ROWS.filter(([, values]) => {
-    if (!diffOnly) return true;
-    const subset = indexes.map((i) => values[i]);
-    return !subset.every((value) => value === subset[0]);
-  });
+  const colIdx = cols.map((col) => EDITIONS.indexOf(col));
+
+  const filterRow = (values) => colIdx.map(i => values[i]);
+  const rowDiffers = (values) => {
+    const subset = filterRow(values);
+    return !subset.every(v => v === subset[0]);
+  };
 
   return (
-    <div className="ks-panel" style={{ boxShadow: "0 4px 20px rgba(47,49,90,0.05)" }}>
-      <div className="editions-table-wrap">
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--text-sm)" }}>
-          <thead style={{ position: "sticky", top: 0, zIndex: 3 }}>
+    <div className="ks-compare-panel">
+      <div className="ks-compare-wrap">
+        <table className="ks-compare-table">
+          <thead className="ks-compare-thead">
             <tr style={{ background: "#2f315a" }}>
-              <th style={{ position: "sticky", top: 0, zIndex: 3, minWidth: 190, padding: "0.7rem", color: "#ffffff", textAlign: "left" }}></th>
-              {cols.map((edition) => (
-                <th key={edition} style={{ position: "sticky", top: 0, zIndex: 3, minWidth: 130, padding: "0.7rem", color: "#ffffff", textAlign: "center", fontWeight: 800 }}>
-                  {edition}
-                </th>
+              <th className="ks-compare-th ks-compare-th-left"></th>
+              {cols.map(e => (
+                <th key={e} className="ks-compare-th">{e}</th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {visibleRows.map(([label, values], rowIndex) => (
-              <tr key={label} style={{ background: rowIndex % 2 === 0 ? "#ffffff" : "#fafafb", borderBottom: "1px solid rgba(47,49,90,0.06)" }}>
-                <td style={{ position: "sticky", left: 0, zIndex: 2, background: rowIndex % 2 === 0 ? "#ffffff" : "#fafafb", padding: "0.7rem", color: "#2f315a", fontWeight: 700 }}>
-                  {label}
-                </td>
-                {indexes.map((index) => (
-                  <td key={`${label}-${index}`} style={{ padding: "0.7rem", color: "#444", textAlign: "center", lineHeight: 1.45 }}>
-                    {values[index]}
+            {CLOUD_EDITION_TABLE.topRows.map(([rowName, values], idx) => {
+              const isFirst = idx === 0;
+              return (
+                <tr key={rowName} className={isFirst ? "ks-compare-tr-book" : "ks-compare-tr-data"}>
+                  <td className={`ks-compare-td-left ${isFirst ? 'ks-compare-td-book' : 'ks-compare-td-data'}`} style={{ fontWeight: 500 }}>
+                    {rowName}
                   </td>
-                ))}
-              </tr>
-            ))}
+                  {filterRow(values).map((v, i) => (
+                    <td key={i} className={isFirst ? "ks-compare-td-book" : "ks-compare-td-data"}>
+                      {isFirst && v.includes("More info") ? (
+                        <>
+                          <div style={{ fontWeight: 700, fontSize: "1.1rem", color: "#16a14b" }}>RM 10 /mo</div>
+                          <a href="#" style={{ fontSize: "0.75rem", color: "#00a2ed", textDecoration: "underline" }}>More info</a>
+                        </>
+                      ) : (
+                        <span style={isFirst ? { fontWeight: 700, fontSize: "1.1rem", color: "#00a2ed" } : {}}>{v}</span>
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              );
+            })}
+
+            {CLOUD_EDITION_TABLE.sections.map((section) => {
+              const rows = diffOnly
+                ? section.rows.filter(([, values]) => rowDiffers(values))
+                : section.rows;
+              if (rows.length === 0) return null;
+              return (
+                <React.Fragment key={section.name}>
+                  <tr className="ks-compare-tr-section">
+                    <td colSpan={cols.length + 1} className="ks-compare-td-section">
+                      {section.name}
+                    </td>
+                  </tr>
+                  {rows.map(([rowName, values]) => {
+                    const visibleVals = filterRow(values);
+                    return (
+                      <tr key={rowName} className="ks-compare-tr-data">
+                        <td className="ks-compare-td-left ks-compare-td-data" style={{ fontWeight: 500 }}>
+                          {rowName}
+                        </td>
+                        {rowName === "Phone Support" ? (
+                          <td colSpan={cols.length} className="ks-compare-td-data" style={{ fontStyle: "italic", color: "#6b6f91" }}>
+                            A fee is chargeable for Phone Support
+                          </td>
+                        ) : (
+                          visibleVals.map((v, vi) => (
+                            <td key={vi} className="ks-compare-td-data">
+                              <EditionMarker value={v} />
+                            </td>
+                          ))
+                        )}
+                      </tr>
+                    );
+                  })}
+                  {section.name === "SUPPORT" && (
+                    <tr className="ks-compare-tr-data">
+                      <td className="ks-compare-td-left ks-compare-td-data" style={{ fontWeight: 500 }}>API for Integration</td>
+                      <td colSpan={cols.length} className="ks-compare-td-data">
+                        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem" }}>
+                           {/* Render the check under PLUS if needed, but it's simpler to just center the text as requested */}
+                           <a href="#" style={{ color: "#00a2ed", textDecoration: "underline", fontWeight: 500 }}>More information on Open API available</a>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </React.Fragment>
+              );
+            })}
           </tbody>
         </table>
       </div>
@@ -584,8 +701,15 @@ export default function AutoCountCloudAccountingPage() {
             diffOnly={editionCompareMode && editionA !== editionB && editionDiffOnly}
           />
 
-          <div className="ks-note-text" style={{ marginTop: "1rem", textAlign: "center" }}>
-            Prices shown are monthly public-plan references excluding SST. Confirm current promotion and edition fit with KSL before subscription.
+          <div className="ks-note-text" style={{ marginTop: "1rem", textAlign: "left", display: "flex", flexDirection: "column", gap: "0.5rem", fontSize: "0.8rem", color: "#6b6f91" }}>
+            <h4 style={{ fontWeight: 700, margin: 0, color: "#2f315a", fontSize: "0.85rem" }}>FREE TRIAL RANGE BASED ON MODULE</h4>
+            <div><strong style={{ color: "#444" }}>Sales Module:</strong> Unlimited transaction including Quotation, Invoice, Credit Note (CN.)*</div>
+            <div><strong style={{ color: "#444" }}>Purchase Module:</strong> Up to 60 transactions including Purchase Order (PO.), Purchase Invoices (PI.) and Purchase Return (PR.)*</div>
+            <div><strong style={{ color: "#444" }}>Stock Module:</strong> Up to 60 transactions including Stock Adjustment and Stock Transfer*</div>
+            <div><strong style={{ color: "#444" }}>Accounting Module:</strong> Up to 60 transactions including Cash Book and Journal Voucher.*</div>
+            <div style={{ marginTop: "0.5rem" }}>*Free Trial: use for free until any of the above modules reaches its free trial transaction limit within a calendar year.</div>
+            <div>**Price displayed excludes SST charges.</div>
+            <div>** All promotion offers are subject to terms and conditions.</div>
           </div>
         </div>
       </div>

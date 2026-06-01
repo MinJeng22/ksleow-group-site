@@ -454,23 +454,9 @@ function EditionMarker({ value }) {
 }
 
 function EditionsTable({ selected = null, diffOnly = false }) {
-  /* selected: optional array of edition names to render (otherwise all 5).
-     diffOnly: when true (compare mode), hide rows whose values are identical
-     across the selected editions. */
-  const cellPad = "0.62rem 0.58rem";
   const cols = (selected && selected.length > 0) ? selected : EDITIONS;
   const colIdx = cols.map(c => EDITIONS.indexOf(c));
-  const stickyHeaderCell = {
-    position: "sticky",
-    top: 0,
-    zIndex: 3,
-    background: "#80c31e",
-  };
-  const stickyBookCell = {
-    background: "#fafafb",
-  };
 
-  /* Pick subset of values for visible columns, optionally filter equal rows. */
   const filterRow = (values) => colIdx.map(i => values[i]);
   const rowDiffers = (values) => {
     const subset = filterRow(values);
@@ -478,22 +464,22 @@ function EditionsTable({ selected = null, diffOnly = false }) {
   };
 
   return (
-    <div style={{ background: "#ffffff", borderRadius: 14, border: "1px solid rgba(47,49,90,0.08)", boxShadow: "0 4px 20px rgba(47,49,90,0.05)" }}>
-      <div className="editions-table-wrap">
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.84rem" }}>
-          <thead style={{ position: "sticky", top: 0, zIndex: 3 }}>
+    <div className="ks-compare-panel">
+      <div className="ks-compare-wrap">
+        <table className="ks-compare-table">
+          <thead className="ks-compare-thead">
             <tr style={{ background: "#80c31e" }}>
-              <th style={{ ...stickyHeaderCell, padding: cellPad, textAlign: "left", color: "#ffffff", fontWeight: 600, minWidth: 190 }}></th>
+              <th className="ks-compare-th ks-compare-th-left"></th>
               {cols.map(e => (
-                <th key={e} style={{ ...stickyHeaderCell, padding: cellPad, color: "#ffffff", fontWeight: 700, textAlign: "center", minWidth: 86, lineHeight: 1.25 }}>{e}</th>
+                <th key={e} className="ks-compare-th">{e}</th>
               ))}
             </tr>
           </thead>
           <tbody>
-            <tr style={{ background: "#fafafb", borderBottom: "1px solid rgba(47,49,90,0.08)" }}>
-              <td style={{ ...stickyBookCell, padding: cellPad, color: "#2f315a", fontWeight: 500 }}>Default Account Book</td>
+            <tr className="ks-compare-tr-book">
+              <td className="ks-compare-td-left ks-compare-td-book" style={{ background: "inherit", fontWeight: 500 }}>Default Account Book</td>
               {filterRow(EDITION_TABLE.defaultAccountBook).map((v, i) => (
-                <td key={i} style={{ ...stickyBookCell, padding: cellPad, color: "#2f315a", fontWeight: 600, textAlign: "center" }}>{v}</td>
+                <td key={i} className="ks-compare-td-book">{v}</td>
               ))}
             </tr>
             {EDITION_TABLE.sections.map((section) => {
@@ -503,18 +489,18 @@ function EditionsTable({ selected = null, diffOnly = false }) {
               if (rows.length === 0) return null;
               return (
                 <React.Fragment key={section.name}>
-                  <tr style={{ background: "#eaeaef" }}>
-                    <td colSpan={cols.length + 1} style={{ padding: "0.55rem 0.85rem", color: "#6b6f91", fontSize: "0.7rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                  <tr className="ks-compare-tr-section">
+                    <td colSpan={cols.length + 1} className="ks-compare-td-section">
                       {section.name}
                     </td>
                   </tr>
                   {rows.map(([rowName, values], ri) => {
                     const visibleVals = filterRow(values);
                     return (
-                      <tr key={rowName} style={{ background: ri % 2 === 0 ? "#ffffff" : "#fafafb", borderBottom: "1px solid rgba(47,49,90,0.05)" }}>
-                        <td style={{ padding: cellPad, color: "#2f315a" }}>{rowName}</td>
+                      <tr key={rowName} className="ks-compare-tr-data">
+                        <td className="ks-compare-td-left ks-compare-td-data" style={{ fontWeight: 500 }}>{rowName}</td>
                         {visibleVals.map((v, vi) => (
-                          <td key={vi} style={{ padding: cellPad, textAlign: "center" }}>
+                          <td key={vi} className="ks-compare-td-data">
                             <EditionMarker value={v} />
                           </td>
                         ))}

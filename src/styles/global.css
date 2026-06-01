@@ -1852,3 +1852,101 @@ body.has-active-modal .back-to-top-glass {
   .section-divider-icon svg { width: 32px !important; height: 32px !important; }
   .section-divider-icon { width: 48px !important; height: 48px !important; }
 }
+
+
+/* ========================================= */
+/* Shared Editions Comparison Table Styles   */
+/* ========================================= */
+
+.ks-compare-panel {
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid rgba(47,49,90,0.08);
+  box-shadow: 0 4px 20px rgba(47,49,90,0.05);
+  overflow: hidden;
+}
+
+.ks-compare-wrap {
+  overflow-x: auto;
+}
+
+.ks-compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm, 0.84rem);
+}
+
+.ks-compare-thead {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+}
+
+.ks-compare-th {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  padding: 0.7rem;
+  color: #ffffff;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.25;
+}
+
+.ks-compare-th-left {
+  text-align: left;
+  font-weight: 600;
+  min-width: 190px;
+}
+
+.ks-compare-tr-book {
+  background: #fafafb;
+  border-bottom: 1px solid rgba(47,49,90,0.08);
+}
+
+.ks-compare-td-book {
+  padding: 0.7rem;
+  color: #2f315a;
+  font-weight: 600;
+  text-align: center;
+}
+
+.ks-compare-tr-section {
+  background: #eaeaef;
+}
+
+.ks-compare-td-section {
+  padding: 0.55rem 0.85rem;
+  color: #6b6f91;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.ks-compare-tr-data:nth-child(even) {
+  background: #fafafb;
+}
+.ks-compare-tr-data:nth-child(odd) {
+  background: #ffffff;
+}
+
+.ks-compare-tr-data {
+  border-bottom: 1px solid rgba(47,49,90,0.05);
+}
+
+.ks-compare-td-data {
+  padding: 0.7rem;
+  text-align: center;
+  color: #444;
+  line-height: 1.45;
+}
+
+.ks-compare-td-left {
+  text-align: left;
+  color: #2f315a;
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: inherit;
+}
