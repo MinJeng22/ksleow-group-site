@@ -266,7 +266,7 @@ function MorphingTutorialPreview({ direction, videoId, startRect, endRect, onCom
   );
 }
 
-export default function AutoCountTrainingWebGL({ customVideos, themeColor = '#80c31e', themeHoverColor = '#8bc34a', activeTabBg = '#2f315a', playIconColor = '#2f315a', playBtnBg = '#e8c97a' }) {
+export default function AutoCountTrainingWebGL({ customVideos, title = '{title}', themeColor = '#80c31e', themeHoverColor = '#8bc34a', activeTabBg = '#2f315a', playIconColor = '#2f315a', playBtnBg = '#e8c97a' }) {
   const videos = customVideos || VIDEOS;
   const [activeVideo, setActiveVideo] = useState(videos[0].id);
   const [playerOpen, setPlayerOpen] = useState(false);
@@ -917,7 +917,7 @@ export default function AutoCountTrainingWebGL({ customVideos, themeColor = '#80
             fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', fontWeight: 700,
             color: '#2f315a', lineHeight: 1.2, margin: 0,
           }}>
-            AutoCount Accounting Quick-Start Guide
+            {title}
           </h2>
         </div>
 
