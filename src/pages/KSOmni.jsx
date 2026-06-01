@@ -620,6 +620,7 @@ export default function KSLOmniPage() {
       const final = await streamChat({
         payload: {
           messages: [{ role: "user", text: apiText }],
+          session_id: activeSessionId,
           ...(machineId ? { machine_id: machineId } : {}),
         },
         signal:  abortRef.current.signal,
