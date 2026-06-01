@@ -346,7 +346,7 @@ textarea {
 
 .ac-feature-card {
   position: relative;
-  height: max-content;
+  height: 100%;
   border-radius: 16px;
   padding: 1.25rem 1.25rem 1.25rem 1.55rem;
   display: flex;
@@ -505,9 +505,7 @@ textarea {
   .ac-features-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .ac-feature-card {
-    min-height: 210px;
-  }
+  
 }
 
 /* ── Partners — visible ── */
@@ -597,9 +595,9 @@ textarea {
     gap: 0.8rem;
   }
   .ac-feature-card {
-    min-height: 180px;
-    padding: 1.05rem 1.05rem 1.05rem 1.35rem;
-  }
+      height: 100%;
+      padding: 1.05rem 1.05rem 1.05rem 1.35rem;
+    }
   .ac-feature-icon {
     width: 46px;
     height: 46px;
@@ -610,8 +608,8 @@ textarea {
     height: 30px;
   }
   .ac-feature-copy {
-    margin-top: auto;
-  }
+      margin-top: 0.5rem;
+    }
   .ac-feature-title {
     font-size: 0.86rem;
     overflow-wrap: anywhere;
@@ -1847,5 +1845,5 @@ body.has-active-modal .back-to-top-glass {
 }
 
 @media (max-width: 1024px) {
-  .omni-qr-btn-group { display: none !important; }
+  .omni-qr-btn-group, .omni-qr-fab { display: none !important; }
 }

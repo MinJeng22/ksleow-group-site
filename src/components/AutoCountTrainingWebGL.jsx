@@ -1054,14 +1054,14 @@ export default function AutoCountTrainingWebGL() {
                     );
                   })}
                 </div>
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', paddingTop: '2.5rem' }}>
                   <p className="tutorial-description" style={{
                     fontSize: '0.95rem', color: '#6b6f91', lineHeight: 1.8,
-                    maxWidth: 480, marginBottom: '1.5rem', marginTop: 0,
+                    maxWidth: 480, marginBottom: '2.5rem', marginTop: 0,
                   }}>
                     {activeVideoMeta.description}
                   </p>
-                  <div className="tutorial-actions" style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+                  <div className="tutorial-actions" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap', maxWidth: 480 }}>
                     <button
                       onClick={handlePlay}
                       disabled={Boolean(morph)}

@@ -63,7 +63,7 @@ function QRModal({ onClose, pageUrl, qrUrl, qrReady, onMouseEnter, onMouseLeave 
         Scan this QR code with your phone to open KS Omni on your mobile device.
       </p>
       <div style={{
-        width: 226, height: 226,
+        width: 180, height: 180,
         margin: "0 auto 1.25rem",
         display: "flex", alignItems: "center", justifyContent: "center",
         padding: "0.75rem", borderRadius: 16,
@@ -71,7 +71,7 @@ function QRModal({ onClose, pageUrl, qrUrl, qrReady, onMouseEnter, onMouseLeave 
         background: "#f8f8fb",
       }}>
         {qrReady ? (
-          <img src={qrUrl} alt="QR code" width={200} height={200} loading="eager" decoding="async" style={{ display: "block", borderRadius: 8 }} />
+          <img src={qrUrl} alt="QR code" width={180} height={180} loading="eager" decoding="async" style={{ display: "block", borderRadius: 8 }} />
         ) : (
           <div aria-label="Loading QR code" style={{
             width: 34, height: 34,
@@ -841,7 +841,7 @@ export default function KSLOmniPage() {
 
           <div className="top-right-controls">
             <button 
-              className="search-fab lg-glass lg-glass-btn" 
+              className="search-fab lg-glass lg-glass-btn omni-qr-fab" 
               style={{ color: "#ffffff" }}
               onClick={() => setShowQR(true)} 
               onMouseEnter={handleQREnter}
