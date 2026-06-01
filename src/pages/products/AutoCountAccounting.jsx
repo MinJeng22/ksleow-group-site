@@ -574,21 +574,21 @@ const BRAND_LOGOS = [
 ];
 
 const AWARDS_IMAGES = [
-  "/images/awards/ksl-award-1.png",
-  "/images/awards/ksl-award-2.jpg",
-  "/images/awards/ksl-award-3.jpg",
-  "/images/awards/ksl-award-4.jpg",
-  "/images/awards/ksl-award-5.png",
-  "/images/awards/ksl-award-6.png",
-  "/images/awards/ksl-award-7.png",
-  "/images/awards/ksl-award-8.png",
-  "/images/awards/ksl-award-9.png",
-  "/images/awards/ksl-award-10.png",
-  "/images/awards/ksl-award-11.png",
-  "/images/awards/ksl-award-12.png",
-  "/images/awards/ksl-award-13.jpg",
-  "/images/awards/ksl-award-14.jpg",
-];
+    "/images/awards/ac-medal.jpg",
+    "/images/awards/ac-trophy.png",
+    "/images/awards/ac-medal.jpg",
+    "/images/awards/ac-trophy.png",
+    "/images/awards/ac-medal.jpg",
+    "/images/awards/ac-trophy.png",
+    "/images/awards/ac-medal.jpg",
+    "/images/awards/ac-trophy.png",
+    "/images/awards/ac-medal.jpg",
+    "/images/awards/ac-trophy.png",
+    "/images/awards/ac-medal.jpg",
+    "/images/awards/ac-trophy.png",
+    "/images/awards/ac-medal.jpg",
+    "/images/awards/ac-trophy.png",
+  ];
 
 function FeatureHighlights() {
   const gridRef = useRef(null);
@@ -686,8 +686,7 @@ export default function AutoCountAccountingPage({ onContact }) {
   const [editionA, setEditionA] = useState(EDITIONS[0]);                  /* Account Plus */
   const [editionB, setEditionB] = useState(EDITIONS[EDITIONS.length - 1]); /* Premium */
   const [editionDiffOnly, setEditionDiffOnly] = useState(false);
-  const [showTrophyModal, setShowTrophyModal] = useState(false);
-
+  
 
 
   /* ── Init from URL ───────────────────────────────────────────────
@@ -1151,24 +1150,26 @@ export default function AutoCountAccountingPage({ onContact }) {
           }
           .ac-awards-item {
             flex: 0 0 auto;
-            width: 100px;
-            height: 135px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(47,49,90,0.08);
-            overflow: hidden;
-            background: #fff;
-            border: 1px solid rgba(47,49,90,0.04);
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+            width: 70px;
+            height: 95px;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 0 0.15rem;
+          }
+          .ac-awards-item:nth-child(even) {
+            margin-right: 1.5rem;
           }
           .ac-awards-item:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(47,49,90,0.15);
             z-index: 10;
           }
           .ac-awards-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
             transition: transform 0.4s ease;
           }
           .ac-awards-item:hover img {
@@ -1209,44 +1210,9 @@ export default function AutoCountAccountingPage({ onContact }) {
             Top AutoCount Dealer in Pahang State for 7 Consecutive Years — Empowering Your Business with 7 Years of Expertise, Prompt On-Site Support & Dedicated Training
           </p>
 
-          <div style={{ marginBottom: "2rem" }}>
-            <button
-              onClick={() => setShowTrophyModal(true)}
-              style={{
-                background: "var(--gold)", color: "#1e2040", border: "none",
-                borderRadius: "50px", padding: "0.85rem 1.75rem", fontSize: "0.95rem",
-                fontWeight: 700, cursor: "pointer", display: "inline-flex",
-                alignItems: "center", gap: "0.5rem", transition: "transform 0.2s, background 0.2s"
-              }}
-              onMouseOver={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.background = "var(--gold-light)"; }}
-              onMouseOut={e => { e.currentTarget.style.transform = "none"; e.currentTarget.style.background = "var(--gold)"; }}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
-                <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
-                <path d="M4 22h16" />
-                <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" />
-                <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
-                <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
-              </svg>
-              View Top Dealer Trophy
-            </button>
-          </div>
+          
 
-          {showTrophyModal && (
-            <div style={{ position: "fixed", inset: 0, zIndex: 10000, background: "rgba(0,0,0,0.8)", display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem" }} onClick={() => setShowTrophyModal(false)}>
-              <div style={{ position: "relative", background: "#fff", padding: "1rem", borderRadius: "16px", maxWidth: "400px", width: "100%" }} onClick={e => e.stopPropagation()}>
-                <button onClick={() => setShowTrophyModal(false)} style={{ position: "absolute", top: "1rem", right: "1rem", background: "rgba(0,0,0,0.1)", border: "none", width: 32, height: 32, borderRadius: "50%", cursor: "pointer", display: "grid", placeItems: "center" }}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
-                  </svg>
-                </button>
-                <img src="/images/awards/top-dealer-trophy.png" alt="Top Dealer Trophy" style={{ width: "100%", height: "auto", display: "block", borderRadius: "8px" }} />
-                <h3 style={{ textAlign: "center", marginTop: "1.5rem", color: "#2f315a", fontSize: "1.2rem", fontWeight: 800 }}>Top AutoCount Dealer</h3>
-                <p style={{ textAlign: "center", color: "#6b6f91", fontSize: "0.9rem", marginTop: "0.5rem" }}>Proudly awarded to KSL Business Solutions for outstanding performance and commitment to excellence.</p>
-              </div>
-            </div>
-          )}
+          
 
           <div className="ac-awards-container">
             <div className="ac-awards-track">
