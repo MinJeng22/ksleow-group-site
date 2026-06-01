@@ -19,7 +19,7 @@ import useDarkBg from "../hooks/useDarkBg";
  *
  * Hidden on screens < 1280px via the .ac-sidebar media query in global.css.
  */
-export default function SectionSidebar({ items }) {
+export default function SectionSidebar({ items, theme = "gold" }) {
   const [active, setActive] = useState(items[0]?.id || "");
   const lockedRef = useRef(false);
   const navRef = useRef(null);
@@ -95,8 +95,8 @@ export default function SectionSidebar({ items }) {
               display: "flex", alignItems: "center", gap: 8,
               padding: "0.5rem 0.85rem",
               border: "none",
-              background: isActive ? (isDark ? "rgba(201,168,76,0.25)" : "rgba(201,168,76,0.15)") : "transparent",
-              color: isActive ? (isDark ? "#c9a84c" : "#a17f1e") : (isDark ? "#ffffff" : "#6b6f91"),
+              background: isActive ? (theme === "green" ? "rgba(22,161,75,0.15)" : (isDark ? "rgba(201,168,76,0.25)" : "rgba(201,168,76,0.15)")) : "transparent",
+              color: isActive ? (theme === "green" ? "#16a14b" : (isDark ? "#c9a84c" : "#a17f1e")) : (isDark ? "#ffffff" : "#6b6f91"),
               /* Constant font-weight prevents layout shift between states */
               fontWeight: 600,
               fontSize: "0.78rem",

@@ -969,7 +969,7 @@ export default function AutoCountTrainingWebGL({ customVideos, themeColor = '#80
 
                 {iframeMounted && (
                   <iframe
-                    src={`https://www.youtube.com/embed/${activeVideo}?autoplay=1&rel=0&modestbranding=1${activeVideoMeta.playlistId ? '&list=' + activeVideoMeta.playlistId : ''}`}
+                    src={`https://www.youtube.com/embed/${activeVideo}?autoplay=1&rel=0&modestbranding=1${activeVideoMeta.start ? '&start=' + activeVideoMeta.start : ''}${activeVideoMeta.playlistId ? '&list=' + activeVideoMeta.playlistId : ''}`}
                     title="AutoCount Training Video"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen

@@ -21,7 +21,15 @@ const TRAINING_URL = "https://youtu.be/zHstLv2-ATw?si=tSfLxwPCw1YvYKSg";
 
 const CLOUD_VIDEOS = [
   {
-    id: 'pHRMw-oo0o0?start=39',
+    id: 'NNnJevwax-8',
+    label: 'Software Introduction',
+    description: 'A brief introduction to AutoCount CloudAccounting and its capabilities.',
+    note: 'Introduction',
+    icon: <svg className="tutorial-tab-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+  },
+  {
+    id: 'pHRMw-oo0o0',
+    start: 39,
     label: 'General Tutorial',
     description: 'Learn AutoCount CloudAccounting in Just 30 Minutes. A fast orientation for owners and accounts teams who want to understand the workflow before starting a trial.',
     note: 'Quick-Start Guide',
@@ -606,7 +614,7 @@ export default function AutoCountCloudAccountingPage() {
 
   return (
     <div className="pinned-hero-page product-app-page" style={{ minHeight: "100vh" }}>
-      <SectionSidebar items={SIDEBAR_ITEMS} />
+      <SectionSidebar items={SIDEBAR_ITEMS} theme="green" />
 
       <div className="pinned-hero-stage">
         <ProductHero
@@ -615,7 +623,7 @@ export default function AutoCountCloudAccountingPage() {
           body="A secure browser-based accounting platform for Malaysian SMEs that need e-Invoice compliance, real-time access, document capture, and bank-connected bookkeeping without maintaining an office server."
           iconSrc="/images/products/cloudaccounting-icon.png"
           iconAlt="AutoCount CloudAccounting"
-          backgroundImage="/images/products/autocount-accounting-hero.webp"
+          backgroundImage="/images/products/autocount-cloudaccounting-hero.jpg"
           primaryCta={{ label: "Start Free Trial", href: FREE_TRIAL_URL, target: "_blank", className: "ks-btn-cloud" }}
           secondaryCta={{ label: "WhatsApp Us", href: WA_LINK, target: "_blank" }}
         />
