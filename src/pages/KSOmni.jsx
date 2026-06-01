@@ -38,7 +38,7 @@ function isImageFile(f) {
 }
 
 /* ── QR Code modal ── */
-function QRModal({ onClose, pageUrl, qrUrl, qrReady }) {
+function QRModal({ onClose, pageUrl, qrUrl, qrReady, onMouseEnter, onMouseLeave }) {
   return (
     <div onClick={onClose} style={{
       position: "fixed", inset: 0, zIndex: 9999,
@@ -46,7 +46,10 @@ function QRModal({ onClose, pageUrl, qrUrl, qrReady }) {
       display: "flex", alignItems: "center", justifyContent: "center",
       padding: "1rem", backdropFilter: "blur(4px)",
       animation: "fadeIn 0.2s ease",
-    }}>
+    }}
+    onMouseEnter={onMouseEnter}
+    onMouseLeave={onMouseLeave}
+    >
       <div onClick={e => e.stopPropagation()} style={{
         background: "#ffffff", borderRadius: 24, padding: "2rem",
         maxWidth: 320, width: "100%", textAlign: "center",
@@ -234,6 +237,21 @@ export default function KSLOmniPage() {
   const [input, setInput]                  = useState("");
   const [loading, setLoading]              = useState(false);
   const [showQR, setShowQR]                = useState(false);
+  const qrHoverTimer                       = useRef(null);
+  
+  const handleQREnter = () => {
+    if (window.innerWidth >= 1024 && window.matchMedia("(hover: hover)").matches) {
+      clearTimeout(qrHoverTimer.current);
+      setShowQR(true);
+    }
+  };
+
+  const handleQRLeave = () => {
+    if (window.innerWidth >= 1024 && window.matchMedia("(hover: hover)").matches) {
+      qrHoverTimer.current = setTimeout(() => setShowQR(false), 300);
+    }
+  };
+
   const [attachedImage, setAttachedImage]  = useState(null);   /* { gsUri, dataUrl, sizeKb, uploading } */
   const [pasteError, setPasteError]        = useState("");
   const [keyboardOpen, setKeyboardOpen]    = useState(false);
@@ -813,10 +831,12 @@ export default function KSLOmniPage() {
               className="search-fab lg-glass lg-glass-btn" 
               style={{ color: "#ffffff" }}
               onClick={() => setShowQR(true)} 
+              onMouseEnter={handleQREnter}
+              onMouseLeave={handleQRLeave}
               aria-label="Open on Mobile"
             >
               <QRIcon />
-              <span>Mobile QR</span>
+              <span>Open on Mobile</span>
             </button>
             <button 
               className="menu-fab lg-glass lg-glass-btn" 
@@ -977,7 +997,8 @@ export default function KSLOmniPage() {
       </div>
     </div>
 
-      {showQR && <QRModal onClose={() => setShowQR(false)} pageUrl={pageUrl} qrUrl={qrUrl} qrReady={qrReady} />}
+      {/* ── QR Modal ── */}
+      {showQR && <QRModal onClose={() => setShowQR(false)} pageUrl={pageUrl} qrUrl={qrUrl} qrReady={qrReady} onMouseEnter={handleQREnter} onMouseLeave={handleQRLeave} />}
 
       {/* ── Mobile Float Bar (Back, Search, Menu) ── */}
       {isMobile && !keyboardOpen && (
