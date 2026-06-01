@@ -507,8 +507,8 @@ export default function AutoCountCloudAccountingPage() {
         <div id="training">
           <AutoCountTrainingWebGL 
             customVideos={CLOUD_VIDEOS} 
-            themeColor="#00a2ed" 
-            themeHoverColor="#19b2f5" 
+            themeColor="#16a14b" 
+            themeHoverColor="#19b554" 
             playBtnBg="#00a2ed" 
             playIconColor="#ffffff" 
             activeTabBg="#00a2ed" 

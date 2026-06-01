@@ -128,7 +128,7 @@ function getTabletScreenRadius(rect) {
   return isDesktopTabletRect(rect) ? 10 : 10;
 }
 
-function MorphingTutorialPreview({ direction, videoId, startRect, endRect, onComplete, isSettling }) {
+function MorphingTutorialPreview({ direction, videoId, startRect, endRect, onComplete, isSettling, playIconColor = '#2f315a' }) {
   const [active, setActive] = useState(false);
   const completedRef = useRef(false);
   const duration = direction === 'open' ? MORPH_OPEN_MS : MORPH_CLOSE_MS;

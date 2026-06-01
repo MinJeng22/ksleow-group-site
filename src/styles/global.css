@@ -57,12 +57,12 @@ html { scroll-behavior: smooth; }
 
 /* Small Tablet / Large Mobile */
 @media (max-width: 768px) {
-  html { font-size: 13px; }
+  html { font-size: 14.5px; }
 }
 
 /* Small Mobile */
 @media (max-width: 480px) {
-  html { font-size: 12px; }
+  html { font-size: 14px; }
 }
 
 body {
