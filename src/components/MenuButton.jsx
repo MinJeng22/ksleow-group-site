@@ -734,9 +734,13 @@ export default function MenuButton({ onOpenSearch, hideBar }) {
           const top = el.getBoundingClientRect().top + window.scrollY - 20;
           window.scrollTo({ top, behavior: "smooth" });
         }
-          if (item.scrollTo === '#supaprintz-card' || item.scrollTo === '#sitegiant-card') {
-            window.location.hash = item.scrollTo;
+          
+          if (item.scrollTo === '#supaprintz-card') {
+            setTimeout(() => window.dispatchEvent(new CustomEvent('openOtherServiceModal', { detail: 'supaprintz' })), 500);
+          } else if (item.scrollTo === '#sitegiant-card') {
+            setTimeout(() => window.dispatchEvent(new CustomEvent('openOtherServiceModal', { detail: 'sitegiant' })), 500);
           }
+
 
       };
 

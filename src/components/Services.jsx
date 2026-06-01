@@ -206,7 +206,7 @@ function ServiceCard({ service }) {
   }
 
     return (
-      <div id={`service-${service.key}`} ref={cardRef} style={{ perspective: "1200px", height: 290, scrollMarginTop: 80 }}>
+      <div id={`service-${service.key}`} ref={cardRef} style={{ perspective: "1200px", height: 290, scrollMarginTop: typeof window !== "undefined" && window.innerWidth < 768 ? "calc(50vh - 145px)" : 80 }}>
       <div style={{
         position: "relative", width: "100%", height: "100%",
         transformStyle: "preserve-3d",

@@ -1849,5 +1849,6 @@ body.has-active-modal .back-to-top-glass {
 }
 
 @media (max-width: 900px) {
-  .section-divider-icon-svg { width: 32px !important; height: 32px !important; }
+  .section-divider-icon svg { width: 32px !important; height: 32px !important; }
+  .section-divider-icon { width: 48px !important; height: 48px !important; }
 }

@@ -374,7 +374,7 @@ export default function Products({ onContact }) {
                 animateReveal={!revealSettled}
                 onHover={setHovered}
                 onLeave={() => setHovered(null)}
-                onOpen={navigate}
+                onOpen={(route) => route ? navigate(route) : null}
               />
             ))}
             </div>
