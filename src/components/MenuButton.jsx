@@ -879,7 +879,7 @@ export default function MenuButton({ onOpenSearch, hideBar }) {
             <div className="mfb-divider" style={{ background: isMobileDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.1)" }} />
             
             <button 
-              className="mfb-btn" 
+              className="mfb-btn omni-qr-btn-group" 
               onClick={() => window.dispatchEvent(new Event("toggleOmniQR"))} 
               aria-label="Open on Phone"
               style={{ color: isMobileDark ? "#e1c87d" : "#a17f1e" }}
@@ -891,7 +891,7 @@ export default function MenuButton({ onOpenSearch, hideBar }) {
               </svg>
               <span>Phone</span>
             </button>
-            <div className="mfb-divider" style={{ background: isMobileDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.1)" }} />
+            <div className="mfb-divider omni-qr-btn-group" style={{ background: isMobileDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.1)" }} />
           </>
         )}
 

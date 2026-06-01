@@ -332,7 +332,7 @@ textarea {
 }
 
 .ac-features-showcase {
-  padding: 3.4rem 0 3.6rem !important;
+  padding: 1.5rem 0 3.6rem !important;
   overflow: hidden;
   background: transparent;
   color: #2f315a;
@@ -346,7 +346,7 @@ textarea {
 
 .ac-feature-card {
   position: relative;
-  height: 100%;
+  height: max-content;
   border-radius: 16px;
   padding: 1.25rem 1.25rem 1.25rem 1.55rem;
   display: flex;
@@ -1834,4 +1834,18 @@ body.has-active-modal .back-to-top-glass {
   font-weight: 600;
   color: var(--gold);
   letter-spacing: 0.04em;
+}
+
+.ks-learn-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 1024px) {
+  .omni-qr-btn-group { display: none !important; }
 }

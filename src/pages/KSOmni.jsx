@@ -85,14 +85,6 @@ function QRModal({ onClose, pageUrl, qrUrl, qrReady, onMouseEnter, onMouseLeave 
       <div style={{ background: "#f0f0f6", borderRadius: 10, padding: "0.55rem 0.85rem", fontSize: "0.68rem", color: "#6b6f91", fontFamily: "monospace", wordBreak: "break-all", marginBottom: "1.25rem" }}>
         {pageUrl}
       </div>
-      <button onClick={onClose} style={{
-        width: "100%", padding: "0.7rem", background: "#2f315a", color: "#ffffff",
-        border: "none", borderRadius: 50, fontSize: "0.85rem", fontWeight: 600,
-        cursor: "pointer", fontFamily: "inherit", transition: "background 0.2s",
-      }}
-        onMouseOver={e => e.currentTarget.style.background = "#3d4075"}
-        onMouseOut={e => e.currentTarget.style.background = "#2f315a"}
-      >Close</button>
     </div>
   );
 }
