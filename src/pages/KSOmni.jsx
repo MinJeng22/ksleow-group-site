@@ -40,58 +40,59 @@ function isImageFile(f) {
 /* ── QR Code modal ── */
 function QRModal({ onClose, pageUrl, qrUrl, qrReady, onMouseEnter, onMouseLeave }) {
   return (
-    <div onClick={onClose} style={{
-      position: "fixed", inset: 0, zIndex: 9999,
-      background: "rgba(15,17,40,0.65)",
-      display: "flex", alignItems: "center", justifyContent: "center",
-      padding: "1rem", backdropFilter: "blur(4px)",
-      animation: "fadeIn 0.2s ease",
-    }}
-    onMouseEnter={onMouseEnter}
-    onMouseLeave={onMouseLeave}
-    >
-      <div onClick={e => e.stopPropagation()} style={{
-        background: "#ffffff", borderRadius: 24, padding: "2rem",
-        maxWidth: 320, width: "100%", textAlign: "center",
-        boxShadow: "0 32px 80px rgba(15,17,40,0.35)",
+    <div 
+      className="ks-nav-glass-panel"
+      onClick={e => e.stopPropagation()} 
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      style={{
+        position: "fixed", 
+        top: "4.55rem", 
+        right: "6rem",
+        zIndex: 1101,
+        borderRadius: "26px", 
+        padding: "1.5rem",
+        maxWidth: 320, 
+        width: "100%", 
+        textAlign: "center",
         animation: "slideUp 0.25s cubic-bezier(0.34,1.56,0.64,1)",
-        marginTop: "1.5rem", position: "relative",
+      }}
+    >
+      <h3 style={{ fontSize: "1.1rem", fontWeight: 700, color: "#2f315a", marginBottom: "0.4rem" }}>Open on Mobile</h3>
+      <p style={{ fontSize: "0.78rem", color: "#6b6f91", lineHeight: 1.6, marginBottom: "1.25rem" }}>
+        Scan this QR code with your phone to open KS Omni on your mobile device.
+      </p>
+      <div style={{
+        width: 226, height: 226,
+        margin: "0 auto 1.25rem",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        padding: "0.75rem", borderRadius: 16,
+        border: "2px solid rgba(47,49,90,0.1)",
+        background: "#f8f8fb",
       }}>
-        <h3 style={{ fontSize: "1.1rem", fontWeight: 700, color: "#2f315a", marginBottom: "0.4rem" }}>Open on Mobile</h3>
-        <p style={{ fontSize: "0.78rem", color: "#6b6f91", lineHeight: 1.6, marginBottom: "1.25rem" }}>
-          Scan this QR code with your phone to open KS Omni on your mobile device.
-        </p>
-        <div style={{
-          width: 226, height: 226,
-          display: "inline-flex", alignItems: "center", justifyContent: "center",
-          padding: "0.75rem", borderRadius: 16,
-          border: "2px solid rgba(47,49,90,0.1)",
-          background: "#f8f8fb", marginBottom: "1.25rem",
-        }}>
-          {qrReady ? (
-            <img src={qrUrl} alt="QR code" width={200} height={200} loading="eager" decoding="async" style={{ display: "block", borderRadius: 8 }} />
-          ) : (
-            <div aria-label="Loading QR code" style={{
-              width: 34, height: 34,
-              border: "3px solid rgba(47,49,90,0.14)",
-              borderTopColor: "#2f315a",
-              borderRadius: "50%",
-              animation: "spin 0.7s linear infinite",
-            }} />
-          )}
-        </div>
-        <div style={{ background: "#f0f0f6", borderRadius: 10, padding: "0.55rem 0.85rem", fontSize: "0.68rem", color: "#6b6f91", fontFamily: "monospace", wordBreak: "break-all", marginBottom: "1.25rem" }}>
-          {pageUrl}
-        </div>
-        <button onClick={onClose} style={{
-          width: "100%", padding: "0.7rem", background: "#2f315a", color: "#ffffff",
-          border: "none", borderRadius: 50, fontSize: "0.85rem", fontWeight: 600,
-          cursor: "pointer", fontFamily: "inherit", transition: "background 0.2s",
-        }}
-          onMouseOver={e => e.currentTarget.style.background = "#3d4075"}
-          onMouseOut={e => e.currentTarget.style.background = "#2f315a"}
-        >Close</button>
+        {qrReady ? (
+          <img src={qrUrl} alt="QR code" width={200} height={200} loading="eager" decoding="async" style={{ display: "block", borderRadius: 8 }} />
+        ) : (
+          <div aria-label="Loading QR code" style={{
+            width: 34, height: 34,
+            border: "3px solid rgba(47,49,90,0.14)",
+            borderTopColor: "#2f315a",
+            borderRadius: "50%",
+            animation: "spin 0.7s linear infinite",
+          }} />
+        )}
       </div>
+      <div style={{ background: "#f0f0f6", borderRadius: 10, padding: "0.55rem 0.85rem", fontSize: "0.68rem", color: "#6b6f91", fontFamily: "monospace", wordBreak: "break-all", marginBottom: "1.25rem" }}>
+        {pageUrl}
+      </div>
+      <button onClick={onClose} style={{
+        width: "100%", padding: "0.7rem", background: "#2f315a", color: "#ffffff",
+        border: "none", borderRadius: 50, fontSize: "0.85rem", fontWeight: 600,
+        cursor: "pointer", fontFamily: "inherit", transition: "background 0.2s",
+      }}
+        onMouseOver={e => e.currentTarget.style.background = "#3d4075"}
+        onMouseOut={e => e.currentTarget.style.background = "#2f315a"}
+      >Close</button>
     </div>
   );
 }
@@ -219,15 +220,17 @@ export default function KSLOmniPage() {
     return [];
   });
 
-  // When active session changes, load messages
-  useEffect(() => {
+  function switchSession(newId) {
+    abortRef.current?.abort();
+    setActiveSessionId(newId);
     try {
-      const saved = localStorage.getItem(getSessionMessagesKey(machineId, activeSessionId));
+      const saved = localStorage.getItem(getSessionMessagesKey(machineId, newId));
       setMessages(saved ? JSON.parse(saved) : []);
     } catch (e) {
       setMessages([]);
     }
-  }, [activeSessionId, machineId]);
+  }
+
 
   const [isIOS] = useState(() => {
     if (typeof navigator === "undefined") return false;
@@ -416,8 +419,7 @@ export default function KSLOmniPage() {
   }
 
   function startNewChat() {
-    abortRef.current?.abort();
-    setActiveSessionId(generateId());
+    switchSession(generateId());
     setInput("");
     setAttachedImage(null);
     setPasteError("");
@@ -439,7 +441,7 @@ export default function KSLOmniPage() {
       const next = prev.filter(s => s.id !== id);
       localStorage.setItem(getSessionsListKey(machineId), JSON.stringify(next));
       if (id === activeSessionId) {
-        if (next.length > 0) setActiveSessionId(next[0].id);
+        if (next.length > 0) switchSession(next[0].id);
         else startNewChat();
       }
       return next;
@@ -753,7 +755,7 @@ export default function KSLOmniPage() {
           </button>
           <div style={{ flex: 1, overflowY: "auto", display: "flex", flexDirection: "column", gap: "0.5rem", paddingRight: "0.25rem" }}>
             {sessions.map(s => (
-              <div key={s.id} onClick={() => { setActiveSessionId(s.id); if(isMobile) setSidebarOpen(false); }}
+              <div key={s.id} onClick={() => { switchSession(s.id); if(isMobile) setSidebarOpen(false); }}
                    style={{ padding: "0.85rem 1rem", borderRadius: "12px", background: activeSessionId === s.id ? "rgba(255,255,255,0.08)" : "transparent", cursor: "pointer", transition: "background 0.2s", display: "flex", justifyContent: "space-between", alignItems: "center", border: "1px solid rgba(255,255,255,0.03)" }}>
                  <div style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", flex: 1, color: "rgba(255,255,255,0.8)", fontSize: "0.85rem" }}>
                    {s.preview || "New Conversation"}
