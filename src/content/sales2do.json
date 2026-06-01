@@ -126,7 +126,19 @@
       "We will generate an offline activation key and send it back to you.",
       "Enter the key in the <strong>Sales2DO Activation Key</strong> field and click <strong>Activate</strong>."
     ],
-    "offlineNote": "WhatsApp: <a href=\"https://wa.me/60179052323\" target=\"_blank\" rel=\"noreferrer\">017-905 2323</a> &nbsp;&middot;&nbsp; Email: <a href=\"mailto:support@ksleow.com.my\">support@ksleow.com.my</a>"
+    "offlineNote": "WhatsApp: <a href=\"https://wa.me/60179052323\" target=\"_blank\" rel=\"noreferrer\">017-905 2323</a> &nbsp;&middot;&nbsp; Email: <a href=\"mailto:support@ksleow.com.my\">support@ksleow.com.my</a>",
+    "pricingTitle": "Pricing",
+    "pricingInfo": [
+      "Account Book-based.",
+      "1st Account Book <strong>RM600 + 8% SST</strong>.",
+      "Add-ons <strong>RM300 + 8% SST</strong>.",
+      "One-time payment, no yearly fees.",
+      "1 license covers all PCs per account book network."
+    ],
+    "trialTitle": "Trial",
+    "trialInfo": "28-day full trial available.",
+    "transferTitle": "Transfer License",
+    "transferInfo": "Yes, you can transfer the license to another account book. Please contact the KSLeow Support Team for assistance."
   },
   "cta": {
     "heading": "Interested in the Sales2DO plugin?",

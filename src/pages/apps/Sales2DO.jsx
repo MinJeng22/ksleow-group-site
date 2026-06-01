@@ -687,6 +687,26 @@ export default function Sales2DOPage({ onContact }) {
           <div className="ks-eyebrow">{license.label}</div>
           <h2 className="ks-section-title">{license.heading}</h2>
 
+          {/* ── General License Info (Pricing, Trial, Transfer) ── */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.5rem", marginBottom: "3rem" }}>
+            <div style={{ background: "#ffffff", padding: "1.5rem", borderRadius: 14, border: "1px solid rgba(47,49,90,0.08)", boxShadow: "0 8px 24px rgba(47,49,90,0.04)" }}>
+              <h3 className="ks-card-title">{license.pricingTitle}</h3>
+              <BulletList items={richList(license.pricingInfo)} />
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+              <div style={{ background: "#ffffff", padding: "1.5rem", borderRadius: 14, border: "1px solid rgba(47,49,90,0.08)", boxShadow: "0 8px 24px rgba(47,49,90,0.04)" }}>
+                <h3 className="ks-card-title">{license.trialTitle}</h3>
+                <p className="ks-body-text" style={{ margin: 0 }}><RichText>{license.trialInfo}</RichText></p>
+              </div>
+              <div style={{ background: "#ffffff", padding: "1.5rem", borderRadius: 14, border: "1px solid rgba(47,49,90,0.08)", boxShadow: "0 8px 24px rgba(47,49,90,0.04)" }}>
+                <h3 className="ks-card-title">{license.transferTitle}</h3>
+                <p className="ks-body-text" style={{ margin: 0 }}><RichText>{license.transferInfo}</RichText></p>
+              </div>
+            </div>
+          </div>
+
+          <h3 className="ks-card-title" style={{ marginBottom: "1rem" }}>Activation Instructions</h3>
+
           {/* Tabs — only shown on tablet/mobile (hidden on desktop via CSS) */}
           <div className="license-tabs" style={{ display: "flex", background: "#e8e8f0", borderRadius: 50, padding: 4, gap: 2, marginBottom: "2rem", width: "fit-content" }}>
             {[["online", "Online Activation"], ["offline", "Offline Activation"]].map(([key, label]) => (
