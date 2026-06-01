@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Footer from "../../components/Footer";
 import ProductHero from "../../components/ProductHero.jsx";
+import ParticleBackground from "../../components/ParticleBackground.jsx";
 import SectionSidebar from "../../components/SectionSidebar.jsx";
 import { Img } from "../../components/Media.jsx";
 import SectionDivider, { IconVideo, IconGrid, IconLedger, IconStar } from "../../components/SectionDivider.jsx";
@@ -345,10 +346,10 @@ function EditionTable({ selected = null, diffOnly = false }) {
                       {isFirst && v.includes("More info") ? (
                         <>
                           <div style={{ fontWeight: 700, fontSize: "1.1rem", color: "#16a14b" }}>RM 10 /mo</div>
-                          <a href="#" style={{ fontSize: "0.75rem", color: "#00a2ed", textDecoration: "underline" }}>More info</a>
+                          <a href="#" style={{ fontSize: "0.75rem", color: "#16a14b", textDecoration: "underline" }}>More info</a>
                         </>
                       ) : (
-                        <span style={isFirst ? { fontWeight: 700, fontSize: "1.1rem", color: "#00a2ed" } : {}}>{v}</span>
+                        <span style={isFirst ? { fontWeight: 700, fontSize: "1.1rem", color: "#16a14b" } : {}}>{v}</span>
                       )}
                     </td>
                   ))}
@@ -395,7 +396,7 @@ function EditionTable({ selected = null, diffOnly = false }) {
                       <td colSpan={cols.length} className="ks-compare-td-data">
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem" }}>
                            {/* Render the check under PLUS if needed, but it's simpler to just center the text as requested */}
-                           <a href="#" style={{ color: "#00a2ed", textDecoration: "underline", fontWeight: 500 }}>More information on Open API available</a>
+                           <a href="#" style={{ color: "#16a14b", textDecoration: "underline", fontWeight: 500 }}>More information on Open API available</a>
                         </div>
                       </td>
                     </tr>
@@ -612,7 +613,7 @@ export default function AutoCountCloudAccountingPage() {
 
       <main className="pinned-page-content product-app-content">
       {/* ── Feature highlights ── */}
-      <div className="product-app-section product-app-section-paper product-app-section-clean">
+      <div className="product-app-section product-app-section-paper product-app-section-clean" style={{ '--feature-strip-bg': 'linear-gradient(180deg, #16a14b 0%, #0d7032 100%)', '--feature-strip-shadow': '0 0 16px rgba(22, 161, 75, 0.4)' }}>
         <FeatureHighlights />
       </div>
 
@@ -626,9 +627,9 @@ export default function AutoCountCloudAccountingPage() {
             customVideos={CLOUD_VIDEOS} 
             themeColor="#16a14b" 
             themeHoverColor="#19b554" 
-            playBtnBg="#00a2ed" 
+            playBtnBg="#16a14b" 
             playIconColor="#ffffff" 
-            activeTabBg="#00a2ed" 
+            activeTabBg="#16a14b" 
           />
         </div>
       </div>
@@ -742,6 +743,17 @@ export default function AutoCountCloudAccountingPage() {
                   {label}
                 </button>
               ))}
+              <a 
+                href={OFFICIAL_RELEASE_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="ks-tab-button"
+                style={{ background: "rgba(47,49,90,0.06)", color: "#2f315a" }}
+                onMouseOver={e => e.currentTarget.style.background = "rgba(47,49,90,0.1)"}
+                onMouseOut={e => e.currentTarget.style.background = "rgba(47,49,90,0.06)"}
+              >
+                View more releases
+              </a>
             </div>
           </div>
 
@@ -795,31 +807,32 @@ export default function AutoCountCloudAccountingPage() {
             </>
           )}
 
-          <div style={{ marginTop: "2.5rem", padding: "1.25rem 1.5rem", borderRadius: 12, background: "rgba(47,49,90,0.04)", border: "1px solid rgba(47,49,90,0.08)", display: "flex", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>
-            <div style={{ flex: 1 }}>
-              <div className="ks-card-title">Official CloudAccounting release notes</div>
-              <div className="ks-card-text" style={{ marginTop: 2 }}>Synced from AutoCount Cloud Accounting Help Centre forum topics.</div>
-            </div>
-            <a href={OFFICIAL_RELEASE_URL} target="_blank" rel="noreferrer" className="ks-btn ks-btn-sm ks-btn-brand">
-              Official Forum
-            </a>
-          </div>
+          
         </div>
       </div>
 
-      <div style={{ background: "#2f315a", padding: "4rem 0" }}>
-        <div className="content-wrap" style={{ textAlign: "center" }}>
-          <h2 className="ks-section-title" style={{ color: "#ffffff", marginBottom: "0.75rem" }}>
+      <div className="enquire-now-section">
+        <ParticleBackground
+          theme="light"
+          vignetteStart="rgba(240,240,245,0)"
+          vignetteEnd="rgba(47,49,90,0.08)"
+          densityScale={0.78}
+          mobileDensityScale={2.2}
+          lineAlphaScale={0.38}
+          dotAlpha={0.6}
+        />
+        <div className="enquire-now-content content-wrap">
+          <h2 className="enquire-now-heading">
             Move accounting work into the cloud with proper guidance.
           </h2>
-          <p className="ks-body-text" style={{ color: "rgba(255,255,255,0.66)", maxWidth: 540, margin: "0 auto 1.75rem" }}>
+          <p className="enquire-now-body">
             KSL can help you choose the right edition, start the free trial, and prepare the account book for daily use.
           </p>
-          <div style={{ display: "flex", justifyContent: "center", gap: "0.9rem", flexWrap: "wrap" }}>
-            <a href={WA_LINK} target="_blank" rel="noreferrer" className="ks-btn ks-btn-primary ks-btn-lg">
+          <div style={{ display: "flex", justifyContent: "center", gap: "0.9rem", flexWrap: "wrap", position: "relative", zIndex: 2 }}>
+            <a href={WA_LINK} target="_blank" rel="noreferrer" className="btn-ghost-base btn-ghost-dark">
               WhatsApp KSL Support
             </a>
-            <a href={OFFICIAL_PRODUCT_URL} target="_blank" rel="noreferrer" className="ks-btn ks-btn-light ks-btn-lg">
+            <a href={OFFICIAL_PRODUCT_URL} target="_blank" rel="noreferrer" className="btn-ghost-base btn-ghost-dark">
               Official Product Page
             </a>
           </div>

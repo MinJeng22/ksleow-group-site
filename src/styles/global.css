@@ -389,8 +389,8 @@ textarea {
   height: 80px;
   width: 4px;
   border-radius: 0 999px 999px 0;
-  background: linear-gradient(180deg, #8bc34a 0%, #689f38 100%);
-  box-shadow: 0 0 16px rgba(122,179,23,0.4);
+  background: var(--feature-strip-bg, linear-gradient(180deg, #8bc34a 0%, #689f38 100%));
+  box-shadow: var(--feature-strip-shadow, 0 0 16px rgba(122,179,23,0.4));
 }
 
 
@@ -1885,6 +1885,7 @@ body.has-active-modal .back-to-top-glass {
 .ks-compare-th {
   position: sticky;
   top: 0;
+  background: inherit;
   z-index: 3;
   padding: 0.7rem;
   color: #ffffff;
