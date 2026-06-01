@@ -1205,7 +1205,7 @@ export default function AutoCountAccountingPage({ onContact }) {
             textAlign: "center", fontSize: "0.85rem", fontWeight: 700, letterSpacing: "0.15em",
             color: "#6b6f91", textTransform: "uppercase", marginBottom: "2.5rem", maxWidth: "1000px", margin: "0 auto 2.5rem", lineHeight: 1.6
           }}>
-            Top AutoCount Dealer in Pahang State for 7 Consecutive Years ΓÇö Empowering Your Business with 7 Years of Expertise, Prompt On-Site Support & Dedicated Training
+            Top AutoCount Dealer in Pahang State for 7 Consecutive Years — Empowering Your Business with 7 Years of Expertise, Prompt On-Site Support & Dedicated Training
           </p>
 
           <div className="ac-brand-marquee-container ac-awards-container-new">

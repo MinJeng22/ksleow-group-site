@@ -8,9 +8,9 @@ const MEGA_MENU = [
   {
     title: "Service Pillars",
     items: [
-      { label: "Taxation & Accounting",         scrollTo: "#services", icon: "calculator" },
-      { label: "Secretarial & Management",      scrollTo: "#services", icon: "files" },
-      { label: "Auditing",                      scrollTo: "#services", icon: "shield" },
+      { label: "Taxation & Accounting",         scrollTo: "#service-taxation", icon: "calculator" },
+      { label: "Secretarial & Management",      scrollTo: "#service-secretarial", icon: "files" },
+      { label: "Auditing",                      scrollTo: "#service-auditing", icon: "shield" },
       { label: "Computer Hardware & Technical", scrollTo: "#services", icon: "cpu" },
       { label: "Software Training & Support",   scrollTo: "#services", icon: "graduation" },
       { label: "Webinar & Workshops",           scrollTo: "#services", icon: "video" },
@@ -20,7 +20,7 @@ const MEGA_MENU = [
     title: "Products",
     items: [
       { label: "AutoCount Accounting",      path: "/products/autocount-accounting", icon: "monitor" },
-      { label: "FeedMe POS",                path: "/products/feedme-pos", icon: "fork" },
+      
       { label: "AutoCount CloudAccounting", path: "/products/autocount-cloud-accounting", icon: "cloud" },
       { label: "AutoCount POS",             scrollTo: "#products", icon: "cash-register" },
       { label: "ServerLink",                scrollTo: "#products", icon: "laptop" },
@@ -31,9 +31,9 @@ const MEGA_MENU = [
   {
     title: "Other Services",
     items: [
-      { label: "Printing / Advertising / Design", scrollTo: "#other-services", icon: "printer" },
+      { label: "Printing / Advertising / Design", scrollTo: "#supaprintz-card", icon: "printer" },
       { label: "AutoCount Plugin",                path: "/apps/autocount-plugin", icon: "puzzle" },
-      { label: "SiteGiant Integration",           scrollTo: "#other-services", icon: "link" },
+      { label: "SiteGiant Integration",           scrollTo: "#sitegiant-card", icon: "link" },
       { label: "KS Omni (AI Assistant)",           path: "/omni", icon: "chat" },
     ],
   },
@@ -734,6 +734,10 @@ export default function MenuButton({ onOpenSearch, hideBar }) {
           const top = el.getBoundingClientRect().top + window.scrollY - 20;
           window.scrollTo({ top, behavior: "smooth" });
         }
+          if (item.scrollTo === '#supaprintz-card' || item.scrollTo === '#sitegiant-card') {
+            window.location.hash = item.scrollTo;
+          }
+
       };
 
       if (pathname === "/") {

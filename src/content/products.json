@@ -8,25 +8,16 @@
       "desc": "Malaysia's leading desktop accounting software. Full SST and e-Invoice ready.",
       "image": "/images/products/autocount-02-1024x352.png",
       "background": "/images/products/autocount-accounting-showcase.webp",
-      "placeholder": "🧾",
+      "placeholder": "\ud83e\uddfe",
       "gradient": "rgb(221, 234, 213)",
       "route": "/products/autocount-accounting"
-    },
-    {
-      "name": "FeedMe POS",
-      "desc": "Cloud F&B POS with table management, kitchen display, and online ordering integration.",
-      "image": "/images/products/feedme-white-logo.png",
-      "background": "/images/products/feedme-pos-showcase.webp",
-      "placeholder": "🍽️",
-      "gradient": "linear-gradient(135deg, rgb(255, 238, 222) 0%, rgb(254, 207, 175) 100%)",
-      "route": ""
     },
     {
       "name": "AutoCount CloudAccounting",
       "desc": "Browser-based accounting with e-Invoice, AI SmartScan, bank connection, and anytime access.",
       "image": "/images/products/cloudaccounting-logo.png",
       "background": "/images/products/autocountcloudaccounting.png",
-      "placeholder": "☁️",
+      "placeholder": "\u2601\ufe0f",
       "gradient": "rgb(221, 234, 213)",
       "route": "/products/autocount-cloud-accounting"
     },
@@ -35,7 +26,7 @@
       "desc": "POS integrated with AutoCount Accounting. Real-time inventory and sales reporting.",
       "image": "/images/products/autocountpos.png",
       "background": "/images/products/autocount-pos-showcase.webp",
-      "placeholder": "🖥️",
+      "placeholder": "\ud83d\udda5\ufe0f",
       "gradient": "rgb(244, 234, 207)",
       "route": ""
     },
@@ -44,7 +35,7 @@
       "desc": "Secure, fast, and reliable remote access solution for your business software.",
       "image": "/images/products/serverlink-logo.png",
       "background": "/images/products/serverlink-showcase.png",
-      "placeholder": "🌐",
+      "placeholder": "\ud83c\udf10",
       "gradient": "rgb(235, 235, 235)",
       "route": ""
     },
@@ -53,7 +44,7 @@
       "desc": "Automated payroll compliant with EPF, SOCSO, PCB, and EIS. Payslips in minutes.",
       "image": "/images/products/hrms-logo-2024_white-1024x288.png",
       "background": "/images/products/autocount-hrms.png",
-      "placeholder": "☁️",
+      "placeholder": "\u2601\ufe0f",
       "gradient": "rgb(168, 198, 232)",
       "route": ""
     },
@@ -62,7 +53,7 @@
       "desc": "Omnichannel sales management seamlessly integrated with AutoCount.",
       "image": "/images/products/autocount-onesales.png",
       "background": "/images/products/autocount-onesale.png",
-      "placeholder": "🛍️",
+      "placeholder": "\ud83d\udecd\ufe0f",
       "gradient": "rgb(255, 240, 240)",
       "route": ""
     }

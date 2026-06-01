@@ -281,6 +281,20 @@ export default function OtherServices({ onContact }) {
   const [sitegiantOpen, setSitegiantOpen] = useState(false);
 
   useEffect(() => {
+    const handleHash = () => {
+      if (window.location.hash === '#supaprintz-card') {
+        setPartnerOpen(true);
+      } else if (window.location.hash === '#sitegiant-card') {
+        setSitegiantOpen(true);
+      }
+    };
+    handleHash(); // Run on mount
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
+  }, []);
+
+
+  useEffect(() => {
     [...SUPAPRINTZ_MODAL_IMAGES, SITEGIANT_PARTNER.image].forEach((src) => {
       const img = new Image();
       img.decoding = "async";
