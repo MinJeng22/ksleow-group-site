@@ -599,7 +599,7 @@ export default function AutoCountCloudAccountingPage() {
             <div><strong style={{ color: "#444" }}>Stock Module:</strong> Up to 60 transactions including Stock Adjustment and Stock Transfer*</div>
             <div><strong style={{ color: "#444" }}>Accounting Module:</strong> Up to 60 transactions including Cash Book and Journal Voucher.*</div>
             <div style={{ marginTop: "0.5rem" }}>*Free Trial: use for free until any of the above modules reaches its free trial transaction limit within a calendar year.</div>
-            <div>**Price displayed excludes SST charges.</div>
+            <div>**Prices exclude 8% SST.</div>
             <div>** All promotion offers are subject to terms and conditions.</div>
           </div>
         </div>

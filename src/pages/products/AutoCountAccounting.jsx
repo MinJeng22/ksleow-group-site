@@ -245,6 +245,7 @@ const CODE_TO_EDITION = Object.fromEntries(
 const revNumber  = (r) => String(r.rev).replace(/^Rev\s*/i, "").trim();
 const findByRev  = (n) => RELEASES.find(r => revNumber(r) === String(n));
 const EDITION_TABLE = {
+  oneTimePayment: EDITIONS.map((edition) => EDITION_PRICES[edition]),
   defaultAccountBook: ["1", "3", "3", "5", "5", "5"],
   sections: [
     {
@@ -363,6 +364,15 @@ function EditionsTable({ selected = null, diffOnly = false }) {
             </tr>
           </thead>
           <tbody>
+            <tr className="ks-compare-tr-book">
+              <td className="ks-compare-td-left ks-compare-td-book" style={{ background: "inherit", fontWeight: 500 }}>
+                <span>One-Time Payment</span>
+                <span className="ks-compare-row-subtitle">Price</span>
+              </td>
+              {filterRow(EDITION_TABLE.oneTimePayment).map((v, i) => (
+                <td key={i} className="ks-compare-td-book">{v}</td>
+              ))}
+            </tr>
             <tr className="ks-compare-tr-book">
               <td className="ks-compare-td-left ks-compare-td-book" style={{ background: "inherit", fontWeight: 500 }}>Default Account Book</td>
               {filterRow(EDITION_TABLE.defaultAccountBook).map((v, i) => (
@@ -655,9 +665,6 @@ export default function AutoCountAccountingPage({ onContact }) {
             <h2 style={{ fontSize: "clamp(1.5rem, 2.8vw, 2.2rem)", fontWeight: 700, color: "#2f315a", lineHeight: 1.2, marginBottom: "1rem" }}>
               Comparing 6 Editions of Accounting 2.2
             </h2>
-            <p className="ks-card-text" style={{ margin: "-0.45rem 0 1rem", fontWeight: 700, color: "#4a6e0e" }}>
-              Prices exclude 8% SST.
-            </p>
             <div style={{ display: "inline-flex", gap: "1.5rem", flexWrap: "wrap", justifyContent: "center", fontSize: "0.78rem", color: "#6b6f91" }}>
               <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
                 <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#80c31e", display: "inline-block" }} />
@@ -740,6 +747,9 @@ export default function AutoCountAccountingPage({ onContact }) {
             selected={editionCompareMode ? [editionA, editionB] : null}
             diffOnly={editionCompareMode && editionA !== editionB && editionDiffOnly}
           />
+          <p className="ks-card-text" style={{ margin: "1rem 0 0", fontWeight: 700, color: "#4a6e0e", textAlign: "center" }}>
+            Prices exclude 8% SST.
+          </p>
         </div>
       </div>
 

@@ -2069,6 +2069,14 @@ body.has-active-modal .back-to-top-glass {
   white-space: nowrap;
 }
 
+.ks-compare-row-subtitle {
+  display: block;
+  margin-top: 0.18rem;
+  color: #6b6f91;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
 .ks-compare-th-left {
   text-align: left;
   font-weight: 600;
