@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import CarouselProgress from "./CarouselProgress.jsx";
 import { Img } from "./Media.jsx";
 import productsContent from "../content/products.json";
 
@@ -317,12 +318,6 @@ export default function Products({ onContact }) {
         padding: "var(--section-py) 0",
       }}
     >
-      <style>{`
-        @keyframes products-autoplay-progress {
-          0% { width: 100%; }
-          100% { width: 0%; }
-        }
-      `}</style>
       <div className="content-wrap" style={{ position: "relative", zIndex: 1 }}>
         <div className="products-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: "1.5rem", flexWrap: "wrap", marginBottom: "3rem" }}>
           <div style={{ maxWidth: 760 }}>
@@ -382,77 +377,15 @@ export default function Products({ onContact }) {
           </div>
         </div>
 
-
-        <div style={{ marginTop: "3rem", display: "flex", justifyContent: "center", alignItems: "center", gap: "14px" }}>
-          <div style={{ 
-            display: "flex", alignItems: "center", gap: "10px", 
-            background: "rgba(255,255,255,0.06)", padding: "0 18px", height: "var(--btn-h-lg)", borderRadius: "var(--radius-pill)"
-          }}>
-            {PRODUCTS.map((_, i) => {
-              const actualVisible = getActualVisibleCount(viewportWidth);
-              const isActive = i === progressIndex;
-              const isVisible = (() => {
-                for (let j = 0; j < actualVisible; j++) {
-                  if ((progressIndex + j) % PRODUCTS.length === i) return true;
-                }
-                return false;
-              })();
-
-              return (
-              <div
-                key={i}
-                style={{
-                  width: isActive ? "40px" : "16px",
-                  height: "8px",
-                  borderRadius: "4px",
-                  background: isVisible && !isActive ? "#ffffff" : "rgba(255,255,255,0.2)",
-                  transition: "all 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
-                  position: "relative",
-                  overflow: "hidden"
-                }}
-              >
-                {isActive && (
-                  <div
-                    key={`progress-${progressIndex}-${isPlaying ? 'play' : 'pause'}`}
-                    style={{
-                      position: "absolute",
-                      right: 0,
-                      top: 0,
-                      bottom: 0,
-                      background: "#ffffff",
-                      borderRadius: "3px",
-                      width: "100%",
-                      animation: isPlaying ? "products-autoplay-progress 3000ms linear forwards" : "none"
-                    }}
-                  />
-                )}
-              </div>
-            )})}
-          </div>
-          <button
-            onClick={() => setIsPlaying(!isPlaying)}
-            style={{
-              width: "var(--btn-h-lg)", height: "var(--btn-h-lg)", borderRadius: "50%",
-              background: "rgba(255,255,255,0.06)", border: "none",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              cursor: "pointer", color: "#ffffff",
-              transition: "background 0.2s"
-            }}
-            onMouseOver={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.15)"}
-            onMouseOut={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.06)"}
-            aria-label={isPlaying ? "Pause autoplay" : "Start autoplay"}
-          >
-            {isPlaying ? (
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M6 4h4v16H6zm8 0h4v16h-4z"/>
-              </svg>
-            ) : (
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style={{ transform: "translateX(1.5px)" }}>
-                <path d="M8 5v14l11-7z"/>
-              </svg>
-            )}
-          </button>
-        </div>
+        <CarouselProgress
+          count={PRODUCTS.length}
+          activeIndex={progressIndex}
+          visibleCount={getActualVisibleCount(viewportWidth)}
+          isPlaying={isPlaying}
+          tone="dark"
+          showPlayToggle
+          onTogglePlay={() => setIsPlaying(!isPlaying)}
+        />
 
       </div>
     </section>

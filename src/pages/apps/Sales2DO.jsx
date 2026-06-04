@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Footer from "../../components/Footer";
 import SectionSidebar from "../../components/SectionSidebar.jsx";
 import ProductHero from "../../components/ProductHero.jsx";
+import CarouselProgress from "../../components/CarouselProgress.jsx";
 import ParticleBackground from "../../components/ParticleBackground.jsx";
 import { Vid, Img } from "../../components/Media.jsx";
 /* Sales2DO-specific WhatsApp link — addressed to KSL Support Team with a product-aware message */
@@ -533,14 +534,14 @@ function VideoGuide() {
             </button>
           </div>
 
-          {/* Segment dot indicators */}
-          <div style={{ display: "flex", gap: 8, justifyContent: "center", marginTop: "0.9rem", alignItems: "center" }}>
-            {VIDEO_SEGMENTS.map((s, i) => (
-              <button key={i} onClick={() => goTo(i)} title={s.title}
-                style={{ width: i === idx ? 22 : 8, height: 8, borderRadius: 4, border: "none", background: i === idx ? "#c9a84c" : "rgba(47,49,90,0.2)", cursor: "pointer", padding: 0, transition: "width 0.3s, background 0.3s" }}
-              />
-            ))}
-          </div>
+          <CarouselProgress
+            className="sales2do-video-progress"
+            count={VIDEO_SEGMENTS.length}
+            activeIndex={idx}
+            tone="light"
+            onSelect={goTo}
+            getTitle={(i) => VIDEO_SEGMENTS[i]?.title}
+          />
         </div>
 
       </div>

@@ -325,6 +325,120 @@ textarea {
   transform: translateY(0);
 }
 
+@keyframes carousel-progress-shrink {
+  0% { width: 100%; }
+  100% { width: 0%; }
+}
+
+.carousel-progress {
+  --carousel-progress-track-bg: rgba(255,255,255,0.06);
+  --carousel-progress-marker-bg: rgba(255,255,255,0.2);
+  --carousel-progress-marker-visible-bg: #ffffff;
+  --carousel-progress-fill-bg: #ffffff;
+  --carousel-progress-toggle-bg: rgba(255,255,255,0.06);
+  --carousel-progress-toggle-hover-bg: rgba(255,255,255,0.15);
+  --carousel-progress-toggle-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  margin-top: 3rem;
+}
+
+.carousel-progress-light {
+  --carousel-progress-track-bg: rgba(47,49,90,0.06);
+  --carousel-progress-marker-bg: rgba(47,49,90,0.16);
+  --carousel-progress-marker-visible-bg: rgba(47,49,90,0.42);
+  --carousel-progress-fill-bg: #c9a84c;
+  --carousel-progress-toggle-bg: rgba(47,49,90,0.08);
+  --carousel-progress-toggle-hover-bg: rgba(47,49,90,0.15);
+  --carousel-progress-toggle-color: #2f315a;
+}
+
+.carousel-progress-track {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: var(--btn-h-lg);
+  padding: 0 18px;
+  border-radius: var(--radius-pill);
+  background: var(--carousel-progress-track-bg);
+}
+
+.carousel-progress-dot-button {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-progress-dot-button:focus-visible {
+  outline: 2px solid var(--carousel-progress-fill-bg);
+  outline-offset: 4px;
+  border-radius: 999px;
+}
+
+.carousel-progress-marker {
+  width: 16px;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--carousel-progress-marker-bg);
+  transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  display: block;
+}
+
+.carousel-progress-marker.is-visible {
+  background: var(--carousel-progress-marker-visible-bg);
+}
+
+.carousel-progress-marker.is-active {
+  width: 40px;
+}
+
+.carousel-progress-fill {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  border-radius: 3px;
+  background: var(--carousel-progress-fill-bg);
+  animation-name: carousel-progress-shrink;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.carousel-progress-toggle {
+  width: var(--btn-h-lg);
+  height: var(--btn-h-lg);
+  border-radius: 50%;
+  border: 0;
+  background: var(--carousel-progress-toggle-bg);
+  color: var(--carousel-progress-toggle-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.carousel-progress-toggle:hover {
+  background: var(--carousel-progress-toggle-hover-bg);
+}
+
+.carousel-progress-play-icon {
+  transform: translateX(1.5px);
+}
+
+.sales2do-video-progress {
+  margin-top: 0.9rem;
+}
+
 .product-hero-mobile-topline,
 .product-hero-back-mobile,
 .product-hero-icon-mobile {
