@@ -358,7 +358,6 @@ function EditionsTable({ selected = null, diffOnly = false }) {
               {cols.map(e => (
                 <th key={e} className="ks-compare-th">
                   <span className="ks-compare-edition-name">{e}</span>
-                  <span className="ks-compare-edition-price">{EDITION_PRICES[e]}</span>
                 </th>
               ))}
             </tr>
@@ -367,7 +366,6 @@ function EditionsTable({ selected = null, diffOnly = false }) {
             <tr className="ks-compare-tr-book">
               <td className="ks-compare-td-left ks-compare-td-book" style={{ background: "inherit", fontWeight: 500 }}>
                 <span>One-Time Payment</span>
-                <span className="ks-compare-row-subtitle">Price</span>
               </td>
               {filterRow(EDITION_TABLE.oneTimePayment).map((v, i) => (
                 <td key={i} className="ks-compare-td-book">{v}</td>
@@ -747,7 +745,7 @@ export default function AutoCountAccountingPage({ onContact }) {
             selected={editionCompareMode ? [editionA, editionB] : null}
             diffOnly={editionCompareMode && editionA !== editionB && editionDiffOnly}
           />
-          <p className="ks-card-text" style={{ margin: "1rem 0 0", fontWeight: 700, color: "#4a6e0e", textAlign: "center" }}>
+          <p className="ks-card-text" style={{ margin: "1rem 0 0", fontWeight: 700, textAlign: "left" }}>
             Prices exclude 8% SST.
           </p>
         </div>
