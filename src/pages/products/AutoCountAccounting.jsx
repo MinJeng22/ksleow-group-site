@@ -12,6 +12,8 @@ import { Img } from "../../components/Media.jsx";
 import autocountReleases from "../../content/autocountReleases.json";
 import AutoCountTrainingWebGL from "../../components/AutoCountTrainingWebGL.jsx";
 import FeatureShowcase from "../../components/FeatureShowcase.jsx";
+import { SegmentedControl, SelectField } from "../../components/FormControls.jsx";
+import { CopyReleaseButton, ReleaseNumber, ShareLinkButton } from "../../components/ReleaseTools.jsx";
 /* AutoCount Accounting page — product-aware WhatsApp link to KSL Support Team */
 const WA_LINK = `https://wa.me/60179052323?text=${encodeURIComponent(
   "HI KS Support Team, I would like to learn more about AutoCount Accounting. Thank you."
@@ -28,12 +30,6 @@ import { PRODUCT_IMAGES } from "../../assets/assets.js";
  * AutoCount Wiki.
  * ═══════════════════════════════════════════════════════════════ */
 const RELEASES = autocountReleases;
-
-/* ── Feature pill colours by type ── */
-const TAG = {
-  feature: { bg: "rgba(47,49,90,0.08)", color: "#2f315a" },
-  fix: { bg: "rgba(128,195,30,0.12)", color: "#4a6e0e" },
-};
 
 /* ── Copy release notes to clipboard (WhatsApp format) ── */
 function copyToClipboard(r, type) {
@@ -52,136 +48,6 @@ function copyCompare(items, fromVer, toVer, type) {
     : `*AutoCount Bug Fixes (${fromVer} → ${toVer})*`;
   const text = header + "\n" + items.map(f => `[${f.rev}] • ${f.text}`).join("\n");
   navigator.clipboard.writeText(text).catch(() => { });
-}
-
-function ReleaseNumber({ number, type }) {
-  const t = TAG[type];
-  return (
-    <span style={{
-      width: 24,
-      height: 24,
-      borderRadius: "50%",
-      background: t.bg,
-      color: t.color,
-      flexShrink: 0,
-      display: "inline-flex",
-      alignItems: "center",
-      justifyContent: "center",
-      fontSize: "0.68rem",
-      fontWeight: 800,
-      lineHeight: 1,
-      marginTop: 1,
-    }}>
-      {number}
-    </span>
-  );
-}
-
-/* ── Copy button ── */
-function CopyBtn({ onClick, gold }) {
-  const [copied, setCopied] = React.useState(false);
-  function handle() {
-    onClick();
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  }
-  return (
-    <button
-      onClick={handle}
-      title="Copy for WhatsApp"
-      style={{
-        display: "inline-flex", alignItems: "center", gap: "0.3rem",
-        background: copied ? (gold ? "rgba(128,195,30,0.2)" : "rgba(47,49,90,0.12)") : "transparent",
-        border: `1px solid ${gold ? "rgba(128,195,30,0.35)" : "rgba(47,49,90,0.18)"}`,
-        borderRadius: 50, padding: "0.2rem 0.6rem",
-        fontSize: "0.62rem", fontWeight: 600,
-        color: copied ? (gold ? "#4a6e0e" : "#2f315a") : "#a8abcc",
-        cursor: "pointer", fontFamily: "inherit",
-        transition: "all 0.2s",
-      }}
-    >
-      {copied ? "✓ Copied" : (
-        <>
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="9" y="9" width="13" height="13" rx="2" /><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-          </svg>
-          Copy
-        </>
-      )}
-    </button>
-  );
-}
-
-/* ── ShareLinkButton ──
- * Builds a fully-qualified URL that, when opened, reproduces the
- * current compare-mode state and scrolls the visitor to the right
- * section. Copies it to the clipboard with a short "Copied!" hint.
- *
- *   params  { editionMode, editionA, ... }  — query params to include
- *   hash    "#editions" | "#releases"        — scroll target
- */
-function ShareLinkButton({ params, hash, compact = false, title = "Copy a shareable link to this comparison" }) {
-  const [copied, setCopied] = React.useState(false);
-  function handle(event) {
-    event?.stopPropagation();
-    const usp = new URLSearchParams();
-    Object.entries(params).forEach(([k, v]) => {
-      if (v !== undefined && v !== null && v !== false && v !== "") {
-        usp.set(k, v === true ? "1" : String(v));
-      }
-    });
-    const url = `${window.location.origin}${window.location.pathname}?${usp.toString()}${hash}`;
-    // Try native clipboard first; fall back to a hidden textarea for
-    // non-secure contexts.
-    const writeFallback = () => {
-      const ta = document.createElement("textarea");
-      ta.value = url;
-      ta.style.position = "fixed"; ta.style.opacity = "0";
-      document.body.appendChild(ta); ta.select();
-      try { document.execCommand("copy"); } catch { /* ignore */ }
-      document.body.removeChild(ta);
-    };
-    if (navigator.clipboard?.writeText) {
-      navigator.clipboard.writeText(url).catch(writeFallback);
-    } else {
-      writeFallback();
-    }
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  }
-  return (
-    <button
-      onClick={handle}
-      title={title}
-      style={{
-        display: "inline-flex", alignItems: "center", gap: compact ? "0.3rem" : "0.4rem",
-        background: copied ? "rgba(128,195,30,0.18)" : (compact ? "transparent" : "rgba(47,49,90,0.06)"),
-        border: `1px solid ${copied ? "rgba(128,195,30,0.4)" : "rgba(47,49,90,0.16)"}`,
-        borderRadius: 50, padding: compact ? "0.2rem 0.6rem" : "0.4rem 0.9rem",
-        fontSize: compact ? "0.62rem" : "0.74rem", fontWeight: 600,
-        color: copied ? "#4a6e0e" : "#2f315a",
-        cursor: "pointer", fontFamily: "inherit",
-        transition: "all 0.2s",
-      }}
-    >
-      {copied ? (
-        <>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="20 6 9 17 4 12" />
-          </svg>
-          Link copied
-        </>
-      ) : (
-        <>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-          </svg>
-          Share Link
-        </>
-      )}
-    </button>
-  );
 }
 
 function ReleaseAssetLink({ url }) {
@@ -310,7 +176,7 @@ function ReleaseCard({ r, expanded, onToggle }) {
                 <div style={{ fontSize: "0.82rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#2f315a" }}>
                   New Features
                 </div>
-                <CopyBtn onClick={() => copyToClipboard(r, "features")} />
+                <CopyReleaseButton onClick={() => copyToClipboard(r, "features")} />
               </div>
               {r.features.map((f, i) => (
                 <div key={i} style={{ display: "flex", gap: "0.55rem", alignItems: "flex-start", marginBottom: "0.5rem" }}>
@@ -325,7 +191,7 @@ function ReleaseCard({ r, expanded, onToggle }) {
                 <div style={{ fontSize: "0.82rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#4a6e0e" }}>
                   Bug Fixes
                 </div>
-                <CopyBtn onClick={() => copyToClipboard(r, "fixes")} gold />
+                <CopyReleaseButton onClick={() => copyToClipboard(r, "fixes")} gold />
               </div>
               {r.fixes.map((f, i) => (
                 <div key={i} style={{ display: "flex", gap: "0.55rem", alignItems: "flex-start", marginBottom: "0.5rem" }}>
@@ -789,42 +655,35 @@ export default function AutoCountAccountingPage({ onContact }) {
 
           {/* Mode toggle — Browse All / Compare Editions */}
           <div style={{ display: "flex", justifyContent: "center", marginBottom: "1.75rem" }}>
-            <div style={{ display: "flex", background: "#ffffff", borderRadius: 50, padding: 4, gap: 2, border: "1px solid rgba(47,49,90,0.08)" }}>
-              {[["browse", "Browse All Editions"], ["compare", "Compare Editions"]].map(([mode, label]) => (
-                <button key={mode}
-                  onClick={() => setEditionCompareMode(mode === "compare")}
-                  style={{
-                    fontSize: "0.78rem", fontWeight: 600,
-                    padding: "0.45rem 1.2rem", borderRadius: 50, border: "none",
-                    cursor: "pointer", fontFamily: "inherit",
-                    background: (editionCompareMode ? "compare" : "browse") === mode ? "#2f315a" : "transparent",
-                    color: (editionCompareMode ? "compare" : "browse") === mode ? "#ffffff" : "#6b6f91",
-                    transition: "background 0.2s, color 0.2s",
-                  }}
-                >{label}</button>
-              ))}
-            </div>
+            <SegmentedControl
+              ariaLabel="Edition view mode"
+              value={editionCompareMode ? "compare" : "browse"}
+              onChange={(mode) => setEditionCompareMode(mode === "compare")}
+              options={[
+                { value: "browse", label: "Browse All Editions" },
+                { value: "compare", label: "Compare Editions" },
+              ]}
+              style={{ background: "#ffffff", border: "1px solid rgba(47,49,90,0.08)" }}
+            />
           </div>
 
           {/* Compare-mode controls: 2 dropdowns + diff-only toggle */}
           {editionCompareMode && (
             <div style={{ maxWidth: 720, margin: "0 auto 1.5rem" }}>
               <div style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", gap: "1rem", alignItems: "center" }}>
-                <div>
-                  <label style={{ fontSize: "0.68rem", fontWeight: 600, color: "#6b6f91", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "0.4rem" }}>Edition A</label>
-                  <select value={editionA} onChange={e => setEditionA(e.target.value)}
-                    className="ks-field">
-                    {EDITIONS.map(e => <option key={e} value={e}>{e}</option>)}
-                  </select>
-                </div>
+                <SelectField
+                  label="Edition A"
+                  value={editionA}
+                  onChange={setEditionA}
+                  options={EDITIONS.map((edition) => ({ value: edition, label: edition }))}
+                />
                 <div style={{ textAlign: "center", fontSize: "1.1rem", fontWeight: 700, color: "#80c31e", marginTop: "1.2rem" }}>VS</div>
-                <div>
-                  <label style={{ fontSize: "0.68rem", fontWeight: 600, color: "#6b6f91", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "0.4rem" }}>Edition B</label>
-                  <select value={editionB} onChange={e => setEditionB(e.target.value)}
-                    className="ks-field">
-                    {EDITIONS.map(e => <option key={e} value={e}>{e}</option>)}
-                  </select>
-                </div>
+                <SelectField
+                  label="Edition B"
+                  value={editionB}
+                  onChange={setEditionB}
+                  options={EDITIONS.map((edition) => ({ value: edition, label: edition }))}
+                />
               </div>
 
               {editionA === editionB && (
@@ -883,21 +742,16 @@ export default function AutoCountAccountingPage({ onContact }) {
               </p>
             </div>
             {/* Mode toggle */}
-            <div style={{ display: "flex", background: "#f0f0f5", borderRadius: 50, padding: 4, gap: 2 }}>
-              {[["browse", "Browse All"], ["compare", "Compare Versions"]].map(([mode, label]) => (
-                <button key={mode}
-                  onClick={() => setCompareMode(mode === "compare")}
-                  style={{
-                    fontSize: "0.78rem", fontWeight: 600,
-                    padding: "0.4rem 1.1rem", borderRadius: 50, border: "none",
-                    cursor: "pointer", fontFamily: "inherit",
-                    background: (compareMode ? "compare" : "browse") === mode ? "#2f315a" : "transparent",
-                    color: (compareMode ? "compare" : "browse") === mode ? "#ffffff" : "#6b6f91",
-                    transition: "background 0.2s, color 0.2s",
-                  }}
-                >{label}</button>
-              ))}
-            </div>
+            <SegmentedControl
+              ariaLabel="Release notes view mode"
+              value={compareMode ? "compare" : "browse"}
+              onChange={(mode) => setCompareMode(mode === "compare")}
+              options={[
+                { value: "browse", label: "Browse All" },
+                { value: "compare", label: "Compare Versions" },
+              ]}
+              style={{ background: "#f0f0f5" }}
+            />
           </div>
 
           {/* ── COMPARE MODE ── */}
@@ -920,21 +774,19 @@ export default function AutoCountAccountingPage({ onContact }) {
               <div>
                 {/* Selectors */}
                 <div className="release-compare-selectors" style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", gap: "1rem", alignItems: "center", marginBottom: "2rem" }}>
-                  <div>
-                    <label style={{ fontSize: "0.68rem", fontWeight: 600, color: "#6b6f91", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "0.4rem" }}>From version</label>
-                    <select value={compareA} onChange={e => setCompareA(e.target.value)}
-                      className="ks-field">
-                      {RELEASES.map(r => <option key={r.version} value={r.version}>{r.version} ({r.rev})</option>)}
-                    </select>
-                  </div>
+                  <SelectField
+                    label="From version"
+                    value={compareA}
+                    onChange={setCompareA}
+                    options={RELEASES.map((release) => ({ value: release.version, label: `${release.version} (${release.rev})` }))}
+                  />
                   <div style={{ textAlign: "center", fontSize: "1.3rem", color: "#80c31e", marginTop: "1.2rem" }}>→</div>
-                  <div>
-                    <label style={{ fontSize: "0.68rem", fontWeight: 600, color: "#6b6f91", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "0.4rem" }}>To version</label>
-                    <select value={compareB} onChange={e => setCompareB(e.target.value)}
-                      className="ks-field">
-                      {RELEASES.map(r => <option key={r.version} value={r.version}>{r.version} ({r.rev})</option>)}
-                    </select>
-                  </div>
+                  <SelectField
+                    label="To version"
+                    value={compareB}
+                    onChange={setCompareB}
+                    options={RELEASES.map((release) => ({ value: release.version, label: `${release.version} (${release.rev})` }))}
+                  />
                 </div>
 
                 {/* Summary bar + share link */}
@@ -966,7 +818,7 @@ export default function AutoCountAccountingPage({ onContact }) {
                   <div style={{ background: "#ffffff", borderRadius: 14, padding: "1.4rem", border: "1px solid rgba(47,49,90,0.1)" }}>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1rem" }}>
                       <div style={{ fontSize: "0.82rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#2f315a" }}>New Features ({allFeatures.length})</div>
-                      {allFeatures.length > 0 && <CopyBtn onClick={() => copyCompare(allFeatures, compareA, compareB, "features")} />}
+                      {allFeatures.length > 0 && <CopyReleaseButton onClick={() => copyCompare(allFeatures, compareA, compareB, "features")} />}
                     </div>
                     {allFeatures.length === 0 && <div style={{ fontSize: "0.82rem", color: "#a8abcc" }}>No new features in this range.</div>}
                     {allFeatures.map((f, i) => (
@@ -979,7 +831,7 @@ export default function AutoCountAccountingPage({ onContact }) {
                   <div style={{ background: "#ffffff", borderRadius: 14, padding: "1.4rem", border: "1px solid rgba(47,49,90,0.1)" }}>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1rem" }}>
                       <div style={{ fontSize: "0.82rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#4a6e0e" }}>Bug Fixes ({allFixes.length})</div>
-                      {allFixes.length > 0 && <CopyBtn onClick={() => copyCompare(allFixes, compareA, compareB, "fixes")} gold />}
+                      {allFixes.length > 0 && <CopyReleaseButton onClick={() => copyCompare(allFixes, compareA, compareB, "fixes")} gold />}
                     </div>
                     {allFixes.length === 0 && <div style={{ fontSize: "0.82rem", color: "#a8abcc" }}>No bug fixes in this range.</div>}
                     {allFixes.map((f, i) => (

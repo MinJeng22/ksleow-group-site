@@ -10,6 +10,8 @@ import WhyChooseUs from "../../components/WhyChooseUs.jsx";
 import EnquireNowCTA from "../../components/EnquireNowCTA.jsx";
 import AutoCountTrainingWebGL from "../../components/AutoCountTrainingWebGL.jsx";
 import FeatureShowcase from "../../components/FeatureShowcase.jsx";
+import { SegmentedControl, SelectField } from "../../components/FormControls.jsx";
+import { CompareRevBadge, CopyReleaseButton, ReleaseNumber, ShareLinkButton } from "../../components/ReleaseTools.jsx";
 
 const WA_LINK = `https://wa.me/60179052323?text=${encodeURIComponent(
   "HI KS Support Team, I would like to start AutoCount CloudAccounting free trial and compare the available editions. Thank you."
@@ -173,105 +175,6 @@ const fmtDate = (value) => {
 
 const versionCode = (release) => String(release?.version || "").split(".").at(-1) || "";
 const findByCode = (code) => RELEASES.find((release) => versionCode(release) === String(code));
-
-function CopyBtn({ onClick, gold = false }) {
-  const [copied, setCopied] = useState(false);
-  function handle(event) {
-    event.stopPropagation();
-    onClick();
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1800);
-  }
-
-  return (
-    <button
-      type="button"
-      onClick={handle}
-      className="ks-btn ks-btn-sm ks-btn-muted"
-      style={{
-        gap: "0.35rem",
-        background: copied ? (gold ? "rgba(0,158,57,0.18)" : "rgba(47,49,90,0.1)") : "#fff",
-        border: `1px solid ${gold ? "rgba(0,158,57,0.32)" : "rgba(47,49,90,0.14)"}`,
-        color: copied ? (gold ? "#009e39" : "#2f315a") : "#6b6f91",
-      }}
-    >
-      {copied ? "Copied" : "Copy"}
-    </button>
-  );
-}
-
-function ShareLinkButton({ params, hash, compact = false }) {
-  const [copied, setCopied] = useState(false);
-
-  function handle(event) {
-    event.stopPropagation();
-    const usp = new URLSearchParams();
-    Object.entries(params).forEach(([key, value]) => {
-      if (value !== undefined && value !== null && value !== "" && value !== false) {
-        usp.set(key, value === true ? "1" : String(value));
-      }
-    });
-    const query = usp.toString();
-    const url = `${window.location.origin}${window.location.pathname}${query ? `?${query}` : ""}${hash}`;
-    const fallback = () => {
-      const ta = document.createElement("textarea");
-      ta.value = url;
-      ta.style.position = "fixed";
-      ta.style.opacity = "0";
-      document.body.appendChild(ta);
-      ta.select();
-      try { document.execCommand("copy"); } catch { /* ignore */ }
-      document.body.removeChild(ta);
-    };
-    if (navigator.clipboard?.writeText) {
-      navigator.clipboard.writeText(url).catch(fallback);
-    } else {
-      fallback();
-    }
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1800);
-  }
-
-  return (
-    <button
-      type="button"
-      onClick={handle}
-      className={`ks-btn ks-btn-muted ${compact ? "ks-btn-sm" : ""}`}
-      style={{
-        gap: compact ? "0.32rem" : "0.45rem",
-        background: copied ? "rgba(0,158,57,0.16)" : "#ffffff",
-        color: copied ? "#009e39" : "#2f315a",
-      }}
-    >
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-      </svg>
-      {copied ? "Link copied" : "Share Link"}
-    </button>
-  );
-}
-
-function ReleaseNumber({ number, type }) {
-  return (
-    <span style={{
-      width: 24,
-      height: 24,
-      borderRadius: "50%",
-      background: type === "fix" ? "rgba(0,158,57,0.12)" : "rgba(47,49,90,0.08)",
-      color: type === "fix" ? "#009e39" : "#2f315a",
-      display: "inline-flex",
-      alignItems: "center",
-      justifyContent: "center",
-      flexShrink: 0,
-      fontSize: "0.68rem",
-      fontWeight: 800,
-      marginTop: 1,
-    }}>
-      {number}
-    </span>
-  );
-}
 
 function copyRelease(release, type) {
   const lines = type === "features" ? release.features : release.fixes;
@@ -445,7 +348,7 @@ function ReleaseCard({ release, expanded, onToggle }) {
             >
               Official Note
             </a>
-            <ShareLinkButton compact hash={`#cloud-release-${versionCode(release)}`} params={{ cr: versionCode(release) }} />
+            <ShareLinkButton variant="button" compact hash={`#cloud-release-${versionCode(release)}`} params={{ cr: versionCode(release) }} />
           </div>
           <div className="release-card-meta" style={{ fontSize: "0.78rem", color: "#a8abcc", marginTop: 2 }}>
             Released {fmtDate(release.date) || release.postedLabel || "from official help centre"}
@@ -493,7 +396,7 @@ function ReleaseList({ title, items, type, copy }) {
         <div style={{ fontSize: "0.82rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: gold ? "#009e39" : "#2f315a" }}>
           {title}
         </div>
-        {items.length > 0 && <CopyBtn onClick={copy} gold={gold} />}
+        {items.length > 0 && <CopyReleaseButton variant="button" onClick={copy} gold={gold} />}
       </div>
       {items.length === 0 && (
         <div style={{ fontSize: "0.82rem", color: "#a8abcc", lineHeight: 1.6 }}>
@@ -502,7 +405,7 @@ function ReleaseList({ title, items, type, copy }) {
       )}
       {items.map((item, index) => (
         <div key={index} style={{ display: "flex", gap: "0.55rem", alignItems: "flex-start", marginBottom: "0.55rem" }}>
-          <ReleaseNumber number={index + 1} type={type} />
+          <ReleaseNumber number={index + 1} type={type} fixColor="#009e39" fixBg="rgba(0,158,57,0.12)" />
           <span className="ks-list-text">{item}</span>
         </div>
       ))}
@@ -632,26 +535,33 @@ export default function AutoCountCloudAccountingPage() {
           </div>
 
           <div style={{ display: "flex", justifyContent: "center", marginBottom: "1.6rem" }}>
-            <div className="ks-tab-list">
-              {[["browse", "Browse All Editions"], ["compare", "Compare Editions"]].map(([mode, label]) => (
-                <button
-                  type="button"
-                  key={mode}
-                  onClick={() => setEditionCompareMode(mode === "compare")}
-                  className={`ks-tab-button ${(editionCompareMode ? "compare" : "browse") === mode ? "is-active" : ""}`}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
+            <SegmentedControl
+              ariaLabel="Edition view mode"
+              value={editionCompareMode ? "compare" : "browse"}
+              onChange={(mode) => setEditionCompareMode(mode === "compare")}
+              options={[
+                { value: "browse", label: "Browse All Editions" },
+                { value: "compare", label: "Compare Editions" },
+              ]}
+            />
           </div>
 
           {editionCompareMode && (
             <div style={{ maxWidth: 760, margin: "0 auto 1.5rem" }}>
               <div className="cloud-compare-selectors" style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", gap: "1rem", alignItems: "center" }}>
-                <EditionSelect label="Edition A" value={editionA} onChange={setEditionA} />
+                <SelectField
+                  label="Edition A"
+                  value={editionA}
+                  onChange={setEditionA}
+                  options={EDITIONS.map((edition) => ({ value: edition, label: edition }))}
+                />
                 <div style={{ textAlign: "center", fontSize: "1rem", fontWeight: 800, color: "#009e39", marginTop: "1.2rem" }}>VS</div>
-                <EditionSelect label="Edition B" value={editionB} onChange={setEditionB} />
+                <SelectField
+                  label="Edition B"
+                  value={editionB}
+                  onChange={setEditionB}
+                  options={EDITIONS.map((edition) => ({ value: edition, label: edition }))}
+                />
               </div>
               <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "1.25rem", marginTop: "1rem", flexWrap: "wrap" }}>
                 <label style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", fontSize: "0.82rem", color: "#6b6f91", cursor: "pointer", userSelect: "none" }}>
@@ -664,6 +574,7 @@ export default function AutoCountCloudAccountingPage() {
                   Show only rows where the two editions differ
                 </label>
                 <ShareLinkButton
+                  variant="button"
                   hash="#editions"
                   params={{
                     cem: "c",
@@ -711,19 +622,16 @@ export default function AutoCountCloudAccountingPage() {
               </p>
             </div>
 
-            <div className="ks-tab-list" style={{ background: "#f0f0f5" }}>
-              {[["browse", "Browse All"], ["compare", "Compare Versions"]].map(([mode, label]) => (
-                <button
-                  type="button"
-                  key={mode}
-                  onClick={() => setCompareMode(mode === "compare")}
-                  className={`ks-tab-button ${(compareMode ? "compare" : "browse") === mode ? "is-active" : ""}`}
-                >
-                  {label}
-                </button>
-              ))}
-
-            </div>
+            <SegmentedControl
+              ariaLabel="Release notes view mode"
+              value={compareMode ? "compare" : "browse"}
+              onChange={(mode) => setCompareMode(mode === "compare")}
+              options={[
+                { value: "browse", label: "Browse All" },
+                { value: "compare", label: "Compare Versions" },
+              ]}
+              style={{ background: "#f0f0f5" }}
+            />
           </div>
 
           {compareMode ? (
@@ -804,23 +712,6 @@ export default function AutoCountCloudAccountingPage() {
   );
 }
 
-function EditionSelect({ label, value, onChange }) {
-  return (
-    <div>
-      <label className="ks-control-label">
-        {label}
-      </label>
-      <select
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        className="ks-field"
-      >
-        {EDITIONS.map((edition) => <option key={edition} value={edition}>{edition}</option>)}
-      </select>
-    </div>
-  );
-}
-
 function ReleaseCompare({ compareA, setCompareA, compareB, setCompareB }) {
   const rA = RELEASES.find((release) => release.version === compareA) || RELEASES.at(-1);
   const rB = RELEASES.find((release) => release.version === compareB) || RELEASES[0];
@@ -837,13 +728,24 @@ function ReleaseCompare({ compareA, setCompareA, compareB, setCompareB }) {
   return (
     <div>
       <div className="cloud-compare-selectors" style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", gap: "1rem", alignItems: "center", marginBottom: "2rem" }}>
-        <ReleaseSelect label="From version" value={compareA} onChange={setCompareA} />
+        <SelectField
+          label="From version"
+          value={compareA}
+          onChange={setCompareA}
+          options={RELEASES.map((release) => ({ value: release.version, label: `${release.version} (${release.rev})` }))}
+        />
         <div style={{ textAlign: "center", fontSize: "1.3rem", color: "#009e39", marginTop: "1.2rem" }}>-&gt;</div>
-        <ReleaseSelect label="To version" value={compareB} onChange={setCompareB} />
+        <SelectField
+          label="To version"
+          value={compareB}
+          onChange={setCompareB}
+          options={RELEASES.map((release) => ({ value: release.version, label: `${release.version} (${release.rev})` }))}
+        />
       </div>
 
       <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "0.75rem" }}>
         <ShareLinkButton
+          variant="button"
           hash="#releases"
           params={{
             cvm: "c",
@@ -884,25 +786,6 @@ function ReleaseCompare({ compareA, setCompareA, compareB, setCompareB }) {
   );
 }
 
-function ReleaseSelect({ label, value, onChange }) {
-  return (
-    <div>
-      <label className="ks-control-label">
-        {label}
-      </label>
-      <select
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        className="ks-field"
-      >
-        {RELEASES.map((release) => (
-          <option key={release.version} value={release.version}>{release.version} ({release.rev})</option>
-        ))}
-      </select>
-    </div>
-  );
-}
-
 function CompareList({ title, items, type, copy }) {
   const gold = type === "fix";
   return (
@@ -911,16 +794,16 @@ function CompareList({ title, items, type, copy }) {
         <div style={{ fontSize: "0.82rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: gold ? "#009e39" : "#2f315a" }}>
           {title}
         </div>
-        {items.length > 0 && <CopyBtn onClick={copy} gold={gold} />}
+        {items.length > 0 && <CopyReleaseButton variant="button" onClick={copy} gold={gold} />}
       </div>
       {items.length === 0 && (
         <div style={{ fontSize: "0.82rem", color: "#a8abcc", lineHeight: 1.6 }}>No items listed in this range.</div>
       )}
       {items.map((item, index) => (
         <div key={`${item.rev}-${index}`} style={{ display: "flex", gap: "0.55rem", alignItems: "flex-start", marginBottom: "0.65rem" }}>
-          <span style={{ fontSize: "0.6rem", fontWeight: 800, letterSpacing: "0.06em", padding: "0.2rem 0.5rem", borderRadius: 50, background: gold ? "rgba(0,158,57,0.12)" : "rgba(47,49,90,0.08)", color: gold ? "#009e39" : "#2f315a", flexShrink: 0, marginTop: 2 }}>
+          <CompareRevBadge type={type}>
             {item.rev}
-          </span>
+          </CompareRevBadge>
           <span className="ks-list-text">{item.text}</span>
         </div>
       ))}
