@@ -50,7 +50,7 @@
     "version": "1.1.78",
     "rev": "Release 78",
     "date": "2026-01-15",
-    "postedLabel": "4 months ago",
+    "postedLabel": "5 months ago",
     "features": [
       "Enhanced Cash Book and Journal to capture Business Name and Business Registration Number when a Tax Entity is selected.",
       "Improved email sending security.",
@@ -324,7 +324,7 @@
     "version": "1.1.68",
     "rev": "Release 68",
     "date": "2025-06-03",
-    "postedLabel": "12 months ago",
+    "postedLabel": "about 1 year ago",
     "features": [
       "Support Batch actions in Sales, Purchase, Accounting and Stock Documents"
     ],
@@ -978,7 +978,7 @@
     "version": "1.1.22",
     "rev": "Release 22",
     "date": "2023-06-01",
-    "postedLabel": "almost 3 years ago",
+    "postedLabel": "about 3 years ago",
     "features": [],
     "fixes": [],
     "highlights": [],
