@@ -662,7 +662,7 @@ export default function AutoCountAccountingPage({ onContact }) {
       <div className="product-app-section product-app-section-paper product-app-section-clean">
         <FeatureShowcase
           features={FEATURES}
-          {/* promoSlides={FEATURE_PROMOS} */}
+          /* promoSlides={FEATURE_PROMOS} */
           brandLogos={BRAND_LOGOS}
           brandText="Over 240,000 businesses trust AutoCount to drive their growth"
           wrapper
