@@ -63,17 +63,17 @@ const FEATURES = [
     desc: "Directly supports Malaysia e-Invoice workflows so daily billing can stay compliant without a separate add-on.",
   },
   {
-    icon: "/images/icons/integration-icon.png",
+    icon: "/images/icons/feature-device.svg",
     title: "Anytime, Anywhere, Any Device",
     desc: "Access your account book through a browser on desktop, tablet, or phone without maintaining your own server.",
   },
   {
-    icon: "/images/branding/ksl-logo-circle.webp",
+    icon: "/images/icons/feature-scan.svg",
     title: "Capture, Upload & Extract Data",
     desc: "Use AI SmartScan to capture invoices, bills, and receipts, then extract key transaction details automatically.",
   },
   {
-    icon: "/images/icons/ac-plugin-icon.png",
+    icon: "/images/icons/feature-bank.svg",
     title: "Bank Connection",
     desc: "Connect supported business bank feeds for faster reconciliation and clearer real-time cash visibility.",
   },
