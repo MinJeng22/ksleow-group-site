@@ -19,10 +19,12 @@ export default function FeatureShowcase({
   const gridRef = useRef(null);
   const [inView, setInView] = useState(true);
   const [isMarqueePaused, setIsMarqueePaused] = useState(false);
-  const [activeSlide, setActiveSlide] = useState(0);
+  const [activePromo, setActivePromo] = useState(0);
   const [isCarouselPlaying, setIsCarouselPlaying] = useState(true);
-  const slides = [{ type: "features", title: "Feature highlights" }, ...promoSlides.map((slide) => ({ type: "promo", ...slide }))];
-  const hasCarousel = slides.length > 1;
+
+  const hasPromoCarousel = promoSlides.length > 0;
+  const hasPromoControls = promoSlides.length > 1;
+  const showPromoInsideBrandBlock = hasPromoCarousel && brandLogos?.length > 0 && !!brandText;
 
   useEffect(() => {
     const node = gridRef.current;
@@ -40,15 +42,93 @@ export default function FeatureShowcase({
   }, []);
 
   useEffect(() => {
-    if (!hasCarousel || !isCarouselPlaying) return undefined;
+    if (!hasPromoControls || !isCarouselPlaying) return undefined;
     const timer = window.setTimeout(() => {
-      setActiveSlide((index) => (index + 1) % slides.length);
+      setActivePromo((index) => (index + 1) % promoSlides.length);
     }, carouselDurationMs);
     return () => window.clearTimeout(timer);
-  }, [activeSlide, carouselDurationMs, hasCarousel, isCarouselPlaying, slides.length]);
+  }, [activePromo, carouselDurationMs, hasPromoControls, isCarouselPlaying, promoSlides.length]);
 
-  const goToSlide = (index) => {
-    setActiveSlide(((index % slides.length) + slides.length) % slides.length);
+  const goToPromo = (index) => {
+    setActivePromo(((index % promoSlides.length) + promoSlides.length) % promoSlides.length);
+  };
+
+  const renderPromoCarousel = () => {
+    if (!hasPromoCarousel) return null;
+
+    return (
+      <div className="feature-showcase-carousel feature-showcase-promo-carousel">
+        <div className="feature-showcase-track">
+          {promoSlides.map((slide, slideIndex) => (
+            <div
+              key={slide.src}
+              className={`feature-showcase-slide${slideIndex === activePromo ? " is-active" : ""}`}
+              style={slideIndex !== activePromo ? { display: "none" } : undefined}
+              aria-hidden={slideIndex !== activePromo}
+            >
+              <figure className="feature-showcase-promo">
+                <Img
+                  src={slide.src}
+                  alt={slide.alt || ""}
+                  className="feature-showcase-promo-img"
+                  priority
+                  protect={false}
+                />
+                {(slide.title || slide.caption) && (
+                  <figcaption className="feature-showcase-promo-caption">
+                    {slide.title && <span className="feature-showcase-promo-title">{slide.title}</span>}
+                    {slide.caption && <span className="feature-showcase-promo-copy">{slide.caption}</span>}
+                  </figcaption>
+                )}
+              </figure>
+            </div>
+          ))}
+        </div>
+
+        {hasPromoControls && (
+          <>
+            <button
+              type="button"
+              className="feature-showcase-nav feature-showcase-nav-prev"
+              onClick={() => goToPromo(activePromo - 1)}
+              aria-label="Previous promotion slide"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              className="feature-showcase-nav feature-showcase-nav-next"
+              onClick={() => goToPromo(activePromo + 1)}
+              aria-label="Next promotion slide"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
+          </>
+        )}
+
+        {hasPromoControls && (
+          <CarouselProgress
+            count={promoSlides.length}
+            activeIndex={activePromo}
+            visibleCount={1}
+            isPlaying={isCarouselPlaying}
+            durationMs={carouselDurationMs}
+            tone={carouselTone}
+            showPlayToggle
+            onTogglePlay={() => setIsCarouselPlaying((playing) => !playing)}
+            onSelect={goToPromo}
+            getTitle={(index) => promoSlides[index]?.title || `Promotion slide ${index + 1}`}
+            playLabel="Start promotion carousel"
+            pauseLabel="Pause promotion carousel"
+            className="feature-showcase-progress"
+          />
+        )}
+      </div>
+    );
   };
 
   const content = (
@@ -58,104 +138,30 @@ export default function FeatureShowcase({
       style={{ scrollMarginTop: 24, position: "relative", zIndex: 1, ...sectionStyle }}
     >
       <div className="content-wrap">
-        <div className={hasCarousel ? "feature-showcase-carousel" : ""}>
-          <div
-            className={hasCarousel ? "feature-showcase-track" : ""}
-          >
-            {slides.map((slide, slideIndex) => (
-              <div
-                key={slide.type === "features" ? "features" : slide.src}
-                className={hasCarousel ? `feature-showcase-slide${slideIndex === activeSlide ? " is-active" : ""}` : ""}
-                style={hasCarousel && slideIndex !== activeSlide ? { display: "none" } : undefined}
-                aria-hidden={hasCarousel && slideIndex !== activeSlide}
-              >
-                {slide.type === "features" ? (
-                  <div ref={gridRef} className={`ac-features-grid${inView ? " is-in-view" : ""}`}>
-                    {(features || []).map((feature, index) => (
-                      <article
-                        key={feature.title}
-                        className="ac-feature-card"
-                        style={{ "--feature-delay": `${index * cardDelayMs}ms` }}
-                      >
-                        <span className="ac-feature-copy" style={{ position: "relative", zIndex: 2 }}>
-                          <span className="ac-feature-title" style={feature.icon ? { display: "flex", alignItems: "center", gap: "0.5rem" } : undefined}>
-                            {feature.icon && (
-                              <img src={feature.icon} alt="" style={{ width: 22, height: 22, objectFit: "contain", flexShrink: 0 }} />
-                            )}
-                            {feature.title}
-                          </span>
-                          <span className="ac-feature-desc">{feature.desc}</span>
-                        </span>
-                      </article>
-                    ))}
-                  </div>
-                ) : (
-                  <figure className="feature-showcase-promo">
-                    <Img
-                      src={slide.src}
-                      alt={slide.alt || ""}
-                      className="feature-showcase-promo-img"
-                      priority={slideIndex === 1}
-                      protect={false}
-                    />
-                    {(slide.title || slide.caption) && (
-                      <figcaption className="feature-showcase-promo-caption">
-                        {slide.title && <span className="feature-showcase-promo-title">{slide.title}</span>}
-                        {slide.caption && <span className="feature-showcase-promo-copy">{slide.caption}</span>}
-                      </figcaption>
-                    )}
-                  </figure>
-                )}
-              </div>
-            ))}
-          </div>
-
-          {hasCarousel && (
-            <>
-              <button
-                type="button"
-                className="feature-showcase-nav feature-showcase-nav-prev"
-                onClick={() => goToSlide(activeSlide - 1)}
-                aria-label="Previous feature slide"
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <polyline points="15 18 9 12 15 6" />
-                </svg>
-              </button>
-              <button
-                type="button"
-                className="feature-showcase-nav feature-showcase-nav-next"
-                onClick={() => goToSlide(activeSlide + 1)}
-                aria-label="Next feature slide"
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <polyline points="9 18 15 12 9 6" />
-                </svg>
-              </button>
-            </>
-          )}
+        <div ref={gridRef} className={`ac-features-grid${inView ? " is-in-view" : ""}`}>
+          {(features || []).map((feature, index) => (
+            <article
+              key={feature.title}
+              className="ac-feature-card"
+              style={{ "--feature-delay": `${index * cardDelayMs}ms` }}
+            >
+              <span className="ac-feature-copy" style={{ position: "relative", zIndex: 2 }}>
+                <span className="ac-feature-title" style={feature.icon ? { display: "flex", alignItems: "center", gap: "0.5rem" } : undefined}>
+                  {feature.icon && (
+                    <img src={feature.icon} alt="" style={{ width: 22, height: 22, objectFit: "contain", flexShrink: 0 }} />
+                  )}
+                  {feature.title}
+                </span>
+                <span className="ac-feature-desc">{feature.desc}</span>
+              </span>
+            </article>
+          ))}
         </div>
 
-        {hasCarousel && (
-          <CarouselProgress
-            count={slides.length}
-            activeIndex={activeSlide}
-            visibleCount={1}
-            isPlaying={isCarouselPlaying}
-            durationMs={carouselDurationMs}
-            tone={carouselTone}
-            showPlayToggle
-            onTogglePlay={() => setIsCarouselPlaying((playing) => !playing)}
-            onSelect={goToSlide}
-            getTitle={(index) => slides[index]?.title || `Feature slide ${index + 1}`}
-            playLabel="Start feature carousel"
-            pauseLabel="Pause feature carousel"
-            className="feature-showcase-progress"
-          />
-        )}
+        {hasPromoCarousel && !showPromoInsideBrandBlock && renderPromoCarousel()}
 
         {brandLogos?.length > 0 && (
-          <div style={{ marginTop: "2rem", position: "relative" }}>
+          <div className="feature-showcase-brand-block" style={{ marginTop: "2rem", position: "relative" }}>
             {brandText && (
               <p style={{
                 textAlign: "center",
@@ -164,14 +170,18 @@ export default function FeatureShowcase({
                 letterSpacing: "0.15em",
                 color: "#6b6f91",
                 textTransform: "uppercase",
-                marginBottom: "2.5rem",
+                marginBottom: showPromoInsideBrandBlock ? "1.35rem" : "2.5rem",
               }}>
                 {brandText}
               </p>
             )}
+
+            {showPromoInsideBrandBlock && renderPromoCarousel()}
+
             <div
               className="ac-brand-marquee-container"
               style={{
+                marginTop: showPromoInsideBrandBlock ? "1.7rem" : undefined,
                 maskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
                 WebkitMaskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
                 cursor: "pointer",

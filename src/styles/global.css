@@ -489,6 +489,14 @@ textarea {
   overflow: hidden;
 }
 
+.feature-showcase-promo-carousel {
+  margin-top: 2rem;
+}
+
+.feature-showcase-brand-block .feature-showcase-promo-carousel {
+  margin-top: 0;
+}
+
 .feature-showcase-track {
   position: relative;
 }
