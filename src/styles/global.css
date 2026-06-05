@@ -2034,10 +2034,6 @@ body.has-active-modal .back-to-top-glass {
   width: clamp(170px, 22%, 240px);
 }
 
-.ks-compare-col-price {
-  width: clamp(70px, 9%, 96px);
-}
-
 .ks-compare-thead {
   position: sticky;
   top: 0;
@@ -2079,11 +2075,6 @@ body.has-active-modal .back-to-top-glass {
   color: #6b6f91;
   font-size: 0.72rem;
   font-weight: 700;
-}
-
-.ks-compare-th-price,
-.ks-compare-td-price {
-  text-align: center;
 }
 
 .ks-compare-td-price {

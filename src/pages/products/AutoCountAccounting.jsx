@@ -389,7 +389,6 @@ function EditionsTable({ selected = null, diffOnly = false }) {
         <table className="ks-compare-table" style={{ "--edition-count": cols.length }}>
           <colgroup>
             <col className="ks-compare-col-feature" />
-            <col className="ks-compare-col-price" />
             {cols.map((edition) => (
               <col key={edition} className="ks-compare-col-edition" />
             ))}
@@ -397,7 +396,6 @@ function EditionsTable({ selected = null, diffOnly = false }) {
           <thead className="ks-compare-thead">
             <tr style={{ "--th-bg": "#80c31e" }}>
               <th className="ks-compare-th ks-compare-th-left">Module</th>
-              <th className="ks-compare-th ks-compare-th-price">Price</th>
               {cols.map(e => (
                 <th key={e} className="ks-compare-th">
                   <span className="ks-compare-edition-name">{e}</span>
@@ -410,14 +408,12 @@ function EditionsTable({ selected = null, diffOnly = false }) {
               <td className="ks-compare-td-left ks-compare-td-book" style={{ background: "inherit", fontWeight: 500 }}>
                 <span>One-Time Payment</span>
               </td>
-              <td className="ks-compare-td-price ks-compare-td-book">Price</td>
               {filterRow(EDITION_TABLE.oneTimePayment).map((v, i) => (
                 <td key={i} className="ks-compare-td-book">{v}</td>
               ))}
             </tr>
             <tr className="ks-compare-tr-book">
               <td className="ks-compare-td-left ks-compare-td-book" style={{ background: "inherit", fontWeight: 500 }}>Default Account Book</td>
-              <td className="ks-compare-td-price ks-compare-td-book">-</td>
               {filterRow(EDITION_TABLE.defaultAccountBook).map((v, i) => (
                 <td key={i} className="ks-compare-td-book">{v}</td>
               ))}
@@ -430,7 +426,7 @@ function EditionsTable({ selected = null, diffOnly = false }) {
               return (
                 <React.Fragment key={section.name}>
                   <tr className="ks-compare-tr-section">
-                    <td colSpan={cols.length + 2} className="ks-compare-td-section">
+                    <td colSpan={cols.length + 1} className="ks-compare-td-section">
                       {section.name}
                     </td>
                   </tr>
@@ -438,8 +434,14 @@ function EditionsTable({ selected = null, diffOnly = false }) {
                     const visibleVals = filterRow(values);
                     return (
                       <tr key={rowName} className="ks-compare-tr-data">
-                        <td className="ks-compare-td-left ks-compare-td-data" style={{ fontWeight: 500 }}>{rowName}</td>
-                        <td className="ks-compare-td-price ks-compare-td-data">{MODULE_PRICES[rowName] || "-"}</td>
+                        <td className="ks-compare-td-left ks-compare-td-data" style={{ fontWeight: 500 }}>
+                          {rowName}
+                          {MODULE_PRICES[rowName] && (
+                            <span className="ks-compare-td-price" style={{ marginLeft: "0.6rem", fontSize: "0.85em" }}>
+                              {MODULE_PRICES[rowName]}
+                            </span>
+                          )}
+                        </td>
                         {visibleVals.map((v, vi) => (
                           <td key={vi} className="ks-compare-td-data">
                             <EditionMarker value={v} />
@@ -466,7 +468,7 @@ const FEATURES = [
     desc: "Prepared for Malaysia SST and LHDN MyInvois workflows, with accounting controls that help your team handle compliance work with less friction.",
   },
   {
-    icon: "/images/icons/integration-icon.png",
+    icon: "/images/icons/feature-integration.svg",
     title: "Integrated Operations",
     desc: "Connect accounting with POS, inventory, payroll, and custom business workflows so daily transactions stay traceable from front counter to ledger.",
   },
