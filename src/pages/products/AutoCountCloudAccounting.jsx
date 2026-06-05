@@ -506,7 +506,7 @@ export default function AutoCountCloudAccountingPage() {
       <main className="pinned-page-content product-app-content">
       {/* ── Feature highlights ── */}
       <div className="product-app-section product-app-section-paper product-app-section-clean" style={{ '--feature-strip-bg': 'linear-gradient(180deg, #16a14b 0%, #0d7032 100%)', '--feature-strip-shadow': '0 0 16px rgba(22, 161, 75, 0.4)' }}>
-        <FeatureShowcase features={FEATURES} promoSlides={FEATURE_PROMOS} />
+        <FeatureShowcase features={FEATURES} /* promoSlides={FEATURE_PROMOS} */ />
       </div>
 
       <div className="product-app-divider" style={{ "--section-from": "var(--ks-page-paper)", "--section-to": "var(--ks-page-mist)", marginTop: "-1.5rem", marginBottom: "-1.5rem" }}>
