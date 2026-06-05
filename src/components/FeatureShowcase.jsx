@@ -13,7 +13,7 @@ export default function FeatureShowcase({
   wrapper = false,
   wrapperStyle,
   promoSlides = [],
-  carouselDurationMs = 5200,
+  carouselDurationMs = 15000,
   carouselTone = "light",
 }) {
   const gridRef = useRef(null);
@@ -170,18 +170,15 @@ export default function FeatureShowcase({
                 letterSpacing: "0.15em",
                 color: "#6b6f91",
                 textTransform: "uppercase",
-                marginBottom: showPromoInsideBrandBlock ? "1.35rem" : "2.5rem",
+                marginBottom: "2.5rem",
               }}>
                 {brandText}
               </p>
             )}
 
-            {showPromoInsideBrandBlock && renderPromoCarousel()}
-
             <div
               className="ac-brand-marquee-container"
               style={{
-                marginTop: showPromoInsideBrandBlock ? "1.7rem" : undefined,
                 maskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
                 WebkitMaskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
                 cursor: "pointer",
@@ -196,6 +193,9 @@ export default function FeatureShowcase({
                 ))}
               </div>
             </div>
+            
+            {showPromoInsideBrandBlock && renderPromoCarousel()}
+            
           </div>
         )}
       </div>

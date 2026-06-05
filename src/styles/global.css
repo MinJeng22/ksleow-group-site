@@ -490,11 +490,12 @@ textarea {
 }
 
 .feature-showcase-promo-carousel {
-  margin-top: 2rem;
+  margin: 2rem auto 0;
+  max-width: 800px;
 }
 
 .feature-showcase-brand-block .feature-showcase-promo-carousel {
-  margin-top: 0;
+  margin: 2.5rem auto 0;
 }
 
 .feature-showcase-track {
