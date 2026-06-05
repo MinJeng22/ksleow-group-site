@@ -746,7 +746,7 @@ export default function AutoCountAccountingPage({ onContact }) {
             diffOnly={editionCompareMode && editionA !== editionB && editionDiffOnly}
           />
           <p className="ks-card-text" style={{ margin: "1rem 0 0", fontWeight: 700, textAlign: "left" }}>
-            Prices exclude 8% SST.
+            *Prices exclude 8% SST.
           </p>
         </div>
       </div>

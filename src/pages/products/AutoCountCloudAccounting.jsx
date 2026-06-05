@@ -526,9 +526,6 @@ export default function AutoCountCloudAccountingPage() {
       <div id="editions" className="ac-section-tight product-app-section product-app-section-ice product-app-section-to-cloud" style={{ overflow: "visible" }}>
         <div className="content-wrap">
           <div style={{ textAlign: "center", marginBottom: "1.7rem" }}>
-            <div className="ks-eyebrow" style={{ color: "#7AB317" }}>
-              Plans for Different Business Sizes
-            </div>
             <h2 className="ks-section-title" style={{ marginBottom: "0.85rem" }}>
               Comparing 5 Editions of CloudAccounting
             </h2>
@@ -602,8 +599,8 @@ export default function AutoCountCloudAccountingPage() {
             <div><strong style={{ color: "#444" }}>Stock Module:</strong> Up to 60 transactions including Stock Adjustment and Stock Transfer*</div>
             <div><strong style={{ color: "#444" }}>Accounting Module:</strong> Up to 60 transactions including Cash Book and Journal Voucher.*</div>
             <div style={{ marginTop: "0.5rem" }}>*Free Trial: use for free until any of the above modules reaches its free trial transaction limit within a calendar year.</div>
-            <div>**Prices exclude 8% SST.</div>
-            <div>** All promotion offers are subject to terms and conditions.</div>
+            <div>*Prices exclude 8% SST.</div>
+            <div>*All promotion offers are subject to terms and conditions.</div>
           </div>
         </div>
       </div>
