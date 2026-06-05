@@ -64,38 +64,6 @@ const ExternalLinkIcon = () => (
   </svg>
 );
 
-/* accent colours and placeholder icons for each card */
-const CARD_META = [
-  { accent: "rgba(201,168,76,0.14)", iconColor: "#c9a84c" },
-  { accent: "rgba(47,49,90,0.30)",   iconColor: "#7b7fb8" },
-  { accent: "rgba(25,80,60,0.28)",   iconColor: "#4caf8a" },
-  { accent: "rgba(120,50,20,0.28)",  iconColor: "#c9813e" },
-];
-
-const ICONS = [
-  /* network */
-  <svg key="net" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" width="46" height="46">
-    <rect x="2" y="2" width="6" height="6" rx="1"/><rect x="16" y="2" width="6" height="6" rx="1"/>
-    <rect x="9" y="16" width="6" height="6" rx="1"/>
-    <path d="M5 8v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8"/><path d="M12 13v3"/>
-  </svg>,
-  /* code */
-  <svg key="code" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" width="46" height="46">
-    <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
-    <line x1="12" y1="4" x2="12" y2="20" strokeDasharray="2 2"/>
-  </svg>,
-  /* erp */
-  <svg key="erp" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" width="46" height="46">
-    <rect x="3" y="3" width="18" height="18" rx="2"/>
-    <path d="M9 9h6M9 12h6M9 15h4"/>
-  </svg>,
-  /* warehouse */
-  <svg key="wh" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" width="46" height="46">
-    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-    <polyline points="9 22 9 12 15 12 15 22"/>
-  </svg>,
-];
-
 function PartnerModal({
   open,
   onClose,
@@ -328,10 +296,65 @@ export default function OtherServices({ onContact }) {
     };
   }, [partnerOpen, sitegiantOpen]);
 
-  const displayCases = [...CASES];
-  while (displayCases.length < 4) {
-    displayCases.push({ isEmpty: true, key: `empty-${displayCases.length}` });
-  }
+  const servicesByKey = Object.fromEntries(CASES.map((item) => [item.key, item]));
+  const featuredService = servicesByKey.sitegiant || CASES[0];
+  const sideServices = [servicesByKey.networking, servicesByKey.plugin].filter(Boolean);
+
+  const openService = (service) => {
+    if (service.modal === "supaprintz") setPartnerOpen(true);
+    else if (service.modal === "sitegiant") setSitegiantOpen(true);
+    else if (service.route) navigate(service.route);
+  };
+
+  const serviceClickable = (service) => !!(service.route || service.modal);
+  const renderBentoCard = (service, variant) => {
+    const imgSrc = service.image || CASE_IMAGES[service.key];
+    const clickable = serviceClickable(service);
+    const isFeatured = variant === "featured";
+    return (
+      <article
+        id={service.modal ? `${service.modal}-card` : undefined}
+        key={service.key}
+        className={`other-service-bento-card other-service-bento-card--${variant}${clickable ? " is-clickable" : ""}`}
+        onClick={clickable ? () => openService(service) : undefined}
+        onKeyDown={clickable ? (event) => {
+          if (event.key !== "Enter" && event.key !== " ") return;
+          event.preventDefault();
+          openService(service);
+        } : undefined}
+        role={clickable ? "button" : undefined}
+        tabIndex={clickable ? 0 : undefined}
+      >
+        <div className="other-service-bento-media">
+          {imgSrc && (
+            <Img
+              src={imgSrc}
+              alt={service.title}
+              className="other-service-bento-img"
+              protect={false}
+            />
+          )}
+        </div>
+        <div className="other-service-bento-content">
+          <div>
+            <div className="other-service-bento-kicker">
+              {isFeatured ? "Featured Integration" : "Business Support"}
+            </div>
+            <h3 className="other-service-bento-title">{service.title}</h3>
+          </div>
+          <p className="other-service-bento-copy">{service.desc}</p>
+          {clickable && (
+            <span className="ks-learn-more other-service-bento-link">
+              Learn more
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </span>
+          )}
+        </div>
+      </article>
+    );
+  };
 
   return (
     <>
@@ -357,83 +380,11 @@ export default function OtherServices({ onContact }) {
         </p>
       </div>
 
-      {/* 4-col desktop → 2-col tablet → 1-col mobile (matches Products grid) */}
-      <div
-        className="cases-grid"
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(4, 1fr)",
-          gap: "1.25rem",
-        }}
-      >
-        {displayCases.map((c, i) => {
-          if (c.isEmpty) {
-            return (
-              <div key={c.key} className="other-services-empty-card" style={{ opacity: 0, pointerEvents: "none" }} />
-            );
-          }
-          const imgSrc = c.image || CASE_IMAGES[c.key];
-          const meta   = CARD_META[i] || CARD_META[CARD_META.length - 1];
-          const opensPartnerModal = c.modal === "supaprintz";
-          const opensSitegiantModal = c.modal === "sitegiant";
-          const clickable = !!c.route || opensPartnerModal || opensSitegiantModal;
-          return (
-            <div
-              id={c.modal ? `${c.modal}-card` : undefined}
-              key={c.key || i}
-              onClick={clickable ? () => {
-                if (opensPartnerModal) setPartnerOpen(true);
-                else if (opensSitegiantModal) setSitegiantOpen(true);
-                else navigate(c.route);
-              } : undefined}
-              style={{
-                borderRadius: 16, overflow: "hidden",
-                background: "#ffffff",
-                border: "1px solid rgba(47,49,90,0.1)",
-                cursor: clickable ? "pointer" : "default",
-                opacity: 1,
-                transform: "none",
-                transition: "border-color 0.2s",
-                display: "flex", flexDirection: "column", height: "100%",
-              }}
-              onMouseEnter={clickable ? e => e.currentTarget.style.borderColor = "rgba(201,168,76,0.5)" : undefined}
-              onMouseLeave={clickable ? e => e.currentTarget.style.borderColor = "rgba(47,49,90,0.1)" : undefined}
-            >
-              {/* image / placeholder */}
-              <div style={{ position: "relative", paddingBottom: "48%", background: meta.accent }}>
-                {imgSrc ? (
-                  <Img src={imgSrc} alt={c.title}
-                    style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
-                    onError={e => { e.currentTarget.style.display = "none"; }}
-                  />
-                ) : (
-                  <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", color: meta.iconColor, opacity: 0.5 }}>
-                    {ICONS[i] || ICONS[ICONS.length - 1]}
-                  </div>
-                )}
-              </div>
-              {/* body */}
-              <div className="site-card-body" style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-                <h3 className="site-card-title" style={{ marginBottom: "0.55rem" }}>
-                  {c.title}
-                </h3>
-                <p className="site-card-copy" style={{ marginBottom: 0 }}>
-                  {c.desc}
-                </p>
-                {clickable && (
-                  <div style={{ marginTop: "auto", paddingTop: "0.75rem", textAlign: "right" }}>
-                    <span className="ks-learn-more">
-                      Learn more
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                        <polyline points="9 18 15 12 9 6" />
-                      </svg>
-                    </span>
-                  </div>
-                )}
-              </div>
-            </div>
-          );
-        })}
+      <div className="other-services-bento">
+        {featuredService && renderBentoCard(featuredService, "featured")}
+        <div className="other-services-bento-side">
+          {sideServices.map((service) => renderBentoCard(service, "compact"))}
+        </div>
       </div>
 
       {otherServicesContent.ctaLabel && (
