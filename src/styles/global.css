@@ -970,6 +970,15 @@ textarea {
   display: block;
 }
 
+.ks-bento-card.is-wide .ks-bento-img {
+  object-fit: contain;
+  padding: 1rem;
+}
+
+.ks-bento-card.is-wide .ks-bento-media {
+  background: #ffffff;
+}
+
 .ks-bento-placeholder {
   position: absolute;
   inset: 0;
@@ -1010,12 +1019,16 @@ textarea {
     grid-row: auto;
   }
 
-  .ks-bento-card.is-tall,
-  .ks-bento-card.is-wide {
+  .ks-bento-card.is-tall {
     min-height: 360px;
     display: grid;
     grid-template-rows: 52% 48%;
     grid-template-columns: 1fr;
+  }
+
+  .ks-bento-card.is-wide {
+    min-height: 220px;
+    grid-template-columns: 45% 55%;
   }
 }
 
@@ -1025,9 +1038,13 @@ textarea {
     gap: 1rem;
   }
 
-  .ks-bento-card.is-tall,
-  .ks-bento-card.is-wide {
+  .ks-bento-card.is-tall {
     min-height: 340px;
+  }
+  
+  .ks-bento-card.is-wide {
+    min-height: 180px;
+    grid-template-columns: 40% 60%;
   }
 
   .ks-bento-body {
