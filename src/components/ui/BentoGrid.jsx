@@ -61,13 +61,11 @@ const BENTO_CAROUSEL_STYLES = `
   .other-services-carousel .ks-bento-layout-6 { grid-column: 3 / span 2 !important; grid-row: 2 !important; }
 }
 .other-services-carousel .ks-bento-card {
-  background: #f5f5f8;
   border-color: rgba(47,49,90,0.1);
   box-shadow: 0 24px 60px rgba(47,49,90,0.08);
 }
 .other-services-carousel .ks-bento-card.is-empty {
   /* User wants empty cards to be visible as filled shapes to fill negative space */
-  background: #f5f5f8;
   border-color: rgba(47,49,90,0.1);
 }
 .other-services-carousel .ks-bento-card.is-clickable:hover {
