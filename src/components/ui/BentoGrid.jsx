@@ -53,9 +53,8 @@ const BENTO_CAROUSEL_STYLES = `
   box-shadow: 0 24px 60px rgba(47,49,90,0.08);
 }
 .other-services-carousel .ks-bento-card.is-empty {
-  background:
-    linear-gradient(145deg, rgba(255,255,255,0.42), rgba(229,230,237,0.54));
-  border-color: rgba(47,49,90,0.08);
+  background: rgba(255,255,255,0.3);
+  border-color: rgba(47,49,90,0.05);
 }
 .other-services-carousel .ks-bento-card.is-clickable:hover {
   background:

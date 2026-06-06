@@ -881,7 +881,7 @@ textarea {
 }
 
 .ks-bento-card.is-clickable:hover {
-  transform: translateY(-4px);
+  transform: translateY(-4px) scale(1.02);
   border-color: rgba(201,168,76,0.5);
   box-shadow: 0 24px 58px rgba(47,49,90,0.11);
 }
@@ -2511,14 +2511,6 @@ body.has-active-modal .back-to-top-glass {
 
 /* Mobile Compare Table Overrides */
 @media (max-width: 768px) {
-  .ks-compare-table {
-    table-layout: auto;
-  }
-
-  .ks-compare-table colgroup {
-    display: none;
-  }
-
   .ks-compare-table, 
   .ks-compare-thead, 
   .ks-compare-tbody, 
@@ -2540,22 +2532,11 @@ body.has-active-modal .back-to-top-glass {
   }
   .ks-compare-thead .ks-compare-th:not(.ks-compare-th-left) {
     flex: 1;
-    min-width: 0;
     padding: 0.5rem 0.1rem;
-    font-size: 0.68rem;
+    font-size: 0.75rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow-wrap: anywhere;
-  }
-
-  .ks-compare-edition-name {
-    min-height: 0;
-  }
-
-  .ks-compare-edition-price {
-    font-size: 0.6rem;
-    white-space: normal;
   }
 
   .ks-compare-tr-data, .ks-compare-tr-book {
@@ -2576,7 +2557,6 @@ body.has-active-modal .back-to-top-glass {
   .ks-compare-td-data:not(.ks-compare-td-left),
   .ks-compare-td-book:not(.ks-compare-td-left) {
     flex: 1;
-    min-width: 0;
     box-sizing: border-box;
     display: flex;
     align-items: center;

@@ -396,6 +396,7 @@ function EditionsTable({ selected = null, diffOnly = false }) {
               {cols.map(e => (
                 <th key={e} className="ks-compare-th">
                   <span className="ks-compare-edition-name">{e}</span>
+                  
                 </th>
               ))}
             </tr>
@@ -404,6 +405,7 @@ function EditionsTable({ selected = null, diffOnly = false }) {
             <tr className="ks-compare-tr-book">
               <td className="ks-compare-td-left ks-compare-td-book" style={{ background: "inherit", fontWeight: 500 }}>
                 <span>One-Time Payment</span>
+                
               </td>
               {filterRow(EDITION_TABLE.oneTimePayment).map((v, i) => (
                 <td key={i} className="ks-compare-td-book">{v}</td>
