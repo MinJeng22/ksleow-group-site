@@ -1034,29 +1034,35 @@ textarea {
 @media (max-width: 640px) {
   .ks-bento {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    grid-template-rows: none !important;
+    gap: 1.25rem;
   }
 
   .ks-bento-card.is-tall {
-    min-height: 340px;
+    min-height: 320px;
   }
   
   .ks-bento-card.is-wide {
-    min-height: 180px;
-    grid-template-columns: 40% 60%;
+    min-height: auto;
+    grid-template-columns: 1fr;
+  }
+
+  .ks-bento-card.is-wide .ks-bento-media {
+    min-height: 200px;
   }
 
   .ks-bento-body {
-    padding: 1.2rem;
+    padding: 1.25rem;
   }
 }
 
 @media (max-width: 767px) {
   .ac-brand-marquee {
     animation-duration: 40s;
+    gap: 2rem;
   }
   .ac-brand-item {
-    padding: 0;
+    padding: 0 1rem;
   }
   .ac-brand-item img {
     height: 48px;
@@ -2188,7 +2194,7 @@ select.ks-field {
 .lg-glass {
   --lg-bg: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.35) 0%,
+    rgba(255, 255, 255, 0.12) 0%,
     rgba(255, 255, 255, 0.08) 100%
   );
   --lg-bg-hover: linear-gradient(135deg, rgba(255,255,255,0.52), rgba(255,255,255,0.17));
@@ -2437,9 +2443,7 @@ body.has-active-modal .back-to-top-glass {
 }
 
 .ks-compare-wrap {
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  -webkit-overflow-scrolling: touch;
+  /* No overflow limit, fully displayed */
 }
 
 .ks-compare-table {
@@ -2510,8 +2514,6 @@ body.has-active-modal .back-to-top-glass {
   font-weight: 600;
   min-width: 190px;
   width: clamp(230px, 31%, 360px);
-  left: 0;
-  z-index: 4;
 }
 
 .ks-compare-tr-book {
@@ -2579,51 +2581,75 @@ body.has-active-modal .back-to-top-glass {
 
 /* Mobile Compare Table Overrides */
 @media (max-width: 768px) {
-  .ks-compare-panel {
-    overflow: hidden;
+  .ks-compare-table, 
+  .ks-compare-thead, 
+  .ks-compare-tbody, 
+  .ks-compare-th, 
+  .ks-compare-td, 
+  .ks-compare-tr,
+  .ks-compare-tr-data,
+  .ks-compare-tr-book,
+  .ks-compare-tr-section {
+    display: block;
+    width: 100%;
   }
-
-  .ks-compare-wrap {
-    scrollbar-width: thin;
+  
+  .ks-compare-thead tr {
+    display: flex;
   }
-
-  .ks-compare-table {
-    min-width: max(780px, 100%);
-    table-layout: fixed;
+  .ks-compare-thead .ks-compare-th-left {
+    display: none;
   }
-
-  .ks-compare-th {
+  .ks-compare-thead .ks-compare-th:not(.ks-compare-th-left) {
+    flex: 1;
+    padding: 0.5rem 0.1rem;
     font-size: 0.75rem;
-    padding: 0.55rem 0.45rem;
-    white-space: normal;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .ks-compare-edition-name {
-    min-height: 0;
+  .ks-compare-tr-data, .ks-compare-tr-book {
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: 1px solid rgba(47,49,90,0.05);
   }
-
+  
   .ks-compare-td-left {
-    width: 220px;
-    min-width: 220px;
-    text-align: left;
-  }
-
-  .ks-compare-col-feature {
-    width: 220px;
-  }
-
-  .ks-compare-td-book,
-  .ks-compare-td-data {
-    padding: 0.58rem 0.45rem;
-  }
-
-  .ks-compare-td-section {
+    width: 100%;
     text-align: center;
+    position: static !important;
+    background: #f0f0f5 !important;
+    padding: 0.7rem;
+    border-bottom: 1px solid rgba(47,49,90,0.05);
+  }
+  
+  .ks-compare-td-data:not(.ks-compare-td-left),
+  .ks-compare-td-book:not(.ks-compare-td-left) {
+    flex: 1;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid rgba(47,49,90,0.05);
+    padding: 0.5rem 0;
+  }
+  .ks-compare-td-data:not(.ks-compare-td-left):last-child,
+  .ks-compare-td-book:not(.ks-compare-td-left):last-child {
+    border-right: none;
+  }
+  
+  .ks-compare-td-section {
+    width: 100%;
+    text-align: center;
+    display: block;
   }
 }
 
 .ks-bento-carousel-slide.ks-bento {
-  background: transparent !important;
+  background: #f5f5f8 !important;
+  border-radius: 24px;
+  padding: clamp(1rem, 4vw, 1.8rem);
 }
 
 /* Generic Carousel Button (used in BentoGrid and Products) */
