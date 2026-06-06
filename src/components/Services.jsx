@@ -100,9 +100,9 @@ function ServiceCard({ service }) {
   const contact = SERVICE_CONTACTS[service.key] || {};
   const office  = (service.officeKey && OFFICES[service.officeKey]) || null;
   
-  const cmsPhone = office?.phone;
-  const phoneArray = cmsPhone
-    ? [cmsPhone]
+  const cmsPhones = office?.phones?.map(p => p.number).filter(Boolean);
+  const phoneArray = (cmsPhones && cmsPhones.length > 0)
+    ? cmsPhones
     : (Array.isArray(contact.phone) ? contact.phone : (contact.phone || "017-905 2323").split(/[,/]/).map(s => s.trim()));
   const primaryPhone = phoneArray[0];
 
@@ -414,14 +414,17 @@ function ServiceCard({ service }) {
                 overflowY: "auto", paddingRight: "4px"
               }}
             >
-              <ContactLine
-                icon={<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6.29 6.29l1-1a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />}
-                label={primaryPhone}
-              />
+              {phoneArray.map((phone, idx) => (
+                <ContactLine
+                  key={`phone-${idx}`}
+                  icon={idx === 0 ? <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6.29 6.29l1-1a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" /> : null}
+                  label={phone}
+                />
+              ))}
               {addressArray.map((addr, idx) => (
                 <ContactLine
                   key={`addr-${idx}`}
-                  icon={<><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></>}
+                  icon={idx === 0 ? <><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></> : null}
                   label={addr}
                 />
               ))}
@@ -518,14 +521,16 @@ function ContactLine({ icon, label }) {
     <div style={{ display: "flex", alignItems: "flex-start", gap: "0.55rem" }}>
       <div style={{
         width: 22, height: 22, borderRadius: 6,
-        background: "rgba(201,168,76,0.15)",
-        border: "1px solid rgba(201,168,76,0.32)",
+        background: icon ? "rgba(201,168,76,0.15)" : "transparent",
+        border: icon ? "1px solid rgba(201,168,76,0.32)" : "1px solid transparent",
         display: "flex", alignItems: "center", justifyContent: "center",
         flexShrink: 0, marginTop: 1,
       }}>
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#e8c97a" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-          {icon}
-        </svg>
+        {icon && (
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#e8c97a" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            {icon}
+          </svg>
+        )}
       </div>
       <span style={{
         fontSize: "0.78rem",

@@ -11,7 +11,14 @@
       "name": "K.S. LEOW TAX CONSULTANT SDN. BHD.",
       "tagline": "Taxation & Accounting Services",
       "logo": "",
-      "phone": "+011-1283 3099 (Triang) / +09-275 0338 (Mentakab)",
+      "phones": [
+        {
+          "number": "+011-1283 3099 (Triang)"
+        },
+        {
+          "number": "+09-275 0338 (Mentakab)"
+        }
+      ],
       "addresses": [
         {
           "address": "Taman Triang Indah, 28300 Teriang, Pahang"
@@ -32,7 +39,11 @@
       "tagline": "Secretarial, Management & Audit",
       "logo": "",
       "facebook": "https://www.facebook.com/ksleow.com.my",
-      "phone": "+09-275 0337",
+      "phones": [
+        {
+          "number": "+09-275 0337"
+        }
+      ],
       "emails": [
         {
           "email": "cosec@ksleow.com.my"
