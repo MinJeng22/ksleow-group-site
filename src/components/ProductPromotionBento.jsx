@@ -13,24 +13,10 @@ export default function ProductPromotionBento({
   if (!cards.length) return null;
 
   return (
-    <section id={id} className="product-promo-bento" style={{ "--promo-accent": accent }}>
+    <section id={id} className="content-wrap product-promo-bento" style={{ "--promo-accent": accent }}>
       <style suppressHydrationWarning>{`
         .product-promo-bento {
-          margin: 0 auto;
-          width: min(1180px, 100%);
           scroll-margin-top: 24px;
-        }
-
-        @media (min-width: 1600px) {
-          .product-promo-bento {
-            width: min(1460px, 100%);
-          }
-        }
-
-        @media (min-width: 1900px) {
-          .product-promo-bento {
-            width: min(1680px, 100%);
-          }
         }
 
         .product-promo-head {
