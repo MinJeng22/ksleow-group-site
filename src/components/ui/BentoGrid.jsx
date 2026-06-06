@@ -43,7 +43,7 @@ const BENTO_CAROUSEL_STYLES = `
 .ks-bento-carousel-slide .ks-bento-card {
 }
 .other-services-carousel .ks-bento-carousel-slide.ks-bento {
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) minmax(0, 0.9fr) minmax(0, 0.9fr) !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2.2fr) minmax(0, 0.9fr) minmax(0, 0.9fr) !important;
 }
 .other-services-carousel .ks-bento-layout-1 { grid-column: 1; grid-row: 1 / span 2; }
 .other-services-carousel .ks-bento-layout-2 { grid-column: 2; grid-row: 1; }

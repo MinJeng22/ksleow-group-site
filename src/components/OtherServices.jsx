@@ -305,7 +305,7 @@ export default function OtherServices({ onContact }) {
 
   return (
     <>
-    <section id="other-services" className="home-section" style={{ position: "relative", overflow: "hidden", background: "#f5f5f8", padding: "var(--section-py) 0" }}>
+    <section id="other-services" className="home-section" style={{ position: "relative", overflow: "hidden", background: "transparent", padding: "var(--section-py) 0" }}>
     <div className="content-wrap" style={{ position: "relative", zIndex: 1 }}>
       <SectionHeader
         eyebrow={otherServicesContent.eyebrow}
