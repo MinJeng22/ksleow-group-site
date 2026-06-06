@@ -21,21 +21,27 @@ const BENTO_CAROUSEL_STYLES = `
   display: flex;
   gap: 1.25rem;
   overflow-x: auto;
+  overscroll-behavior-x: contain;
   padding: 0 min(4vw, 3rem) 1rem 0;
   scroll-behavior: smooth;
   scroll-padding-left: 0;
-  scroll-snap-type: x mandatory;
+  scroll-snap-type: x proximity;
   scrollbar-width: none;
+  will-change: scroll-position;
 }
 .ks-bento-carousel-track::-webkit-scrollbar {
   display: none;
 }
-.ks-bento-card.is-carousel {
-  display: grid;
-  flex: 0 0 calc((100% - 2.5rem) / 3.18);
-  grid-template-rows: 56% 44%;
-  min-height: 520px;
+.ks-bento-carousel-slide {
+  flex: 0 0 calc(100% + min(18vw, 180px));
   scroll-snap-align: start;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ks-bento-carousel-track:active .ks-bento-carousel-slide {
+  transform: scale(0.995);
+}
+.ks-bento-carousel-slide .ks-bento-card {
+  scroll-snap-align: none;
 }
 .ks-bento-carousel-controls {
   bottom: 0;
@@ -69,9 +75,8 @@ const BENTO_CAROUSEL_STYLES = `
   outline-offset: 4px;
 }
 @media (max-width: 1180px) {
-  .ks-bento-card.is-carousel {
-    flex-basis: calc((100% - 1.25rem) / 2.18);
-    min-height: 430px;
+  .ks-bento-carousel-slide {
+    flex-basis: calc(100% + 128px);
   }
 }
 @media (max-width: 640px) {
@@ -85,9 +90,8 @@ const BENTO_CAROUSEL_STYLES = `
     gap: 1rem;
     padding-right: 1rem;
   }
-  .ks-bento-card.is-carousel {
-    flex-basis: 84%;
-    min-height: 360px;
+  .ks-bento-carousel-slide {
+    flex-basis: calc(100% + 88px);
   }
   .ks-bento-carousel-btn {
     height: 42px;
@@ -126,13 +130,14 @@ export function BentoCarousel({
 }) {
   const trackRef = useRef(null);
   const displayItems = normalizeBentoItems(items, minItems);
+  const slides = chunkBentoItems(displayItems, minItems);
 
-  const scrollByCard = (direction) => {
+  const scrollByBento = (direction) => {
     const track = trackRef.current;
     if (!track) return;
-    const card = track.querySelector(".ks-bento-card");
-    const gap = Number.parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap) || 20;
-    const distance = card ? card.getBoundingClientRect().width + gap : track.clientWidth * 0.72;
+    const slide = track.querySelector(".ks-bento-carousel-slide");
+    const slideWidth = slide?.getBoundingClientRect().width || track.clientWidth;
+    const distance = Math.min(track.clientWidth * 0.86, slideWidth * 0.38);
     track.scrollBy({ left: direction * distance, behavior: "smooth" });
   };
 
@@ -141,23 +146,28 @@ export function BentoCarousel({
       <style>{BENTO_CAROUSEL_STYLES}</style>
       <div className="ks-bento-carousel-viewport">
         <div className="ks-bento-carousel-track" ref={trackRef}>
-          {displayItems.map((item, index) => (
-            <BentoCard
-              key={item.key || index}
-              item={item}
-              index={index}
-              image={imageFor?.(item)}
-              onOpen={onOpen}
-              variant="carousel"
-            />
+          {slides.map((slideItems, slideIndex) => (
+            <div className="ks-bento-carousel-slide ks-bento" key={`bento-slide-${slideIndex}`}>
+              {slideItems.map((item, index) => (
+                <BentoCard
+                  key={item.key || `${slideIndex}-${index}`}
+                  item={item}
+                  index={index}
+                  layoutClass={LAYOUT_CLASSES[index] || ""}
+                  image={imageFor?.(item)}
+                  onOpen={onOpen}
+                  variant="grid"
+                />
+              ))}
+            </div>
           ))}
         </div>
       </div>
       <div className="ks-bento-carousel-controls" aria-label={controlsLabel}>
-        <button type="button" className="ks-bento-carousel-btn" onClick={() => scrollByCard(-1)} aria-label="Previous item">
+        <button type="button" className="ks-bento-carousel-btn" onClick={() => scrollByBento(-1)} aria-label="Previous item">
           <ArrowIcon direction="left" />
         </button>
-        <button type="button" className="ks-bento-carousel-btn" onClick={() => scrollByCard(1)} aria-label="Next item">
+        <button type="button" className="ks-bento-carousel-btn" onClick={() => scrollByBento(1)} aria-label="Next item">
           <ArrowIcon direction="right" />
         </button>
       </div>
@@ -173,6 +183,14 @@ function normalizeBentoItems(items, minItems) {
   return displayItems;
 }
 
+function chunkBentoItems(items, size) {
+  const chunks = [];
+  for (let i = 0; i < items.length; i += size) {
+    chunks.push(normalizeBentoItems(items.slice(i, i + size), size).slice(0, size));
+  }
+  return chunks;
+}
+
 function ArrowIcon({ direction }) {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -184,9 +202,7 @@ function ArrowIcon({ direction }) {
 export function BentoCard({ item, index, layoutClass = "", image, onOpen, variant = "grid" }) {
   const isEmpty = item?.isEmpty;
   const clickable = !isEmpty && !!(item?.route || item?.modal || item?.href);
-  const shapeClass = variant === "carousel"
-    ? " is-carousel"
-    : (index === 0 || index === 3 ? " is-tall" : " is-wide");
+  const shapeClass = index === 0 || index === 3 ? " is-tall" : " is-wide";
 
   const handleOpen = () => {
     if (clickable) onOpen?.(item, index);
