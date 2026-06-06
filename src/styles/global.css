@@ -403,8 +403,8 @@ textarea {
 /* Ensure completely negative-space arrows on desktop */
 @media (min-width: 1024px) {
   .products-carousel-controls-side {
-    left: max(-64px, calc(-1 * var(--px) - max(0px, calc((100vw - 1440px) / 2)) + 4px));
-    right: max(-64px, calc(-1 * var(--px) - max(0px, calc((100vw - 1440px) / 2)) + 4px));
+    left: calc(var(--carousel-btn-size) * -0.6);
+    right: calc(var(--carousel-btn-size) * -0.6);
   }
 }
 
@@ -1110,7 +1110,7 @@ textarea {
     --products-carousel-h: 350px;
   }
   .products-grid { grid-template-columns: repeat(2, 1fr) !important; }
-  .products-grid-carousel { height: var(--products-carousel-h) !important; }
+  .products-grid-carousel { min-height: var(--products-carousel-h) !important; height: auto !important; }
   .products-section .product-card { min-height: 320px !important; }
   #services .services-grid > div { height: 260px !important; }
   .cases-grid    { grid-template-columns: repeat(2, 1fr) !important; }
@@ -1146,7 +1146,7 @@ textarea {
     --site-card-copy: 0.76rem;
     --products-carousel-h: 330px;
   }
-  .products-grid-carousel { height: var(--products-carousel-h) !important; }
+  .products-grid-carousel { min-height: var(--products-carousel-h) !important; height: auto !important; }
   .products-section .product-card { min-height: 310px !important; }
   #services .services-grid > div { height: 250px !important; }
   .products-section { --products-grid-min-h: 310px; }

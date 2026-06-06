@@ -623,7 +623,7 @@ export default function Services() {
           <p className="ks-body-text" style={{ marginBottom: "3rem" }}>
             {servicesContent.intro}
           </p>
-          <div className="services-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.1rem" }}>
+          <div className="services-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 420px))", justifyContent: "center", gap: "1.1rem" }}>
             {SERVICES.map(s => (
               <ServiceCard key={s.key} service={s} />
             ))}

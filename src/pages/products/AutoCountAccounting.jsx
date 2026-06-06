@@ -492,6 +492,7 @@ const ACCOUNTING_PROMOTIONS = [
     title: "Earn rewards when you refer AutoCount users",
     description: "Introduce a business that needs AutoCount Accounting, POS, Payroll, or CloudAccounting and let KSL handle the consultation.",
     image: "/images/promotions/ksl-referral-program.jpg",
+    cta: { label: "Learn More", href: WA_LINK, target: "_blank" },
   },
   {
     badge: "Setup Support",

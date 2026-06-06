@@ -40,9 +40,6 @@ const BENTO_CAROUSEL_STYLES = `
     flex: 0 0 max(100%, 1920px);
   }
 }
-.ks-bento-carousel-track:active .ks-bento-carousel-slide {
-  transform: scale(0.995);
-}
 .ks-bento-carousel-slide .ks-bento-card {
 }
 .other-services-carousel .ks-bento-carousel-slide.ks-bento {
