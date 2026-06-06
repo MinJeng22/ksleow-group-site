@@ -8,8 +8,10 @@ import {
 } from "../components/chatbotShared.jsx";
 import { BackIcon, MenuGlyph } from "../components/icons.jsx";
 
-function getOmniPageUrl(machineId) {
-  const origin = typeof window !== "undefined" ? window.location.origin : "https://ksleow.vercel.app";
+const DEFAULT_OMNI_ORIGIN = "https://ksleow.vercel.app";
+const SSR_SESSION_ID = "pending-session";
+
+function getOmniPageUrl(machineId, origin = DEFAULT_OMNI_ORIGIN) {
   const baseUrl = `${origin}/omni`;
   return machineId ? `${baseUrl}?mid=${encodeURIComponent(machineId)}` : baseUrl;
 }
@@ -166,11 +168,10 @@ function EmptyGreeting() {
 
 /* ── Mobile detection ── */
 function useIsMobile() {
-  const [mobile, setMobile] = useState(() => (
-    typeof window !== "undefined" ? window.innerWidth < 768 : false
-  ));
+  const [mobile, setMobile] = useState(false);
   useEffect(() => {
     const fn = () => setMobile(window.innerWidth < 768);
+    fn();
     window.addEventListener("resize", fn);
     return () => window.removeEventListener("resize", fn);
   }, []);
@@ -192,32 +193,13 @@ export default function KSLOmniPage() {
   const isMobile = useIsMobile();
   const navigate = useNavigate();
 
-  const [machineId] = useState(() => {
-    if (typeof window === "undefined") return null;
-    const params = new URLSearchParams(window.location.search);
-    return params.get("mid") || null;
-  });
+  const [pageOrigin, setPageOrigin] = useState(DEFAULT_OMNI_ORIGIN);
+  const [machineId, setMachineId] = useState(null);
 
-  const [sidebarOpen, setSidebarOpen] = useState(() => (
-    typeof window !== "undefined" ? window.innerWidth >= 768 : true
-  ));
-  const [sessions, setSessions] = useState(() => {
-    if (typeof localStorage === "undefined") return [];
-    try {
-      const saved = localStorage.getItem(getSessionsListKey(machineId));
-      if (saved) return JSON.parse(saved);
-    } catch (e) {}
-    return [];
-  });
-  const [activeSessionId, setActiveSessionId] = useState(() => generateId());
-  const [messages, setMessages] = useState(() => {
-    if (typeof localStorage === "undefined") return [];
-    try {
-      const saved = localStorage.getItem(getSessionMessagesKey(machineId, activeSessionId));
-      if (saved) return JSON.parse(saved);
-    } catch (e) {}
-    return [];
-  });
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sessions, setSessions] = useState([]);
+  const [activeSessionId, setActiveSessionId] = useState(SSR_SESSION_ID);
+  const [messages, setMessages] = useState([]);
 
   function switchSession(newId) {
     abortRef.current?.abort();
@@ -231,10 +213,7 @@ export default function KSLOmniPage() {
   }
 
 
-  const [isIOS] = useState(() => {
-    if (typeof navigator === "undefined") return false;
-    return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-  });
+  const [isIOS, setIsIOS] = useState(false);
 
   const [input, setInput]                  = useState("");
   const [loading, setLoading]              = useState(false);
@@ -262,7 +241,7 @@ export default function KSLOmniPage() {
   const containerRef = useRef(null);
   const contentRef = useRef(null);
   const maxHeights = useRef({ portrait: 0, landscape: 0 });
-  const pageUrl = useMemo(() => getOmniPageUrl(machineId), [machineId]);
+  const pageUrl = useMemo(() => getOmniPageUrl(machineId, pageOrigin), [machineId, pageOrigin]);
   const qrUrl = useMemo(() => getQrUrl(pageUrl), [pageUrl]);
   const [qrReady, setQrReady] = useState(false);
 
@@ -271,6 +250,25 @@ export default function KSLOmniPage() {
   const chatScrollRef = useRef(null);
 
   const isEmpty = messages.length === 0;
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const nextMachineId = params.get("mid") || null;
+    const nextSessionId = generateId();
+
+    setPageOrigin(window.location.origin);
+    setMachineId(nextMachineId);
+    setSidebarOpen(window.innerWidth >= 768);
+    setActiveSessionId(nextSessionId);
+    setIsIOS(/iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1));
+
+    try {
+      const saved = localStorage.getItem(getSessionsListKey(nextMachineId));
+      setSessions(saved ? JSON.parse(saved) : []);
+    } catch (e) {
+      setSessions([]);
+    }
+  }, []);
 
   function focusInputSoon(delay = 50) {
     window.setTimeout(() => {
@@ -311,7 +309,7 @@ export default function KSLOmniPage() {
 
     // Save messages and update session list preview
   useEffect(() => {
-    if (messages.length === 0) return;
+    if (messages.length === 0 || activeSessionId === SSR_SESSION_ID) return;
     const msgKey = getSessionMessagesKey(machineId, activeSessionId);
     localStorage.setItem(msgKey, JSON.stringify(messages));
 

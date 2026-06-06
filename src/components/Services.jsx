@@ -415,34 +415,37 @@ function ServiceCard({ service }) {
               }}
             >
               {phoneArray.length > 0 && (
-                <div style={{ display: "flex", flexDirection: "column", gap: "0.15rem" }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
                   {phoneArray.map((phone, idx) => (
                     <ContactLine
                       key={`phone-${idx}`}
                       icon={idx === 0 ? <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6.29 6.29l1-1a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" /> : null}
                       label={phone}
+                      isSingleItem={phoneArray.length === 1}
                     />
                   ))}
                 </div>
               )}
               {addressArray.length > 0 && (
-                <div style={{ display: "flex", flexDirection: "column", gap: "0.15rem" }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
                   {addressArray.map((addr, idx) => (
                     <ContactLine
                       key={`addr-${idx}`}
                       icon={idx === 0 ? <><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></> : null}
                       label={addr}
+                      isSingleItem={addressArray.length === 1}
                     />
                   ))}
                 </div>
               )}
               {emailArray.length > 0 && (
-                <div style={{ display: "flex", flexDirection: "column", gap: "0.15rem" }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
                   {emailArray.map((email, idx) => (
                     <ContactLine
                       key={`email-${idx}`}
                       icon={idx === 0 ? <><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></> : null}
                       label={email}
+                      isSingleItem={emailArray.length === 1}
                     />
                   ))}
                 </div>
@@ -528,15 +531,15 @@ function ServiceCard({ service }) {
 
 /* Single contact line on the back of the card — icon chip + label.
  * All rows share identical typography (size / weight / colour). */
-function ContactLine({ icon, label }) {
+function ContactLine({ icon, label, isSingleItem }) {
   return (
-    <div style={{ display: "flex", alignItems: "flex-start", gap: "0.55rem" }}>
+    <div style={{ display: "flex", alignItems: isSingleItem ? "center" : "flex-start", gap: "0.55rem" }}>
       <div style={{
         width: 22, height: 22, borderRadius: 6,
         background: icon ? "rgba(201,168,76,0.15)" : "transparent",
         border: icon ? "1px solid rgba(201,168,76,0.32)" : "1px solid transparent",
         display: "flex", alignItems: "center", justifyContent: "center",
-        flexShrink: 0, marginTop: 1,
+        flexShrink: 0, marginTop: isSingleItem ? 0 : 1,
       }}>
         {icon && (
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#e8c97a" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
