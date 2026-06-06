@@ -2608,8 +2608,7 @@ body.has-active-modal .back-to-top-glass {
   }
   
   .ks-compare-thead tr {
-    display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
+    display: flex;
     width: 100%;
   }
   .ks-compare-thead .ks-compare-th-left {
@@ -2623,22 +2622,26 @@ body.has-active-modal .back-to-top-glass {
     align-items: center;
     justify-content: center;
     text-align: center;
+    width: 16.666%;
+    flex: 0 0 16.666%;
+    min-width: 0;
   }
 
   .ks-compare-tr-data, .ks-compare-tr-book {
-    display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     width: 100%;
     border-bottom: 1px solid rgba(47,49,90,0.05);
   }
   
   .ks-compare-td-left {
-    grid-column: 1 / -1;
+    width: 100%;
     text-align: center;
     position: static !important;
     background: #f0f0f5 !important;
     padding: 0.7rem;
     border-bottom: 1px solid rgba(47,49,90,0.05);
+    flex: 0 0 100%;
   }
   
   .ks-compare-td-data:not(.ks-compare-td-left),
@@ -2651,6 +2654,9 @@ body.has-active-modal .back-to-top-glass {
     text-align: center;
     border-right: 1px solid rgba(47,49,90,0.05);
     padding: 0.5rem 0;
+    width: 16.666%;
+    flex: 0 0 16.666%;
+    min-width: 0;
   }
   .ks-compare-td-data:not(.ks-compare-td-left):last-child,
   .ks-compare-td-book:not(.ks-compare-td-left):last-child {
@@ -2659,7 +2665,8 @@ body.has-active-modal .back-to-top-glass {
 
   /* Specific rule for full-width API rows */
   .ks-compare-td-data[colspan] {
-    grid-column: 1 / -1;
+    width: 100%;
+    flex: 0 0 100%;
     padding: 1rem !important;
   }
   
