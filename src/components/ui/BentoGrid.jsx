@@ -2,11 +2,12 @@ import { useRef } from "react";
 import { Img } from "../Media.jsx";
 
 const LAYOUT_CLASSES = [
-  "ks-bento-left",
-  "ks-bento-mid-top",
-  "ks-bento-mid-bottom",
-  "ks-bento-right-1",
-  "ks-bento-right-2",
+  "ks-bento-layout-1",
+  "ks-bento-layout-2",
+  "ks-bento-layout-3",
+  "ks-bento-layout-4",
+  "ks-bento-layout-5",
+  "ks-bento-layout-6",
 ];
 
 const BENTO_CAROUSEL_STYLES = `
@@ -19,6 +20,9 @@ const BENTO_CAROUSEL_STYLES = `
   overflow: hidden;
 }
 @media (min-width: 1181px) {
+  .other-services-carousel .ks-bento-carousel-viewport {
+    margin-right: 0;
+  }
   .other-services-carousel .ks-bento-carousel-controls {
     display: none;
   }
@@ -35,6 +39,12 @@ const BENTO_CAROUSEL_STYLES = `
   scroll-snap-type: x proximity;
   scrollbar-width: none;
   will-change: scroll-position;
+}
+@media (min-width: 1181px) {
+  .other-services-carousel .ks-bento-carousel-track {
+    padding-right: 0;
+    overflow-x: visible;
+  }
 }
 .ks-bento-carousel-track::-webkit-scrollbar {
   display: none;
@@ -56,43 +66,35 @@ const BENTO_CAROUSEL_STYLES = `
   scroll-snap-align: none;
 }
 .other-services-carousel .ks-bento-carousel-slide.ks-bento {
-  grid-template-columns: minmax(0, 1.38fr) minmax(0, 1.78fr) minmax(0, 0.94fr) minmax(0, 0.94fr) !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) minmax(0, 0.9fr) minmax(0, 0.9fr) !important;
 }
+.other-services-carousel .ks-bento-layout-1 { grid-column: 1; grid-row: 1 / span 2; }
+.other-services-carousel .ks-bento-layout-2 { grid-column: 2; grid-row: 1; }
+.other-services-carousel .ks-bento-layout-3 { grid-column: 2; grid-row: 2; }
+.other-services-carousel .ks-bento-layout-4 { grid-column: 3; grid-row: 1; }
+.other-services-carousel .ks-bento-layout-5 { grid-column: 4; grid-row: 1; }
+.other-services-carousel .ks-bento-layout-6 { grid-column: 3 / span 2; grid-row: 2; }
+
 @media (max-width: 1024px) {
-  .other-services-carousel .ks-bento-left {
-    grid-column: 1 !important;
-    grid-row: 1 / span 2 !important;
-  }
-  .other-services-carousel .ks-bento-mid-top {
-    grid-column: 2 !important;
-    grid-row: 1 !important;
-  }
-  .other-services-carousel .ks-bento-mid-bottom {
-    grid-column: 2 !important;
-    grid-row: 2 !important;
-  }
-  .other-services-carousel .ks-bento-right-1 {
-    grid-column: 3 !important;
-    grid-row: 1 / span 2 !important;
-  }
-  .other-services-carousel .ks-bento-right-2 {
-    grid-column: 4 !important;
-    grid-row: 1 / span 2 !important;
-  }
+  .other-services-carousel .ks-bento-layout-1 { grid-column: 1 !important; grid-row: 1 / span 2 !important; }
+  .other-services-carousel .ks-bento-layout-2 { grid-column: 2 !important; grid-row: 1 !important; }
+  .other-services-carousel .ks-bento-layout-3 { grid-column: 2 !important; grid-row: 2 !important; }
+  .other-services-carousel .ks-bento-layout-4 { grid-column: 3 !important; grid-row: 1 !important; }
+  .other-services-carousel .ks-bento-layout-5 { grid-column: 4 !important; grid-row: 1 !important; }
+  .other-services-carousel .ks-bento-layout-6 { grid-column: 3 / span 2 !important; grid-row: 2 !important; }
 }
 .other-services-carousel .ks-bento-card {
-  background:
-    linear-gradient(145deg, rgba(255,255,255,0.96), rgba(250,248,241,0.94));
+  background: linear-gradient(145deg, rgba(255,255,255,0.96), rgba(250,248,241,0.94));
   border-color: rgba(47,49,90,0.1);
   box-shadow: 0 24px 60px rgba(47,49,90,0.08);
 }
 .other-services-carousel .ks-bento-card.is-empty {
-  background: transparent;
-  border-color: rgba(47,49,90,0.06);
+  /* User wants empty cards to be visible as filled shapes to fill negative space */
+  background: linear-gradient(145deg, rgba(255,255,255,0.96), rgba(250,248,241,0.94));
+  border-color: rgba(47,49,90,0.1);
 }
 .other-services-carousel .ks-bento-card.is-clickable:hover {
-  background:
-    linear-gradient(145deg, rgba(255,255,255,1), rgba(255,250,235,0.98));
+  background: linear-gradient(145deg, rgba(255,255,255,1), rgba(255,250,235,0.98));
 }
 .ks-bento-carousel-controls {
   bottom: 0;
