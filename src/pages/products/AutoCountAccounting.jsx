@@ -620,7 +620,7 @@ export default function AutoCountAccountingPage({ onContact }) {
   const highlightCount = RELEASES.filter(r => r.highlightsUrl).length;
 
   return (
-    <div id="page-autocount-accounting" className="pinned-hero-page product-app-page" style={{ minHeight: "100vh" }}>
+    <div id="page-autocount-accounting" className="pinned-hero-page product-app-page" style={{ minHeight: "100vh" }} suppressHydrationWarning>
       <style suppressHydrationWarning>{`
         /* Local overrides for Start Free Trial (primary button) and Navigator focus */
         #page-autocount-accounting .ks-btn-primary {
@@ -631,11 +631,6 @@ export default function AutoCountAccountingPage({ onContact }) {
         #page-autocount-accounting .ks-btn-primary:hover {
           background: #8bc34a !important;
           border-color: #8bc34a !important;
-        }
-        #page-autocount-accounting .ac-sidebar button[style*="rgba(201, 168, 76"],
-        #page-autocount-accounting .ac-sidebar button[style*="rgba(201,168,76"] {
-          background: rgba(128,195,30,0.25) !important;
-          color: #80c31e !important;
         }
         #page-autocount-accounting .ac-sidebar button svg {
           color: inherit !important;
