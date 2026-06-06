@@ -2608,14 +2608,14 @@ body.has-active-modal .back-to-top-glass {
   }
   
   .ks-compare-thead tr {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    width: 100%;
   }
   .ks-compare-thead .ks-compare-th-left {
     display: none;
   }
   .ks-compare-thead .ks-compare-th:not(.ks-compare-th-left) {
-    flex: 1 1 0%;
-    min-width: 0;
     word-break: break-word;
     padding: 0.5rem 0.1rem;
     font-size: 0.75rem;
@@ -2626,13 +2626,14 @@ body.has-active-modal .back-to-top-glass {
   }
 
   .ks-compare-tr-data, .ks-compare-tr-book {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    width: 100%;
     border-bottom: 1px solid rgba(47,49,90,0.05);
   }
   
   .ks-compare-td-left {
-    width: 100%;
+    grid-column: 1 / -1;
     text-align: center;
     position: static !important;
     background: #f0f0f5 !important;
@@ -2642,8 +2643,6 @@ body.has-active-modal .back-to-top-glass {
   
   .ks-compare-td-data:not(.ks-compare-td-left),
   .ks-compare-td-book:not(.ks-compare-td-left) {
-    flex: 1 1 0%;
-    min-width: 0;
     word-break: break-word;
     box-sizing: border-box;
     display: flex;
@@ -2660,7 +2659,7 @@ body.has-active-modal .back-to-top-glass {
 
   /* Specific rule for full-width API rows */
   .ks-compare-td-data[colspan] {
-    flex: 0 0 100% !important;
+    grid-column: 1 / -1;
     padding: 1rem !important;
   }
   
