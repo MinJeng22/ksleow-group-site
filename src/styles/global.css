@@ -2620,3 +2620,13 @@ body.has-active-modal .back-to-top-glass {
   border-color: rgba(201,168,76,0.55);
 }
 
+.service-card-shell {
+  scroll-margin-top: 80px;
+}
+
+@media (max-width: 767px) {
+  .service-card-shell {
+    scroll-margin-top: calc(50vh - 145px);
+  }
+}
+

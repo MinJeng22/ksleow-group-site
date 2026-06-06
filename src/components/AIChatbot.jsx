@@ -16,15 +16,22 @@ import {
 void WORKER_URL;
 
 export default function AIChatbot({ app }) {
-  const isCompactViewport = typeof window !== "undefined" && window.innerWidth < 640;
   const [open, setOpen]         = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput]       = useState("");
   const [loading, setLoading]   = useState(false);
+  const [isCompactViewport, setIsCompactViewport] = useState(false);
 
   const bottomRef = useRef(null);
   const inputRef  = useRef(null);
   const abortRef  = useRef(null);
+
+  useEffect(() => {
+    const sync = () => setIsCompactViewport(window.innerWidth < 640);
+    sync();
+    window.addEventListener("resize", sync);
+    return () => window.removeEventListener("resize", sync);
+  }, []);
 
   useEffect(() => {
     if (!open) return;

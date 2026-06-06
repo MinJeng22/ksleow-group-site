@@ -153,9 +153,7 @@ export default function ServiceRibbonBackground({
   opacity = 1,
 }) {
   const canvasRef = useRef(null);
-  const [enabled, setEnabled] = useState(() => (
-    typeof window === "undefined" ? false : window.innerWidth > 640
-  ));
+  const [enabled, setEnabled] = useState(false);
 
   useEffect(() => {
     const sync = () => setEnabled(window.innerWidth > 640);

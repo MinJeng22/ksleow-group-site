@@ -413,6 +413,7 @@ const STYLES = `
   justify-content: space-between;
   min-height: 40px;
   padding: 0.34rem 0.3rem 0.58rem;
+  margin-bottom: 0.35rem;
   user-select: none;
   width: 100%;
 }
