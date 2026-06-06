@@ -19,9 +19,6 @@ const BENTO_CAROUSEL_STYLES = `
   overflow: hidden;
 }
 @media (min-width: 1181px) {
-  .other-services-carousel .ks-bento-carousel-viewport {
-    margin-right: 0;
-  }
   .other-services-carousel .ks-bento-carousel-controls {
     display: none;
   }
@@ -38,12 +35,6 @@ const BENTO_CAROUSEL_STYLES = `
   scroll-snap-type: x proximity;
   scrollbar-width: none;
   will-change: scroll-position;
-}
-@media (min-width: 1181px) {
-  .other-services-carousel .ks-bento-carousel-track {
-    padding-right: 0;
-    overflow-x: visible;
-  }
 }
 .ks-bento-carousel-track::-webkit-scrollbar {
   display: none;
@@ -65,7 +56,7 @@ const BENTO_CAROUSEL_STYLES = `
   scroll-snap-align: none;
 }
 .other-services-carousel .ks-bento-carousel-slide.ks-bento {
-  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1.65fr) !important;
+  grid-template-columns: minmax(0, 1.38fr) minmax(0, 1.78fr) minmax(0, 0.94fr) minmax(0, 0.94fr) !important;
 }
 @media (max-width: 1024px) {
   .other-services-carousel .ks-bento-left {
@@ -79,6 +70,14 @@ const BENTO_CAROUSEL_STYLES = `
   .other-services-carousel .ks-bento-mid-bottom {
     grid-column: 2 !important;
     grid-row: 2 !important;
+  }
+  .other-services-carousel .ks-bento-right-1 {
+    grid-column: 3 !important;
+    grid-row: 1 / span 2 !important;
+  }
+  .other-services-carousel .ks-bento-right-2 {
+    grid-column: 4 !important;
+    grid-row: 1 / span 2 !important;
   }
 }
 .other-services-carousel .ks-bento-card {
@@ -105,7 +104,7 @@ const BENTO_CAROUSEL_STYLES = `
 }
 @media (max-width: 1180px) {
   .ks-bento-carousel-slide {
-    flex-basis: 150%;
+    flex-basis: 180%;
   }
 }
 @media (max-width: 640px) {
@@ -120,7 +119,7 @@ const BENTO_CAROUSEL_STYLES = `
     padding-right: 1rem;
   }
   .ks-bento-carousel-slide {
-    flex-basis: 200%;
+    flex-basis: 250%;
   }
 }
 `;

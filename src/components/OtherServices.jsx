@@ -317,7 +317,7 @@ export default function OtherServices({ onContact }) {
 
       <BentoCarousel
         items={CASES}
-        minItems={3}
+        minItems={5}
         imageFor={(service) => service.image || CASE_IMAGES[service.key]}
         onOpen={openService}
         className="other-services-carousel"

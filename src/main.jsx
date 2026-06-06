@@ -10,12 +10,17 @@ const app = (
   </StrictMode>
 );
 
-if (root?.hasChildNodes()) {
-  hydrateRoot(root, app, {
-    onRecoverableError(error, errorInfo) {
-      console.error("[hydration-debug]", error.message, errorInfo?.componentStack || "");
-    },
-  });
+const clientTakeoverRoutes = [
+  /^\/products(?:\/|$)/,
+  /^\/apps(?:\/|$)/,
+  /^\/omni\/?$/,
+  /^\/quotation\/?$/,
+];
+
+const shouldClientTakeover = clientTakeoverRoutes.some((route) => route.test(window.location.pathname));
+
+if (root?.hasChildNodes() && !shouldClientTakeover) {
+  hydrateRoot(root, app);
 } else {
   createRoot(root).render(app);
 }
