@@ -168,15 +168,23 @@ export default function ProductPromotionBento({
 
         @media (max-width: 980px) {
           .product-promo-grid {
-            grid-template-columns: 1fr;
-            grid-template-rows: none;
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding-bottom: 1rem;
+            scrollbar-width: none;
+          }
+          .product-promo-grid::-webkit-scrollbar {
+            display: none;
           }
 
           .product-promo-card,
           .product-promo-card.is-featured {
+            flex: 0 0 85%;
+            scroll-snap-align: center;
             grid-row: auto;
-            min-height: 0;
-            aspect-ratio: 16 / 9;
+            min-height: 280px;
+            aspect-ratio: auto;
           }
         }
 
@@ -188,8 +196,7 @@ export default function ProductPromotionBento({
           .product-promo-card,
           .product-promo-card.is-featured {
             border-radius: 18px;
-            min-height: 0;
-            aspect-ratio: 16 / 10;
+            min-height: 240px;
           }
 
           .product-promo-content {

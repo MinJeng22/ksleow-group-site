@@ -12,7 +12,7 @@ import { Img } from "../../components/Media.jsx";
 import autocountReleases from "../../content/autocountReleases.json";
 import AutoCountTrainingWebGL from "../../components/AutoCountTrainingWebGL.jsx";
 import FeatureShowcase from "../../components/FeatureShowcase.jsx";
-import { BentoCarousel } from "../../components/ui/BentoGrid.jsx";
+import ProductPromotionBento from "../../components/ProductPromotionBento.jsx";
 import { SegmentedControl, SelectField } from "../../components/FormControls.jsx";
 import { CopyReleaseButton, ReleaseNumber, ShareLinkButton } from "../../components/ReleaseTools.jsx";
 import { CompareFeatureCell, editionRowDiffers, filterEditionValues, getEditionColumnIndexes } from "../../components/CompareTable.jsx";
@@ -689,15 +689,12 @@ export default function AutoCountAccountingPage({ onContact }) {
       </div>
 
       <div className="product-app-section product-app-section-paper product-app-section-clean">
-        <div id="promotions" style={{ paddingBottom: "2rem" }}>
-          <div className="ac-section-header ac-container" style={{ textAlign: "center", marginBottom: "2.5rem" }}>
-            
-            <h2 className="ac-section-title">Current AutoCount Accounting Offers</h2>
-          </div>
-          <div style={{ maxWidth: "1240px", margin: "0 auto", padding: "0 1.5rem", "--bento-accent": "#80c31e" }}>
-            <BentoCarousel items={ACCOUNTING_PROMOTIONS} minItems={3} controlsLabel="Promotion items" />
-          </div>
-        </div>
+        <ProductPromotionBento
+          id="promotions"
+          title="Current AutoCount Accounting Offers"
+          accent="#80c31e"
+          items={ACCOUNTING_PROMOTIONS}
+        />
       </div>
 
       <div className="product-app-divider" style={{ "--section-from": "var(--ks-page-paper)", "--section-to": "var(--ks-page-mist)", marginTop: "-1.5rem", marginBottom: "-1.5rem" }}>

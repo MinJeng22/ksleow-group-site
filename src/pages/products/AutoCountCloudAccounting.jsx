@@ -10,7 +10,7 @@ import WhyChooseUs from "../../components/WhyChooseUs.jsx";
 import EnquireNowCTA from "../../components/EnquireNowCTA.jsx";
 import AutoCountTrainingWebGL from "../../components/AutoCountTrainingWebGL.jsx";
 import FeatureShowcase from "../../components/FeatureShowcase.jsx";
-import { BentoCarousel } from "../../components/ui/BentoGrid.jsx";
+import ProductPromotionBento from "../../components/ProductPromotionBento.jsx";
 import { SegmentedControl, SelectField } from "../../components/FormControls.jsx";
 import { CompareRevBadge, CopyReleaseButton, ReleaseNumber, ShareLinkButton } from "../../components/ReleaseTools.jsx";
 import { CompareFeatureCell, editionRowDiffers, filterEditionValues, getEditionColumnIndexes } from "../../components/CompareTable.jsx";
@@ -528,15 +528,12 @@ export default function AutoCountCloudAccountingPage() {
       </div>
 
       <div className="product-app-section product-app-section-paper product-app-section-clean">
-        <div id="promotions" style={{ paddingBottom: "2rem" }}>
-            <div className="ac-section-header ac-container" style={{ textAlign: "center", marginBottom: "2.5rem" }}>
-              
-              <h2 className="ac-section-title">CloudAccounting Subscription Offers</h2>
-            </div>
-            <div style={{ maxWidth: "1240px", margin: "0 auto", padding: "0 1.5rem", "--bento-accent": "#16a14b" }}>
-              <BentoCarousel items={CLOUD_PROMOTIONS} minItems={3} controlsLabel="Promotion items" />
-            </div>
-          </div>
+        <ProductPromotionBento
+          id="promotions"
+          title="CloudAccounting Subscription Offers"
+          accent="#16a14b"
+          items={CLOUD_PROMOTIONS}
+        />
       </div>
 
       <div className="product-app-divider" style={{ "--section-from": "var(--ks-page-paper)", "--section-to": "var(--ks-page-mist)", marginTop: "-1.5rem", marginBottom: "-1.5rem" }}>
