@@ -191,20 +191,10 @@ export default function ProductPromotionBento({
 
       <div className="product-promo-grid">
         {cards.map((item, index) => {
-          const CardTag = item.cta?.href ? "a" : "article";
-          const cardProps = item.cta?.href
-            ? {
-                href: item.cta.href,
-                target: item.cta.target,
-                rel: item.cta.target === "_blank" ? "noreferrer" : undefined,
-              }
-            : {};
-
           return (
-            <CardTag
+            <article
               key={`${item.title}-${index}`}
               className={`product-promo-card ${index === 0 ? "is-featured" : ""} ${item.image ? "has-image" : ""}`}
-              {...cardProps}
             >
               {item.image ? (
                 <div className="product-promo-media" aria-hidden="true">
@@ -221,13 +211,18 @@ export default function ProductPromotionBento({
                   <h3 className="product-promo-card-title">{item.title}</h3>
                   {item.description && <p className="product-promo-copy">{item.description}</p>}
                   {item.cta && (
-                    <span className="product-promo-link">
+                    <a
+                      href={item.cta.href}
+                      target={item.cta.target}
+                      rel={item.cta.target === "_blank" ? "noreferrer" : undefined}
+                      className="product-promo-link"
+                    >
                       {item.cta.label}
-                    </span>
+                    </a>
                   )}
                 </div>
               )}
-            </CardTag>
+            </article>
           );
         })}
       </div>
