@@ -91,17 +91,36 @@ const BENTO_CAROUSEL_STYLES = `
   }
 }
 @media (max-width: 640px) {
-    .ks-bento-carousel-track {
+    .other-services-carousel .ks-bento-carousel-track {
       gap: 1rem;
       scroll-snap-type: x mandatory;
     }
-    .ks-bento-carousel-slide {
+    .other-services-carousel .ks-bento-carousel-slide {
       display: contents;
     }
     .other-services-carousel .ks-bento-card {
       flex: 0 0 85vw;
       max-width: 340px;
       scroll-snap-align: center;
+      display: flex !important;
+      flex-direction: column !important;
+      min-height: 380px !important;
+    }
+    .other-services-carousel .ks-bento-card .ks-bento-media {
+      flex: 1 1 50% !important;
+      min-height: 180px !important;
+      width: 100% !important;
+    }
+    .other-services-carousel .ks-bento-card .ks-bento-body {
+      flex: 0 0 auto !important;
+      padding: 1.25rem !important;
+      width: 100% !important;
+    }
+    .ks-bento-carousel-track:not(.other-services-carousel *) {
+      gap: 1rem;
+    }
+    .ks-bento-carousel-slide:not(.other-services-carousel *) {
+      flex-basis: 350%;
     }
   }
 `;
