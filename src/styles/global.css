@@ -971,8 +971,7 @@ textarea {
 }
 
 .ks-bento-card.is-wide .ks-bento-img {
-  object-fit: contain;
-  padding: 1.5rem;
+  object-fit: cover;
 }
 
 .ks-bento-card.is-wide .ks-bento-media {
@@ -1057,8 +1056,7 @@ textarea {
   }
 
   .ks-bento-card.is-wide .ks-bento-img {
-    object-fit: contain;
-    padding: 1.5rem;
+    object-fit: cover;
   }
 
   .ks-bento-card.is-wide .ks-bento-media {
