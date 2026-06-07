@@ -13,17 +13,17 @@ const WA_LINK = `https://wa.me/60179052323?text=${encodeURIComponent(
 )}`;
 import AIChatbot from "../../components/AIChatbot.jsx";
 import sales2doContent from "../../content/sales2do.json";
-import acPluginIcon     from "../../assets/images/apps/ac-plugin-icon.png";
+import acPluginIcon     from "../../assets/images/apps/ac-plugin-icon.webp";
 import { IconClipboard, IconSettings, IconStar, IconShield, IconVideo } from "../../components/SectionDivider.jsx";
-import imgOutstanding   from "../../assets/images/apps/sales2do/outstanding.png";
-import imgPreset        from "../../assets/images/apps/sales2do/preset-delivery.png";
-import imgSettings      from "../../assets/images/apps/sales2do/settings.png";
+import imgOutstanding   from "../../assets/images/apps/sales2do/outstanding.webp";
+import imgPreset        from "../../assets/images/apps/sales2do/preset-delivery.webp";
+import imgSettings      from "../../assets/images/apps/sales2do/settings.webp";
 /* Online/Offline activation screenshots are swapped — the file named
- * `license-online.png` was originally captured for the offline flow and
+ * `license-online.webp` was originally captured for the offline flow and
  * vice versa. Re-binding the imports is cheaper than renaming the files
  * on disk. */
-import imgLicenseOnline  from "../../assets/images/apps/sales2do/license-offline.png";
-import imgLicenseOffline from "../../assets/images/apps/sales2do/license-online.png";
+import imgLicenseOnline  from "../../assets/images/apps/sales2do/license-offline.webp";
+import imgLicenseOffline from "../../assets/images/apps/sales2do/license-online.webp";
 
 /* Sales2DO sidebar anchor items */
 const S2D_SECTIONS = [

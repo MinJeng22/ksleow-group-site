@@ -6,13 +6,13 @@
  * │  HOW TO SWAP A LOGO                                         │
  * │                                                             │
  * │  Each logo slot uses its own independent file.              │
- * │  To replace one, simply drop your new PNG/SVG into:         │
+ * │  To replace one, simply drop your new WebP/SVG into:         │
  * │    src/assets/logos/                                        │
  * │  and rename it to match the filename in the import below.   │
  * │                                                             │
- * │  ● Hero logo  (animated background)  → logo-hero.png        │
- * │  ● Nav logo   (top navigation bar)   → logo-nav.png         │
- * │  ● Footer logo (page footer)         → logo-footer.png      │
+ * │  ● Hero logo  (animated background)  → logo-hero.webp        │
+ * │  ● Nav logo   (top navigation bar)   → logo-nav.webp         │
+ * │  ● Footer logo (page footer)         → logo-footer.webp      │
  * │                                                             │
  * │  All three currently point to the same KSL logo image.      │
  * │  Replace any one independently without affecting the others. │
@@ -39,39 +39,34 @@ export const PARTNER_LOGOS = {
 };
 
 /* ── CASE STUDY IMAGES  (src/assets/images/case-studies/) ── */
-import caseNetworking from "./images/case-studies/case-networking.jpg";
-import casePlugin from "./images/case-studies/case-plugin.jpg";
-import caseErp from "./images/case-studies/case-erp.jpg";
-import caseWarehouse from "./images/case-studies/case-warehouse.jpg";
-
 export const CASE_IMAGES = {
-  networking: caseNetworking,
-  plugin: casePlugin,
-  erp: caseErp,
-  warehouse: caseWarehouse,
+  networking: null,
+  plugin: null,
+  erp: null,
+  warehouse: null,
 };
 
 /* ══════════════════════════════════════════════════════════════
  * PRODUCT LOGOS / ICONS  (src/assets/images/products/)
  * ──────────────────────────────────────────────────────────────
  * Steps to add a real product image:
- *   1. Drop your PNG/SVG into  src/assets/images/products/
+ *   1. Drop your WebP/SVG into  src/assets/images/products/
  *   2. Name it to match the filename in the import below
  *   3. Uncomment the import line
  *   4. Replace  null  with the imported variable
  *
  * AutoCount Accounting 2.2 icon slot:
- *   → Recommended file:  autocount-accounting-icon.png
+ *   → Recommended file:  autocount-accounting-icon.webp
  *   → Used in:  src/pages/products/AutoCountAccounting.jsx  (hero icon)
  *               src/components/Products.jsx  (product card)
  * ══════════════════════════════════════════════════════════════ */
 
-import autocountAccountingIcon from "./images/products/autocount-accounting-icon.png";
-import autocountInterface       from "./images/products/autocount-interface.png";
-// import autocountAccounting     from "./images/products/autocount-accounting.png";
-// import autocountPos            from "./images/products/autocount-pos.png";
-// import autocountPayroll        from "./images/products/autocount-payroll.png";
-// import feedmePOS               from "./images/products/feedme-pos.png";
+import autocountAccountingIcon from "./images/products/autocount-accounting-icon.webp";
+import autocountInterface       from "./images/products/autocount-interface.webp";
+// import autocountAccounting     from "./images/products/autocount-accounting.webp";
+// import autocountPos            from "./images/products/autocount-pos.webp";
+// import autocountPayroll        from "./images/products/autocount-payroll.webp";
+// import feedmePOS               from "./images/products/feedme-pos.webp";
 
 export const PRODUCT_IMAGES = {
   autocountAccountingIcon: autocountAccountingIcon,   /* ← AutoCount Accounting 2.2 icon (hero page) */
@@ -81,3 +76,4 @@ export const PRODUCT_IMAGES = {
   autocountPayroll: null,
   feedmePOS: null,
 };
+

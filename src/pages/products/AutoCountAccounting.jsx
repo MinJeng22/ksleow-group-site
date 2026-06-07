@@ -464,7 +464,7 @@ function EditionsTable({ selected = null, diffOnly = false }) {
 /* AutoCount advantage highlights. */
 const FEATURES = [
   {
-    icon: "/images/services/lhdn-logo.png",
+    icon: "/images/services/lhdn-logo.webp",
     title: "SST & e-Invoice Ready",
     desc: "Prepared for Malaysia SST and LHDN MyInvois workflows, with accounting controls that help your team handle compliance work with less friction.",
   },
@@ -479,7 +479,7 @@ const FEATURES = [
     desc: "KSL helps with setup, user guidance, troubleshooting, and practical usage questions so your team can keep operating without unnecessary downtime.",
   },
   {
-    icon: "/images/icons/ac-plugin-icon.png",
+    icon: "/images/icons/ac-plugin-icon.webp",
     title: "Highly Extensible",
     desc: "Supports plugins, custom fields, scripting, and tailored automation, making AutoCount adaptable to the way your company actually works.",
   },
@@ -488,12 +488,12 @@ const FEATURES = [
 const ACCOUNTING_PROMOTIONS = [
   {
     title: "Upgrade to ACC V2 with 35% OFF",
-    image: "/images/promotions/autocount-accounting-35-promo.png",
+    image: "/images/promotions/autocount-accounting-35-promo.webp",
     cta: { href: WA_LINK, target: "_blank" },
   },
   {
     title: "Earn rewards when you refer AutoCount users",
-    image: "/images/promotions/ksl-referral-program.png",
+    image: "/images/promotions/ksl-referral-program.webp",
     cta: { href: WA_LINK, target: "_blank" },
   },
   {
@@ -505,21 +505,21 @@ const ACCOUNTING_PROMOTIONS = [
 ];
 
 const BRAND_LOGOS = [
-  "/images/brands/ac-brand-1.png",
-  "/images/brands/ac-brand-2.png",
-  "/images/brands/ac-brand-3.png",
-  "/images/brands/ac-brand-4.png",
-  "/images/brands/ac-brand-5.png",
-  "/images/brands/ac-brand-6.png",
-  "/images/brands/ac-brand-7.png",
-  "/images/brands/ac-brand-8.png",
-  "/images/brands/ac-brand-9.png",
-  "/images/brands/ac-brand-10.png",
-  "/images/brands/ac-brand-11.png",
-  "/images/brands/ac-brand-12.png",
-  "/images/brands/ac-brand-13.png",
-  "/images/brands/ac-brand-14.png",
-  "/images/brands/ac-brand-15.png",
+  "/images/brands/ac-brand-1.webp",
+  "/images/brands/ac-brand-2.webp",
+  "/images/brands/ac-brand-3.webp",
+  "/images/brands/ac-brand-4.webp",
+  "/images/brands/ac-brand-5.webp",
+  "/images/brands/ac-brand-6.webp",
+  "/images/brands/ac-brand-7.webp",
+  "/images/brands/ac-brand-8.webp",
+  "/images/brands/ac-brand-9.webp",
+  "/images/brands/ac-brand-10.webp",
+  "/images/brands/ac-brand-11.webp",
+  "/images/brands/ac-brand-12.webp",
+  "/images/brands/ac-brand-13.webp",
+  "/images/brands/ac-brand-14.webp",
+  "/images/brands/ac-brand-15.webp",
 ];
 
 

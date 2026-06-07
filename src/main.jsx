@@ -10,16 +10,7 @@ const app = (
   </StrictMode>
 );
 
-const clientTakeoverRoutes = [
-  /^\/products(?:\/|$)/,
-  /^\/apps(?:\/|$)/,
-  /^\/omni\/?$/,
-  /^\/quotation\/?$/,
-];
-
-const shouldClientTakeover = clientTakeoverRoutes.some((route) => route.test(window.location.pathname));
-
-if (root?.hasChildNodes() && !shouldClientTakeover) {
+if (root?.hasChildNodes()) {
   hydrateRoot(root, app);
 } else {
   createRoot(root).render(app);

@@ -8,14 +8,14 @@
       "key": "plugin",
       "title": "AutoCount Plugin",
       "desc": "Custom AutoCount plugin development and workflow extensions designed to automate repetitive document flows, reduce manual entry, and adapt AutoCount Accounting to real business operations.",
-      "image": "/images/other-services/acplugin.png",
+      "image": "/images/other-services/acplugin.webp",
       "route": "/apps/autocount-plugin"
     },
     {
       "key": "networking",
       "title": "Printing / Advertising / Design",
       "desc": "Our partner for business-ready printing, advertising material, and visual design support for signboards, campaigns, corporate stationery, and promotional collateral.",
-      "image": "/images/case-studies/supaprintz.my.png",
+      "image": "/images/case-studies/supaprintz.my.webp",
       "route": "",
       "modal": "supaprintz"
     },
@@ -23,7 +23,7 @@
       "key": "sitegiant",
       "title": "Sitegiant Integration",
       "desc": "Omnichannel e-commerce synchronization with AutoCount Accounting, streamlining inventory, sales, and fulfillment across multiple marketplaces.",
-      "image": "/images/other-services/sitegiant.png",
+      "image": "/images/other-services/sitegiant.webp",
       "route": "",
       "modal": "sitegiant"
     }

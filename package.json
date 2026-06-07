@@ -8,6 +8,7 @@
     "dev": "vite",
     "build": "node scripts/generate-agent-content.mjs && vite build && vite build --ssr src/entry-server.jsx --outDir dist/server && node scripts/generate-ssg.mjs && node scripts/compress-images.mjs",
     "build:fast": "node scripts/generate-agent-content.mjs && vite build && vite build --ssr src/entry-server.jsx --outDir dist/server && node scripts/generate-ssg.mjs",
+    "convert:images:webp": "node scripts/convert-images-to-webp.mjs",
     "preview": "vite preview",
     "sync:autocount-releases": "node scripts/update-autocount-releases.mjs",
     "sync:autocount-cloud-releases": "node scripts/update-autocount-cloud-releases.mjs"

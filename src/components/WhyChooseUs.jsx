@@ -4,33 +4,33 @@ import SectionDivider, { IconTrophy } from "./SectionDivider";
 export const AWARD_YEARS = [
   {
     year: "2019",
-    trophy: "/images/awards/top-dealer-2019-trophy.png",
-    modal: "/images/awards/top-dealer-2019-modal.png",
+    trophy: "/images/awards/top-dealer-2019-trophy.webp",
+    modal: "/images/awards/top-dealer-2019-modal.webp",
   },
   {
     year: "2021",
-    trophy: "/images/awards/top-dealer-2021-trophy.png",
-    modal: "/images/awards/top-dealer-2021-modal.png",
+    trophy: "/images/awards/top-dealer-2021-trophy.webp",
+    modal: "/images/awards/top-dealer-2021-modal.webp",
   },
   {
     year: "2022",
-    trophy: "/images/awards/top-dealer-2022-trophy.png",
-    modal: "/images/awards/top-dealer-2022-modal.png",
+    trophy: "/images/awards/top-dealer-2022-trophy.webp",
+    modal: "/images/awards/top-dealer-2022-modal.webp",
   },
   {
     year: "2023",
-    trophy: "/images/awards/top-dealer-2023-trophy.png",
-    modal: "/images/awards/top-dealer-2023-modal.png",
+    trophy: "/images/awards/top-dealer-2023-trophy.webp",
+    modal: "/images/awards/top-dealer-2023-modal.webp",
   },
   {
     year: "2024",
-    trophy: "/images/awards/top-dealer-2024-trophy.png",
-    modal: "/images/awards/top-dealer-2024-modal.png",
+    trophy: "/images/awards/top-dealer-2024-trophy.webp",
+    modal: "/images/awards/top-dealer-2024-modal.webp",
   },
   {
     year: "2025",
-    trophy: "/images/awards/top-dealer-2025-trophy.png",
-    modal: "/images/awards/top-dealer-2025-modal.png",
+    trophy: "/images/awards/top-dealer-2025-trophy.webp",
+    modal: "/images/awards/top-dealer-2025-modal.webp",
   },
 ];
 

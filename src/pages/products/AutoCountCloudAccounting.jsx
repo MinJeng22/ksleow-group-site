@@ -61,7 +61,7 @@ const CLOUD_SECTIONS = [
 
 const FEATURES = [
   {
-    icon: "/images/services/lhdn-logo.png",
+    icon: "/images/services/lhdn-logo.webp",
     title: "LHDN e-Invoice Ready",
     desc: "Directly supports Malaysia e-Invoice workflows so daily billing can stay compliant without a separate add-on.",
   },
@@ -85,12 +85,12 @@ const FEATURES = [
 const CLOUD_PROMOTIONS = [
   {
     title: "24 Months Subscription with 75% Off",
-    image: "/images/promotions/autocount-cloudaccounting-75-promo.png",
+    image: "/images/promotions/autocount-cloudaccounting-75-promo.webp",
     cta: { href: FREE_TRIAL_URL, target: "_blank" },
   },
   {
     title: "Earn rewards when you refer AutoCount users",
-    image: "/images/promotions/ksl-referral-program.png",
+    image: "/images/promotions/ksl-referral-program.webp",
     cta: { href: FREE_TRIAL_URL, target: "_blank" },
   },
   {
@@ -505,9 +505,9 @@ export default function AutoCountCloudAccountingPage() {
           eyebrow="Cloud Accounting"
           title="AutoCount CloudAccounting"
           body="A secure browser-based accounting platform for Malaysian SMEs that need e-Invoice compliance, real-time access, document capture, and bank-connected bookkeeping without maintaining an office server."
-          iconSrc="/images/products/cloudaccounting-icon.png"
+          iconSrc="/images/products/cloudaccounting-icon.webp"
           iconAlt="AutoCount CloudAccounting"
-          backgroundImage="/images/products/autocount-cloudaccounting-hero.jpg"
+          backgroundImage="/images/products/autocount-cloudaccounting-hero.webp"
           primaryCta={{ label: "Start Free Trial", href: FREE_TRIAL_URL, target: "_blank", className: "ks-btn-cloud" }}
           secondaryCta={{ label: "WhatsApp Us", href: WA_LINK, target: "_blank" }}
         />

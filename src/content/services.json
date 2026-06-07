@@ -7,20 +7,20 @@
       "officeKey": "ksl_tax",
       "logos": [
         {
-          "src": "/images/services/lhdn-logo.png",
+          "src": "/images/services/lhdn-logo.webp",
           "alt": "lhdn",
           "h": 60,
-          "hoverSrc": "/images/services/lhdn-white-logo.png"
+          "hoverSrc": "/images/services/lhdn-white-logo.webp"
         },
         {
-          "src": "/images/services/mia-logo.jpg",
+          "src": "/images/services/mia-logo.webp",
           "alt": "Cert 2",
           "h": 60,
           "hoverSrc": "",
           "hoverH": 60
         }
       ],
-      "backgroundImage": "/images/services/webinar.jpg",
+      "backgroundImage": "/images/services/webinar.webp",
       "badgeLabel": "Certified By",
       "desc": "Bookkeeping, financial statements, tax filing, SST & e-Invoice compliance, and LHDN liaison.",
       "title": "Taxation & Accounting",
@@ -31,21 +31,21 @@
       "key": "secretarial",
       "title": "Secretarial & Management",
       "desc": "Company incorporation, SSM annual filings, board resolutions, and corporate compliance.",
-      "backgroundImage": "/images/services/webinar.jpg",
+      "backgroundImage": "/images/services/webinar.webp",
       "officeKey": "ksl_mgmt",
       "badgeType": "certified",
       "badgeLabel": "Certified By",
       "logos": [
         {
-          "src": "/images/services/ssm-logo.png",
+          "src": "/images/services/ssm-logo.webp",
           "alt": "ssm",
           "h": 40
         },
         {
-          "src": "/images/services/maicsa-logo.png",
+          "src": "/images/services/maicsa-logo.webp",
           "alt": "cert",
           "h": 60,
-          "hoverSrc": "/images/services/maicsa-white-logo.png"
+          "hoverSrc": "/images/services/maicsa-white-logo.webp"
         }
       ]
     },
@@ -53,18 +53,18 @@
       "key": "auditing",
       "title": "Auditing",
       "desc": "Independent financial audits for stakeholders, banks, and regulatory bodies.",
-      "backgroundImage": "/images/services/webinar.jpg",
+      "backgroundImage": "/images/services/webinar.webp",
       "officeKey": "kim_co",
       "badgeType": "certified",
       "badgeLabel": "Certified By",
       "logos": [
         {
-          "src": "/images/services/mia-logo.jpg",
+          "src": "/images/services/mia-logo.webp",
           "alt": "mia",
           "h": 60
         },
         {
-          "src": "/images/services/mof-logo.png",
+          "src": "/images/services/mof-logo.webp",
           "alt": "mof",
           "h": 60,
           "hoverSrc": ""
@@ -75,18 +75,18 @@
       "key": "hardware",
       "title": "Computer Hardware & Technical",
       "desc": "Hardware wholesale, IT infrastructure, networking, and on-site SME support across Pahang.",
-      "backgroundImage": "/images/services/webinar.jpg",
+      "backgroundImage": "/images/services/webinar.webp",
       "officeKey": "ksl_bs",
       "badgeType": "dealer",
       "badgeLabel": "Authorized Dealer",
       "logos": [
         {
-          "src": "/images/logos/sunmi-logo.png",
+          "src": "/images/logos/sunmi-logo.webp",
           "alt": "Sunmi",
           "h": 35
         },
         {
-          "src": "/images/services/lenovo.png",
+          "src": "/images/services/lenovo.webp",
           "alt": "Mdot",
           "h": 25
         }
@@ -96,22 +96,22 @@
       "key": "software",
       "title": "Software Training & Support",
       "desc": "Authorized AutoCount & FeedMe dealer — installation, licensing, training, and support.",
-      "backgroundImage": "/images/services/webinar.jpg",
+      "backgroundImage": "/images/services/webinar.webp",
       "officeKey": "ksl_bs",
       "badgeType": "dealer",
       "badgeLabel": "Authorized Dealer",
       "logos": [
         {
-          "src": "/images/services/autocount-logo.png",
+          "src": "/images/services/autocount-logo.webp",
           "alt": "AutoCount",
           "h": 60,
-          "hoverSrc": "/images/services/autocount-white-logo.png"
+          "hoverSrc": "/images/services/autocount-white-logo.webp"
         },
         {
-          "src": "/images/services/feedme-logo.png",
+          "src": "/images/services/feedme-logo.webp",
           "alt": "FeedMe",
           "h": 60,
-          "hoverSrc": "/images/services/feedme-white-logo.png"
+          "hoverSrc": "/images/services/feedme-white-logo.webp"
         }
       ]
     },
@@ -119,7 +119,7 @@
       "hideBadge": true,
       "officeKey": null,
       "logos": [],
-      "backgroundImage": "/images/services/webinar.jpg",
+      "backgroundImage": "/images/services/webinar.webp",
       "badgeLabel": "",
       "desc": "Live webinars and on-demand training on accounting, tax, and business software.",
       "title": "Webinar & Workshops",

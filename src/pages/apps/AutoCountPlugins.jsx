@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
 import ProductHero from "../../components/ProductHero.jsx";
 import pluginContent from "../../content/autocountPlugins.json";
-import acPluginIcon from "../../assets/images/apps/ac-plugin-icon.png";
+import acPluginIcon from "../../assets/images/apps/ac-plugin-icon.webp";
 
 const SUPPORT_WA_LINK = `https://wa.me/60179052323?text=${encodeURIComponent(
   "HI KS Support Team, I would like to ask about AutoCount Accounting plugins. Thank you."

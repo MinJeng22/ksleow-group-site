@@ -15,18 +15,18 @@ const SUPAPRINTZ_PARTNER = {
   address: "No. 8, Ground Floor, Jalan Dagang Utama, Dynaton Bukit Angin, 28000",
   phone: "011-5585 9576",
   email: "suparintz.my@gmail.com",
-  banner: "/images/partners/supaprintz.my-banner.png",
+  banner: "/images/partners/supaprintz.my-banner.webp",
   whatsappUrl: "https://wa.me/601155859576",
   facebookUrl: "https://www.facebook.com/supaprintz.my",
 };
 const SUPAPRINTZ_MODAL_IMAGES = [
-  "/images/partners/supaprintz-desktop.png",
-  "/images/partners/supaprintz-tablet.jpg",
+  "/images/partners/supaprintz-desktop.webp",
+  "/images/partners/supaprintz-tablet.webp",
 ];
 const SITEGIANT_PARTNER = {
   name: "Sitegiant",
   category: "E-COMMERCE & AUTOCOUNT INTEGRATION",
-  image: "/images/other-services/sitegiant.png",
+  image: "/images/other-services/sitegiant.webp",
   whatsappUrl: `https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent("Hi! I'm interested in Sitegiant Integration. Could you provide more details?")}`,
   websiteUrl: "https://sitegiant.my/",
   headline: "Connect your online sales channels with AutoCount",

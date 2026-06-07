@@ -23,7 +23,7 @@ public_folder: /images
 
 site_url: https://ksleow.com
 display_url: https://ksleow.com
-logo_url: /images/branding/logo-nav.png
+logo_url: /images/branding/logo-nav.webp
 
 collections:
   # ── Single-file collection: one form per homepage section ──
