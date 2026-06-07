@@ -971,11 +971,15 @@ textarea {
 }
 
 .ks-bento-card.is-wide .ks-bento-img {
-  object-fit: cover;
+  object-fit: contain;
+  padding: 1.5rem;
 }
 
 .ks-bento-card.is-wide .ks-bento-media {
   background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .ks-bento-placeholder {
@@ -992,6 +996,10 @@ textarea {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+
+.ks-bento-card.is-wide .ks-bento-body {
+  justify-content: center;
 }
 
 .ks-bento-title { margin-bottom: 0.55rem; }
