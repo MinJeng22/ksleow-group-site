@@ -1051,8 +1051,8 @@ textarea {
   }
   
   .ks-bento-card.is-wide {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 42% 58%;
     min-height: 140px;
   }
 
@@ -1063,13 +1063,13 @@ textarea {
 
   .ks-bento-card.is-wide .ks-bento-media {
     min-height: 160px;
-    height: auto;
-    flex-shrink: 0;
+    height: 100%;
     background: #ffffff;
   }
 
   .ks-bento-card.is-wide .ks-bento-body {
-    flex-grow: 1;
+    padding: 1rem;
+    justify-content: center;
   }
 
   .ks-bento-body {
