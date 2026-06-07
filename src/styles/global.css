@@ -403,8 +403,8 @@ textarea {
 /* Ensure completely negative-space arrows on desktop */
 @media (min-width: 1024px) {
   .products-carousel-controls-side {
-    left: calc(var(--carousel-btn-size) * -0.6);
-    right: calc(var(--carousel-btn-size) * -0.6);
+    left: calc(var(--carousel-btn-size) * -0.5);
+    right: calc(var(--carousel-btn-size) * -0.5);
   }
 }
 
@@ -415,7 +415,7 @@ textarea {
   height: var(--carousel-btn-size);
   border-radius: 50%;
   border: 1px solid rgba(47,49,90,0.14);
-  background: rgba(255,255,255,0.76);
+  background: #ffffff;
   color: rgba(47,49,90,0.78);
   box-shadow: 0 8px 22px rgba(47,49,90,0.09);
   backdrop-filter: blur(10px);

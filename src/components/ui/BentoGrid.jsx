@@ -42,23 +42,16 @@ const BENTO_CAROUSEL_STYLES = `
 }
 .ks-bento-carousel-slide .ks-bento-card {
 }
-.other-services-carousel .ks-bento-carousel-slide.ks-bento {
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr) minmax(0, 0.9fr) minmax(0, 0.9fr) !important;
-}
-.other-services-carousel .ks-bento-layout-1 { grid-column: 1; grid-row: 1 / span 2; }
-.other-services-carousel .ks-bento-layout-2 { grid-column: 2; grid-row: 1; }
-.other-services-carousel .ks-bento-layout-3 { grid-column: 2; grid-row: 2; }
-.other-services-carousel .ks-bento-layout-4 { grid-column: 3; grid-row: 1; }
-.other-services-carousel .ks-bento-layout-5 { grid-column: 4; grid-row: 1; }
-.other-services-carousel .ks-bento-layout-6 { grid-column: 3 / span 2; grid-row: 2; }
-
-@media (max-width: 1024px) {
-  .other-services-carousel .ks-bento-layout-1 { grid-column: 1 !important; grid-row: 1 / span 2 !important; }
-  .other-services-carousel .ks-bento-layout-2 { grid-column: 2 !important; grid-row: 1 !important; }
-  .other-services-carousel .ks-bento-layout-3 { grid-column: 2 !important; grid-row: 2 !important; }
-  .other-services-carousel .ks-bento-layout-4 { grid-column: 3 !important; grid-row: 1 !important; }
-  .other-services-carousel .ks-bento-layout-5 { grid-column: 4 !important; grid-row: 1 !important; }
-  .other-services-carousel .ks-bento-layout-6 { grid-column: 3 / span 2 !important; grid-row: 2 !important; }
+@media (min-width: 1181px) {
+  .other-services-carousel .ks-bento-carousel-slide.ks-bento {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr) minmax(0, 0.9fr) minmax(0, 0.9fr) !important;
+  }
+  .other-services-carousel .ks-bento-layout-1 { grid-column: 1; grid-row: 1 / span 2; }
+  .other-services-carousel .ks-bento-layout-2 { grid-column: 2; grid-row: 1; }
+  .other-services-carousel .ks-bento-layout-3 { grid-column: 2; grid-row: 2; }
+  .other-services-carousel .ks-bento-layout-4 { grid-column: 3; grid-row: 1; }
+  .other-services-carousel .ks-bento-layout-5 { grid-column: 4; grid-row: 1; }
+  .other-services-carousel .ks-bento-layout-6 { grid-column: 3 / span 2; grid-row: 2; }
 }
 .other-services-carousel .ks-bento-card {
   border-color: rgba(47,49,90,0.1);
@@ -70,6 +63,9 @@ const BENTO_CAROUSEL_STYLES = `
 }
 .other-services-carousel .ks-bento-card.is-clickable:hover {
   background: #ffffff;
+  box-shadow: none !important;
+  transform: none !important;
+  border-color: rgba(47,49,90,0.1) !important;
 }
 .ks-bento-carousel-controls {
   bottom: 1.5rem;
@@ -88,6 +84,10 @@ const BENTO_CAROUSEL_STYLES = `
 @media (max-width: 1180px) {
   .ks-bento-carousel-slide {
     flex-basis: 220%;
+  }
+
+  .other-services-carousel .ks-bento-carousel-slide {
+    flex-basis: 100%;
   }
 }
 @media (max-width: 640px) {
