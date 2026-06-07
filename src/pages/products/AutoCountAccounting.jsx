@@ -286,6 +286,12 @@ const MODULE_PRICES = {
   "Sales Order Processing": "RM6000",
   "Assembly Order Processing": "RM6000",
   "Intelligent Costing": "RM3000",
+  "POS A": "RM2000",
+  "POS B": "RM1000",
+  "POS Branch": "RM2500",
+  "POS Serial Number": "RM1000",
+  "POS Item Batch": "RM600",
+  "POS Item Package": "RM600",
 };
 const EDITION_TABLE = {
   oneTimePayment: EDITIONS.map((edition) => EDITION_PRICES[edition]),
