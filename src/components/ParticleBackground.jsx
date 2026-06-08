@@ -274,6 +274,32 @@ export default function ParticleBackground({
         ctx.fill();
       }
 
+      /* Liquid Glass Interaction */
+      const glassElements = document.querySelectorAll('#hero .lg-glass');
+      if (glassElements.length > 0) {
+        const canvasRect = canvas.getBoundingClientRect();
+        for (let g = 0; g < glassElements.length; g++) {
+          const el = glassElements[g];
+          const rect = el.getBoundingClientRect();
+          const gx = rect.left - canvasRect.left + rect.width / 2;
+          const gy = rect.top - canvasRect.top + rect.height / 2;
+          
+          for (let i = 0; i < particles.length; i++) {
+            const dx = particles[i].x - gx, dy = particles[i].y - gy;
+            const dSq = dx*dx + dy*dy;
+            if (dSq < MOUSE_R_SQ) {
+              const alpha = (1 - dSq / MOUSE_R_SQ) * 0.45;
+              ctx.strokeStyle = `rgba(${highlightRgb},${alpha})`;
+              ctx.lineWidth = 1.0;
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(gx, gy);
+              ctx.stroke();
+            }
+          }
+        }
+      }
+
       /* dots — single batch */
       const dotPath = new Path2D();
       for (let i = 0; i < particles.length; i++) {
