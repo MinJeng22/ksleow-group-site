@@ -1745,7 +1745,7 @@ body.partner-modal-open .back-to-top-glass {
     border-bottom-left-radius: 24px;
     border-right: 6px solid var(--partner-accent, #ef4e23);
     border-top-right-radius: 0;
-    flex: 1.1;
+    flex: 0.45;
   }
 
   .partner-modal-banner {
@@ -1755,7 +1755,7 @@ body.partner-modal-open .back-to-top-glass {
 
   .partner-modal-body {
     display: flex;
-    flex: 1.0;
+    flex: 0.55;
     flex-direction: column;
     justify-content: center;
     overflow-y: auto;
