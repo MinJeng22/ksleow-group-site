@@ -2618,7 +2618,8 @@ body.has-active-modal .back-to-top-glass {
   color: white;
 }
 
-/* Mobile Compare Table Overrides */
+/* Mobile Compare Table Overrides — uses flexbox (not grid) for
+   reliable column alignment on <tr> elements across all browsers. */
 @media (max-width: 768px) {
   .ks-compare-wrap {
     overflow-x: auto;
@@ -2626,72 +2627,74 @@ body.has-active-modal .back-to-top-glass {
   }
 
   .ks-compare-table {
-    display: block;
-    width: var(--mobile-table-width, 100%);
+    display: block !important;
+    width: var(--mobile-table-width, 100%) !important;
     min-width: 100%;
   }
 
-  .ks-compare-table colgroup { display: none; }
+  .ks-compare-table colgroup { display: none !important; }
 
   .ks-compare-thead,
   .ks-compare-tbody,
   .ks-compare-tr,
-  .ks-compare-tr-data,
-  .ks-compare-tr-book,
   .ks-compare-tr-section {
-    display: block;
-    width: 100%;
+    display: block !important;
+    width: 100% !important;
   }
 
-  /* Header row: hide the feature-label column, show only edition columns */
+  /* ── Header row: flex, hide the feature-label column ── */
   .ks-compare-thead tr {
-    display: grid;
-    grid-template-columns: repeat(var(--edition-count, 2), 1fr);
-    width: 100%;
+    display: flex !important;
+    flex-wrap: nowrap;
+    width: 100% !important;
   }
-  .ks-compare-thead .ks-compare-th-left { display: none; }
+  .ks-compare-thead .ks-compare-th-left {
+    display: none !important;
+  }
   .ks-compare-thead .ks-compare-th:not(.ks-compare-th-left) {
+    flex: 1 1 0% !important;
+    min-width: 0;
     word-break: break-word;
     padding: 0.5rem 0.1rem;
     font-size: 0.75rem;
-    display: flex;
+    display: flex !important;
     align-items: center;
     justify-content: center;
     text-align: center;
-    min-width: 0;
   }
 
-  /* Data / book rows: SAME 1fr grid as the header.
-     td-left spans full width on its own implicit row;
-     the remaining data cells sit in the next implicit row
-     and share the identical column template -> guaranteed alignment. */
+  /* ── Data / book rows: flex-wrap so td-left takes first line,
+       data cells share the second line equally ── */
   .ks-compare-tr-data,
   .ks-compare-tr-book {
-    display: grid;
-    grid-template-columns: repeat(var(--edition-count, 2), 1fr);
-    width: 100%;
+    display: flex !important;
+    flex-wrap: wrap;
+    width: 100% !important;
     border-bottom: 1px solid rgba(47,49,90,0.05);
   }
 
   .ks-compare-td-left {
-    grid-column: 1 / -1;
+    flex: 0 0 100% !important;
+    width: 100% !important;
     text-align: center;
     background: #f0f0f5 !important;
     padding: 0.7rem;
     border-bottom: 1px solid rgba(47,49,90,0.05);
+    position: static !important;
   }
 
   .ks-compare-td-data:not(.ks-compare-td-left),
   .ks-compare-td-book:not(.ks-compare-td-left) {
+    flex: 1 1 0% !important;
+    min-width: 0;
     word-break: break-word;
     box-sizing: border-box;
-    display: flex;
+    display: flex !important;
     align-items: center;
     justify-content: center;
     text-align: center;
     border-right: 1px solid rgba(47,49,90,0.05);
     padding: 0.5rem 0;
-    min-width: 0;
   }
   .ks-compare-td-data:not(.ks-compare-td-left):last-child,
   .ks-compare-td-book:not(.ks-compare-td-left):last-child {
@@ -2699,7 +2702,11 @@ body.has-active-modal .back-to-top-glass {
   }
 
   /* Full-width colspan rows */
-  .ks-compare-td-data[colspan] { grid-column: 1 / -1; padding: 1rem !important; }
+  .ks-compare-td-data[colspan] {
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    padding: 1rem !important;
+  }
 
   .ks-compare-td-section {
     width: 100%;
