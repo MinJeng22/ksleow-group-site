@@ -83,11 +83,11 @@ const FEATURES = [
 ];
 
 const CLOUD_PROMOTIONS = [
-    {
-      title: "24 Months Subscription with 65% Off",
-      image: "/images/promotions/autocount-cloudaccounting-65-promo.webp",
-      cta: { href: FREE_TRIAL_URL, target: "_blank" },
-    },
+  {
+    title: "24 Months Subscription with 75% Off",
+    image: "/images/promotions/autocount-cloudaccounting-75-promo.webp",
+    cta: { href: FREE_TRIAL_URL, target: "_blank" },
+  },
   {
     title: "Earn rewards when you refer AutoCount users",
     image: "/images/promotions/ksl-referral-program.webp",
