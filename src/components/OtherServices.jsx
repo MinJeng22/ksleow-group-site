@@ -25,17 +25,15 @@ const SUPAPRINTZ_MODAL_IMAGES = [
 ];
 const SITEGIANT_PARTNER = {
   name: "Sitegiant",
-  category: "E-COMMERCE & AUTOCOUNT INTEGRATION",
+  category: "E-COMMERCE & ACCOUNTING SOFTWARE INTEGRATION",
   image: "/images/other-services/sitegiant.webp",
   whatsappUrl: `https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent("Hi! I'm interested in Sitegiant Integration. Could you provide more details?")}`,
   websiteUrl: "https://sitegiant.my/",
-  headline: "Connect your online sales channels with AutoCount",
+  headline: "Connect your online sales channels with Accounting Software",
   intro: "Bring marketplace orders, stock movement, and business reporting closer together with a cleaner e-commerce workflow.",
   benefits: [
     ["Marketplace order sync", "Centralize online orders from marketplaces and webstore channels so your team can process them faster."],
     ["Inventory confidence", "Keep stock visibility tighter across sales channels and reduce manual checks before fulfilment."],
-    ["AutoCount-ready workflow", "Prepare e-commerce transactions for smoother accounting, stock, and back-office follow-up."],
-    ["Room to scale", "Support campaigns, product updates, and multi-channel selling without rebuilding the workflow each time."],
   ],
 };
 const SUPAPRINTZ_COLORS = {
@@ -232,6 +230,14 @@ function SitegiantPartnerModal({ open, onClose }) {
         {SITEGIANT_PARTNER.headline}
       </h3>
       <p className="partner-modal-intro">{SITEGIANT_PARTNER.intro}</p>
+      <div className="partner-modal-benefit-list">
+        {SITEGIANT_PARTNER.benefits.map(([title, copy]) => (
+          <div className="partner-modal-benefit" key={title}>
+            <div className="partner-modal-benefit-title">{title}</div>
+            <div className="partner-modal-benefit-copy">{copy}</div>
+          </div>
+        ))}
+      </div>
     </PartnerModal>
   );
 }

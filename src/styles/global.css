@@ -1735,7 +1735,7 @@ body.partner-modal-open .back-to-top-glass {
 @media (min-width: 641px) {
   .partner-modal-shell {
     flex-direction: row;
-    height: auto;
+    min-height: 540px;
     width: min(840px, 92vw);
   }
 
