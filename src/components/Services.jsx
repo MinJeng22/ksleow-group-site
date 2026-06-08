@@ -183,12 +183,6 @@ function ServiceCard({ service }) {
   }, []);
 
   useEffect(() => {
-    if (isMobile) {
-      setIsHovered(isInView);
-    }
-  }, [isMobile, isInView]);
-
-  useEffect(() => {
     if (!isMobile) {
       setIsHovered(false);
     }

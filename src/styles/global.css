@@ -43,7 +43,7 @@
   --ks-page-ink: #2f315a;
 
   /* Desktop: tight padding */
-  --px: clamp(8px, 1vw, 16px);
+  --px: clamp(40px, 4.5vw, 64px);
   --content-max-w: 1440px;
 }
 
@@ -354,7 +354,7 @@ textarea {
 @media (min-width: 1600px) {
   :root {
     --content-max-w: 1700px;
-    --px: clamp(18px, 1.7vw, 38px);
+    --px: clamp(48px, 3.5vw, 64px);
     --section-py: 4.6rem;
     --section-py-sm: 3rem;
   }
@@ -385,7 +385,7 @@ textarea {
 @media (min-width: 1900px) {
   :root {
     --content-max-w: 1880px;
-    --px: clamp(22px, 1.55vw, 44px);
+    --px: clamp(48px, 3.5vw, 64px);
     --section-py: 4.25rem;
     --section-py-sm: 2.75rem;
   }
@@ -2763,4 +2763,5 @@ body.has-active-modal .back-to-top-glass {
     scroll-margin-top: calc(50vh - 145px);
   }
 }
+
 
