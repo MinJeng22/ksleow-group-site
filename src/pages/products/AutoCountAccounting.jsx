@@ -497,7 +497,7 @@ const ACCOUNTING_PROMOTIONS = [
     cta: { href: WA_LINK, target: "_blank" },
   },
   {
-    title: "Get AutoCount Accounting for Free",
+    title: "Buy AutoCount Accounting & Enjoy Free Training",
     image: "/images/promotions/autocountaccounting-free.webp",
     cta: { href: WA_LINK, target: "_blank" },
   },
