@@ -25,16 +25,11 @@ const SUPAPRINTZ_MODAL_IMAGES = [
 ];
 const SITEGIANT_PARTNER = {
   name: "Sitegiant",
-  category: "E-COMMERCE & ACCOUNTING SOFTWARE INTEGRATION",
   image: "/images/other-services/sitegiant.webp",
   whatsappUrl: `https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent("Hi! I'm interested in Sitegiant Integration. Could you provide more details?")}`,
   websiteUrl: "https://sitegiant.my/",
   headline: "Connect your online sales channels with Accounting Software",
-  intro: "Sitegiant empowers your business with a unified ecosystem, bringing all your multi-channel operations into one centralized platform.",
-  benefits: [
-    ["Core Integration", "Seamlessly syncs with Accounting, Marketing, and Analytics to drive business growth."],
-    ["Complete Operations", "Centralizes your staff, customer, product, inventory, and order management."],
-  ],
+  intro: "A unified ecosystem that seamlessly integrates Accounting, Marketing, Analytics, staff management, customer management, product management, inventory management, and order management into one centralized platform.",
 };
 const SUPAPRINTZ_COLORS = {
   yellow: "#ffc10e",
@@ -225,19 +220,10 @@ function SitegiantPartnerModal({ open, onClose }) {
         },
       ]}
     >
-      <div className="partner-modal-eyebrow">{SITEGIANT_PARTNER.category}</div>
       <h3 id="sitegiant-modal-title" className="partner-modal-title">
         {SITEGIANT_PARTNER.headline}
       </h3>
       <p className="partner-modal-intro">{SITEGIANT_PARTNER.intro}</p>
-      <div className="partner-modal-benefit-list">
-        {SITEGIANT_PARTNER.benefits.map(([title, copy]) => (
-          <div className="partner-modal-benefit" key={title}>
-            <div className="partner-modal-benefit-title">{title}</div>
-            <div className="partner-modal-benefit-copy">{copy}</div>
-          </div>
-        ))}
-      </div>
     </PartnerModal>
   );
 }
