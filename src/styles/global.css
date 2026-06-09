@@ -1548,9 +1548,15 @@ body.partner-modal-open {
 
 body.supaprintz-modal-open nav,
 body.supaprintz-modal-open .back-to-top,
+body.supaprintz-modal-open .top-right-controls,
+body.supaprintz-modal-open .top-left-controls,
+body.supaprintz-modal-open .mobile-float-bar,
 body.partner-modal-open nav,
 body.partner-modal-open .back-to-top,
-body.partner-modal-open .back-to-top-glass {
+body.partner-modal-open .back-to-top-glass,
+body.partner-modal-open .top-right-controls,
+body.partner-modal-open .top-left-controls,
+body.partner-modal-open .mobile-float-bar {
   display: none !important;
 }
 

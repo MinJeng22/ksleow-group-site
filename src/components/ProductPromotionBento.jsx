@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { Img } from "./Media.jsx";
 
 export default function ProductPromotionBento({
@@ -250,7 +251,7 @@ export default function ProductPromotionBento({
         })}
       </div>
 
-      {lightboxImage && (
+      {lightboxImage && typeof document !== "undefined" && createPortal(
         <div 
           className="partner-modal-backdrop" 
           onClick={() => setLightboxImage(null)} 
@@ -265,7 +266,8 @@ export default function ProductPromotionBento({
             </button>
             <img src={lightboxImage} alt="Promotion Fullscreen" className="promo-lightbox-img" />
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </section>
   );
