@@ -226,7 +226,7 @@ export default function ProductPromotionBento({
                     src={item.image}
                     alt={item.title}
                     protect={false}
-                    priority={index === 0}
+                    priority={true}
                   />
                 </div>
               ) : (
