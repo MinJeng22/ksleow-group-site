@@ -328,15 +328,8 @@ export default function Products({ onContact }) {
       (entries) => entries.forEach((e) => {
         if (e.isIntersecting) {
           if (e.intersectionRatio >= 0.15) {
-            setRevealed(true);
-            setRevealSettled(false);
-            window.clearTimeout(settleTimer);
-            settleTimer = window.setTimeout(() => setRevealSettled(true), 1300);
+            revealOnce();
           }
-        } else {
-          setRevealed(false);
-          setRevealSettled(false);
-          window.clearTimeout(settleTimer);
         }
       }),
       { threshold: [0, 0.15] }
