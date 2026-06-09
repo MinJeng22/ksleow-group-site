@@ -1043,7 +1043,7 @@ export default function AutoCountTrainingWebGL({ customVideos, title = 'AutoCoun
                     </div>
                   </div>
                 </div>
-
+                )}
               </div>
 
               <div className="tutorial-copy-panel">
