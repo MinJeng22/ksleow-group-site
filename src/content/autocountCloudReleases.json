@@ -8,7 +8,7 @@
       "Support SST Treatment for Rental and Leasing Services"
     ],
     "fixes": [
-      "Fix hitting “Value was either too large or too small for an Int64” error when create Consolidated e‑Invoice",
+      "Fix hitting “Value was either too large or too small for an Int64” error when create Consolidated e-Invoice",
       "Fix object reference error at Journal Entry Listing Report",
       "Fix object reference error when copy from Payment Voucher at Self-Bill",
       "Fix database timeout error in Bank Transactions",
@@ -19,7 +19,7 @@
     "highlights": [
       "1. Support SST Treatment for Rental and Leasing Services",
       "A new SST tax code SVR-6 has been introduced to support 6% Service Tax for Rental or Leasing Services, with 2% service tax exemption based on the latest SST treatment.",
-      "This enhancement ensures correct invoice display, SST reporting, and e‑Invoice submission mapping.",
+      "This enhancement ensures correct invoice display, SST reporting, and e-Invoice submission mapping.",
       "1.1 Added New Tax Code SVR-6",
       "A new tax code SVR-6 has been introduced in Tax Code Maintenance > Configure Malaysia SST > Output Tax.",
       "1.2 Invoice Display Enhancement",
@@ -57,7 +57,7 @@
       "Improved the company blocked error message."
     ],
     "fixes": [
-      "Fixed an error when generating Consolidated e‑Invoice where having many transactions to be consolidated caused the description to be too long and resulted in an error.",
+      "Fixed an error when generating Consolidated e-Invoice where having many transactions to be consolidated caused the description to be too long and resulted in an error.",
       "Fixed an error when generating Singapore InvoiceNow Aggregated Transactions where having many transactions to be aggregated caused the description to be too long and resulted in an error.",
       "Fixed an issue where the SST 02 Report format did not display the SST number in the designated field."
     ],
@@ -86,7 +86,7 @@
     "highlights": [
       "Here is the enhancements for v1.1.77",
       "1. Singapore InvoiceNow function.",
-      "Added Singapore InvoiceNow function to support electronic invoice exchange via the Peppol network. This enables businesses to send and receive e-invoices in compliance with Singapore’s nationwide e‑invoicing initiative.",
+      "Added Singapore InvoiceNow function to support electronic invoice exchange via the Peppol network. This enables businesses to send and receive e-invoices in compliance with Singapore’s nationwide e-invoicing initiative.",
       "These enhancements were made available on 19 December 2025!"
     ],
     "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000713285"
@@ -124,10 +124,10 @@
       "Improved Knock Off Entry screen to display more rows in the knock-off section on smaller screens."
     ],
     "fixes": [
-      "Fixed incorrect decimal format for Unit Price in Self‑Billed reports.",
+      "Fixed incorrect decimal format for Unit Price in Self-Billed reports.",
       "Fixed issue where importing Debtor and Creditor opening balances failed due to trailing spaces",
       "Fixed header alignment issues in Financial Reports when resizing from Letter to A4 during printing.",
-      "Fixed issue where copying a Self‑Billed document with Tax Setting disabled did not auto-assign “Not Applicable” to the Tax Type field, resulting in submission errors."
+      "Fixed issue where copying a Self-Billed document with Tax Setting disabled did not auto-assign “Not Applicable” to the Tax Type field, resulting in submission errors."
     ],
     "highlights": [
       "We hope the enhancements in v1.1.75 make it easier for you to stay compliant with Malaysia’s latest regulations!",
@@ -177,8 +177,8 @@
       "Based on these access rights, Cloud Accounting has been enhanced to display Receipt Voucher and Payment Voucher functions and records accordingly in Cash Book Entry, Print Cash Book Entry Listing, and related modules such as Recurring Payment Voucher and Import Cash Book Entry. These improvements ensure that user access permissions are consistently enforced across all relevant functions.",
       "2. Added Bank Reconciliation Report under Bank Transactions.",
       "A new Bank Reconciliation Report has been added under the Bank Transactions module, allowing users to easily review and verify transactions recorded in the system against actual bank statements. This report helps ensure accuracy, identify discrepancies, and streamline the reconciliation process.",
-      "3. Enhanced Self‑Billed e‑Invoice to allow copying from multiple transactions into one e‑Invoice document",
-      "The Self‑Billed e‑Invoice feature now supports copying from multiple transactions, allowing you to create a consolidated self-billed e‑Invoice in one go."
+      "3. Enhanced Self-Billed e-Invoice to allow copying from multiple transactions into one e-Invoice document",
+      "The Self-Billed e-Invoice feature now supports copying from multiple transactions, allowing you to create a consolidated self-billed e-Invoice in one go."
     ],
     "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000713257"
   },
@@ -186,14 +186,14 @@
     "version": "1.1.73",
     "rev": "Release 73",
     "date": "2025-08-28",
-    "postedLabel": "9 months ago",
+    "postedLabel": "10 months ago",
     "features": [
-      "Added new function to support automatically email validated e‑Invoice for Malaysia e‑Invoice.",
+      "Added new function to support automatically email validated e-Invoice for Malaysia e-Invoice.",
       "Added tooltip and link to Knowledge Base Portal for help articles.",
       "[SG] Enhanced Singapore GST Instant Info to capture realized gain/loss in “Total Value of Exempted Supplies” (Box 3).",
-      "Enhanced Automatic Issue Date Time setting to avoid prompting users ‘e‑Invoice issuance date time is too old’ message",
+      "Enhanced Automatic Issue Date Time setting to avoid prompting users ‘e-Invoice issuance date time is too old’ message",
       "Enhanced Stock Costing calculation to 4 decimal places to improve precision.",
-      "Supported Consolidated e‑Invoice to include rounding in the calculation."
+      "Supported Consolidated e-Invoice to include rounding in the calculation."
     ],
     "fixes": [
       "Fixed Import Journal Entry not balance error caused by source data containing decimal values that were not visible in Excel.",
@@ -202,13 +202,13 @@
     ],
     "highlights": [
       "We hope the updates in v1.1.73 help you work more seamlessly and effectively.",
-      "1. Added new function to support automatically email validated e‑Invoice for Malaysia e‑Invoice.",
-      "AutoCount makes e-Invoicing easier for you. Once validated, your e‑Invoice and credit note will be automatically sent to your customers.",
+      "1. Added new function to support automatically email validated e-Invoice for Malaysia e-Invoice.",
+      "AutoCount makes e-Invoicing easier for you. Once validated, your e-Invoice and credit note will be automatically sent to your customers.",
       "2. Added tooltip and link to Knowledge Base Portal for help articles",
       "To make navigating in Cloud Accounting easier, we’ve added tooltips (the ? Icon) that provide quick guidance and direct access to related help articles.",
       "3. [SG] Enhanced Singapore GST Instant Info to capture realized gain/loss in “Total Value of Exempted Supplies” (Box 3)",
       "Previously, this information was only available after running the GST Processor, but now it can be viewed directly in Instant Info.",
-      "4. Enhanced Automatic Issue Date Time setting to avoid prompting users ‘e‑Invoice issuance date time is too old’ message"
+      "4. Enhanced Automatic Issue Date Time setting to avoid prompting users ‘e-Invoice issuance date time is too old’ message"
     ],
     "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000713239"
   },
@@ -245,8 +245,8 @@
     "features": [],
     "fixes": [],
     "highlights": [
-      "1. Adjusted to make Tax Exemption Number entry not mandatory when using tax codes EEM, ESP, and EDA for Malaysia e‑Invoice documents.",
-      "You no longer need to enter the Tax Exemption No. under ‘Document Info’ when using tax codes EEM, ESP, or EDA for e‑Invoice submission!",
+      "1. Adjusted to make Tax Exemption Number entry not mandatory when using tax codes EEM, ESP, and EDA for Malaysia e-Invoice documents.",
+      "You no longer need to enter the Tax Exemption No. under ‘Document Info’ when using tax codes EEM, ESP, or EDA for e-Invoice submission!",
       "2. [SG] Optimize Singapore GST Instant Info page to load data more fluently",
       "These enhancements were made available on 31 July 2025!"
     ],
@@ -258,23 +258,23 @@
     "date": "2025-07-22",
     "postedLabel": "11 months ago",
     "features": [
-      "Support Automatic ‘Issue Date Time’ setting for Malaysia e‑Invoice",
-      "Support Default Classification Code for Malaysia e‑Invoice",
+      "Support Automatic ‘Issue Date Time’ setting for Malaysia e-Invoice",
+      "Support Default Classification Code for Malaysia e-Invoice",
       "Enhanced to allow editing Tax Entity field in Customer and Supplier",
-      "Enhanced Malaysia e‑Invoice’s Annexure fields to match with LHDN latest field length size",
+      "Enhanced Malaysia e-Invoice’s Annexure fields to match with LHDN latest field length size",
       "Improved user experience when using Upload QR, Search TIN, and Validate TIN, even without selecting a Tax Entity in the Company Profile."
     ],
     "fixes": [
       "Fixed error where Cash Book was able to generate recurring transactions even when the Payment Method, Tax Code, or Department was set to inactive",
       "Fixed error where editing Tax Entity could not change TIN field to empty (leaving it blank) TIN for foreign businesses",
-      "Fixed error where the Consolidated e‑Invoice detail drill down information to trace source documents are matched incorrectly"
+      "Fixed error where the Consolidated e-Invoice detail drill down information to trace source documents are matched incorrectly"
     ],
     "highlights": [
       "We valued your feedback and here are some of the updates from v1.1.70!",
-      "1. Support Automatic ‘Issue Date Time’ setting for Malaysia e‑Invoice",
-      "But first, what is ‘Issue Date Time’? On LHDN MyInvois Portal, taxpayers are only allowed to submit e‑Invoices no earlier than 3 days before the invoice’s document date. This function is designed to handle backdated invoices where the document date is more than 3 days before the current date, and the Invoice has not yet been submitted to LHDN for validation. Example:",
+      "1. Support Automatic ‘Issue Date Time’ setting for Malaysia e-Invoice",
+      "But first, what is ‘Issue Date Time’? On LHDN MyInvois Portal, taxpayers are only allowed to submit e-Invoices no earlier than 3 days before the invoice’s document date. This function is designed to handle backdated invoices where the document date is more than 3 days before the current date, and the Invoice has not yet been submitted to LHDN for validation. Example:",
       "New  Automatic ‘Issue Date Time’ setting : Previously, you had to set this date manually. Now, with the Automatic ‘Issue Date Time’ setting:",
-      "2. Support Default Classification Code for Malaysia e‑Invoice",
+      "2. Support Default Classification Code for Malaysia e-Invoice",
       "This feature automatically applies the selected default classification code to all new line items during document entry. It is especially useful when most of your products fall under the same classification, eliminating the need to assign the classification code to each product individually in ‘Product’ maintenance.",
       "3. Enhanced to allow editing Tax Entity field in Customer and Supplier",
       "We understand mistakes can happen when mapping Tax Entities to customers or suppliers, we have now enhanced to allow edit so you can switch to the correct Tax Entity easily."
@@ -375,7 +375,7 @@
       "Fixed Document Scanner when account book tax setting is “No Tax” however prompted error ‘No Tax Code associated with Tax Rate’",
       "Enhanced to prevent duplicate transaction issues when importing transactions from Maybank",
       "Fixed error message \"'Activation StartDate must be greater than dd/MM/yy'\" when reactivating account book.",
-      "Fixed Create Consolidated e‑Invoice hit error if the plan does not have Accounting Plan (Accounting is not activated) but only activated ‘Point of Sales’"
+      "Fixed Create Consolidated e-Invoice hit error if the plan does not have Accounting Plan (Accounting is not activated) but only activated ‘Point of Sales’"
     ],
     "highlights": [
       "v1.1.66 is here!",
@@ -418,7 +418,7 @@
     ],
     "fixes": [
       "Fix Import Cash Book Entry from Excel did not auto correct Payment Method field to uppercase",
-      "Fix an error when deleting Consolidated e‑Invoice",
+      "Fix an error when deleting Consolidated e-Invoice",
       "Fix an error when resubmit Consolidated e-invoice",
       "Fix unable to delete Bank Account even though there are no more transactions using it",
       "Fix unable to select country currency when creating company in USD",
@@ -503,13 +503,13 @@
       "Remove month end restriction for using “Issue Date Time” function for e-Invoicing",
       "[SG] Seamless Filling – Imported Balance Sheet Statement differ with Cloud Accounting",
       "[SG] Accounting API for SG Seamless Filling – Incorrect Revenue Balance",
-      "Optimize Consolidated e‑Invoice performance",
+      "Optimize Consolidated e-Invoice performance",
       "Improve Import Chart of Account to highlight columns for easy viewing if mandatory column data is missing during import",
       "Improve Import Chart of Account when import to auto set values to uppercase for AccType, SpecialAccType, CurrencyCode and TaxCode to maintain data consistency"
     ],
     "fixes": [
       "Fix Import Cash Book with same document number will create an additional record in GL instead of updating existing record",
-      "Fix Date Filter issue in monthly drill down for e‑Invoice Document Inquiry",
+      "Fix Date Filter issue in monthly drill down for e-Invoice Document Inquiry",
       "Fix Journal Entry when select Customer or Supplier accounts will not prompt to knock off after save",
       "Fix Import Chart of Account unable to import in Lite Plan if the Excel file does not contain value for CurrencyCode column as Multi Currency function is not available in Lite Plan"
     ],
@@ -532,18 +532,18 @@
     "postedLabel": "over 1 year ago",
     "features": [
       "Added Singapore Seamless e-Filling",
-      "Enhance Consolidated e‑Invoice for OneSales POS transaction to group no tax with zero tax details together"
+      "Enhance Consolidated e-Invoice for OneSales POS transaction to group no tax with zero tax details together"
     ],
     "fixes": [
       "Fix unable to get some Consolidated OneSales POS transaction due to incorrect time fitler",
-      "Fix Consolidated e‑Invoice for OneSales POS transaction to include service charge and service tax"
+      "Fix Consolidated e-Invoice for OneSales POS transaction to include service charge and service tax"
     ],
     "highlights": [
       "In the release note of v1.1.60, we have added a new function for Singapore and some enhancement when posting from OneSales POS to Cloud Accounting !",
       "    1. Singapore Seamless e-Filling",
       "Now our Singapore users can enjoy Seamless e-Filing in Cloud Accounting, upon clicking on the ‘Seamless e-Filing’, you will be redirected to a new tab to start performing your e-filing. You are able to submit and download your Financial Statement (in simplified XBRL format) and your Annual return to ACRA. In addition, you are able to submit your Form CS to IRAS as well as download the detailed P&L and tax computation generated.",
       "    ",
-      "    2. Enhance Consolidated e‑Invoice for OneSales POS transaction to group no tax and zero tax details together",
+      "    2. Enhance Consolidated e-Invoice for OneSales POS transaction to group no tax and zero tax details together",
       "The new release are available on 18 October 2024. That's it about it today !"
     ],
     "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712722"
@@ -582,27 +582,27 @@
     "postedLabel": "over 1 year ago",
     "features": [
       "Enhance to not show \"Draft\" watermark for Invoice if print using Delivery Order format",
-      "Added Document Inquiry to keep track of e‑Invoice submission records",
-      "Enhance to not allow to create new Consolidated e‑Invoice instead of unable to access the function when \"Allow Consolidated e‑Invoice\" setting is turn off",
-      "Enhance when saving e‑Invoice documents will validate existing customer TIN and Annexure TIN and prompt warning if is not a valid TIN",
-      "Enhance Invoice, Consolidated e‑Invoice and Self Bill document to auto refresh status if e‑Invoice submission status is invalid due to connection issue"
+      "Added Document Inquiry to keep track of e-Invoice submission records",
+      "Enhance to not allow to create new Consolidated e-Invoice instead of unable to access the function when \"Allow Consolidated e-Invoice\" setting is turn off",
+      "Enhance when saving e-Invoice documents will validate existing customer TIN and Annexure TIN and prompt warning if is not a valid TIN",
+      "Enhance Invoice, Consolidated e-Invoice and Self Bill document to auto refresh status if e-Invoice submission status is invalid due to connection issue"
     ],
     "fixes": [
       "Fix Singapore company unable to save Payment Method due to some incorrect constraint with Tax Entity",
-      "Fix when edit validated e‑Invoice unable to edit Total Cost column",
-      "Fix deactivated account book still able to create, update, void, delete Consolidated e‑Invoice",
-      "Fix unable to void Consolidated e‑Invoice that has no e‑Invoice status or invalid",
-      "Fix when edit e‑Invoice that are yet to be validated will sometimes cause editing fields to be auto reset"
+      "Fix when edit validated e-Invoice unable to edit Total Cost column",
+      "Fix deactivated account book still able to create, update, void, delete Consolidated e-Invoice",
+      "Fix unable to void Consolidated e-Invoice that has no e-Invoice status or invalid",
+      "Fix when edit e-Invoice that are yet to be validated will sometimes cause editing fields to be auto reset"
     ],
     "highlights": [
-      "In the release note of v.1.1.58, there are some minor fixes and also few enhancements on the e‑Invoice module to make everything better. Remember we also have a series of guide file on e‑Invoice here .",
+      "In the release note of v.1.1.58, there are some minor fixes and also few enhancements on the e-Invoice module to make everything better. Remember we also have a series of guide file on e-Invoice here .",
       "Now let's us have a look at the new enhancements together !",
       "    1. Not showing watermark \"Draft\" for Delivery Order",
       "We have enhanced to not show the \"Draft\" watermark when preview or printing your invoice using \"Delivery Order\" format. ",
-      "    2. Document Inquiry in e‑Invoice Module",
-      "Under Document Inquiry, we had added two new functions 'Submission Summary’ and ‘Submitted Documents’ to keep track of e‑Invoice submission records.",
+      "    2. Document Inquiry in e-Invoice Module",
+      "Under Document Inquiry, we had added two new functions 'Submission Summary’ and ‘Submitted Documents’ to keep track of e-Invoice submission records.",
       "Submission Summary : A summary to show the numbers of documents that are valid, invalid, in progress, cancelled, consolidated and to be consolidate. This will give you an idea of how many e-invoices are valid, and most importantly, pending to be consolidated!",
-      "Submitted Documents:  Shows you a list of submitted documents with details such as Document number, date, total, e‑Invoice status etc."
+      "Submitted Documents:  Shows you a list of submitted documents with details such as Document number, date, total, e-Invoice status etc."
     ],
     "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712717"
   },
@@ -612,15 +612,15 @@
     "date": "2024-09-25",
     "postedLabel": "over 1 year ago",
     "features": [
-      "Support to edit fields that are not related to e‑Invoice submission",
-      "Support Print Document at Consolidated e‑Invoice",
-      "Enhance Consolidated e‑Invoice function to handle consolidated e‑Invoice with many lines, avoiding maximum file size limit of 300kb during submission of e‑Invoice"
+      "Support to edit fields that are not related to e-Invoice submission",
+      "Support Print Document at Consolidated e-Invoice",
+      "Enhance Consolidated e-Invoice function to handle consolidated e-Invoice with many lines, avoiding maximum file size limit of 300kb during submission of e-Invoice"
     ],
     "fixes": [
       "Fix Stock User Role did not have option to only create Draft document like Sales or Purchase",
       "Fix mouse hover to Void wording did not show Void Reason at Quotation and Purchase Order",
       "Fix some inconsistency status caption for \"Fully Applied\" across Cloud Accounting functions",
-      "Fix Invoice and Credit Note when filter by status, consolidated e‑Invoice DocNo will not show in grid"
+      "Fix Invoice and Credit Note when filter by status, consolidated e-Invoice DocNo will not show in grid"
     ],
     "highlights": [],
     "sourceUrl": "https://help.accounting.autocountcloud.com/support/discussions/topics/69000712692"
@@ -631,10 +631,10 @@
     "date": "2024-09-25",
     "postedLabel": "over 1 year ago",
     "features": [
-      "Rename \"LHDN Validated Link\" to \"e‑Invoice Validation QR\"",
+      "Rename \"LHDN Validated Link\" to \"e-Invoice Validation QR\"",
       "Redesign transaction draft watermark wording to be lighter and smaller",
-      "Enhance to prompt user untick \"Submit e‑Invoice\" if transaction date is in future date",
-      "Enhance to prompt user to set Issue Date if transaction date is older then 3 days and needs e‑Invoice submission"
+      "Enhance to prompt user untick \"Submit e-Invoice\" if transaction date is in future date",
+      "Enhance to prompt user to set Issue Date if transaction date is older then 3 days and needs e-Invoice submission"
     ],
     "fixes": [
       "Fix showing incorrect caption \"Draft\" instead of \"Awaiting Approval\" at detail title dialog"
@@ -649,10 +649,10 @@
     "postedLabel": "over 1 year ago",
     "features": [
       "Support to submit Invoice and Credit Note as consolidate in corresponding to the implementation of Relaxation period",
-      "Enhance listing to include e‑Invoice UUID field",
-      "Add Issue Date Time for e‑Invoice transaction",
-      "Enhance to prompt warning if save e‑Invoice transaction with future date",
-      "Enhance detail tax code must link to a GovTaxCode if transaction is used for e‑Invoice submission"
+      "Enhance listing to include e-Invoice UUID field",
+      "Add Issue Date Time for e-Invoice transaction",
+      "Enhance to prompt warning if save e-Invoice transaction with future date",
+      "Enhance detail tax code must link to a GovTaxCode if transaction is used for e-Invoice submission"
     ],
     "fixes": [
       "Fix Tax Entity did not handle blank NRIC for individual when only TIN is provided",
@@ -672,11 +672,11 @@
     "date": "2024-08-09",
     "postedLabel": "almost 2 years ago",
     "features": [
-      "Disable e‑Invoice for AR Refund"
+      "Disable e-Invoice for AR Refund"
     ],
     "fixes": [
-      "Fix did not enable approval flow for Invoice and Credit Note if turn on e‑Invoice",
-      "Fix Submit e‑Invoice checkbox at transaction level did not follow e‑Invoice Start Date correctly",
+      "Fix did not enable approval flow for Invoice and Credit Note if turn on e-Invoice",
+      "Fix Submit e-Invoice checkbox at transaction level did not follow e-Invoice Start Date correctly",
       "Fix some issue with layout go hidden when viewing in mobile mode",
       "Fix create Cash Book with Debtor and Creditor did not prompt for knock off"
     ],
@@ -690,7 +690,7 @@
     "postedLabel": "almost 2 years ago",
     "features": [
       "Added reason field when void document",
-      "Add Consolidate e‑Invoice checkbox at transaction level to accommodate Relaxation Period of the implementation of e‑Invoice for Malaysia"
+      "Add Consolidate e-Invoice checkbox at transaction level to accommodate Relaxation Period of the implementation of e-Invoice for Malaysia"
     ],
     "fixes": [],
     "highlights": [],
@@ -702,8 +702,8 @@
     "date": "2024-08-09",
     "postedLabel": "almost 2 years ago",
     "features": [
-      "Support Malaysia e‑Invoice",
-      "[SG] Support Singapore PEPPOL e‑Invoice ",
+      "Support Malaysia e-Invoice",
+      "[SG] Support Singapore PEPPOL e-Invoice ",
       "[SG] Updated sample Chart of Accounts for Seamless Filing",
       "Support Document Approval Flow API",
       "Enhance import document to allow import as Draft or Approved",
