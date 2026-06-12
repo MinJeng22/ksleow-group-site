@@ -195,16 +195,21 @@ export default function ParticleBackground({
           /* Height-only change (mobile browser chrome appearing/hiding): soft update */
           updateHeightOnly(W, H);
         }
+        
+        /* If paused (out of view), force a single paint so it doesn't flicker when scrolling back */
+        if (!s.isIntersecting && !s.frameId) {
+          draw(performance.now(), true);
+        }
       }, 80); /* 80ms debounce — ignores rapid transient changes */
     }
 
     /* ── Draw loop ── */
-    function draw(ts) {
-      if (!s.isIntersecting) {
+    function draw(ts, force = false) {
+      if (!s.isIntersecting && !force) {
         s.frameId = null;
         return;
       }
-      if (ts - s.lastTs < FRAME_MS) { s.frameId = requestAnimationFrame(draw); return; }
+      if (!force && ts - s.lastTs < FRAME_MS) { s.frameId = requestAnimationFrame(draw); return; }
       s.lastTs = ts;
 
       const { W, H, particles, pausedRef, bgGrad, vigGrad, mx, my } = s;
