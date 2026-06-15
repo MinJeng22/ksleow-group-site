@@ -14,6 +14,18 @@ const SEARCH_INDEX = [
     )
   },
   {
+    title: "Company Gallery",
+    path: "/gallery",
+    keywords: "gallery, photos, photo album, company activity, team building, event, training, celebration, company event, 活动, 团建, 公司活动",
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="5" width="18" height="14" rx="2"/>
+        <circle cx="8.5" cy="10.5" r="1.5"/>
+        <path d="m21 15-5-5L5 19"/>
+      </svg>
+    )
+  },
+  {
     title: "AutoCount Accounting",
     path: "/products/autocount-accounting",
     keywords: "autocount, accounting, software, ledger, invoice, system, finance, business",

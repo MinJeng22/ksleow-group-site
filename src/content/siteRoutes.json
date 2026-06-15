@@ -70,5 +70,14 @@
     "category": "Utility",
     "priority": "0.4",
     "changefreq": "monthly"
+  },
+  {
+    "id": "gallery",
+    "route": "/gallery",
+    "title": "Company Gallery",
+    "description": "K.S. Leow Group activity and team building photo gallery for company events, training days, celebrations, and team moments.",
+    "category": "Company",
+    "priority": "0.6",
+    "changefreq": "monthly"
   }
 ]

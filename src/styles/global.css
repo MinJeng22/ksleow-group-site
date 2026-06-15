@@ -192,6 +192,32 @@ textarea {
   box-shadow: 0 -24px 60px rgba(15,17,40,0.18);
 }
 
+@media (max-width: 767px) {
+  .home-pinned-layout {
+    isolation: auto;
+  }
+
+  .home-hero-layer {
+    position: relative;
+    inset: auto;
+    height: auto;
+    min-height: 100svh;
+    z-index: 1;
+    contain: paint;
+  }
+
+  .home-hero-layer #hero {
+    height: auto;
+    min-height: 100svh;
+  }
+
+  .home-content-layer {
+    margin-top: 0;
+    box-shadow: none;
+    isolation: isolate;
+  }
+}
+
 .pinned-hero-page {
   --pinned-hero-height: clamp(380px, 45vh, 480px);
   position: relative;

@@ -7,6 +7,7 @@
   <url><loc>https://ksleow.vercel.app/apps/autocount-plugin</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://ksleow.vercel.app/apps/sales2do</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://ksleow.vercel.app/omni</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ksleow.vercel.app/gallery</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://ksleow.vercel.app/quotation</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
   <url><loc>https://ksleow.vercel.app/kb/index.json</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
 </urlset>

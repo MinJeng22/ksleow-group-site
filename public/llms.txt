@@ -11,6 +11,7 @@ This website provides information about K.S. Leow Group services, AutoCount Acco
 - AutoCount Plugin: https://ksleow.vercel.app/kb/autocount-plugin.txt
 - Sales2DO AutoCount Plugin: https://ksleow.vercel.app/kb/sales2do.txt
 - KS Omni AI Assistant: https://ksleow.vercel.app/kb/ks-omni.txt
+- Company Gallery: https://ksleow.vercel.app/kb/gallery.txt
 - Quotation PDF Viewer: https://ksleow.vercel.app/kb/quotation.txt
 
 ## Crawling Guidance

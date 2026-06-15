@@ -36,6 +36,7 @@ const MEGA_MENU = [
       { label: "Printing / Advertising / Design", scrollTo: "#supaprintz-card", icon: "printer" },
       { label: "SiteGiant Integration",           scrollTo: "#sitegiant-card", icon: "link" },
       { label: "KS Omni (AI Assistant)",           path: "/omni", icon: "chat" },
+      { label: "Company Gallery",                  path: "/gallery", icon: "image" },
     ],
   },
 ];
@@ -92,6 +93,8 @@ function NavIcon({ name, size = 16 }) {
       return <svg {...common}><path d="M12 22v-5" /><path d="M9 8V2" /><path d="M15 8V2" /><path d="M6 8h12v3a6 6 0 0 1-12 0V8Z" /></svg>;
     case "link":
       return <svg {...common}><path d="M10 13a5 5 0 0 0 7.54.54l2-2a5 5 0 0 0-7.07-7.07l-1.15 1.15" /><path d="M14 11a5 5 0 0 0-7.54-.54l-2 2a5 5 0 0 0 7.07 7.07l1.15-1.15" /></svg>;
+    case "image":
+      return <svg {...common}><rect x="3" y="5" width="18" height="14" rx="2" /><circle cx="8.5" cy="10.5" r="1.5" /><path d="m21 15-5-5L5 19" /></svg>;
     case "bot":
       return <svg {...common}><rect x="4" y="8" width="16" height="12" rx="3" /><path d="M12 8V4" /><path d="M8 12h.01M16 12h.01" /><path d="M9 16h6" /></svg>;
     case "chat":

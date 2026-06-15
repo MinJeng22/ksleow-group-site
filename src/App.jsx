@@ -15,6 +15,7 @@ import AutoCountPluginsPage    from "./pages/apps/AutoCountPlugins";
 import Sales2DOPage            from "./pages/apps/Sales2DO";
 import KSOmniPage              from "./pages/KSOmni";
 import QuotationViewerPage     from "./pages/QuotationViewer";
+import GalleryPage             from "./pages/Gallery";
 import siteRoutes from "./content/siteRoutes.json";
 
 import "./styles/global.css";
@@ -40,6 +41,7 @@ export function AppShell({ openContact, modalOpen, setModalOpen, searchOpen, set
         <Route path={routePath.sales2do} element={<Sales2DOPage onContact={openContact} />} />
         <Route path={routePath["ks-omni"]} element={<KSOmniPage onContact={openContact} />} />
         <Route path={routePath.quotation} element={<QuotationViewerPage />} />
+        <Route path={routePath.gallery} element={<GalleryPage />} />
       </Routes>
 
       <ContactModal open={modalOpen} onClose={() => setModalOpen(false)} />

@@ -206,6 +206,48 @@ collections:
               - { name: route, label: Internal link (optional), widget: string, required: false }
               - { name: modal, label: Modal key (optional), widget: string, required: false }
 
+      # Gallery
+      - file: src/content/gallery.json
+        name: gallery
+        label: Gallery / Company Activities
+        media_folder: "/public/images/gallery"
+        public_folder: "/images/gallery"
+        fields:
+          - { name: eyebrow, label: Eyebrow, widget: string }
+          - { name: heading, label: Page heading, widget: string }
+          - { name: intro, label: Intro paragraph, widget: text }
+          - name: categories
+            label: Categories
+            widget: list
+            min: 1
+            fields:
+              - { name: label, label: Label, widget: string }
+              - { name: value, label: Value, widget: string }
+          - name: items
+            label: Gallery Albums
+            widget: list
+            fields:
+              - { name: title, label: Album title, widget: string }
+              - name: category
+                label: Category
+                widget: select
+                options:
+                  - { label: "Activity / 活动", value: activity }
+                  - { label: "Team Building / 团建", value: team-building }
+                default: activity
+              - { name: date, label: Date, widget: datetime, required: false, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+              - { name: location, label: Location, widget: string, required: false }
+              - { name: cover, label: Cover image, widget: image, required: false }
+              - { name: description, label: Short description, widget: text, required: false }
+              - name: photos
+                label: Photos
+                widget: list
+                required: false
+                fields:
+                  - { name: image, label: Image, widget: image }
+                  - { name: caption, label: Caption, widget: string, required: false }
+                  - { name: alt, label: Alt text, widget: string, required: false }
+
       # ───────── Careers ─────────
       - file: src/content/careers.json
         name: careers

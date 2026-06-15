@@ -1,0 +1,30 @@
+{
+  "eyebrow": "Company Gallery",
+  "heading": "Moments From Our Team",
+  "intro": "A growing collection of K.S. Leow Group activities, team building moments, training days, celebrations, and company memories.",
+  "categories": [
+    {
+      "label": "All",
+      "value": "all"
+    },
+    {
+      "label": "Activities",
+      "value": "activity"
+    },
+    {
+      "label": "Team Building",
+      "value": "team-building"
+    }
+  ],
+  "items": [
+    {
+      "title": "Company Activity",
+      "category": "activity",
+      "date": "",
+      "location": "K.S. Leow Group",
+      "cover": "/images/branding/service-card-back.webp",
+      "description": "Add company activity photos, captions, and album details from Decap CMS.",
+      "photos": []
+    }
+  ]
+}

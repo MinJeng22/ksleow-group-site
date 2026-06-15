@@ -88,7 +88,7 @@ function releaseText(release) {
 async function main() {
   await mkdir(kbDir, { recursive: true });
 
-  const [siteRoutes, products, services, otherServices, plugins, releases, cloudReleases, sales2do] = await Promise.all([
+  const [siteRoutes, products, services, otherServices, plugins, releases, cloudReleases, sales2do, gallery] = await Promise.all([
     readJson("src/content/siteRoutes.json"),
     readJson("src/content/products.json"),
     readJson("src/content/services.json"),
@@ -97,6 +97,7 @@ async function main() {
     readJson("src/content/autocountReleases.json"),
     readJson("src/content/autocountCloudReleases.json"),
     readJson("src/content/sales2do.json"),
+    readJson("src/content/gallery.json"),
   ]);
 
   const productItems = products.items || [];
@@ -105,6 +106,7 @@ async function main() {
   const pluginItems = (plugins.sections || []).flatMap((section) =>
     (section.items || []).map((item) => ({ ...item, collection: section.label }))
   );
+  const galleryItems = gallery.items || [];
   const routeById = Object.fromEntries(siteRoutes.map((route) => [route.id, route]));
   const latestAccountingRelease = releases[0];
   const latestCloudRelease = cloudReleases[0];
@@ -230,6 +232,33 @@ async function main() {
       sections: [
         { heading: "Purpose", body: "KS Omni helps customers ask product, software, service, and quotation questions through a guided AI assistant experience." },
         { heading: "Knowledge base integration", body: "The assistant can use the public /kb structured content layer for clean retrieval of product, service, plugin, and quotation information." },
+      ],
+    }),
+    doc({
+      slug: "gallery",
+      title: routeById.gallery.title,
+      description: routeById.gallery.description,
+      route: routeById.gallery.route,
+      category: routeById.gallery.category,
+      facts: {
+        categories: (gallery.categories || []).map((category) => `${category.label}: ${category.value}`),
+        albums: galleryItems.map((item) => [
+          item.title,
+          item.category ? `category ${item.category}` : "",
+          item.date ? `date ${item.date}` : "",
+          item.location ? `location ${item.location}` : "",
+          item.description || "",
+        ].filter(Boolean).join(", ")),
+      },
+      sections: [
+        { heading: gallery.heading || "Company Gallery", body: gallery.intro || "" },
+        {
+          heading: "Gallery albums",
+          body: galleryItems.map((item) => {
+            const photoCount = Array.isArray(item.photos) ? item.photos.length : 0;
+            return `${item.title}: ${item.description || "Company activity album"} (${item.category || "gallery"}, ${photoCount} photos)`;
+          }),
+        },
       ],
     }),
     doc({

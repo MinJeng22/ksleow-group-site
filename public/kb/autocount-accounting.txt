@@ -1,5 +1,5 @@
 AutoCount Accounting 2.2
-Desktop accounting software for Malaysian SMEs with SST, e-Invoice, inventory, sales, purchase, and reporting workflows.
+Desktop accounting software for Malaysian SMEs with SST, e‑Invoice, inventory, sales, purchase, and reporting workflows.
 URL: https://ksleow.vercel.app/products/autocount-accounting
 Category: Product
 whatsapp: +60 17-905 2323

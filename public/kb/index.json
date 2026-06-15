@@ -14,7 +14,7 @@
   {
     "id": "autocount-accounting",
     "title": "AutoCount Accounting 2.2",
-    "description": "Desktop accounting software for Malaysian SMEs with SST, e-Invoice, inventory, sales, purchase, and reporting workflows.",
+    "description": "Desktop accounting software for Malaysian SMEs with SST, e‑Invoice, inventory, sales, purchase, and reporting workflows.",
     "url": "https://ksleow.vercel.app/products/autocount-accounting",
     "route": "/products/autocount-accounting",
     "category": "Product",
@@ -26,7 +26,7 @@
   {
     "id": "autocount-cloud-accounting",
     "title": "AutoCount CloudAccounting",
-    "description": "Browser-based AutoCount CloudAccounting with e-Invoice, AI SmartScan, bank connection, and anytime access.",
+    "description": "Browser‑based AutoCount CloudAccounting with e‑Invoice, AI SmartScan, bank connection, and anytime access.",
     "url": "https://ksleow.vercel.app/products/autocount-cloud-accounting",
     "route": "/products/autocount-cloud-accounting",
     "category": "Product",
@@ -82,6 +82,18 @@
     "priority": "0.7",
     "kbJson": "https://ksleow.vercel.app/kb/ks-omni.json",
     "kbText": "https://ksleow.vercel.app/kb/ks-omni.txt"
+  },
+  {
+    "id": "gallery",
+    "title": "Company Gallery",
+    "description": "K.S. Leow Group activity and team building photo gallery for company events, training days, celebrations, and team moments.",
+    "url": "https://ksleow.vercel.app/gallery",
+    "route": "/gallery",
+    "category": "Company",
+    "changefreq": "monthly",
+    "priority": "0.6",
+    "kbJson": "https://ksleow.vercel.app/kb/gallery.json",
+    "kbText": "https://ksleow.vercel.app/kb/gallery.txt"
   },
   {
     "id": "quotation",
