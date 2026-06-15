@@ -12,9 +12,6 @@ export default function Hero({ onContact }) {
    * them downward. Fades out as soon as they start scrolling. */
   const [hintShown, setHintShown] = useState(false);
   const hintRef = useRef(null);
-  const suspendParticlesRef = useRef(false);
-  const [isMobileViewport, setIsMobileViewport] = useState(false);
-  const [suspendParticles, setSuspendParticles] = useState(false);
 
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 120);
@@ -44,12 +41,6 @@ export default function Hero({ onContact }) {
         hintRef.current.style.opacity = opacity;
         hintRef.current.style.pointerEvents = opacity > 0 ? "auto" : "none";
       }
-
-      const shouldSuspend = isMobileViewport && y > 120;
-      if (suspendParticlesRef.current !== shouldSuspend) {
-        suspendParticlesRef.current = shouldSuspend;
-        setSuspendParticles(shouldSuspend);
-      }
     };
     const onScroll = () => {
       if (rafId) return;
@@ -61,7 +52,7 @@ export default function Hero({ onContact }) {
       if (rafId) cancelAnimationFrame(rafId);
       window.removeEventListener("scroll", onScroll);
     };
-  }, [hintShown, isMobileViewport]);
+  }, [hintShown]);
 
   const logoH = "clamp(80px, 11vw, 140px)";
 
@@ -69,7 +60,6 @@ export default function Hero({ onContact }) {
   useEffect(() => {
     const update = () => {
       const width = window.innerWidth;
-      setIsMobileViewport(width < 768);
       if (width < 640) {
         setDensity(0.42);
       } else if (width < 1280) {
@@ -97,10 +87,10 @@ export default function Hero({ onContact }) {
       }}
     >
       <ParticleBackground
-        active={!paused && !suspendParticles}
-        paused={paused || suspendParticles}
+        active={!paused}
+        paused={paused}
         densityScale={density}
-        mobileDensityScale={0.45}
+        mobileDensityScale={0.85}
       />
 
       {/*
