@@ -66,13 +66,17 @@ async function main() {
   const template = await readFile(path.join(distDir, "index.html"), "utf8");
   const index = JSON.parse(await readFile(path.join(kbDir, "index.json"), "utf8"));
   
-  const serverEntry = path.join(distDir, "server", "entry-server.js");
+  const serverEntry = path.join(distDir, "server", "entry-server.cjs");
+  
+  // Use import() to load the CJS file (it will be wrapped in a default export)
   const ssrModule = await import(pathToFileURL(serverEntry).href);
-  console.log("SSR Module exports:", Object.keys(ssrModule));
+  console.log("SSR Module default export keys:", Object.keys(ssrModule.default || {}));
+  
+  // Extract render safely
   const render = ssrModule.render || ssrModule.default?.render || (typeof ssrModule.default === "function" ? ssrModule.default : undefined);
 
   if (typeof render !== 'function') {
-    throw new Error(`SSG Error: 'render' is not a function. Check your entry-server export. Actual exports: ${Object.keys(ssrModule)}`);
+    throw new Error(`SSG Error: 'render' is not a function. Check your entry-server export. Actual exports: ${Object.keys(ssrModule.default || ssrModule)}`);
   }
 
   for (const item of index) {
