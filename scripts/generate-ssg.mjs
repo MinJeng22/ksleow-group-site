@@ -1,11 +1,10 @@
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+﻿import { mkdir, readFile, writeFile, readdir } from "node:fs/promises"; // 💡 增加了 readdir 用来读取目录
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 
 const root = process.cwd();
 const distDir = path.join(root, "dist");
 const kbDir = path.join(root, "public", "kb");
-const serverEntry = path.join(root, "dist", "server", "entry-server.js");
 const siteName = "K.S. Leow Group";
 
 function escapeHtml(value) {
@@ -63,9 +62,29 @@ async function writeRouteHtml(template, doc, render) {
   await writeFile(path.join(routeDir, "index.html"), html);
 }
 
+// 💡 新增一个辅助函数：动态寻找带随机哈希的 entry-server 文件
+async function findServerEntry() {
+  const serverAssetsDir = path.join(root, "dist", "server", "assets");
+  try {
+    const files = await readdir(serverAssetsDir);
+    // 寻找长得像 entry-server-xxxxx.js 的文件
+    const match = files.find(f => f.startsWith("entry-server") && f.endsWith(".js"));
+    if (match) {
+      return path.join(serverAssetsDir, match);
+    }
+  } catch (e) {
+    // 如果 assets 目录不存在，退回到旧版路径兜底（比如某些本地旧缓存情况）
+    return path.join(root, "dist", "server", "entry-server.js");
+  }
+  throw new Error("Could not find entry-server file in dist/server/assets");
+}
+
 async function main() {
   const template = await readFile(path.join(distDir, "index.html"), "utf8");
   const index = JSON.parse(await readFile(path.join(kbDir, "index.json"), "utf8"));
+  
+  // 💡 动态获取真实的打包路径
+  const serverEntry = await findServerEntry();
   const { render } = await import(pathToFileURL(serverEntry).href);
 
   for (const item of index) {
