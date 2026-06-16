@@ -1,4 +1,4 @@
-﻿import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 
@@ -66,21 +66,11 @@ async function main() {
   const template = await readFile(path.join(distDir, "index.html"), "utf8");
   const index = JSON.parse(await readFile(path.join(kbDir, "index.json"), "utf8"));
   
-  // 💡 物理改名：强迫 Node.js 将它认定为纯正的 ESM 模块！
-  const oldPath = path.join(distDir, "server", "entry-server.js");
-  const newPath = path.join(distDir, "server", "entry-server.mjs");
-  
-  try {
-    await rename(oldPath, newPath);
-  } catch (e) {
-    // 忽略异常，确保流程继续
-  }
-
-  // 100% 完美的具名解构，再也不会报错了
-  const { render } = await import(pathToFileURL(newPath).href);
+  const serverEntry = path.join(distDir, "server", "entry-server.js");
+  const { render } = await import(pathToFileURL(serverEntry).href);
 
   if (typeof render !== 'function') {
-    throw new Error(`SSG Error: 'render' is still not a function. Check your entry-server export.`);
+    throw new Error(`SSG Error: 'render' is not a function. Check your entry-server export.`);
   }
 
   for (const item of index) {

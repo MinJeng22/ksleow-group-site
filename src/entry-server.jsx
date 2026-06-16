@@ -1,15 +1,14 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import { StrictMode } from "react";
+import { renderToString } from "react-dom/server";
+import { StaticRouter } from "react-router-dom/server";
+import { AppContent } from "./App.jsx";
 
-export default defineConfig(({ isSsrBuild }) => ({
-  plugins: [react()],
-  assetsInclude: ["**/*.png", "**/*.jpg", "**/*.jpeg", "**/*.svg", "**/*.gif"],
-  build: {
-    rollupOptions: {
-      output: {
-        format: isSsrBuild ? 'cjs' : 'es',
-        entryFileNames: isSsrBuild ? 'entry-server.cjs' : 'assets/[name]-[hash].js',
-      }
-    }
-  }
-}));
+export function render(url) {
+  return renderToString(
+    <StrictMode>
+      <StaticRouter location={url}>
+        <AppContent />
+      </StaticRouter>
+    </StrictMode>
+  );
+}
