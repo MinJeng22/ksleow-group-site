@@ -393,7 +393,7 @@ function EditionsTable({ selected = null, diffOnly = false, showPrices = false }
       <div className="ks-compare-wrap">
         <table className="ks-compare-table" style={{ 
           "--edition-count": cols.length,
-          "--mobile-table-width": cols.length > 3 ? `${cols.length * 120}px` : "100%"
+          "--mobile-table-width": cols.length > 3 ? `${cols.length * 75}px` : "100%"
         }}>
           <colgroup>
             <col className="ks-compare-col-feature" width="31%" />

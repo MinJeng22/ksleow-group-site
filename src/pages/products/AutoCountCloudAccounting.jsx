@@ -225,7 +225,7 @@ function EditionTable({ selected = null, diffOnly = false }) {
       <div className="ks-compare-wrap">
         <table className="ks-compare-table" style={{ 
           "--edition-count": cols.length,
-          "--mobile-table-width": cols.length > 3 ? `${cols.length * 120}px` : "100%"
+          "--mobile-table-width": cols.length > 3 ? `${cols.length * 75}px` : "100%"
         }}>
           <thead className="ks-compare-thead">
             <tr style={{ "--th-bg": "#16a14b" }}>

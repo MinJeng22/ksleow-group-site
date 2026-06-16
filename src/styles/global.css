@@ -2586,6 +2586,9 @@ body.has-active-modal .back-to-top-glass {
 
 .ks-compare-edition-name {
   min-height: 2.35em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .ks-compare-edition-price {
@@ -2690,6 +2693,14 @@ body.has-active-modal .back-to-top-glass {
   .ks-compare-wrap {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  .ks-compare-thead {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 10 !important;
   }
 
   .ks-compare-table {
