@@ -5,6 +5,7 @@ export default defineConfig(({ isSsrBuild }) => ({
   plugins: [react()],
   assetsInclude: ["**/*.png", "**/*.jpg", "**/*.jpeg", "**/*.svg", "**/*.gif"],
   build: {
+    copyPublicDir: !isSsrBuild,
     rollupOptions: {
       preserveEntrySignatures: "strict",
       output: {
