@@ -85,7 +85,12 @@ async function main() {
   
   // 💡 动态获取真实的打包路径
   const serverEntry = await findServerEntry();
-  const { render } = await import(pathToFileURL(serverEntry).href);
+const module = await import(pathToFileURL(serverEntry).href);
+const render = module.render || module.default;
+
+if (typeof render !== 'function') {
+  throw new Error("Detected that 'render' is not a function. Check your entry-server export structure.");
+}
 
   for (const item of index) {
     const doc = JSON.parse(await readFile(path.join(kbDir, `${item.id}.json`), "utf8"));
