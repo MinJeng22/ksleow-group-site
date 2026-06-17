@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 
 import ContactModal  from "./components/ContactModal";
 import BackToTop     from "./components/BackToTop";
@@ -51,6 +51,16 @@ export function AppShell({ openContact, openSearch, modalOpen, setModalOpen, sea
 export function AppContent() {
   const [modalOpen, setModalOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    const currentRoute = siteRoutes.find((r) => r.route === location.pathname);
+    if (currentRoute) {
+      document.title = currentRoute.route === "/" 
+        ? "K.S. Leow Group | AutoCount Authorized Dealer, Mentakab, Pahang"
+        : `${currentRoute.title} | K.S. Leow Group`;
+    }
+  }, [location.pathname]);
   const openContact = () => runWithProgressFeedback(
     () => setModalOpen(true),
     { assets: ["/images/icons/favicon.webp", "/images/branding/service-card-back.webp"] }
