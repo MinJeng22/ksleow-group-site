@@ -37,7 +37,6 @@ const MEGA_MENU = [
       { label: "Printing / Advertising / Design", scrollTo: "#supaprintz-card", icon: "printer" },
       { label: "SiteGiant Integration",           scrollTo: "#sitegiant-card", icon: "link" },
       { label: "KS Omni (AI Assistant)",           path: "/omni", icon: "chat" },
-      { label: "Company Gallery",                  path: "/gallery", icon: "image" },
     ],
   },
 ];

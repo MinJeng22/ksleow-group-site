@@ -7,6 +7,7 @@ import branding from "../content/branding.json";
 export default function Hero({ onContact }) {
   const [paused, setPaused]     = useState(false);
   const [visible, setVisible]   = useState(false);
+  const [introSettled, setIntroSettled] = useState(false);
   /* Scroll hint appears 5 seconds after the page settles — gives the
    * viewer time to read the hero copy first, then quietly invites
    * them downward. Fades out as soon as they start scrolling. */
@@ -14,8 +15,12 @@ export default function Hero({ onContact }) {
   const hintRef = useRef(null);
 
   useEffect(() => {
-    const t = setTimeout(() => setVisible(true), 120);
-    return () => clearTimeout(t);
+    const showTimer = setTimeout(() => setVisible(true), 120);
+    const settleTimer = setTimeout(() => setIntroSettled(true), 1400);
+    return () => {
+      clearTimeout(showTimer);
+      clearTimeout(settleTimer);
+    };
   }, []);
 
   useEffect(() => {
@@ -116,8 +121,15 @@ export default function Hero({ onContact }) {
           paddingTop: "clamp(76px, 10vh, 110px)",
           paddingBottom: "clamp(56px, 9vh, 90px)",
           opacity: visible ? 1 : 0,
-          transform: visible ? "translateY(0)" : "translateY(28px)",
-          transition: "opacity 1.1s ease, transform 1.1s ease",
+          transform: visible
+            ? introSettled ? "none" : "translate3d(0, 0, 0)"
+            : "translate3d(0, 28px, 0)",
+          transition: introSettled
+            ? "opacity 1.1s ease"
+            : "opacity 1.1s ease, transform 1.1s ease",
+          willChange: introSettled ? "auto" : "opacity, transform",
+          backfaceVisibility: "hidden",
+          WebkitBackfaceVisibility: "hidden",
         }}
       >
         {/* ── Logo + badge group ── */}
@@ -197,16 +209,8 @@ export default function Hero({ onContact }) {
           {/* Buttons — always side-by-side */}
           <div className="hero-btns" style={{ display: "flex", gap: "0.85rem", flexWrap: "nowrap" }}>
             <button
+              className="hero-primary-cta"
               onClick={onContact}
-              style={{
-                background: "#c9a84c", color: "#1e2040",
-                padding: "0.75rem 1.75rem", borderRadius: 50,
-                fontSize: "0.88rem", fontWeight: 700,
-                border: "none", cursor: "pointer", fontFamily: "inherit",
-                whiteSpace: "nowrap", transition: "opacity 0.2s",
-              }}
-              onMouseOver={e => e.currentTarget.style.opacity = "0.85"}
-              onMouseOut={e => e.currentTarget.style.opacity = "1"}
             >
               {hero.primaryButton}
             </button>
