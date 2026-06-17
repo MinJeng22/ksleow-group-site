@@ -250,6 +250,7 @@ export function BentoCard({ item, index, layoutClass = "", image, onOpen, onPrel
 
   const handleOpen = (e) => {
     if (clickable && onOpen) {
+      handlePreload("high");
       if (linkHref && linkTarget !== "_blank") {
         e?.preventDefault();
         onOpen(item, index);
@@ -259,9 +260,9 @@ export function BentoCard({ item, index, layoutClass = "", image, onOpen, onPrel
     }
   };
 
-  const handlePreload = () => {
+  const handlePreload = (priority = "low") => {
     if (clickable && onPreload) {
-      onPreload(item, index);
+      onPreload(item, index, priority);
     }
   };
 
@@ -277,8 +278,9 @@ export function BentoCard({ item, index, layoutClass = "", image, onOpen, onPrel
       id={item?.modal ? `${item.modal}-card` : undefined}
       className={`ks-bento-card ${layoutClass}${shapeClass}${clickable ? " is-clickable" : ""}${isEmpty ? " is-empty" : ""}`}
       onClick={clickable ? handleOpen : undefined}
-      onPointerEnter={clickable ? handlePreload : undefined}
-      onFocus={clickable ? handlePreload : undefined}
+      onPointerEnter={clickable ? () => handlePreload("low") : undefined}
+      onPointerDown={clickable ? () => handlePreload("high") : undefined}
+      onFocus={clickable ? () => handlePreload("low") : undefined}
       onKeyDown={clickable ? (event) => {
         if (event.key !== "Enter" && event.key !== " ") return;
         if (!linkHref) {

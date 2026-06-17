@@ -86,24 +86,31 @@ function ProductCard({ product, productIndex, order, hovered, revealed, animateR
     setMousePos({ x: 0, y: 0 });
   };
 
-  const handlePreload = () => {
+  const handlePreload = (priority = "low") => {
     onHover(productIndex);
     if (!clickable) return;
-    onPreload?.(product.route);
+    onPreload?.(product.route, priority);
+  };
+
+  const handleOpen = () => {
+    if (!clickable) return;
+    handlePreload("high");
+    onOpen(product.route);
   };
 
   return (
     <div
-      onMouseEnter={handlePreload}
-      onFocus={handlePreload}
+      onMouseEnter={() => handlePreload("low")}
+      onFocus={() => handlePreload("low")}
+      onPointerDown={() => handlePreload("high")}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       id={product.name.replace(/\s+/g, '').toLowerCase() + '-card'}
-      onClick={() => clickable && onOpen(product.route)}
+      onClick={handleOpen}
       onKeyDown={(event) => {
         if (!clickable || (event.key !== "Enter" && event.key !== " ")) return;
         event.preventDefault();
-        onOpen(product.route);
+        handleOpen();
       }}
       role={clickable ? "button" : undefined}
       tabIndex={clickable ? 0 : undefined}
@@ -422,7 +429,7 @@ export default function Products({ onContact }) {
                 onHover={setHovered}
                 onLeave={() => setHovered(null)}
                 onOpen={(route) => route ? navigateWithRouteFeedback(navigate, route) : null}
-                onPreload={(route) => preloadRouteAssets(route)}
+                onPreload={(route, priority = "low") => preloadRouteAssets(route, priority)}
               />
             ))}
             </div>

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import useDarkBg from "../hooks/useDarkBg";
 import { SearchIcon, BackIcon, MenuIcon, ToTopIcon, ScrollDownIcon } from "./icons";
-import { navigateWithRouteFeedback, preloadRouteAssets } from "../utils/routeTransitions.js";
+import { navigateWithRouteFeedback, preloadImages, preloadRouteAssets } from "../utils/routeTransitions.js";
 
 /* ── Mega Menu Data ─────────────────────────────────────── */
 const MEGA_MENU = [
@@ -40,6 +40,14 @@ const MEGA_MENU = [
     ],
   },
 ];
+
+const OTHER_SERVICE_MODAL_ASSETS = {
+  supaprintz: [
+    "/images/partners/supaprintz-desktop.webp",
+    "/images/partners/supaprintz-desktop.webp",
+  ],
+  sitegiant: ["/images/other-services/sitegiant.webp"],
+};
 
 function NavIcon({ name, size = 16 }) {
   const common = {
@@ -745,6 +753,7 @@ export default function MenuButton({ onOpenSearch, hideBar }) {
   /* ── Menu item action handler ── */
   const handleMenuAction = (item) => {
     setOpen(false);
+    preloadMenuItem(item, "high");
 
     if (item.path) {
       navigateWithRouteFeedback(navigate, item.path);
@@ -816,6 +825,19 @@ export default function MenuButton({ onOpenSearch, hideBar }) {
 
   const handleMobileBack = () => {
     navigateWithRouteFeedback(navigate, -1);
+  };
+
+  const preloadMenuItem = (item, priority = "low") => {
+    if (item.path) {
+      preloadRouteAssets(item.path, priority);
+      return;
+    }
+
+    if (item.scrollTo === "#supaprintz-card") {
+      preloadImages(OTHER_SERVICE_MODAL_ASSETS.supaprintz, priority);
+    } else if (item.scrollTo === "#sitegiant-card") {
+      preloadImages(OTHER_SERVICE_MODAL_ASSETS.sitegiant, priority);
+    }
   };
 
   if (!mounted) return null;
@@ -1010,8 +1032,9 @@ export default function MenuButton({ onOpenSearch, hideBar }) {
                   key={ii}
                   className={`menu-sub-item${item.path === pathname ? " is-active" : ""}`}
                   onClick={() => handleMenuAction(item)}
-                  onMouseEnter={() => item.path && preloadRouteAssets(item.path)}
-                  onFocus={() => item.path && preloadRouteAssets(item.path)}
+                  onMouseEnter={() => preloadMenuItem(item)}
+                  onPointerDown={() => preloadMenuItem(item, "high")}
+                  onFocus={() => preloadMenuItem(item)}
                   role="menuitem"
                 >
                   <span className="menu-sub-icon"><NavIcon name={item.icon} size={14} /></span>

@@ -135,6 +135,7 @@ export default function GlobalSearch({ open, onClose }) {
       } else if (e.key === "Enter") {
         e.preventDefault();
         if (results.length > 0 && results[selectedIndex]) {
+          preloadRouteAssets(results[selectedIndex].path, "high");
           navigateWithRouteFeedback(navigate, results[selectedIndex].path);
           onClose();
         }
@@ -314,7 +315,9 @@ export default function GlobalSearch({ open, onClose }) {
                 <div 
                   key={item.path} 
                   className={`search-result-item ${index === selectedIndex ? 'is-selected' : ''}`}
+                  onPointerDown={() => preloadRouteAssets(item.path, "high")}
                   onClick={() => {
+                    preloadRouteAssets(item.path, "high");
                     navigateWithRouteFeedback(navigate, item.path);
                     onClose();
                   }}

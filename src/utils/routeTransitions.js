@@ -5,7 +5,8 @@ import servicesContent from "../content/services.json";
 
 const DEFAULT_PRODUCT_HERO = "/images/products/autocount-accounting-hero.webp";
 const TRANSITION_DELAY_MS = 300;
-const warmedImages = new Set();
+const warmedImages = new Map();
+const preloadLinks = new Set();
 let pendingNavigationTimer = null;
 let pendingFeedbackTimer = null;
 
@@ -67,6 +68,24 @@ function compactUnique(values) {
   return [...new Set(values.filter((src) => typeof src === "string" && src.trim()))];
 }
 
+function getPriorityRank(priority) {
+  if (priority === "high") return 3;
+  if (priority === "low") return 1;
+  return 2;
+}
+
+function addImagePreloadLink(src, priority) {
+  if (priority !== "high" || typeof document === "undefined" || preloadLinks.has(src)) return;
+
+  preloadLinks.add(src);
+  const link = document.createElement("link");
+  link.rel = "preload";
+  link.as = "image";
+  link.href = src;
+  link.fetchPriority = "high";
+  document.head.appendChild(link);
+}
+
 function getPathname(to) {
   if (!to || typeof to !== "string") return "";
   try {
@@ -80,8 +99,14 @@ export function preloadImages(sources, priority = "low") {
   if (typeof window === "undefined" || typeof Image === "undefined") return;
 
   compactUnique(sources).forEach((src) => {
-    if (warmedImages.has(src)) return;
-    warmedImages.add(src);
+    const rank = getPriorityRank(priority);
+    const previousRank = warmedImages.get(src) || 0;
+    if (previousRank >= rank) return;
+    warmedImages.set(src, rank);
+
+    if (previousRank > 0) {
+      addImagePreloadLink(src, priority);
+    }
 
     const img = new Image();
     img.decoding = "async";

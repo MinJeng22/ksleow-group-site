@@ -2040,6 +2040,23 @@ body.partner-modal-open .mobile-float-bar {
 
 .products-section .product-card {
   border-radius: 0 !important;
+  isolation: isolate;
+  position: relative;
+}
+
+.products-section .product-card-media {
+  isolation: isolate;
+}
+
+.products-section .product-card-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+    inset 0 0 0 1px rgba(47, 49, 90, 0.1);
 }
 
 .products-section .products-carousel-controls-side {

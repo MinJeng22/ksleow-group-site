@@ -287,15 +287,16 @@ export default function OtherServices({ onContact }) {
   };
 
   const openService = (service) => {
+    preloadService(service, "high");
     if (service.modal === "supaprintz") openPartnerModal("supaprintz");
     else if (service.modal === "sitegiant") openPartnerModal("sitegiant");
     else if (service.route) navigateWithRouteFeedback(navigate, service.route);
   };
 
-  const preloadService = (service) => {
-    if (service.route) preloadRouteAssets(service.route);
-    else if (service.modal === "supaprintz") preloadImages(SUPAPRINTZ_MODAL_IMAGES, "high");
-    else if (service.modal === "sitegiant") preloadImages([SITEGIANT_PARTNER.image], "high");
+  const preloadService = (service, priority = "low") => {
+    if (service.route) preloadRouteAssets(service.route, priority);
+    else if (service.modal === "supaprintz") preloadImages(SUPAPRINTZ_MODAL_IMAGES, priority);
+    else if (service.modal === "sitegiant") preloadImages([SITEGIANT_PARTNER.image], priority);
   };
 
   return (
