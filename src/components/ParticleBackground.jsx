@@ -35,6 +35,7 @@ const FRAME_MS    = 1000 / TARGET_FPS;
 const MAX_DPR     = 1;
 const MOUSE_R     = 150;
 const MOUSE_R_SQ  = MOUSE_R * MOUSE_R;
+const INTRO_FADE_MS = 520;
 
 function rand(a, b) { return Math.random() * (b - a) + a; }
 
@@ -82,6 +83,7 @@ export default function ParticleBackground({
     resizeTimer: null,  /* debounce handle */
     obstacleFrame: 0,
     retryFrame: 0,
+    introStart: 0,
   });
 
   useEffect(() => { stateRef.current.pausedRef = paused; }, [paused]);
@@ -132,6 +134,7 @@ export default function ParticleBackground({
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       s.W = W; s.H = H; s.lastW = W;
       s.maxH = H;
+      s.introStart = performance.now();
 
       s.bgGrad = ctx.createLinearGradient(0, 0, W * 0.5, H);
       s.bgGrad.addColorStop(0, backgroundStart);
@@ -198,6 +201,10 @@ export default function ParticleBackground({
      *    DO NOT reinitialise particles (prevents jump on mobile scroll) ── */
     function updateHeightOnly(W, H) {
       if (W < 2 || H < 2) return false;
+      if (W === s.W && H === s.H) {
+        updateObstacles();
+        return false;
+      }
       const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
       canvas.height = H * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -246,7 +253,8 @@ export default function ParticleBackground({
           initCanvas(W, H);
         } else {
           /* Height-only change (mobile browser chrome appearing/hiding): soft update */
-          updateHeightOnly(W, H);
+          const resized = updateHeightOnly(W, H);
+          if (resized && s.isIntersecting) draw(performance.now(), true);
         }
         
         if (s.isIntersecting && !s.frameId) {
@@ -275,6 +283,7 @@ export default function ParticleBackground({
 
       ctx.fillStyle = bgGrad;
       ctx.fillRect(0, 0, W, H);
+      const introAlpha = Math.min(1, Math.max(0, (ts - (s.introStart || ts)) / INTRO_FADE_MS));
 
       if (!pausedRef) {
         if (obstacleSelector && (s.obstacleFrame++ % 24 === 0)) updateObstacles();
@@ -309,7 +318,7 @@ export default function ParticleBackground({
         }
       }
       ctx.lineWidth = 0.8;
-      const alphas = [0.52, 0.34, 0.18, 0.07].map(a => a * lineAlphaScale);
+      const alphas = [0.52, 0.34, 0.18, 0.07].map(a => a * lineAlphaScale * introAlpha);
       for (let b = 0; b < BUCKETS; b++) {
         ctx.strokeStyle = `rgba(${lineRgb},${alphas[b]})`;
         ctx.stroke(paths[b]);
@@ -353,10 +362,10 @@ export default function ParticleBackground({
         dotPath.moveTo(p.x + p.r, p.y);
         dotPath.arc(p.x, p.y, p.r, 0, 6.2832);
       }
-      ctx.strokeStyle = `rgba(${dotOutlineRgb},${dotOutlineAlpha})`;
+      ctx.strokeStyle = `rgba(${dotOutlineRgb},${dotOutlineAlpha * introAlpha})`;
       ctx.lineWidth = dotOutlineWidth;
       ctx.stroke(dotPath);
-      ctx.fillStyle = `rgba(${dotRgb},${dotAlpha})`;
+      ctx.fillStyle = `rgba(${dotRgb},${dotAlpha * introAlpha})`;
       ctx.fill(dotPath);
 
       ctx.fillStyle = vigGrad;
