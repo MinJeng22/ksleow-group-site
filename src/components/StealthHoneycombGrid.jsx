@@ -56,16 +56,22 @@ export default function StealthHoneycombGrid({
       const target = titleGlowTarget ? document.querySelector(titleGlowTarget) : null;
       if (target) {
         const canvasRect = canvas.getBoundingClientRect();
-        const targetRect = target.getBoundingClientRect();
+        const range = document.createRange();
+        range.selectNodeContents(target);
+        const textRect = range.getBoundingClientRect();
+        range.detach?.();
+        const targetRect = textRect.width > 0 && textRect.height > 0
+          ? textRect
+          : target.getBoundingClientRect();
         const titleLeft = targetRect.left - canvasRect.left;
         const titleTop = targetRect.top - canvasRect.top;
         const titleWidth = targetRect.width;
         const titleHeight = targetRect.height;
         return {
-          centerX: titleLeft + titleWidth * 0.5,
+          centerX: titleLeft + titleWidth * 0.5 + radius * 0.52,
           centerY: titleTop + titleHeight * 0.5,
-          radiusX: Math.max(titleWidth * 0.52 + radius * 0.85, radius * 3.25),
-          radiusY: Math.max(titleHeight * 0.56 + radius * 0.42, radius * 1.35),
+          radiusX: Math.max(titleWidth * 0.72 + radius * 2.15, radius * 4.6),
+          radiusY: Math.max(titleHeight * 0.88 + radius * 0.92, radius * 2.15),
         };
       }
 
@@ -213,7 +219,7 @@ export default function StealthHoneycombGrid({
 
       for (const glowCell of s.persistentGlow) {
         const cell = s.cells[glowCell.index];
-        if (cell) drawGlowCell(cell, 0.26 + glowCell.intensity * 0.36, 1.52);
+        if (cell) drawGlowCell(cell, 0.42 + glowCell.intensity * 0.48, 1.66);
       }
 
       let keepAnimating = false;
