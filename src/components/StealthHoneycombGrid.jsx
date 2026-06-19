@@ -57,23 +57,25 @@ export default function StealthHoneycombGrid({
       if (target) {
         const canvasRect = canvas.getBoundingClientRect();
         const targetRect = target.getBoundingClientRect();
-        const left = targetRect.left - canvasRect.left;
-        const top = targetRect.top - canvasRect.top;
-        const width = targetRect.width;
-        const height = targetRect.height;
+        const titleLeft = targetRect.left - canvasRect.left;
+        const titleTop = targetRect.top - canvasRect.top;
+        const titleWidth = targetRect.width;
+        const titleHeight = targetRect.height;
+        const left = Math.max(0, titleLeft - radius * 1.35);
+        const width = Math.max(titleWidth + radius * 4, w < 768 ? w - left - radius * 0.7 : 430);
         return {
-          centerX: left + width * 0.5,
-          centerY: top + height * 0.58,
-          radiusX: Math.max(width * 0.82, radius * (w < 768 ? 5.4 : 6.4)),
-          radiusY: Math.max(height * 2.45, radius * (w < 768 ? 3.7 : 4.4)),
+          left,
+          right: Math.min(w, left + width),
+          top: Math.max(0, titleTop - radius * 1.2),
+          bottom: Math.min(h, titleTop + titleHeight + radius * 1.05),
         };
       }
 
       return {
-        centerX: w < 768 ? w * 0.5 : Math.min(w * 0.42, 560),
-        centerY: w < 768 ? 86 : 112,
-        radiusX: w < 768 ? w * 0.44 : Math.min(w * 0.23, 360),
-        radiusY: w < 768 ? 118 : 150,
+        left: w < 768 ? 24 : Math.min(w * 0.07, 88),
+        right: w < 768 ? w - 24 : Math.min(w * 0.07 + 430, 520),
+        top: w < 768 ? 42 : 82,
+        bottom: w < 768 ? 170 : 198,
       };
     }
 
@@ -104,15 +106,25 @@ export default function StealthHoneycombGrid({
         ? cells
           .map((cell, index) => ({ cell, index }))
           .map(({ cell, index }) => {
-            const nx = (cell.x - glowArea.centerX) / glowArea.radiusX;
-            const ny = (cell.y - glowArea.centerY) / glowArea.radiusY;
-            const distance = Math.sqrt(nx * nx + ny * ny);
+            if (
+              cell.x < glowArea.left ||
+              cell.x > glowArea.right ||
+              cell.y < glowArea.top ||
+              cell.y > glowArea.bottom
+            ) {
+              return { index, intensity: 0 };
+            }
+            const width = Math.max(1, glowArea.right - glowArea.left);
+            const height = Math.max(1, glowArea.bottom - glowArea.top);
+            const edgeX = Math.min(cell.x - glowArea.left, glowArea.right - cell.x) / width;
+            const edgeY = Math.min(cell.y - glowArea.top, glowArea.bottom - cell.y) / height;
+            const edgeBlend = Math.max(0, Math.min(1, Math.min(edgeX, edgeY) * 4));
             return {
               index,
-              intensity: Math.max(0, 1 - distance),
+              intensity: 0.62 + edgeBlend * 0.38,
             };
           })
-          .filter(({ intensity }) => intensity > 0.05)
+          .filter(({ intensity }) => intensity > 0)
         : [];
     }
 
