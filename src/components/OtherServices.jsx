@@ -306,7 +306,7 @@ export default function OtherServices({ onContact }) {
     <StealthHoneycombGrid
       background="transparent"
       lineRgb="226,227,234"
-      glowRgb="245,245,248"
+      glowRgb="201,168,76"
       fullCellsOnly
       titleGlowTarget=".other-services-section .ks-section-title"
       lineOpacity={0.62}
