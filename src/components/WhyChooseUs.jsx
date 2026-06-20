@@ -205,10 +205,11 @@ export default function WhyChooseUs({ section, sectionFrom = "var(--ks-page-clou
               -webkit-backface-visibility: hidden;
             }
             .ac-awards-marquee-track {
-              gap: 1rem;
+              gap: 0 !important;
             }
             .ac-awards-year {
               gap: 0.18rem;
+              padding-right: 1rem;
             }
             .ac-awards-item {
               width: auto;
