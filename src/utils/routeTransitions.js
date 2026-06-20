@@ -245,49 +245,57 @@ function readRouteReturnTarget(pathname) {
 function restoreRoutePosition(target) {
   if (typeof window === "undefined" || !target) return;
   let cancelled = false;
+  let ignoreProgrammaticScrollUntil = 0;
   const timers = [];
+  const documentElement = document.documentElement;
+  const previousScrollBehavior = documentElement.style.scrollBehavior;
 
   const cleanup = () => {
+    timers.forEach((timer) => window.clearTimeout(timer));
+    documentElement.style.scrollBehavior = previousScrollBehavior;
     window.removeEventListener("wheel", cancelRestore);
     window.removeEventListener("touchmove", cancelRestore);
     window.removeEventListener("pointerdown", cancelRestore);
     window.removeEventListener("keydown", cancelRestore);
+    window.removeEventListener("scroll", cancelOnManualScroll);
   };
 
   const cancelRestore = () => {
     cancelled = true;
-    timers.forEach((timer) => window.clearTimeout(timer));
     cleanup();
+  };
+
+  const cancelOnManualScroll = () => {
+    if (performance.now() < ignoreProgrammaticScrollUntil) return;
+    cancelRestore();
   };
 
   const apply = () => {
     if (cancelled) return;
-    if (target.anchor) {
+    const hasSavedY = Number.isFinite(Number(target.y));
+    let top = Math.max(0, Number(target.y) || 0);
+    if (!hasSavedY && target.anchor) {
       const el = document.querySelector(target.anchor);
       if (el) {
-        const top = el.getBoundingClientRect().top + window.scrollY - 20;
-        window.scrollTo({ top: Math.max(0, top), left: 0, behavior: "instant" });
-        return;
+        top = Math.max(0, el.getBoundingClientRect().top + window.scrollY - 20);
       }
     }
-    window.scrollTo({ top: Math.max(0, Number(target.y) || 0), left: 0, behavior: "instant" });
+    ignoreProgrammaticScrollUntil = performance.now() + 160;
+    window.scrollTo({ top, left: 0, behavior: "auto" });
   };
 
   window.addEventListener("wheel", cancelRestore, { passive: true });
   window.addEventListener("touchmove", cancelRestore, { passive: true });
   window.addEventListener("pointerdown", cancelRestore, { passive: true });
   window.addEventListener("keydown", cancelRestore, { passive: true });
+  window.addEventListener("scroll", cancelOnManualScroll, { passive: true });
 
+  documentElement.style.scrollBehavior = "auto";
   apply();
-  window.requestAnimationFrame(apply);
-  timers.push(
-    window.setTimeout(apply, 80),
-    window.setTimeout(apply, 220),
-    window.setTimeout(() => {
-      apply();
-      cleanup();
-    }, 420)
-  );
+  window.requestAnimationFrame(() => {
+    apply();
+    timers.push(window.setTimeout(cleanup, 260));
+  });
 }
 
 function scrollToTopInstant() {

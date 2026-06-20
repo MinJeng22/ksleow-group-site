@@ -436,7 +436,7 @@ export default function Products({ onContact }) {
                 animateReveal={!revealSettled}
                 onHover={setHovered}
                 onLeave={() => setHovered(null)}
-                onOpen={(route) => route ? navigateWithRouteFeedback(navigate, route, { returnAnchor: "#products" }) : null}
+                onOpen={(route) => route ? navigateWithRouteFeedback(navigate, route) : null}
                 onPreload={(route, priority = "low") => preloadRouteAssets(route, priority)}
               />
             ))}
