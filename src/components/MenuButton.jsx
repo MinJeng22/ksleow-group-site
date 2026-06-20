@@ -12,9 +12,9 @@ const MEGA_MENU = [
       { label: "Taxation & Accounting",         scrollTo: "#service-taxation", icon: "calculator" },
       { label: "Secretarial & Management",      scrollTo: "#service-secretarial", icon: "files" },
       { label: "Auditing",                      scrollTo: "#service-auditing", icon: "shield" },
-      { label: "Computer Hardware & Technical", scrollTo: "#services", icon: "cpu" },
-      { label: "Software Training & Support",   scrollTo: "#services", icon: "graduation" },
-      { label: "Webinar & Workshops",           scrollTo: "#services", icon: "video" },
+      { label: "Computer Hardware & Technical", scrollTo: "#service-hardware", icon: "cpu" },
+      { label: "Software Training & Support",   scrollTo: "#service-software", icon: "graduation" },
+      { label: "Webinar & Workshops",           scrollTo: "#service-webinar", icon: "video" },
     ],
   },
   {

@@ -6,7 +6,7 @@ export const CTA_PARTICLE_PROPS = {
   highlightRgb: "201,168,76",
   vignetteEnd: "rgba(47,49,90,0.08)",
   densityScale: 1.08,
-  mobileDensityScale: 1.65,
-  lineAlphaScale: 0.46,
+  mobileDensityScale: 1.34,
+  lineAlphaScale: 0.58,
   dotAlpha: 0.66,
 };

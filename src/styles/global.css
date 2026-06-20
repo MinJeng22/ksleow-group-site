@@ -1922,6 +1922,96 @@ body.partner-modal-open .mobile-float-bar {
   text-transform: none;
 }
 
+.partner-modal-shell.contact-directory-shell {
+  --partner-accent: #c9a84c;
+  --partner-text: #2f315a;
+  background:
+    radial-gradient(circle at 18% 10%, rgba(232,201,122,0.2), transparent 34%),
+    linear-gradient(145deg, rgba(255,255,255,0.96), rgba(245,245,248,0.94));
+  flex-direction: column;
+  height: auto;
+  max-height: min(760px, 92vh);
+  width: min(940px, 94vw);
+}
+
+.partner-modal-body.contact-directory-body {
+  display: block;
+  flex: 1 1 auto;
+  justify-content: initial;
+  padding: clamp(1.35rem, 2.8vw, 2rem);
+}
+
+.contact-directory-grid {
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 1.15rem;
+}
+
+.contact-directory-card {
+  background: rgba(255,255,255,0.72);
+  border: 1px solid rgba(47,49,90,0.1);
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.95rem;
+  min-height: 210px;
+  padding: 1rem;
+}
+
+.contact-directory-card h3 {
+  color: #2f315a;
+  font-size: 0.92rem;
+  font-weight: 850;
+  letter-spacing: 0.015em;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.contact-directory-card p {
+  color: rgba(47,49,90,0.62);
+  font-size: 0.78rem;
+  font-weight: 650;
+  line-height: 1.45;
+  margin: 0.25rem 0 0;
+}
+
+.contact-directory-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-top: auto;
+}
+
+.contact-directory-value {
+  align-items: flex-start;
+  color: rgba(47,49,90,0.76);
+  display: flex;
+  font-size: 0.8rem;
+  font-weight: 650;
+  gap: 0.55rem;
+  line-height: 1.5;
+  text-decoration: none;
+}
+
+a.contact-directory-value:hover {
+  color: #2f315a;
+}
+
+.contact-directory-icon {
+  align-items: center;
+  background: rgba(201,168,76,0.13);
+  border: 1px solid rgba(201,168,76,0.24);
+  border-radius: 8px;
+  color: #b89228;
+  display: inline-flex;
+  flex: 0 0 auto;
+  height: 28px;
+  justify-content: center;
+  margin-top: -0.15rem;
+  width: 28px;
+}
+
 @media (min-width: 641px) {
   .partner-modal-shell {
     flex-direction: row;
@@ -2003,6 +2093,19 @@ body.partner-modal-open .mobile-float-bar {
     right: 10px;
     top: 10px;
     width: 34px;
+  }
+
+  .partner-modal-shell.contact-directory-shell {
+    max-height: 92vh;
+  }
+
+  .contact-directory-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-directory-card {
+    min-height: 0;
+    padding: 0.9rem;
   }
 }
 
