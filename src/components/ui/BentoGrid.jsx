@@ -103,6 +103,9 @@ const BENTO_CAROUSEL_STYLES = `
     .other-services-carousel .ks-bento-card.is-clickable:active {
       transform: none !important;
     }
+    .other-services-carousel .ks-bento-card.is-empty {
+      display: none !important;
+    }
     .other-services-carousel.is-sliding-next .ks-bento-card {
       animation: ks-bento-mobile-slide-next 460ms cubic-bezier(0.16, 1, 0.3, 1);
     }

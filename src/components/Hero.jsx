@@ -7,8 +7,8 @@ import branding from "../content/branding.json";
 function getHeroParticleDensity() {
   if (typeof window === "undefined") return 1.6;
   const width = window.innerWidth;
-  if (width < 640) return 0.58;
-  if (width < 1280) return 0.92;
+  if (width < 640) return 0.9;
+  if (width < 1280) return 1.05;
   return 1.6;
 }
 
@@ -96,7 +96,7 @@ export default function Hero({ onContact }) {
         active={!paused}
         paused={paused}
         densityScale={density}
-        mobileDensityScale={1.08}
+        mobileDensityScale={1.28}
       />
 
       {/*

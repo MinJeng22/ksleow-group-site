@@ -39,6 +39,7 @@ export default function StealthHoneycombGrid({
     radius: 34,
     pointerFine: false,
     lastActivated: -1,
+    touchHoldFrames: new Map(),
   });
 
   useEffect(() => {
@@ -169,6 +170,9 @@ export default function StealthHoneycombGrid({
       if (!force && index === s.lastActivated) return;
       s.lastActivated = index;
       s.active.set(index, 1);
+      if (force && !s.pointerFine) {
+        s.touchHoldFrames.set(index, 82);
+      }
       start();
     }
 
@@ -253,9 +257,16 @@ export default function StealthHoneycombGrid({
         const intensity = Math.max(0, Math.min(1, level));
         drawGlowCell(cell, intensity, 2.45);
 
-        const next = level - 0.022;
+        const holdFrames = s.touchHoldFrames.get(index) || 0;
+        const next = holdFrames > 0 ? level : level - (s.pointerFine ? 0.022 : 0.0065);
+        if (holdFrames > 0) {
+          s.touchHoldFrames.set(index, holdFrames - 1);
+        } else {
+          s.touchHoldFrames.delete(index);
+        }
         if (next <= 0) {
           s.active.delete(index);
+          s.touchHoldFrames.delete(index);
         } else {
           s.active.set(index, next);
           keepAnimating = true;

@@ -15,22 +15,21 @@ const useIsomorphicLayoutEffect = import.meta.env.SSR ? useEffect : useLayoutEff
  * WIDTH changes (not height-only changes caused by scrolling).
  * ─────────────────────────────────────────────────────────────*/
 function densityFor(W) {
-  if (W < 640)  return 0.00007;
-  if (W < 1024) return 0.00010;
+  if (W < 640)  return 0.000085;
+  if (W < 1024) return 0.00012;
   return 0.000152;
 }
 function maxParticlesFor(W) {
-  if (W < 640)  return 22;
-  if (W < 1024) return 35;
+  if (W < 640)  return 28;
+  if (W < 1024) return 44;
   return 70;
 }
 function minParticlesFor(W) {
-  if (W < 640)  return 10;
-  if (W < 1024) return 15;
+  if (W < 640)  return 14;
+  if (W < 1024) return 22;
   return 20;
 }
 const MAX_DIST    = 130;
-const MAX_DIST_SQ = MAX_DIST * MAX_DIST;
 const SPEED       = 0.38;
 const TARGET_FPS  = 40;
 const FRAME_MS    = 1000 / TARGET_FPS;
@@ -306,6 +305,8 @@ export default function ParticleBackground({
       }
 
       /* particle-to-particle lines — 4 alpha buckets batched */
+      const maxDist = W < 640 ? 146 : W < 1024 ? 150 : MAX_DIST;
+      const maxDistSq = maxDist * maxDist;
       const BUCKETS = 4;
       const paths   = Array.from({ length: BUCKETS }, () => new Path2D());
       for (let i = 0; i < particles.length - 1; i++) {
@@ -313,8 +314,8 @@ export default function ParticleBackground({
         for (let j = i + 1; j < particles.length; j++) {
           const dx = ax - particles[j].x, dy = ay - particles[j].y;
           const dSq = dx*dx + dy*dy;
-          if (dSq < MAX_DIST_SQ) {
-            const bucket = Math.min(BUCKETS - 1, ((dSq / MAX_DIST_SQ) * BUCKETS) | 0);
+          if (dSq < maxDistSq) {
+            const bucket = Math.min(BUCKETS - 1, ((dSq / maxDistSq) * BUCKETS) | 0);
             paths[bucket].moveTo(ax, ay);
             paths[bucket].lineTo(particles[j].x, particles[j].y);
           }
