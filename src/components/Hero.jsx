@@ -214,6 +214,16 @@ export default function Hero({ onContact }) {
             <a
               href={hero.secondaryButtonHref || "#services"}
               className="btn-ghost-base btn-ghost-light"
+              onClick={(e) => {
+                const targetId = hero.secondaryButtonHref || "#services";
+                if (targetId.startsWith("#")) {
+                  e.preventDefault();
+                  const el = document.querySelector(targetId);
+                  if (el) {
+                    el.scrollIntoView({ behavior: "smooth" });
+                  }
+                }
+              }}
             >
               {hero.secondaryButton}
             </a>
@@ -270,7 +280,7 @@ export default function Hero({ onContact }) {
            * is 72% of the viewport so the bottom of the hero stays
            * visible at the top of the screen after the scroll. */
           const distance = window.innerHeight * 0.9;
-          const duration = 200;
+          const duration = 900;
           const startY = window.scrollY;
           const t0 = performance.now();
           const easeInOut = (t) =>
