@@ -37,10 +37,11 @@ export default function OurTeam() {
       <style>{`
         .our-team-section {
           background:
-            radial-gradient(circle at 14% 12%, rgba(201,168,76,0.12), transparent 30%),
-            linear-gradient(180deg, #f5f5f8 0%, #ffffff 48%, #f2f3f7 100%);
+            radial-gradient(circle at 17% 18%, rgba(201,168,76,0.18), transparent 32%),
+            radial-gradient(circle at 82% 22%, rgba(201,168,76,0.12), transparent 34%),
+            linear-gradient(180deg, #fbf5e8 0%, #fffaf0 48%, #fbf5e8 100%);
           overflow: hidden;
-          padding: clamp(3.25rem, 5vw, 5.25rem) 0;
+          padding: clamp(2.75rem, 4vw, 4.5rem) 0;
           position: relative;
         }
         .our-team-section::before,
@@ -63,77 +64,102 @@ export default function OurTeam() {
           right: max(1.5rem, 10vw);
         }
         .our-team-wrap {
-          align-items: center;
+          align-items: stretch;
           display: grid;
-          gap: clamp(1.75rem, 3.8vw, 4rem);
-          grid-template-columns: minmax(480px, 1.18fr) minmax(300px, 0.82fr);
+          gap: clamp(1.35rem, 3vw, 3.25rem);
+          grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
           position: relative;
           z-index: 1;
         }
         .team-gallery-panel {
           min-width: 0;
+          padding: clamp(0.35rem, 1vw, 0.85rem) 0;
         }
         .team-lead {
+          align-self: stretch;
           justify-self: end;
           perspective: 1200px;
           position: relative;
-          width: min(100%, 430px);
+          width: 100%;
         }
         .team-lead-card {
-          aspect-ratio: 0.72;
-          background: rgba(255,255,255,0.92);
-          border: 1px solid rgba(47,49,90,0.1);
-          border-radius: 26px;
-          box-shadow: 0 30px 76px rgba(23,25,54,0.18);
+          background: #173040;
+          box-shadow: 0 34px 88px rgba(47,49,90,0.18);
+          height: 100%;
           isolation: isolate;
           overflow: hidden;
-          padding: 0.55rem;
           position: relative;
           transform: translateZ(0);
           transform-origin: center;
+          min-height: clamp(520px, 46vw, 690px);
           transition: transform 0.36s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.36s ease;
         }
         .team-lead-card::before {
-          background: inherit;
+          background:
+            radial-gradient(circle at 48% 25%, rgba(232,201,122,0.2), transparent 34%),
+            radial-gradient(circle at 50% 74%, rgba(10,18,28,0.5), transparent 42%);
           content: "";
-          filter: blur(24px) saturate(0.9);
-          inset: -7%;
-          opacity: 0.58;
+          inset: 0;
+          opacity: 0.82;
           position: absolute;
-          transform: scale(1.02);
-          z-index: -1;
+          z-index: 2;
         }
         .team-lead-card::after {
           background:
-            linear-gradient(180deg, rgba(15,17,40,0.04), transparent 36%),
-            linear-gradient(0deg, rgba(15,17,40,0.68), transparent 48%);
-          border-radius: 21px;
+            linear-gradient(90deg, rgba(15,17,40,0.34), transparent 30%, transparent 74%, rgba(15,17,40,0.32)),
+            linear-gradient(0deg, rgba(15,17,40,0.56), transparent 45%);
           content: "";
-          inset: 0.55rem;
+          inset: 0;
           pointer-events: none;
           position: absolute;
+          z-index: 4;
         }
-        .team-lead-card img {
-          border-radius: 21px;
+        .team-lead-bg,
+        .team-lead-person {
+          display: block;
+          position: absolute;
+        }
+        .team-lead-bg {
+          filter: saturate(1.04) contrast(1.04);
           height: 100%;
           object-fit: cover;
-          object-position: center top;
-          transform: scale(1.018);
+          object-position: center;
+          transform: scale(1.03);
           width: 100%;
+          z-index: 1;
+        }
+        .team-lead-person {
+          bottom: -1.5%;
+          filter: drop-shadow(0 34px 48px rgba(2,8,17,0.36));
+          height: 98%;
+          left: 50%;
+          max-width: none;
+          object-fit: contain;
+          object-position: center bottom;
+          transform: translateX(-50%) scale(1.04);
+          transform-origin: center bottom;
+          width: auto;
+          z-index: 3;
         }
         @media (hover: hover) and (pointer: fine) {
           .team-lead-card:hover {
             box-shadow: 0 38px 92px rgba(23,25,54,0.23);
             transform: translateY(-6px);
           }
+          .team-lead-card:hover .team-lead-bg {
+            transform: scale(1.06);
+          }
+          .team-lead-card:hover .team-lead-person {
+            transform: translateX(-50%) scale(1.07);
+          }
         }
         .team-lead-caption {
-          bottom: 1.65rem;
+          bottom: 1.85rem;
           color: #fff;
-          left: 1.7rem;
+          left: 2rem;
           position: absolute;
-          right: 1.7rem;
-          z-index: 2;
+          right: 2rem;
+          z-index: 5;
         }
         .team-lead-caption span {
           color: #d8bd6a;
@@ -149,17 +175,9 @@ export default function OurTeam() {
           font-size: clamp(1.55rem, 2.35vw, 2.2rem);
           line-height: 1.05;
         }
-        .team-lead-caption small {
-          color: rgba(255,255,255,0.78);
-          display: block;
-          font-size: 0.88rem;
-          font-weight: 600;
-          line-height: 1.55;
-          margin-top: 0.65rem;
-        }
         .team-copy {
-          margin-bottom: clamp(1.35rem, 2vw, 2rem);
-          max-width: 680px;
+          margin-bottom: clamp(1.1rem, 1.8vw, 1.75rem);
+          max-width: 620px;
         }
         .team-copy .section-eyebrow {
           color: #c0a044;
@@ -185,10 +203,10 @@ export default function OurTeam() {
         }
         .team-photo-wall {
           display: grid;
-          gap: clamp(0.6rem, 1vw, 0.95rem);
+          gap: clamp(0.65rem, 1vw, 1rem);
           grid-template-columns: repeat(6, minmax(0, 1fr));
-          grid-auto-rows: clamp(72px, 8vw, 132px);
-          min-height: clamp(360px, 40vw, 560px);
+          grid-auto-rows: clamp(82px, 7vw, 126px);
+          min-height: clamp(390px, 35vw, 520px);
           position: relative;
         }
         .team-photo-wall::before,
@@ -214,9 +232,9 @@ export default function OurTeam() {
         }
         .team-tile {
           background: #e6e6ea;
-          border: 1px solid rgba(47,49,90,0.08);
-          border-radius: 22px;
-          box-shadow: 0 20px 48px rgba(23,25,54,0.08);
+          border: 1px solid rgba(47,49,90,0.1);
+          border-radius: 18px;
+          box-shadow: 0 18px 46px rgba(47,49,90,0.07);
           grid-column: span 2;
           grid-row: span 2;
           overflow: hidden;
@@ -225,10 +243,10 @@ export default function OurTeam() {
           transition: transform 0.36s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.36s ease, z-index 0s;
           z-index: 1;
         }
-        .team-tile--wide { grid-column: span 3; grid-row: span 2; }
+        .team-tile--wide { grid-column: span 4; grid-row: span 2; }
         .team-tile--medium { grid-column: span 2; grid-row: span 2; }
         .team-tile--small { grid-column: span 2; grid-row: span 1; }
-        .team-tile--short { grid-row: span 1; }
+        .team-tile--short { grid-column: span 3; grid-row: span 1; }
         .team-tile--lift { transform: translateY(-18px); }
         .team-tile--drop { transform: translateY(20px); }
         .team-tile img {
@@ -276,10 +294,11 @@ export default function OurTeam() {
           }
           .team-lead {
             margin: 0 auto;
-            max-width: 420px;
-            width: min(76vw, 420px);
+            max-width: 560px;
+            width: min(86vw, 560px);
           }
           .team-lead-card {
+            min-height: clamp(480px, 80vw, 680px);
             transform: none;
           }
           .team-copy {
@@ -294,10 +313,13 @@ export default function OurTeam() {
         }
         @media (max-width: 640px) {
           .our-team-section {
-            padding: 3.5rem 0;
+            padding: 3.25rem 0;
           }
           .team-lead {
-            width: min(86vw, 360px);
+            width: min(100%, 390px);
+          }
+          .team-lead-card {
+            min-height: 520px;
           }
           .team-photo-wall {
             gap: 0.55rem;
@@ -314,6 +336,7 @@ export default function OurTeam() {
             transform: none;
           }
           .team-tile--short {
+            grid-column: span 2;
             grid-row: span 1;
           }
           .team-tile span {
@@ -341,12 +364,18 @@ export default function OurTeam() {
         </div>
 
         <div className="team-lead" aria-label="Executive Manager Leow Chuen Hock">
-          <div
-            className="team-lead-card"
-            style={{ backgroundImage: "url('/images/team/executive-manager.webp')" }}
-          >
+          <div className="team-lead-card">
             <img
-              src="/images/team/executive-manager.webp"
+              className="team-lead-bg"
+              src="/images/team/ch-leow-background.webp"
+              alt=""
+              loading="lazy"
+              decoding="async"
+              aria-hidden="true"
+            />
+            <img
+              className="team-lead-person"
+              src="/images/team/ch-leow-portrait.webp"
               alt="Executive Manager Leow Chuen Hock"
               loading="lazy"
               decoding="async"
@@ -354,7 +383,6 @@ export default function OurTeam() {
             <div className="team-lead-caption">
               <span>Executive Manager</span>
               <strong>Leow Chuen Hock</strong>
-              <small>Leading the team with practical direction, responsive service, and steady execution.</small>
             </div>
           </div>
         </div>
