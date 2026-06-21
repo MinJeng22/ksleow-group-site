@@ -131,7 +131,7 @@ export default function WhyChooseUs({ section, sectionFrom = "var(--ks-page-clou
               display: none;
             }
             .ac-awards-year {
-              gap: 0;
+              gap: clamp(0.45rem, 0.85vw, 1rem);
               justify-content: center;
             }
             .ac-awards-year:first-child {
@@ -148,7 +148,7 @@ export default function WhyChooseUs({ section, sectionFrom = "var(--ks-page-clou
             }
             .ac-awards-item-trophy {
               width: auto;
-              margin-right: -0.55rem;
+              margin-right: 0;
               position: relative;
               z-index: 2;
             }

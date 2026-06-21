@@ -22,13 +22,6 @@ const MailIcon = () => (
   </svg>
 );
 
-const PinIcon = () => (
-  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-    <circle cx="12" cy="10" r="3" />
-  </svg>
-);
-
 const normalisePhoneForHref = (phone) => phone.replace(/\([^)]*\)/g, "").replace(/[^\d+]/g, "");
 
 const officeContacts = (officesContent.items || []).map((office) => {
@@ -39,7 +32,6 @@ const officeContacts = (officesContent.items || []).map((office) => {
     tagline: office.tagline,
     phones: phones.length ? phones : [CONTACT.phone],
     emails: emails.length ? emails : [CONTACT.email],
-    addresses: office.addresses?.map((a) => a.address).filter(Boolean) || [],
   };
 });
 
@@ -49,7 +41,6 @@ const CONTACT_DIRECTORY = [
     tagline: "Software, Hardware & IT Solutions",
     phones: [CONTACT.phone],
     emails: [CONTACT.email],
-    addresses: ["No.8-9, Ground Floor, Taman Zabidin, Kampung Catin, 28400 Mentakab, Pahang"],
   },
   ...officeContacts.filter((office) => office.name !== "KSL BUSINESS SOLUTIONS SDN. BHD."),
 ];
@@ -101,11 +92,7 @@ export default function ContactModal({ open, onClose }) {
         </button>
 
         <div className="partner-modal-body contact-directory-body">
-          <p className="partner-modal-eyebrow">Contact Directory</p>
           <h2 id="contact-directory-title" className="partner-modal-title">Contact Us</h2>
-          <p className="partner-modal-intro">
-            Choose the right company or department and reach us by phone or email.
-          </p>
 
           <div className="contact-directory-grid">
             {CONTACT_DIRECTORY.map((company) => (
@@ -122,15 +109,10 @@ export default function ContactModal({ open, onClose }) {
                     </ContactValue>
                   ))}
                   {company.emails.map((email) => (
-                    <ContactValue key={email} icon={<MailIcon />} href={`mailto:${email}`}>
-                      {email}
-                    </ContactValue>
-                  ))}
-                  {company.addresses.map((address) => (
-                    <ContactValue key={address} icon={<PinIcon />}>
-                      {address}
-                    </ContactValue>
-                  ))}
+                  <ContactValue key={email} icon={<MailIcon />} href={`mailto:${email}`}>
+                    {email}
+                  </ContactValue>
+                ))}
                 </div>
               </article>
             ))}

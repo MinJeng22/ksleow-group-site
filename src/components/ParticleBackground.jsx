@@ -37,6 +37,7 @@ const MAX_DPR     = 1;
 const MOUSE_R     = 150;
 const MOUSE_R_SQ  = MOUSE_R * MOUSE_R;
 const INTRO_FADE_MS = 520;
+const MAX_CLICK_PARTICLES = 10;
 
 function rand(a, b) { return Math.random() * (b - a) + a; }
 
@@ -202,6 +203,27 @@ export default function ParticleBackground({
 
     /* ── Height-only resize: just update canvas height & gradients,
      *    DO NOT reinitialise particles (prevents jump on mobile scroll) ── */
+    function addClickParticle(x, y) {
+      if (!s.W || !s.H) return;
+      s.particles.push({
+        x,
+        y,
+        vx: rand(-SPEED, SPEED) || SPEED,
+        vy: rand(-SPEED, SPEED) || SPEED,
+        r: particleRadius(s.W) * 1.18,
+        added: true,
+      });
+
+      let addedCount = 0;
+      for (let i = s.particles.length - 1; i >= 0; i--) {
+        if (!s.particles[i].added) continue;
+        addedCount += 1;
+        if (addedCount > MAX_CLICK_PARTICLES) {
+          s.particles.splice(i, 1);
+        }
+      }
+    }
+
     function updateHeightOnly(W, H) {
       if (W < 2 || H < 2) return false;
       if (W === s.W && H === s.H) {
@@ -397,6 +419,7 @@ export default function ParticleBackground({
       s.mx = x;
       s.my = y;
       if (hold) {
+        addClickParticle(x, y);
         s.touchUntil = performance.now() + 1500;
         startLoop(true);
       }
