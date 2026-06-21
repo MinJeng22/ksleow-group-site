@@ -33,54 +33,81 @@ const teamTiles = [
   },
 ];
 
+const leadDepthDefault = {
+  bgX: 0,
+  bgY: 0,
+  bgBlur: 0,
+  personX: 0,
+  personY: 0,
+  shadowX: 0,
+  shadowY: 0,
+  tiltX: 0,
+  tiltY: 0,
+  lightX: 50,
+  lightY: 36,
+  lightOpacity: 0.54,
+  active: 0,
+};
+
 export default function OurTeam() {
   const leadCardRef = useRef(null);
   const leadFrameRef = useRef(null);
-  const leadCurrentRef = useRef({ bgX: 0, bgY: 0, personX: 0, personY: 0, active: 0 });
-  const leadTargetRef = useRef({ bgX: 0, bgY: 0, personX: 0, personY: 0, active: 0 });
+  const leadCurrentRef = useRef({ ...leadDepthDefault });
+  const leadTargetRef = useRef({ ...leadDepthDefault });
 
-  const renderLeadDepth = () => {
+  const writeLeadDepth = (values) => {
     const card = leadCardRef.current;
+
+    if (!card) return;
+    card.style.setProperty("--team-bg-x", `${values.bgX.toFixed(2)}px`);
+    card.style.setProperty("--team-bg-y", `${values.bgY.toFixed(2)}px`);
+    card.style.setProperty("--team-bg-blur", `${values.bgBlur.toFixed(2)}px`);
+    card.style.setProperty("--team-person-x", `${values.personX.toFixed(2)}px`);
+    card.style.setProperty("--team-person-y", `${values.personY.toFixed(2)}px`);
+    card.style.setProperty("--team-shadow-x", `${values.shadowX.toFixed(2)}px`);
+    card.style.setProperty("--team-shadow-y", `${values.shadowY.toFixed(2)}px`);
+    card.style.setProperty("--team-tilt-x", `${values.tiltX.toFixed(3)}deg`);
+    card.style.setProperty("--team-tilt-y", `${values.tiltY.toFixed(3)}deg`);
+    card.style.setProperty("--team-light-x", `${values.lightX.toFixed(2)}%`);
+    card.style.setProperty("--team-light-y", `${values.lightY.toFixed(2)}%`);
+    card.style.setProperty("--team-light-opacity", values.lightOpacity.toFixed(3));
+    card.style.setProperty("--team-depth-active", values.active.toFixed(3));
+  };
+
+  const animateLeadDepth = () => {
     const current = leadCurrentRef.current;
     const target = leadTargetRef.current;
+    const next = {};
+    let shouldContinue = false;
 
-    leadFrameRef.current = null;
-    if (!card) return;
+    Object.keys(leadDepthDefault).forEach((key) => {
+      const ease = key === "active" || key === "bgBlur" || key === "lightOpacity" ? 0.12 : 0.09;
+      const value = current[key] + (target[key] - current[key]) * ease;
+      next[key] = Math.abs(target[key] - value) < 0.01 ? target[key] : value;
+      if (Math.abs(target[key] - next[key]) >= 0.01) shouldContinue = true;
+    });
 
-    const ease = 0.12;
-    current.bgX += (target.bgX - current.bgX) * ease;
-    current.bgY += (target.bgY - current.bgY) * ease;
-    current.personX += (target.personX - current.personX) * ease;
-    current.personY += (target.personY - current.personY) * ease;
-    current.active += (target.active - current.active) * 0.1;
+    leadCurrentRef.current = next;
+    writeLeadDepth(next);
 
-    card.style.setProperty("--team-bg-x", `${current.bgX.toFixed(2)}px`);
-    card.style.setProperty("--team-bg-y", `${current.bgY.toFixed(2)}px`);
-    card.style.setProperty("--team-person-x", `${current.personX.toFixed(2)}px`);
-    card.style.setProperty("--team-person-y", `${current.personY.toFixed(2)}px`);
-    card.style.setProperty("--team-depth-active", current.active.toFixed(3));
-
-    const remaining =
-      Math.abs(target.bgX - current.bgX) +
-      Math.abs(target.bgY - current.bgY) +
-      Math.abs(target.personX - current.personX) +
-      Math.abs(target.personY - current.personY) +
-      Math.abs(target.active - current.active);
-
-    if (remaining > 0.08) {
-      leadFrameRef.current = requestAnimationFrame(renderLeadDepth);
+    if (shouldContinue) {
+      leadFrameRef.current = requestAnimationFrame(animateLeadDepth);
+    } else {
+      leadFrameRef.current = null;
     }
   };
 
-  const setLeadTarget = (target) => {
-    leadTargetRef.current = target;
-    if (!leadFrameRef.current) {
-      leadFrameRef.current = requestAnimationFrame(renderLeadDepth);
+  const setLeadDepthTarget = (target) => {
+    leadTargetRef.current = { ...leadDepthDefault, ...target };
+    if (leadFrameRef.current === null) {
+      leadFrameRef.current = requestAnimationFrame(animateLeadDepth);
     }
   };
 
-  useEffect(() => () => {
-    if (leadFrameRef.current) cancelAnimationFrame(leadFrameRef.current);
+  useEffect(() => {
+    return () => {
+      if (leadFrameRef.current !== null) cancelAnimationFrame(leadFrameRef.current);
+    };
   }, []);
 
   const handleLeadMove = (event) => {
@@ -88,17 +115,25 @@ export default function OurTeam() {
     const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
     const y = ((event.clientY - rect.top) / rect.height) * 2 - 1;
 
-    setLeadTarget({
-      bgX: x * -8,
-      bgY: y * -5,
-      personX: x * 11,
-      personY: y * 4.5,
+    setLeadDepthTarget({
+      bgX: x * -5,
+      bgY: y * -3.5,
+      bgBlur: 0.55,
+      personX: x * 7.5,
+      personY: y * 2.8,
+      shadowX: x * 3.5,
+      shadowY: y * 1.2,
+      tiltX: y * -1.15,
+      tiltY: x * 1.35,
+      lightX: 50 + x * 5,
+      lightY: 34 + y * 4,
+      lightOpacity: 0.68,
       active: 1,
     });
   };
 
   const resetLeadDepth = () => {
-    setLeadTarget({ bgX: 0, bgY: 0, personX: 0, personY: 0, active: 0 });
+    setLeadDepthTarget(leadDepthDefault);
   };
 
   return (
@@ -147,125 +182,122 @@ export default function OurTeam() {
         .team-lead {
           align-self: stretch;
           justify-self: end;
-          perspective: 1200px;
+          perspective: 1500px;
           position: relative;
           width: 100%;
         }
         .team-lead-card {
-          --team-depth-active: 0;
           --team-bg-x: 0px;
           --team-bg-y: 0px;
+          --team-bg-blur: 0px;
+          --team-depth-active: 0;
+          --team-light-opacity: 0.54;
+          --team-light-x: 50%;
+          --team-light-y: 36%;
           --team-person-x: 0px;
           --team-person-y: 0px;
-          background: #173040;
+          --team-shadow-x: 0px;
+          --team-shadow-y: 0px;
+          --team-tilt-x: 0deg;
+          --team-tilt-y: 0deg;
+          background: #142b3b;
+          border: 1px solid rgba(255,255,255,0.18);
           border-radius: 28px;
           box-shadow:
-            0 34px 88px rgba(47,49,90,0.18),
-            inset 0 0 0 1px rgba(255,255,255,0.12);
+            0 30px 70px rgba(23,25,54,0.18),
+            inset 0 1px 0 rgba(255,255,255,0.16);
           height: 100%;
           isolation: isolate;
           overflow: hidden;
           position: relative;
-          transform: translateZ(0);
+          transform: rotateX(var(--team-tilt-x)) rotateY(var(--team-tilt-y)) translateZ(0);
           transform-origin: center;
+          transform-style: preserve-3d;
           min-height: clamp(520px, 46vw, 690px);
-          transition: box-shadow 0.36s ease;
+          transition: border-color 0.34s ease, box-shadow 0.34s ease;
+          will-change: transform;
         }
         .team-lead-card::before {
           background:
-            radial-gradient(circle at calc(48% + var(--team-person-x, 0px)) 24%, rgba(232,201,122,0.28), transparent 33%),
-            radial-gradient(circle at 36% 18%, rgba(255,255,255,0.14), transparent 28%),
-            radial-gradient(circle at 50% 74%, rgba(10,18,28,0.5), transparent 42%);
+            radial-gradient(ellipse at var(--team-light-x) var(--team-light-y), rgba(255,255,255,0.24), rgba(255,255,255,0.07) 28%, transparent 56%),
+            linear-gradient(135deg, rgba(255,255,255,0.1), transparent 34%, rgba(3,8,14,0.16));
           content: "";
           inset: 0;
-          opacity: 0.78;
-          position: absolute;
-          z-index: 2;
-        }
-        .team-lead-card::after {
-          background:
-            radial-gradient(circle at 50% 17%, rgba(255,255,255,0.16), transparent 24%),
-            linear-gradient(90deg, rgba(15,17,40,0.34), transparent 30%, transparent 74%, rgba(15,17,40,0.32)),
-            linear-gradient(0deg, rgba(15,17,40,0.58), transparent 45%);
-          content: "";
-          inset: 0;
+          opacity: var(--team-light-opacity);
           pointer-events: none;
           position: absolute;
           z-index: 4;
         }
-        .team-lead-ambient,
-        .team-lead-rim {
+        .team-lead-card::after {
+          background:
+            radial-gradient(ellipse at 50% 62%, transparent 36%, rgba(2,8,16,0.24) 74%, rgba(2,8,16,0.38)),
+            linear-gradient(0deg, rgba(8,12,26,0.58), transparent 38%),
+            linear-gradient(90deg, rgba(8,12,26,0.3), transparent 26%, transparent 75%, rgba(8,12,26,0.28));
+          content: "";
+          inset: 0;
           pointer-events: none;
           position: absolute;
-        }
-        .team-lead-ambient {
-          background:
-            radial-gradient(ellipse at 52% 34%, rgba(255,218,134,0.22), transparent 32%),
-            radial-gradient(ellipse at 52% 70%, rgba(255,255,255,0.09), transparent 34%);
-          filter: blur(10px);
-          inset: 0;
-          opacity: calc(0.52 + var(--team-depth-active) * 0.18);
-          transform: translate3d(calc(var(--team-person-x) * 0.28), calc(var(--team-person-y) * 0.22), 0);
-          transition: opacity 0.3s ease;
-          z-index: 2;
-        }
-        .team-lead-rim {
-          border-radius: 999px;
-          box-shadow:
-            0 0 70px rgba(232,201,122,0.24),
-            0 0 22px rgba(255,244,205,0.18);
-          height: 64%;
-          left: 50%;
-          opacity: calc(0.42 + var(--team-depth-active) * 0.18);
-          top: 10%;
-          transform: translate3d(calc(-50% + var(--team-person-x) * 0.38), calc(var(--team-person-y) * 0.24), 0);
-          width: 56%;
-          z-index: 2;
+          z-index: 5;
         }
         .team-lead-bg,
         .team-lead-person {
           display: block;
           position: absolute;
+          will-change: transform, filter;
         }
         .team-lead-bg {
-          filter: blur(0.65px) saturate(1.04) contrast(1.05);
+          filter: blur(var(--team-bg-blur)) brightness(0.9) saturate(1.04) contrast(1.06);
           height: 100%;
           object-fit: cover;
           object-position: center;
-          transform: translate3d(var(--team-bg-x), var(--team-bg-y), 0) scale(1.055);
-          transition: filter 0.32s ease;
+          transform: translate3d(var(--team-bg-x), var(--team-bg-y), 0) scale(1.065);
+          transition: filter 0.3s ease;
           width: 100%;
           z-index: 1;
+        }
+        .team-lead-depth-shadow {
+          background: radial-gradient(ellipse, rgba(0,0,0,0.42), rgba(0,0,0,0.18) 42%, transparent 70%);
+          border-radius: 999px;
+          bottom: 5%;
+          filter: blur(18px);
+          height: 22%;
+          left: 50%;
+          pointer-events: none;
+          position: absolute;
+          transform: translate3d(calc(-50% + var(--team-shadow-x)), var(--team-shadow-y), 0) scale(1.04);
+          width: 58%;
+          z-index: 2;
         }
         .team-lead-person {
           bottom: -1.5%;
           filter:
-            drop-shadow(0 34px 48px rgba(2,8,17,0.34))
-            drop-shadow(0 0 10px rgba(232,201,122,0.12));
+            drop-shadow(0 32px 42px rgba(2,8,17,0.34))
+            drop-shadow(0 7px 12px rgba(2,8,17,0.18));
           height: 98%;
           left: 50%;
           max-width: none;
           object-fit: contain;
           object-position: center bottom;
-          transform: translate3d(calc(-50% + var(--team-person-x)), var(--team-person-y), 0) scale(1.045);
+          transform: translate3d(calc(-50% + var(--team-person-x)), var(--team-person-y), 0) scale(1.048);
           transform-origin: center bottom;
-          transition: filter 0.32s ease;
+          transition: filter 0.3s ease;
           width: auto;
           z-index: 3;
         }
         @media (hover: hover) and (pointer: fine) {
           .team-lead-card:hover {
+            border-color: rgba(255,255,255,0.25);
             box-shadow:
-              0 40px 98px rgba(47,49,90,0.22),
-              inset 0 0 0 1px rgba(255,255,255,0.18);
+              0 38px 86px rgba(23,25,54,0.22),
+              inset 0 1px 0 rgba(255,255,255,0.2);
           }
           .team-lead-card:hover .team-lead-bg {
-            filter: blur(1.15px) saturate(1.08) contrast(1.07);
+            filter: blur(var(--team-bg-blur)) brightness(0.94) saturate(1.08) contrast(1.06);
           }
           .team-lead-card:hover .team-lead-person {
             filter:
-              drop-shadow(0 38px 58px rgba(2,8,17,0.4))
-              drop-shadow(0 0 14px rgba(232,201,122,0.2));
+              drop-shadow(0 38px 50px rgba(2,8,17,0.42))
+              drop-shadow(0 8px 13px rgba(2,8,17,0.2));
           }
         }
         .team-lead-caption {
@@ -274,7 +306,7 @@ export default function OurTeam() {
           left: 2rem;
           position: absolute;
           right: 2rem;
-          z-index: 5;
+          z-index: 6;
         }
         .team-lead-caption span {
           color: #d8bd6a;
@@ -449,9 +481,6 @@ export default function OurTeam() {
             border-radius: 22px;
             min-height: 520px;
           }
-          .team-lead-bg {
-            filter: blur(0.35px) saturate(1.04) contrast(1.05);
-          }
           .team-photo-wall {
             gap: 0.55rem;
             grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -509,8 +538,7 @@ export default function OurTeam() {
               decoding="async"
               aria-hidden="true"
             />
-            <span className="team-lead-ambient" aria-hidden="true" />
-            <span className="team-lead-rim" aria-hidden="true" />
+            <span className="team-lead-depth-shadow" aria-hidden="true" />
             <img
               className="team-lead-person"
               src="/images/team/ch-leow-portrait.webp"
