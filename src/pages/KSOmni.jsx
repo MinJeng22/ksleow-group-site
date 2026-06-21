@@ -194,6 +194,9 @@ export default function KSLOmniPage() {
   const isMobile = useIsMobile();
   const navigate = useNavigate();
 
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   const [pageOrigin, setPageOrigin] = useState(DEFAULT_OMNI_ORIGIN);
   const [machineId, setMachineId] = useState(null);
 
@@ -738,7 +741,7 @@ export default function KSLOmniPage() {
     <div suppressHydrationWarning style={{ position: "absolute", inset: 0, zIndex: 300, background: "radial-gradient(ellipse at 50% 0%, rgba(47, 49, 90, 0.5) 0%, transparent 60%), radial-gradient(circle at 85% 15%, rgba(201, 168, 76, 0.08) 0%, transparent 45%), linear-gradient(to bottom, #111328, #0c0e1a)", display: "flex", overflow: "hidden" }}>
       
       {/* -- Sidebar (Desktop Fixed, Mobile Overlay) -- */}
-      <div style={{
+      <div className={!mounted ? "omni-sidebar unmounted" : "omni-sidebar"} style={{
         width: isMobile ? 320 : (sidebarOpen ? 300 : 0),
         position: isMobile ? "fixed" : "relative",
         top: 0, bottom: 0, left: 0, zIndex: 2000,
@@ -820,6 +823,10 @@ export default function KSLOmniPage() {
         @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
         @keyframes spin{to{transform:rotate(360deg)}}
         @keyframes typingPulse{0%,80%,100%{opacity:0.3;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
+        
+        @media (max-width: 767px) {
+          .omni-sidebar.unmounted { display: none !important; }
+        }
         
         .omni-top-bar {
           position: absolute;
