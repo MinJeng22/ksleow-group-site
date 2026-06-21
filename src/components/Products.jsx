@@ -352,14 +352,18 @@ export default function Products({ onContact }) {
     };
     if (typeof IntersectionObserver === "undefined") {
       revealOnce();
+      setIsPlaying(true);
       return () => window.clearTimeout(settleTimer);
     }
     const io = new IntersectionObserver(
       (entries) => entries.forEach((e) => {
         if (e.isIntersecting) {
+          setIsPlaying(true);
           if (e.intersectionRatio >= 0.15) {
             revealOnce();
           }
+        } else {
+          setIsPlaying(false);
         }
       }),
       { threshold: [0, 0.15] }
