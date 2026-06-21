@@ -16,7 +16,6 @@ export default function Hero({ onContact }) {
   const [paused, setPaused]     = useState(false);
   const [visible, setVisible]   = useState(false);
   const [introSettled, setIntroSettled] = useState(false);
-  const [logoBacklight, setLogoBacklight] = useState(true);
   /* Scroll hint appears 5 seconds after the page settles — gives the
    * viewer time to read the hero copy first, then quietly invites
    * them downward. Fades out as soon as they start scrolling. */
@@ -69,8 +68,6 @@ export default function Hero({ onContact }) {
   }, [hintShown]);
 
   const logoH = "clamp(80px, 11vw, 140px)";
-  const logoBaseFilter = branding.heroLogo ? "none" : "brightness(0) invert(1)";
-  const logoLitFilter = `${branding.heroLogo ? "" : "brightness(0) invert(1) "}drop-shadow(0 0 10px rgba(255,214,126,0.78)) drop-shadow(0 0 28px rgba(232,184,72,0.48))`.trim();
 
   const [density, setDensity] = useState(getHeroParticleDensity);
   useEffect(() => {
@@ -136,13 +133,7 @@ export default function Hero({ onContact }) {
         <div className="hero-logo-group">
 
         {/* Logo */}
-        <button
-          type="button"
-          className={`hero-logo-backlight${logoBacklight ? " is-lit" : ""}`}
-          onClick={() => setLogoBacklight(false)}
-          aria-label="Turn off logo backlight"
-          aria-pressed={!logoBacklight}
-        >
+        <div style={{ marginBottom: "1.1rem" }}>
           <img
             src={branding.heroLogo || LOGO_HERO}
             alt="KSL Business Solutions"
@@ -154,10 +145,10 @@ export default function Hero({ onContact }) {
               objectFit: "contain",
               display: "block",
               /* Don't invert when admin uploaded a custom logo (likely already on dark) */
-              filter: logoBacklight ? logoLitFilter : logoBaseFilter,
+              filter: branding.heroLogo ? "none" : "brightness(0) invert(1)",
             }}
           />
-        </button>
+        </div>
 
         {/* ── Badge — directly below logo ── */}
         <div className="hero-badge" style={{
@@ -240,57 +231,6 @@ export default function Hero({ onContact }) {
        *   • Click scrolls ~72% of the viewport (keeps the bottom of
        *     the hero visible above the next section) */}
       <style>{`
-        .hero-logo-backlight {
-          background: transparent;
-          border: 0;
-          cursor: pointer;
-          display: inline-flex;
-          isolation: isolate;
-          margin: 0 0 1.1rem;
-          padding: 0;
-          position: relative;
-          -webkit-tap-highlight-color: transparent;
-        }
-        .hero-logo-backlight::before,
-        .hero-logo-backlight::after {
-          content: "";
-          opacity: 0;
-          pointer-events: none;
-          position: absolute;
-          transition: opacity 0.48s ease, transform 0.48s ease;
-        }
-        .hero-logo-backlight::before {
-          background:
-            radial-gradient(ellipse at center, rgba(255,220,142,0.82) 0%, rgba(232,184,72,0.44) 30%, rgba(232,184,72,0.14) 58%, transparent 74%);
-          filter: blur(16px);
-          inset: -24% -18%;
-          transform: scale(0.96);
-          z-index: 0;
-        }
-        .hero-logo-backlight::after {
-          background:
-            linear-gradient(90deg, transparent 0 8%, rgba(255,222,142,0.22) 11%, transparent 15% 27%, rgba(255,222,142,0.2) 31%, transparent 36% 50%, rgba(255,222,142,0.2) 54%, transparent 60% 73%, rgba(255,222,142,0.22) 77%, transparent 83% 100%);
-          filter: blur(8px);
-          inset: -18% -12%;
-          mix-blend-mode: screen;
-          transform: scaleX(0.92);
-          z-index: 0;
-        }
-        .hero-logo-backlight img {
-          position: relative;
-          transition: filter 0.48s ease, transform 0.48s ease;
-          z-index: 1;
-        }
-        .hero-logo-backlight.is-lit::before,
-        .hero-logo-backlight.is-lit::after {
-          opacity: 1;
-          transform: scale(1);
-        }
-        .hero-logo-backlight:focus-visible {
-          border-radius: 16px;
-          outline: 2px solid rgba(232,201,122,0.9);
-          outline-offset: 8px;
-        }
         @keyframes scrollHintFadeIn {
           from { opacity: 0; filter: blur(6px); }
           to { opacity: 1; filter: blur(0); }
