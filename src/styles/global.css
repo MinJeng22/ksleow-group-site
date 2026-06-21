@@ -1982,18 +1982,31 @@ body.partner-modal-open .mobile-float-bar {
   display: flex;
   flex-direction: column;
   gap: 0.55rem;
-  margin-top: auto;
+  margin-top: 0.15rem;
+}
+
+.contact-directory-group {
+  align-items: flex-start;
+  display: flex;
+  gap: 0.55rem;
+}
+
+.contact-directory-values {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+  padding-top: 0.08rem;
 }
 
 .contact-directory-value {
-  align-items: flex-start;
   color: rgba(47,49,90,0.76);
-  display: flex;
+  display: block;
   font-size: 0.8rem;
   font-weight: 650;
-  gap: 0.55rem;
   line-height: 1.5;
   text-decoration: none;
+  word-break: break-word;
 }
 
 a.contact-directory-value:hover {

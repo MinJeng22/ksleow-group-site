@@ -45,20 +45,20 @@ const CONTACT_DIRECTORY = [
   ...officeContacts.filter((office) => office.name !== "KSL BUSINESS SOLUTIONS SDN. BHD."),
 ];
 
-function ContactValue({ icon, children, href }) {
-  const content = (
-    <>
-      <span className="contact-directory-icon">{icon}</span>
-      <span>{children}</span>
-    </>
-  );
+function ContactGroup({ icon, items, getHref }) {
+  if (!items?.length) return null;
 
-  return href ? (
-    <a className="contact-directory-value" href={href}>
-      {content}
-    </a>
-  ) : (
-    <div className="contact-directory-value">{content}</div>
+  return (
+    <div className="contact-directory-group">
+      <span className="contact-directory-icon">{icon}</span>
+      <div className="contact-directory-values">
+        {items.map((item) => (
+          <a className="contact-directory-value" href={getHref(item)} key={item}>
+            {item}
+          </a>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -103,16 +103,16 @@ export default function ContactModal({ open, onClose }) {
                 </div>
 
                 <div className="contact-directory-list">
-                  {company.phones.map((phone) => (
-                    <ContactValue key={phone} icon={<PhoneIcon />} href={`tel:${normalisePhoneForHref(phone)}`}>
-                      {phone}
-                    </ContactValue>
-                  ))}
-                  {company.emails.map((email) => (
-                  <ContactValue key={email} icon={<MailIcon />} href={`mailto:${email}`}>
-                    {email}
-                  </ContactValue>
-                ))}
+                  <ContactGroup
+                    icon={<PhoneIcon />}
+                    items={company.phones}
+                    getHref={(phone) => `tel:${normalisePhoneForHref(phone)}`}
+                  />
+                  <ContactGroup
+                    icon={<MailIcon />}
+                    items={company.emails}
+                    getHref={(email) => `mailto:${email}`}
+                  />
                 </div>
               </article>
             ))}
