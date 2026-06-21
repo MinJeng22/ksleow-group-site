@@ -1,3 +1,5 @@
+import { useRef } from "react";
+
 const teamTiles = [
   {
     label: "Tax & Accounting",
@@ -32,6 +34,31 @@ const teamTiles = [
 ];
 
 export default function OurTeam() {
+  const leadCardRef = useRef(null);
+
+  const handleLeadMove = (event) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    const y = ((event.clientY - rect.top) / rect.height) * 2 - 1;
+    const card = leadCardRef.current;
+
+    if (!card) return;
+    card.style.setProperty("--team-bg-x", `${x * -10}px`);
+    card.style.setProperty("--team-bg-y", `${y * -7}px`);
+    card.style.setProperty("--team-person-x", `${x * 13}px`);
+    card.style.setProperty("--team-person-y", `${y * 6}px`);
+  };
+
+  const resetLeadDepth = () => {
+    const card = leadCardRef.current;
+
+    if (!card) return;
+    card.style.setProperty("--team-bg-x", "0px");
+    card.style.setProperty("--team-bg-y", "0px");
+    card.style.setProperty("--team-person-x", "0px");
+    card.style.setProperty("--team-person-y", "0px");
+  };
+
   return (
     <section className="our-team-section" id="our-team" aria-labelledby="our-team-title">
       <style>{`
@@ -84,6 +111,7 @@ export default function OurTeam() {
         }
         .team-lead-card {
           background: #173040;
+          border-radius: 28px;
           box-shadow: 0 34px 88px rgba(47,49,90,0.18);
           height: 100%;
           isolation: isolate;
@@ -92,7 +120,7 @@ export default function OurTeam() {
           transform: translateZ(0);
           transform-origin: center;
           min-height: clamp(520px, 46vw, 690px);
-          transition: transform 0.36s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.36s ease;
+          transition: box-shadow 0.36s ease;
         }
         .team-lead-card::before {
           background:
@@ -124,7 +152,8 @@ export default function OurTeam() {
           height: 100%;
           object-fit: cover;
           object-position: center;
-          transform: scale(1.03);
+          transform: translate3d(var(--team-bg-x, 0px), var(--team-bg-y, 0px), 0) scale(1.04);
+          transition: transform 0.18s ease-out, filter 0.24s ease;
           width: 100%;
           z-index: 1;
         }
@@ -136,21 +165,21 @@ export default function OurTeam() {
           max-width: none;
           object-fit: contain;
           object-position: center bottom;
-          transform: translateX(-50%) scale(1.04);
+          transform: translate3d(calc(-50% + var(--team-person-x, 0px)), var(--team-person-y, 0px), 0) scale(1.045);
           transform-origin: center bottom;
+          transition: transform 0.18s ease-out, filter 0.24s ease;
           width: auto;
           z-index: 3;
         }
         @media (hover: hover) and (pointer: fine) {
           .team-lead-card:hover {
             box-shadow: 0 38px 92px rgba(23,25,54,0.23);
-            transform: translateY(-6px);
           }
           .team-lead-card:hover .team-lead-bg {
-            transform: scale(1.06);
+            filter: saturate(1.08) contrast(1.06);
           }
           .team-lead-card:hover .team-lead-person {
-            transform: translateX(-50%) scale(1.07);
+            filter: drop-shadow(0 38px 56px rgba(2,8,17,0.42));
           }
         }
         .team-lead-caption {
@@ -298,6 +327,7 @@ export default function OurTeam() {
             width: min(86vw, 560px);
           }
           .team-lead-card {
+            border-radius: 24px;
             min-height: clamp(480px, 80vw, 680px);
             transform: none;
           }
@@ -319,6 +349,7 @@ export default function OurTeam() {
             width: min(100%, 390px);
           }
           .team-lead-card {
+            border-radius: 22px;
             min-height: 520px;
           }
           .team-photo-wall {
@@ -347,7 +378,7 @@ export default function OurTeam() {
       <div className="content-wrap our-team-wrap">
         <div className="team-gallery-panel">
           <div className="team-copy">
-            <p className="section-eyebrow">People Behind K.S. Leow Group</p>
+            <p className="section-eyebrow">People Behind Every Solution</p>
             <h2 id="our-team-title">Our Team</h2>
             <p>
               From advisory and compliance to software implementation and support, each department brings practical experience to help clients move with confidence.
@@ -364,7 +395,12 @@ export default function OurTeam() {
         </div>
 
         <div className="team-lead" aria-label="Executive Manager Leow Chuen Hock">
-          <div className="team-lead-card">
+          <div
+            className="team-lead-card"
+            ref={leadCardRef}
+            onMouseMove={handleLeadMove}
+            onMouseLeave={resetLeadDepth}
+          >
             <img
               className="team-lead-bg"
               src="/images/team/ch-leow-background.webp"
