@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import DepthDisplacementWebGL from "./DepthDisplacementWebGL";
 
 const teamTiles = [
   {
@@ -54,9 +55,14 @@ export default function OurTeam() {
   const leadFrameRef = useRef(null);
   const leadCurrentRef = useRef({ ...leadDepthDefault });
   const leadTargetRef = useRef({ ...leadDepthDefault });
+  const webGLRef = useRef(null);
 
   const writeLeadDepth = (values) => {
     const card = leadCardRef.current;
+    
+    if (webGLRef.current) {
+      webGLRef.current.updateMouse(values.tiltY / 1.35, values.tiltX / -1.15, values.active);
+    }
 
     if (!card) return;
     card.style.setProperty("--team-bg-x", `${values.bgX.toFixed(2)}px`);
@@ -539,13 +545,20 @@ export default function OurTeam() {
               aria-hidden="true"
             />
             <span className="team-lead-depth-shadow" aria-hidden="true" />
-            <img
-              className="team-lead-person"
-              src="/images/team/ch-leow-portrait.webp"
-              alt="Executive Manager Leow Chuen Hock"
-              loading="lazy"
-              decoding="async"
-            />
+            <div className="team-lead-person">
+              <img
+                src="/images/team/ch-leow-portrait.webp"
+                alt="Executive Manager Leow Chuen Hock"
+                style={{ visibility: "hidden", height: "100%", width: "auto", display: "block" }}
+              />
+              <DepthDisplacementWebGL
+                ref={webGLRef}
+                imageSrc="/images/team/ch-leow-portrait.webp"
+                depthSrc="/images/team/ch-leow-portrait-depth.webp"
+                style={{ position: "absolute", inset: 0 }}
+                aria-label="Executive Manager Leow Chuen Hock"
+              />
+            </div>
             <div className="team-lead-caption">
               <span>Executive Manager</span>
               <strong>Leow Chuen Hock</strong>
