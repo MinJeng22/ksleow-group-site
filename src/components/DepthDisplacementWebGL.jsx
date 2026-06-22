@@ -19,22 +19,14 @@ const fragmentShader = `
   void main() {
     float depth = texture2D(uDepth, vUv).r;
     
-    // Smooth the depth gently
-    depth = smoothstep(0.02, 0.98, depth);
+    // Smooth the depth gently to prevent hard tears
+    depth = smoothstep(0.05, 0.95, depth);
 
+    // Subtle offset for 3D bulge
     vec2 offset = uMouse * depth * uDepthScale;
     vec2 distortedUv = vUv - offset;
     
-    vec4 distortedColor = texture2D(uImage, distortedUv);
-    vec4 baseColor = texture2D(uImage, vUv);
-    
-    // Alpha compositing: Draw distorted color OVER the base color!
-    // This entirely prevents "alpha tearing" because any transparent gaps left by the displacement
-    // will be perfectly filled by the original un-displaced image underneath.
-    float finalAlpha = distortedColor.a + baseColor.a * (1.0 - distortedColor.a);
-    vec3 finalRgb = (distortedColor.rgb * distortedColor.a + baseColor.rgb * baseColor.a * (1.0 - distortedColor.a)) / max(finalAlpha, 0.00001);
-    
-    gl_FragColor = vec4(finalRgb, finalAlpha);
+    gl_FragColor = texture2D(uImage, distortedUv);
   }
 `;
 
@@ -80,7 +72,7 @@ const DepthDisplacementWebGL = forwardRef(({
       uImage: { value: imgTexture },
       uDepth: { value: depthTexture },
       uMouse: { value: new THREE.Vector2(0, 0) },
-      uDepthScale: { value: 0.025 } // We can now use a larger amplitude because gaps are filled!
+      uDepthScale: { value: 0.015 } // Safe intensity to avoid edge tearing on cutouts
     };
 
     const material = new THREE.ShaderMaterial({

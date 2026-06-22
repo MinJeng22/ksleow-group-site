@@ -281,7 +281,7 @@ export default function OurTeam() {
             drop-shadow(0 7px 12px rgba(2,8,17,0.18));
           height: 98%;
           left: 50%;
-          transform: translate3d(-50%, 0, 30px) scale(1.048);
+          transform: translate3d(calc(-50% + var(--team-person-x)), var(--team-person-y), 30px) scale(1.048);
           transform-origin: center bottom;
           transition: filter 0.3s ease;
           width: auto;
