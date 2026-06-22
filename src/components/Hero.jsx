@@ -299,23 +299,7 @@ export default function Hero({ onContact }) {
         ref={hintRef}
         className="hero-scroll-hint lg-glass lg-glass-btn lg-glass-pill"
         onClick={() => {
-          /* Hand-paced scroll — native "smooth" is too fast and feels
-           * like a jump cut. We RAF a slow ease-in-out over ~1.8s so it
-           * reads as "someone gently dragging the page down". Distance
-           * is 72% of the viewport so the bottom of the hero stays
-           * visible at the top of the screen after the scroll. */
-          const distance = window.innerHeight * 0.9;
-          const duration = 900;
-          const startY = window.scrollY;
-          const t0 = performance.now();
-          const easeInOut = (t) =>
-            t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-          const tick = (now) => {
-            const p = Math.min((now - t0) / duration, 1);
-            window.scrollTo(0, startY + distance * easeInOut(p));
-            if (p < 1) requestAnimationFrame(tick);
-          };
-          requestAnimationFrame(tick);
+          window.scrollBy({ top: window.innerHeight * 0.9, behavior: "smooth" });
         }}
         aria-label="Scroll for more"
         style={{
