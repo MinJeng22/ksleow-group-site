@@ -97,7 +97,7 @@ const DepthDisplacementWebGL = forwardRef(({
       uImage: { value: imgTexture },
       uDepth: { value: depthTexture },
       uMouse: { value: new THREE.Vector2(0, 0) },
-      uDepthScale: { value: 0.012 } // Tune intensity
+      uDepthScale: { value: 0.016 } // Tune intensity
     };
 
     const material = new THREE.ShaderMaterial({
