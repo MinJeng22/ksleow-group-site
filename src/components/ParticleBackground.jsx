@@ -16,17 +16,17 @@ const useIsomorphicLayoutEffect = import.meta.env.SSR ? useEffect : useLayoutEff
  * ─────────────────────────────────────────────────────────────*/
 function densityFor(W) {
   if (W < 640)  return 0.000085;
-  if (W < 1024) return 0.000095;
+  if (W < 1200) return 0.000095;
   return 0.000152;
 }
 function maxParticlesFor(W) {
   if (W < 640)  return 28;
-  if (W < 1024) return 32;
+  if (W < 1200) return 32;
   return 70;
 }
 function minParticlesFor(W) {
   if (W < 640)  return 14;
-  if (W < 1024) return 18;
+  if (W < 1200) return 18;
   return 20;
 }
 const MAX_DIST    = 130;
@@ -47,7 +47,7 @@ function rand(a, b) { return Math.random() * (b - a) + a; }
  * desktop (> 1024) → 1.55–2.85                         */
 function particleRadius(W) {
   if (W < 640)  return rand(1.55, 2.8);
-  if (W < 1024) return rand(1.85, 3.25);
+  if (W < 1200) return rand(1.85, 3.25);
   return rand(1.55, 2.85);
 }
 
@@ -329,7 +329,7 @@ export default function ParticleBackground({
       }
 
       /* particle-to-particle lines — 4 alpha buckets batched */
-      const maxDist = W < 640 ? 146 : W < 1024 ? 150 : MAX_DIST;
+      const maxDist = W < 640 ? 146 : W < 1200 ? 150 : MAX_DIST;
       const maxDistSq = maxDist * maxDist;
       const BUCKETS = 4;
       const paths   = Array.from({ length: BUCKETS }, () => new Path2D());
