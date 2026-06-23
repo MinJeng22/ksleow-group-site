@@ -21,7 +21,6 @@ export default function Hero({ onContact }) {
    * them downward. Fades out as soon as they start scrolling. */
   const [hintShown, setHintShown] = useState(false);
   const hintRef = useRef(null);
-  const hasScrolledRef = useRef(false);
 
   useEffect(() => {
     const showTimer = setTimeout(() => setVisible(true), 120);
@@ -36,14 +35,9 @@ export default function Hero({ onContact }) {
     const t = setTimeout(() => {
       setHintShown(true);
       if (hintRef.current) {
-        if (hasScrolledRef.current) {
-          hintRef.current.style.opacity = 0;
-          hintRef.current.style.pointerEvents = "none";
-        } else {
-          const opacity = Math.max(0, 1 - Math.max(0, window.scrollY - 40) / 120);
-          hintRef.current.style.opacity = opacity;
-          hintRef.current.style.pointerEvents = opacity > 0 ? "auto" : "none";
-        }
+        const opacity = Math.max(0, 1 - Math.max(0, window.scrollY) / 80);
+        hintRef.current.style.opacity = opacity;
+        hintRef.current.style.pointerEvents = opacity > 0 ? "auto" : "none";
       }
     }, 5000);
     return () => clearTimeout(t);
@@ -54,18 +48,9 @@ export default function Hero({ onContact }) {
     const updateScrollState = () => {
       rafId = 0;
       const y = window.scrollY || 0;
-      
-      if (y > 100) {
-        hasScrolledRef.current = true;
-      }
 
       if (hintShown && hintRef.current) {
-        if (hasScrolledRef.current) {
-          hintRef.current.style.opacity = 0;
-          hintRef.current.style.pointerEvents = "none";
-          return;
-        }
-        const opacity = Math.max(0, 1 - Math.max(0, y - 40) / 120);
+        const opacity = Math.max(0, 1 - Math.max(0, y) / 80);
         hintRef.current.style.opacity = opacity;
         hintRef.current.style.pointerEvents = opacity > 0 ? "auto" : "none";
       }
@@ -299,7 +284,18 @@ export default function Hero({ onContact }) {
         ref={hintRef}
         className="hero-scroll-hint lg-glass lg-glass-btn lg-glass-pill"
         onClick={() => {
-          window.scrollBy({ top: window.innerHeight * 0.9, behavior: "smooth" });
+          const distance = window.innerHeight * 0.9;
+          const duration = 900;
+          const startY = window.scrollY;
+          const t0 = performance.now();
+          const easeInOut = (t) =>
+            t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+          const tick = (now) => {
+            const p = Math.min((now - t0) / duration, 1);
+            window.scrollTo(0, startY + distance * easeInOut(p));
+            if (p < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
         }}
         aria-label="Scroll for more"
         style={{
