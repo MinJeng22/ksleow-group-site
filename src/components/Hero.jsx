@@ -271,9 +271,6 @@ export default function Hero({ onContact }) {
         .hero-scroll-hint svg {
           transition: transform 0.48s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .hero-scroll-hint:hover svg {
-          transform: translateY(2px);
-        }
         @media (max-width: 767px) {
           .hero-scroll-hint {
             display: none !important;
@@ -302,10 +299,10 @@ export default function Hero({ onContact }) {
           "--lg-height": "44px",
           "--lg-px": "1.15rem",
           "--lg-rest-transform": "translateX(-50%) translateY(0) scale(1)",
-          "--lg-hover-transform": "translateX(-50%) translateY(-2px) scale(1.018)",
+          "--lg-hover-transform": "translateX(-50%) translateY(0) scale(1.018)",
           "--lg-active-transform": "translateX(-50%) translateY(0) scale(0.97)",
-          opacity: hintShown ? 1 : 0,
-          pointerEvents: hintShown ? "auto" : "none",
+          opacity: hintShown ? undefined : 0,
+          pointerEvents: hintShown ? undefined : "none",
           zIndex: 100,
           cursor: "pointer",
           transition: "opacity 0.6s ease",
