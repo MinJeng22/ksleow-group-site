@@ -258,7 +258,7 @@ export default function StealthHoneycombGrid({
         drawGlowCell(cell, intensity, 2.45);
 
         const holdFrames = s.touchHoldFrames.get(index) || 0;
-        const next = holdFrames > 0 ? level : level - (s.pointerFine ? 0.022 : 0.0065);
+        const next = holdFrames > 0 ? level : level - 0.0065;
         if (holdFrames > 0) {
           s.touchHoldFrames.set(index, holdFrames - 1);
         } else {
