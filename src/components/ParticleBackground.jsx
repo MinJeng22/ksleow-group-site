@@ -16,17 +16,17 @@ const useIsomorphicLayoutEffect = import.meta.env.SSR ? useEffect : useLayoutEff
  * ─────────────────────────────────────────────────────────────*/
 function densityFor(W) {
   if (W < 640)  return 0.000085;
-  if (W < 1024) return 0.00012;
+  if (W < 1024) return 0.000095;
   return 0.000152;
 }
 function maxParticlesFor(W) {
   if (W < 640)  return 28;
-  if (W < 1024) return 44;
+  if (W < 1024) return 32;
   return 70;
 }
 function minParticlesFor(W) {
   if (W < 640)  return 14;
-  if (W < 1024) return 22;
+  if (W < 1024) return 18;
   return 20;
 }
 const MAX_DIST    = 130;
