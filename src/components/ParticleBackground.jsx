@@ -46,16 +46,16 @@ function rand(a, b) { return Math.random() * (b - a) + a; }
  * tablet (640–1024) → 1.85–3.25
  * desktop (> 1024) → 1.55–2.85                         */
 function particleRadius(W) {
-  if (W < 640)  return rand(2.8, 4.5);
-  if (W < 1200) return rand(3.5, 5.5);
-  return rand(3.0, 5.0);
+  if (W < 640)  return rand(1.55, 2.8);
+  if (W < 1200) return rand(1.85, 3.25);
+  return rand(1.55, 2.85);
 }
 
 export default function ParticleBackground({
   active = true,
   paused,
-  backgroundStart = "#19275a",
-  backgroundEnd = "#0b1026",
+  backgroundStart = "#0f1128",
+  backgroundEnd = "#07080f",
   lineRgb = "201,168,76",
   dotRgb = "201,168,76",
   highlightRgb = "232,201,122",
