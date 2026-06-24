@@ -57,6 +57,7 @@ const BENTO_CAROUSEL_STYLES = `
 .other-services-carousel .ks-bento-layout-5 { grid-column: 4 !important; grid-row: 1 !important; }
 .other-services-carousel .ks-bento-layout-6 { grid-column: 3 / span 2 !important; grid-row: 2 !important; }
 .other-services-carousel .ks-bento-card {
+  background: #ffffff !important;
   border-color: rgba(47,49,90,0.1);
   box-shadow: none;
 }
