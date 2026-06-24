@@ -37,7 +37,7 @@ const MAX_DPR     = 1;
 const MOUSE_R     = 150;
 const MOUSE_R_SQ  = MOUSE_R * MOUSE_R;
 const INTRO_FADE_MS = 520;
-const MAX_CLICK_PARTICLES = 100;
+const MAX_CLICK_PARTICLES = 10;
 
 function rand(a, b) { return Math.random() * (b - a) + a; }
 
@@ -204,24 +204,23 @@ export default function ParticleBackground({
 
     /* ── Height-only resize: just update canvas height & gradients,
      *    DO NOT reinitialise particles (prevents jump on mobile scroll) ── */
-    function addClickParticle(x, y, count = 1) {
+    function addClickParticle(x, y) {
       if (!s.W || !s.H) return;
-      for (let c = 0; c < count; c++) {
-        s.particles.push({
-          x,
-          y,
-          vx: rand(-SPEED * 1.5, SPEED * 1.5) || SPEED,
-          vy: rand(-SPEED * 1.5, SPEED * 1.5) || SPEED,
-          r: particleRadius(s.W) * 1.18,
-          added: true,
-        });
-      }
+      s.particles.push({
+        x,
+        y,
+        vx: rand(-SPEED, SPEED) || SPEED,
+        vy: rand(-SPEED, SPEED) || SPEED,
+        r: particleRadius(s.W) * 1.18,
+        added: true,
+      });
 
       let addedCount = 0;
+      const maxLimit = s.W >= 1200 ? 20 : MAX_CLICK_PARTICLES;
       for (let i = s.particles.length - 1; i >= 0; i--) {
         if (!s.particles[i].added) continue;
         addedCount += 1;
-        if (addedCount > MAX_CLICK_PARTICLES) {
+        if (addedCount > maxLimit) {
           s.particles.splice(i, 1);
         }
       }
@@ -422,9 +421,7 @@ export default function ParticleBackground({
       s.mx = x;
       s.my = y;
       if (hold) {
-        const isDesktop = s.W >= 1200;
-        const count = isDesktop ? 20 : 1;
-        addClickParticle(x, y, count);
+        addClickParticle(x, y);
         if (e.pointerType !== "mouse") {
           s.clickDotSuppressUntil = performance.now() + 1600;
           s.touchUntil = performance.now() + 1500;
