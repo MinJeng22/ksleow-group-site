@@ -92,7 +92,14 @@ const POS_EDITION_TABLE = {
 
 function POSEditionsTable() {
   const [selectedEditions, setSelectedEditions] = useState(["retail", "fnb"]);
-  const selectedIndexes = getEditionColumnIndexes(selectedEditions, Object.values(EDITION_CODE));
+  // FIRST argument is allEditions, SECOND is selected
+  const selectedIndexes = getEditionColumnIndexes(Object.values(EDITION_CODE), selectedEditions);
+
+  const EditionMarker = ({ value }) => {
+    if (value === "+") return <span style={{ color: "#e49e25", fontSize: "1.2rem", fontWeight: "bold" }}>✓</span>;
+    if (!value) return <span style={{ color: "#d1d5db" }}>-</span>;
+    return <span>{value}</span>;
+  };
 
   return (
     <div className="compare-table-wrapper" style={{ margin: "2rem auto", maxWidth: 1200 }}>
@@ -123,10 +130,10 @@ function POSEditionsTable() {
           <tbody>
             {POS_EDITION_TABLE.topRows.map(([label, values], i) => (
               <tr key={`top-${i}`} className="top-row">
-                <td className="feature-cell">{label}</td>
+                <td className="feature-cell" style={{ fontWeight: 600 }}>{label}</td>
                 {filterEditionValues(values, selectedIndexes).map((val, idx) => (
-                  <td key={idx} className="value-cell">
-                    <CompareFeatureCell val={val} />
+                  <td key={idx} className="value-cell" style={{ textAlign: "center" }}>
+                    {val}
                   </td>
                 ))}
               </tr>
@@ -135,19 +142,19 @@ function POSEditionsTable() {
             {POS_EDITION_TABLE.sections.map((section) => (
               <React.Fragment key={section.name}>
                 <tr className="section-header-row">
-                  <td colSpan={selectedIndexes.length + 1} className="section-header-cell">
+                  <td colSpan={selectedIndexes.length + 1} className="section-header-cell" style={{ background: "#f8f9fa", fontWeight: 600, paddingTop: "1.5rem", paddingBottom: "0.5rem", color: "#2f315a" }}>
                     {section.name}
                   </td>
                 </tr>
                 {section.rows.map(([featureName, values], idx) => {
                   const activeVals = filterEditionValues(values, selectedIndexes);
-                  const isDiff = editionRowDiffers(activeVals);
+                  const isDiff = editionRowDiffers(values, selectedIndexes);
                   return (
                     <tr key={idx} className={`feature-row ${isDiff ? "diff-row" : ""}`}>
                       <td className="feature-cell">{featureName}</td>
                       {activeVals.map((val, i) => (
-                        <td key={i} className="value-cell">
-                          <CompareFeatureCell val={val} />
+                        <td key={i} className="value-cell" style={{ textAlign: "center" }}>
+                          <EditionMarker value={val} />
                         </td>
                       ))}
                     </tr>

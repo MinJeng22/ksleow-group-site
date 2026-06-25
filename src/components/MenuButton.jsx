@@ -21,10 +21,9 @@ const MEGA_MENU = [
     title: "Products",
     items: [
       { label: "AutoCount Accounting",      path: "/products/autocount-accounting", icon: "monitor" },
-        { label: "FeedMe POS",              scrollTo: "#feedmepos-card", icon: "fork" },
-      
+      { label: "FeedMe POS",                path: "/products/feedme-pos", icon: "fork" },
       { label: "AutoCount CloudAccounting", path: "/products/autocount-cloud-accounting", icon: "cloud" },
-      { label: "AutoCount POS",             scrollTo: "#products", icon: "cash-register" },
+      { label: "AutoCount POS",             path: "/products/autocount-pos", icon: "cash-register" },
       { label: "ServerLink",                scrollTo: "#products", icon: "laptop" },
       { label: "AutoCount HRMS",            scrollTo: "#products", icon: "users" },
       { label: "AutoCount OneSale",         scrollTo: "#products", icon: "smartphone" },
