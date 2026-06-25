@@ -56,6 +56,11 @@ const routeAssets = {
     "/images/promotions/ksl-referral-program.webp",
     "/images/promotions/autocount-cloudaccounting-65-promo.webp",
   ],
+  "/products/autocount-pos": [
+    "/images/products/autocount-pos-showcase.webp",
+    "/images/products/autocountpos.webp",
+    ...(productAssetsByRoute["/products/autocount-pos"] || []),
+  ],
   "/products/feedme-pos": [
     "/images/products/feedme-pos-showcase.webp",
     "/images/logos/feedme-logo.webp",
@@ -86,6 +91,10 @@ const routeCriticalAssets = {
   "/products/autocount-cloud-accounting": [
     "/images/products/autocount-cloudaccounting-hero.webp",
     "/images/products/cloudaccounting-icon.webp",
+  ],
+  "/products/autocount-pos": [
+    "/images/products/autocount-pos-showcase.webp",
+    "/images/products/autocountpos.webp",
   ],
   "/products/feedme-pos": [
     "/images/products/feedme-pos-showcase.webp",
