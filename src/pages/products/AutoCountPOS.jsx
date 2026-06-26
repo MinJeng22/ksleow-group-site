@@ -686,6 +686,7 @@ export default function AutoCountPOSPage({ onContact }) {
         }
         #page-autocount-pos .pos-addon-card h3 {
           margin-top: 0;
+          color: var(--pos-accent);
         }
         #page-autocount-pos .pos-addon-rows {
           display: grid;
@@ -705,6 +706,7 @@ export default function AutoCountPOSPage({ onContact }) {
         #page-autocount-pos .pos-price-value {
           color: #2f315a;
           font-weight: 780;
+          white-space: nowrap;
         }
         #page-autocount-pos .pos-compare-panel {
           max-width: 1180px;
