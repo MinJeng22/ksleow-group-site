@@ -7,7 +7,7 @@ import CarouselProgress from "../../components/CarouselProgress.jsx";
 import EnquireNowCTA from "../../components/EnquireNowCTA.jsx";
 import StepRow from "../../components/StepRow.jsx";
 import { Vid, Img } from "../../components/Media.jsx";
-/* Sales2DO-specific WhatsApp link — addressed to KSL Support Team with a product-aware message */
+/* Sales2DO-specific WhatsApp link — addressed to KS Support Team with a product-aware message */
 const WA_LINK = `https://wa.me/60179052323?text=${encodeURIComponent(
   "HI KS Support Team, I would like to learn more about AutoCount Plugin Sales2DO. Thank you."
 )}`;

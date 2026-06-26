@@ -17,7 +17,7 @@ import { SegmentedControl, SelectField } from "../../components/FormControls.jsx
 import { CopyReleaseButton, ReleaseNumber, ShareLinkButton, HighlightText } from "../../components/ReleaseTools.jsx";
 import { CompareFeatureCell, editionRowDiffers, filterEditionValues, getEditionColumnIndexes } from "../../components/CompareTable.jsx";
 import { runWithProgressFeedback } from "../../utils/routeTransitions.js";
-/* AutoCount Accounting page — product-aware WhatsApp link to KSL Support Team */
+/* AutoCount Accounting page — product-aware WhatsApp link to KS Support Team */
 const WA_LINK = `https://wa.me/60179052323?text=${encodeURIComponent(
   "HI KS Support Team, I would like to learn more about AutoCount Accounting. Thank you."
 )}`;

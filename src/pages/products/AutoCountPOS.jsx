@@ -23,7 +23,7 @@ const POS_HERO = "/images/products/autocount-pos-showcase.webp";
 const POS_ICON = "/images/products/autocountpos.webp";
 
 const WA_LINK = `https://wa.me/60179052323?text=${encodeURIComponent(
-  "Hi KSL Support Team, I am interested in AutoCount POS. I would like to arrange a demo or get a quotation. Thank you."
+  "Hi KS Support Team, I am interested in AutoCount POS. I would like to arrange a demo or get a quotation. Thank you."
 )}`;
 
 const POS_SECTIONS = [
@@ -909,10 +909,8 @@ export default function AutoCountPOSPage({ onContact }) {
 
         <EnquireNowCTA
           heading="Ready to build your POS setup?"
-          subheading="Talk to KSL for an AutoCount POS quotation, module advice, and counter implementation plan."
-          buttonText="Contact Sales"
-          onClick={handleContact}
-          themeColor={POS_ACCENT}
+          body="Talk to KSL for an AutoCount POS quotation, module advice, and counter implementation plan."
+          buttons={[{ label: "Contact Sales", href: WA_LINK, className: "btn-ghost-base btn-ghost-dark" }]}
         />
 
         <Footer />
