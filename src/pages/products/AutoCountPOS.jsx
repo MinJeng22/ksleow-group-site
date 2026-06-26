@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import Footer from "../../components/Footer";
 import ProductHero from "../../components/ProductHero.jsx";
 import SectionSidebar from "../../components/SectionSidebar.jsx";
-import { PageSectionDivider } from "../../components/PageSections.jsx";
+import { PageSectionDivider, getSection } from "../../components/PageSections.jsx";
+import WhyChooseUs from "../../components/WhyChooseUs.jsx";
 import {
   IconDollar,
   IconGrid,
@@ -58,25 +59,7 @@ const FEATURES = [
 
 
 
-const WHY_KSL_POINTS = [
-  {
-    label: "Counter workflow first",
-    title: "Designed around real cashier flow",
-    desc: "We plan barcode scanning, receipt printing, cash drawer, payment collection, closing, and user access before installation.",
-  },
-  {
-    label: "Backend connected",
-    title: "Sales and stock stay traceable",
-    desc: "POS setup is aligned with AutoCount Accounting, item master, stock movement, account posting, and outlet reporting.",
-  },
-  {
-    label: "Local support",
-    title: "Training and go-live support",
-    desc: "Your team gets guided training, practical checking, and support after launch so daily counter work stays smooth.",
-  },
-];
 
-const POS_SETUP_STEPS = ["Demo", "Quotation", "Setup", "Training", "Go-Live"];
 
 const EDITION_COLUMNS = ["POS Basic", "POS Standard"];
 const EDITION_ROWS = [
@@ -381,60 +364,6 @@ function NotesPanel({ title, items }) {
   );
 }
 
-function POSWhyKSL({ onContact }) {
-  return (
-    <section className="pos-why-ksl">
-      <div className="content-wrap pos-why-layout">
-        <div className="pos-why-copy">
-          <div className="ks-eyebrow" style={{ color: POS_ACCENT }}>
-            Why Choose KSL
-          </div>
-          <h2>POS implementation that fits how your outlet actually works.</h2>
-          <p>
-            AutoCount POS is strongest when front-end counter work, stock control, accounting, and support are planned together.
-          </p>
-          <div className="pos-why-stats" aria-label="KSL POS implementation support summary">
-            <span>
-              <strong>Retail</strong>
-              Counter sales
-            </span>
-            <span>
-              <strong>F&amp;B</strong>
-              Table and waiter flow
-            </span>
-            <span>
-              <strong>Branch</strong>
-              Outlet sync planning
-            </span>
-          </div>
-          <button type="button" className="ks-btn ks-btn-primary pos-why-cta" onClick={onContact}>
-            Discuss POS Setup
-          </button>
-        </div>
-
-        <div className="pos-why-board" aria-label="KSL AutoCount POS implementation highlights">
-          <div className="pos-why-flow">
-            {POS_SETUP_STEPS.map((step, index) => (
-              <span key={step}>
-                <i>{String(index + 1).padStart(2, "0")}</i>
-                {step}
-              </span>
-            ))}
-          </div>
-          <div className="pos-why-cards">
-            {WHY_KSL_POINTS.map((item) => (
-              <article key={item.title} className="pos-why-card">
-                <span>{item.label}</span>
-                <h3>{item.title}</h3>
-                <p>{item.desc}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 export default function AutoCountPOSPage({ onContact }) {
   const [trialOpen, setTrialOpen] = useState(false);
@@ -899,13 +828,7 @@ export default function AutoCountPOSPage({ onContact }) {
           </div>
         </section>
 
-        <div className="product-app-divider" style={{ "--section-from": "var(--ks-page-warm)", "--section-to": "var(--ks-page-paper)" }}>
-          <PageSectionDivider sections={POS_SECTIONS} id="why-ksl" />
-        </div>
-
-        <div id="why-ksl">
-          <POSWhyKSL onContact={handleContact} />
-        </div>
+        <WhyChooseUs section={getSection(POS_SECTIONS, "why-ksl")} sectionFrom="var(--ks-page-warm)" sectionTo="var(--ks-page-paper)" />
 
         <EnquireNowCTA
           heading="Ready to build your POS setup?"
