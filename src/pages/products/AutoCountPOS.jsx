@@ -89,7 +89,7 @@ const EDITION_ROWS = [
   { label: "POS Counter A", values: ["1", "1"] },
   { label: "Default Account Book", values: ["-", "3"] },
   { label: "Default E-Invoice Account Book", values: ["-", "1"] },
-  { label: "No. of Concurrent Network User", values: ["-", "1 Full"] },
+  { label: "No. of Concurrent Network User", values: ["1", "1"] },
 ];
 
 const ADDON_GROUPS = [
@@ -499,23 +499,32 @@ function POSReleaseNotesSection({ search, setSearch, expanded, setExpanded, visi
   return (
     <section id="releases" className="ac-section-tight product-app-section product-app-section-cloud product-app-section-to-paper">
       <div className="content-wrap">
-        <div className="pos-release-toolbar">
+        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: "1rem", flexWrap: "wrap", marginBottom: "1.75rem" }}>
           <div>
-            <h2>Official Release Notes</h2>
+            <h2 style={{ fontSize: "clamp(1.45rem, 2.7vw, 2.15rem)", fontWeight: 780, color: "var(--pos-navy)", margin: 0 }}>
+              Official Release Notes
+            </h2>
+            <p style={{ fontSize: "0.86rem", color: "#6b6f91", margin: "0.45rem 0 0" }}>
+              {POS_RELEASES.length} revisions • {highlightCount} highlights • Rev {latest.rev} • Newest first
+            </p>
           </div>
-          <div className="pos-release-search">
-            <input
-              type="search"
-              style={{ outline: "none" }}
-              value={search}
-              onChange={(event) => {
-                setSearch(event.target.value);
-                setVisibleLimit(5);
-              }}
-              placeholder="Search POS release notes..."
-              aria-label="Search AutoCount POS release notes"
+        </div>
+
+        <div style={{ display: "flex", gap: "0.75rem", alignItems: "center", flexWrap: "wrap", marginBottom: "1.5rem" }}>
+          <div style={{ position: "relative", flex: 1, maxWidth: 360 }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a8abcc" strokeWidth="2"
+              style={{ position: "absolute", left: 16, top: "50%", transform: "translateY(-50%)", pointerEvents: "none" }}>
+              <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <input type="text" placeholder="Search POS release notes..."
+              value={search} onChange={(event) => { setSearch(event.target.value); setVisibleLimit(5); }}
+              style={{ width: "100%", paddingLeft: 42, paddingRight: 16, height: 46, borderRadius: 50, border: "1px solid rgba(47,49,90,0.13)", fontSize: "0.9rem", fontFamily: "inherit", color: "var(--pos-navy)", outline: "none", background: "#ffffff" }}
             />
           </div>
+          <button onClick={() => setExpanded(null)}
+            style={{ fontSize: "0.86rem", color: "#6b6f91", background: "transparent", border: "1px solid rgba(47,49,90,0.15)", borderRadius: 50, padding: "0.45rem 1.1rem", cursor: "pointer", fontFamily: "inherit" }}>
+            Collapse all
+          </button>
         </div>
 
         <div className="pos-release-source">
@@ -1254,6 +1263,7 @@ export default function AutoCountPOSPage({ onContact }) {
           <div className="content-wrap">
             <SectionIntro
               title="POS Front End Editions"
+              shareHash="#frontend"
             />
 
             <div style={{ height: "2.5rem" }} />
