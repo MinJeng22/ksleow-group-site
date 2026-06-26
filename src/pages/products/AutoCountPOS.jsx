@@ -181,7 +181,6 @@ const POS_MODULE_SECTIONS = [
   {
     name: "POS Modules",
     rows: [
-      ["POS Backend", "RM 600", "Included", "Included"],
       ["POS Stock", "RM 800", "+", "Included"],
       ["POS Account", "RM 1,200", "+", "+"],
       ["POS Serial Number", "RM 1,000", "+", "+"],
@@ -191,11 +190,7 @@ const POS_MODULE_SECTIONS = [
   },
 ];
 
-const POS_MODULE_NOTES = [
-  "POS Backend includes POS Multi-Location, POS Multi-UOM, and POS Advance Multi-UOM.",
-  "POS modules apply to POS Edition or Accounting Edition with add-on POS Counter only.",
-  "If using Account Plus, Express Plus, Basic, Pro, or Premium Edition with POS Counter, POS Backend module is included.",
-];
+ 
 
 const COUNTER_COLUMNS = ["A", "B", "Branch"];
 const COUNTER_ROWS = [
@@ -227,12 +222,7 @@ const FRONTEND_MODULE_SECTIONS = [
   },
 ];
 
-const FRONTEND_NOTES = [
-  "Branch Sync over internet via VPN, Port Forwarding, or Service Bus requires this module.",
-  "RemoteHQ requires 1 AutoCount Backend User.",
-  "POS Sales Order is for POS Retail only. eWaiter Apps is for POS F&B only.",
-  "POS Dongle is suitable for users facing internet connection issues.",
-];
+ 
 
 function POSMarker({ value, price = false }) {
   if (price) {
@@ -349,13 +339,18 @@ function AddOnGrid() {
   );
 }
 
-function SectionIntro({ eyebrow, title, text }) {
+function SectionIntro({ eyebrow, title, text, shareHash }) {
   return (
     <div className="pos-section-intro">
-      <div className="ks-eyebrow" style={{ color: POS_ACCENT }}>
-        {eyebrow}
-      </div>
-      <h2>{title}</h2>
+      {eyebrow && (
+        <div className="ks-eyebrow" style={{ color: POS_ACCENT }}>
+          {eyebrow}
+        </div>
+      )}
+      <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+        {title}
+        {shareHash && <ShareLinkButton variant="icon" hash={shareHash} />}
+      </h2>
       {text && <p>{text}</p>}
     </div>
   );
@@ -1223,6 +1218,7 @@ export default function AutoCountPOSPage({ onContact }) {
           <div className="content-wrap">
             <SectionIntro
               title="Backend Editions, Pricing & Modules"
+              shareHash="#editions"
             />
             
             <div className="pos-legend">
@@ -1232,7 +1228,7 @@ export default function AutoCountPOSPage({ onContact }) {
             
             <POSCompareTable
               columns={EDITION_COLUMNS}
-              leftLabel="Edition / Module"
+              leftLabel="Module"
               rows={EDITION_ROWS}
               sections={[...POS_MODULE_SECTIONS, ...ACCOUNTING_MODULE_SECTIONS]}
               accent={POS_ACCENT}
@@ -1254,10 +1250,8 @@ export default function AutoCountPOSPage({ onContact }) {
         <section id="frontend" className="ac-section-tight product-app-section product-app-section-warm product-app-section-to-paper" style={{ overflow: "visible" }}>
           <div className="content-wrap">
             <SectionIntro
-              title="Front End & Counter"
+              title="Front End (Counter)"
             />
-            
-            <NotesPanel title="POS module notes" items={POS_MODULE_NOTES} />
 
             <div style={{ height: "2.5rem" }} />
 
@@ -1270,7 +1264,6 @@ export default function AutoCountPOSPage({ onContact }) {
               inlinePrice
               mobileWidth={820}
             />
-            <NotesPanel title="Front-end notes" items={FRONTEND_NOTES} />
           </div>
         </section>
 
