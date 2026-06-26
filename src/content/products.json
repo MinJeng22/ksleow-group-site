@@ -32,12 +32,12 @@
     },
     {
       "name": "AutoCount POS",
-      "desc": "POS integrated with AutoCount Accounting. Real‑time inventory and sales reporting.",
+      "desc": "AutoCount POS Malaysia for retail, F&B, branch outlets, barcode scanning, receipt printing, stock control, and AutoCount Accounting integration.",
       "image": "/images/products/autocountpos.webp",
       "background": "/images/products/autocount-pos-showcase.webp",
       "placeholder": "🖥️",
       "gradient": "rgb(244, 234, 207)",
-      "route": ""
+      "route": "/products/autocount-pos"
     },
     {
       "name": "ServerLink",

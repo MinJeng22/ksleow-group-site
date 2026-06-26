@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 Allow: /kb/
-Sitemap: https://ksleow.vercel.app/sitemap.xml
+Sitemap: https://ksleow.com.my/sitemap.xml

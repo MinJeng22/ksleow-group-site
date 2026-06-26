@@ -3,108 +3,120 @@
     "id": "home",
     "title": "K.S. Leow Group",
     "description": "K.S. Leow Group official website for accounting, taxation, company secretarial, AutoCount software, IT, training, and business workflow services in Pahang.",
-    "url": "https://ksleow.vercel.app/",
+    "url": "https://ksleow.com.my/",
     "route": "/",
     "category": "Company",
     "changefreq": "weekly",
     "priority": "1.0",
-    "kbJson": "https://ksleow.vercel.app/kb/home.json",
-    "kbText": "https://ksleow.vercel.app/kb/home.txt"
+    "kbJson": "https://ksleow.com.my/kb/home.json",
+    "kbText": "https://ksleow.com.my/kb/home.txt"
   },
   {
     "id": "autocount-accounting",
     "title": "AutoCount Accounting 2.2",
     "description": "Desktop accounting software for Malaysian SMEs with SST, e‑Invoice, inventory, sales, purchase, and reporting workflows.",
-    "url": "https://ksleow.vercel.app/products/autocount-accounting",
+    "url": "https://ksleow.com.my/products/autocount-accounting",
     "route": "/products/autocount-accounting",
     "category": "Product",
     "changefreq": "weekly",
     "priority": "0.8",
-    "kbJson": "https://ksleow.vercel.app/kb/autocount-accounting.json",
-    "kbText": "https://ksleow.vercel.app/kb/autocount-accounting.txt"
+    "kbJson": "https://ksleow.com.my/kb/autocount-accounting.json",
+    "kbText": "https://ksleow.com.my/kb/autocount-accounting.txt"
   },
   {
     "id": "autocount-cloud-accounting",
     "title": "AutoCount CloudAccounting",
     "description": "Browser‑based AutoCount CloudAccounting with e‑Invoice, AI SmartScan, bank connection, and anytime access.",
-    "url": "https://ksleow.vercel.app/products/autocount-cloud-accounting",
+    "url": "https://ksleow.com.my/products/autocount-cloud-accounting",
     "route": "/products/autocount-cloud-accounting",
     "category": "Product",
     "changefreq": "weekly",
     "priority": "0.8",
-    "kbJson": "https://ksleow.vercel.app/kb/autocount-cloud-accounting.json",
-    "kbText": "https://ksleow.vercel.app/kb/autocount-cloud-accounting.txt"
+    "kbJson": "https://ksleow.com.my/kb/autocount-cloud-accounting.json",
+    "kbText": "https://ksleow.com.my/kb/autocount-cloud-accounting.txt"
+  },
+  {
+    "id": "autocount-pos",
+    "title": "AutoCount POS Malaysia",
+    "description": "AutoCount POS Malaysia for retail, F&B, and branch outlets, integrated with AutoCount Accounting, stock control, receipt printers, barcode scanners, and local implementation support.",
+    "url": "https://ksleow.com.my/products/autocount-pos",
+    "route": "/products/autocount-pos",
+    "category": "Product",
+    "changefreq": "weekly",
+    "priority": "0.8",
+    "kbJson": "https://ksleow.com.my/kb/autocount-pos.json",
+    "kbText": "https://ksleow.com.my/kb/autocount-pos.txt"
   },
   {
     "id": "feedme-pos",
     "title": "FeedMe POS",
     "description": "Cloud F&B POS for restaurants with table management, kitchen display, and online ordering integration.",
-    "url": "https://ksleow.vercel.app/products/feedme-pos",
+    "url": "https://ksleow.com.my/products/feedme-pos",
     "route": "/products/feedme-pos",
     "category": "Product",
     "changefreq": "weekly",
     "priority": "0.8",
-    "kbJson": "https://ksleow.vercel.app/kb/feedme-pos.json",
-    "kbText": "https://ksleow.vercel.app/kb/feedme-pos.txt"
+    "kbJson": "https://ksleow.com.my/kb/feedme-pos.json",
+    "kbText": "https://ksleow.com.my/kb/feedme-pos.txt"
   },
   {
     "id": "autocount-plugin",
     "title": "AutoCount Plugin",
     "description": "AutoCount Accounting plugin collection including KSL-built plugins and selected dealer plugins.",
-    "url": "https://ksleow.vercel.app/apps/autocount-plugin",
+    "url": "https://ksleow.com.my/apps/autocount-plugin",
     "route": "/apps/autocount-plugin",
     "category": "App",
     "changefreq": "weekly",
     "priority": "0.8",
-    "kbJson": "https://ksleow.vercel.app/kb/autocount-plugin.json",
-    "kbText": "https://ksleow.vercel.app/kb/autocount-plugin.txt"
+    "kbJson": "https://ksleow.com.my/kb/autocount-plugin.json",
+    "kbText": "https://ksleow.com.my/kb/autocount-plugin.txt"
   },
   {
     "id": "sales2do",
     "title": "Sales2DO AutoCount Plugin",
     "description": "Sales2DO copies Invoice or Cash Sale documents to Delivery Order with outstanding quantity checking and delivery workflow controls.",
-    "url": "https://ksleow.vercel.app/apps/sales2do",
+    "url": "https://ksleow.com.my/apps/sales2do",
     "route": "/apps/sales2do",
     "category": "App",
     "changefreq": "weekly",
     "priority": "0.8",
-    "kbJson": "https://ksleow.vercel.app/kb/sales2do.json",
-    "kbText": "https://ksleow.vercel.app/kb/sales2do.txt"
+    "kbJson": "https://ksleow.com.my/kb/sales2do.json",
+    "kbText": "https://ksleow.com.my/kb/sales2do.txt"
   },
   {
     "id": "ks-omni",
     "title": "KS Omni AI Assistant",
     "description": "K.S. Leow Group AI Assistant for web chat, WhatsApp handoff, document/image support, quotation workflows, and customer self-service.",
-    "url": "https://ksleow.vercel.app/omni",
+    "url": "https://ksleow.com.my/omni",
     "route": "/omni",
     "category": "AI Assistant",
     "changefreq": "weekly",
     "priority": "0.7",
-    "kbJson": "https://ksleow.vercel.app/kb/ks-omni.json",
-    "kbText": "https://ksleow.vercel.app/kb/ks-omni.txt"
+    "kbJson": "https://ksleow.com.my/kb/ks-omni.json",
+    "kbText": "https://ksleow.com.my/kb/ks-omni.txt"
   },
   {
     "id": "gallery",
     "title": "Company Gallery",
     "description": "K.S. Leow Group activity and team building photo gallery for company events, training days, celebrations, and team moments.",
-    "url": "https://ksleow.vercel.app/gallery",
+    "url": "https://ksleow.com.my/gallery",
     "route": "/gallery",
     "category": "Company",
     "changefreq": "monthly",
     "priority": "0.6",
-    "kbJson": "https://ksleow.vercel.app/kb/gallery.json",
-    "kbText": "https://ksleow.vercel.app/kb/gallery.txt"
+    "kbJson": "https://ksleow.com.my/kb/gallery.json",
+    "kbText": "https://ksleow.com.my/kb/gallery.txt"
   },
   {
     "id": "quotation",
     "title": "Quotation PDF Viewer",
     "description": "Secure quotation link viewer for official PDF quotations generated by KS Omni.",
-    "url": "https://ksleow.vercel.app/quotation",
+    "url": "https://ksleow.com.my/quotation",
     "route": "/quotation",
     "category": "Utility",
     "changefreq": "monthly",
     "priority": "0.4",
-    "kbJson": "https://ksleow.vercel.app/kb/quotation.json",
-    "kbText": "https://ksleow.vercel.app/kb/quotation.txt"
+    "kbJson": "https://ksleow.com.my/kb/quotation.json",
+    "kbText": "https://ksleow.com.my/kb/quotation.txt"
   }
 ]

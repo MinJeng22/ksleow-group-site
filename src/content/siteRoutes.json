@@ -29,8 +29,8 @@
   {
     "id": "autocount-pos",
     "route": "/products/autocount-pos",
-    "title": "AutoCount POS",
-    "description": "Fast and robust Point of Sale system fully integrated with AutoCount Accounting for retail and F&B operations.",
+    "title": "AutoCount POS Malaysia",
+    "description": "AutoCount POS Malaysia for retail, F&B, and branch outlets, integrated with AutoCount Accounting, stock control, receipt printers, barcode scanners, and local implementation support.",
     "category": "Product",
     "priority": "0.8",
     "changefreq": "weekly"

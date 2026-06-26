@@ -80,6 +80,32 @@ const FEATURES = [
   },
 ];
 
+const POS_SEO_CHIPS = [
+  "AutoCount POS Malaysia",
+  "Retail POS system",
+  "F&B POS system",
+  "Barcode scanner",
+  "Receipt printer",
+  "Cash drawer",
+  "Branch outlet sync",
+  "AutoCount Accounting integration",
+];
+
+const POS_FAQS = [
+  {
+    question: "What is AutoCount POS used for?",
+    answer: "AutoCount POS is used for front counter billing, cashier checkout, barcode scanning, receipt printing, payment collection, stock control, and syncing sales data back to AutoCount Accounting.",
+  },
+  {
+    question: "Is AutoCount POS suitable for retail and F&B businesses in Malaysia?",
+    answer: "Yes. It is suitable for retail shops, F&B outlets, and branch counters that need practical cashier workflows with backend inventory, accounting, and reporting.",
+  },
+  {
+    question: "Can KSL help install and configure AutoCount POS?",
+    answer: "Yes. KSL can help you choose the right POS backend, front-end counter license, add-on modules, and implementation plan for your outlet operations.",
+  },
+];
+
 
 
 
@@ -370,6 +396,43 @@ function NotesPanel({ title, items }) {
         ))}
       </ul>
     </aside>
+  );
+}
+
+function POSSeoContent() {
+  return (
+    <div className="content-wrap pos-seo-content">
+      <div className="pos-seo-copy">
+        <div className="ks-eyebrow" style={{ color: POS_ACCENT }}>
+          AutoCount POS Malaysia
+        </div>
+        <h2>POS software for Malaysian retail, F&B, and branch operations.</h2>
+        <p>
+          AutoCount POS helps outlets run faster counter sales while keeping sales, stock movement, payments, and reports connected to AutoCount Accounting. It is a practical fit for retail shops, F&B counters, branch outlets, and businesses that need reliable daily closing.
+        </p>
+        <p>
+          KSL Business Solutions supports Malaysian SMEs with POS edition advice, front-end counter setup, backend configuration, barcode scanner and receipt printer planning, staff training, and ongoing AutoCount support.
+        </p>
+      </div>
+
+      <div className="pos-seo-panel" aria-label="AutoCount POS search topics">
+        <h3>Common POS needs we help with</h3>
+        <div className="pos-seo-chips">
+          {POS_SEO_CHIPS.map((chip) => (
+            <span key={chip}>{chip}</span>
+          ))}
+        </div>
+      </div>
+
+      <div className="pos-faq-grid" aria-label="AutoCount POS frequently asked questions">
+        {POS_FAQS.map((item) => (
+          <article key={item.question} className="pos-faq-card">
+            <h3>{item.question}</h3>
+            <p>{item.answer}</p>
+          </article>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -699,6 +762,84 @@ export default function AutoCountPOSPage({ onContact }) {
           color: #6b6f91;
           font-size: 0.98rem;
           line-height: 1.75;
+        }
+        #page-autocount-pos .pos-seo-content {
+          display: grid;
+          grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.95fr);
+          gap: clamp(1rem, 2.5vw, 1.5rem);
+          align-items: stretch;
+          margin-bottom: clamp(2.2rem, 5vw, 4rem);
+        }
+        #page-autocount-pos .pos-seo-copy,
+        #page-autocount-pos .pos-seo-panel,
+        #page-autocount-pos .pos-faq-card {
+          border: 1px solid rgba(47, 49, 90, 0.1);
+          border-radius: 8px;
+          background: rgba(255, 255, 255, 0.88);
+          box-shadow: 0 18px 45px rgba(47, 49, 90, 0.06);
+        }
+        #page-autocount-pos .pos-seo-copy {
+          padding: clamp(1.35rem, 3vw, 2.1rem);
+        }
+        #page-autocount-pos .pos-seo-copy h2 {
+          margin: 0.45rem 0 0;
+          color: var(--pos-navy);
+          font-size: clamp(1.5rem, 2.8vw, 2.25rem);
+          line-height: 1.12;
+          font-weight: 780;
+        }
+        #page-autocount-pos .pos-seo-copy p {
+          margin: 1rem 0 0;
+          color: #626789;
+          font-size: 0.98rem;
+          line-height: 1.78;
+        }
+        #page-autocount-pos .pos-seo-panel {
+          padding: clamp(1.2rem, 2.6vw, 1.7rem);
+          background:
+            radial-gradient(circle at 20% 12%, rgba(240, 173, 50, 0.18), transparent 42%),
+            rgba(255, 255, 255, 0.9);
+        }
+        #page-autocount-pos .pos-seo-panel h3,
+        #page-autocount-pos .pos-faq-card h3 {
+          margin: 0;
+          color: var(--pos-navy);
+          font-size: 1rem;
+          line-height: 1.35;
+          font-weight: 780;
+        }
+        #page-autocount-pos .pos-seo-chips {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.65rem;
+          margin-top: 1.1rem;
+        }
+        #page-autocount-pos .pos-seo-chips span {
+          display: inline-flex;
+          align-items: center;
+          min-height: 34px;
+          border: 1px solid rgba(240, 173, 50, 0.28);
+          border-radius: 999px;
+          padding: 0.35rem 0.75rem;
+          background: rgba(240, 173, 50, 0.1);
+          color: #7f5b12;
+          font-size: 0.82rem;
+          font-weight: 760;
+        }
+        #page-autocount-pos .pos-faq-grid {
+          display: grid;
+          grid-column: 1 / -1;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 1rem;
+        }
+        #page-autocount-pos .pos-faq-card {
+          padding: 1.15rem;
+        }
+        #page-autocount-pos .pos-faq-card p {
+          margin: 0.65rem 0 0;
+          color: #686d91;
+          font-size: 0.9rem;
+          line-height: 1.65;
         }
         #page-autocount-pos .pos-workflow-grid {
           display: grid;
@@ -1188,6 +1329,10 @@ export default function AutoCountPOSPage({ onContact }) {
           margin: 0;
         }
         @media (max-width: 980px) {
+          #page-autocount-pos .pos-seo-content,
+          #page-autocount-pos .pos-faq-grid {
+            grid-template-columns: 1fr;
+          }
           #page-autocount-pos .pos-workflow-grid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
           }
@@ -1246,7 +1391,7 @@ export default function AutoCountPOSPage({ onContact }) {
         <ProductHero
           eyebrow="Software We Specialize In"
           title="AutoCount POS"
-          body="A fast, practical point of sale system for retail counters, branch outlets, and F&B operations. KSL helps you connect front-end cashier work with AutoCount backend accounting, inventory, e-invoice, and reporting."
+          body="AutoCount POS Malaysia for retail counters, F&B outlets, and branch operations. KSL helps you connect cashier work with AutoCount Accounting, inventory, e-invoice, barcode scanners, receipt printers, and practical outlet reporting."
           iconSrc={POS_ICON}
           iconAlt="AutoCount POS"
           backgroundImage={POS_HERO}
@@ -1269,6 +1414,15 @@ export default function AutoCountPOSPage({ onContact }) {
         </div>
 
         <div className="product-app-divider" style={{ "--section-from": "var(--ks-page-paper)", "--section-to": "var(--ks-page-mist)", marginTop: "-1.5rem", marginBottom: "-1.5rem" }}>
+          <PageSectionDivider sections={POS_SECTIONS} id="system" />
+        </div>
+
+        <section id="system" className="product-app-section product-app-section-mist product-app-section-from-paper product-app-section-to-mist">
+          <POSSeoContent />
+          <POSSystemExplainer />
+        </section>
+
+        <div className="product-app-divider" style={{ "--section-from": "var(--ks-page-mist)", "--section-to": "var(--ks-page-mist)", marginTop: "-1.5rem", marginBottom: "-1.5rem" }}>
           <PageSectionDivider sections={POS_SECTIONS} id="training" />
         </div>
 

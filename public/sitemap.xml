@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://ksleow.vercel.app/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://ksleow.vercel.app/products/autocount-accounting</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://ksleow.vercel.app/products/autocount-cloud-accounting</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://ksleow.vercel.app/products/feedme-pos</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://ksleow.vercel.app/apps/autocount-plugin</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://ksleow.vercel.app/apps/sales2do</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://ksleow.vercel.app/omni</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://ksleow.vercel.app/gallery</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://ksleow.vercel.app/quotation</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
-  <url><loc>https://ksleow.vercel.app/kb/index.json</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ksleow.com.my/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://ksleow.com.my/products/autocount-accounting</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ksleow.com.my/products/autocount-cloud-accounting</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ksleow.com.my/products/autocount-pos</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ksleow.com.my/products/feedme-pos</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ksleow.com.my/apps/autocount-plugin</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ksleow.com.my/apps/sales2do</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ksleow.com.my/omni</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ksleow.com.my/gallery</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://ksleow.com.my/quotation</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://ksleow.com.my/kb/index.json</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
 </urlset>

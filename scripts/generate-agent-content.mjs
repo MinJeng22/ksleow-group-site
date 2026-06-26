@@ -4,7 +4,7 @@ import path from "node:path";
 const root = process.cwd();
 const publicDir = path.join(root, "public");
 const kbDir = path.join(publicDir, "kb");
-const siteUrl = "https://ksleow.vercel.app";
+const siteUrl = process.env.SITE_URL || "https://ksleow.com.my";
 
 async function readJson(relativePath) {
   return JSON.parse(await readFile(path.join(root, relativePath), "utf8"));
@@ -29,7 +29,7 @@ function summarizeRelease(release) {
   };
 }
 
-function doc({ slug, title, description, route, category, sections = [], facts = {}, source = "site-content" }) {
+function doc({ slug, title, description, route, category, sections = [], facts = {}, source = "site-content", ...metadata }) {
   return {
     id: slug,
     title,
@@ -38,6 +38,7 @@ function doc({ slug, title, description, route, category, sections = [], facts =
     route,
     category,
     source,
+    ...metadata,
     facts,
     sections: sections.map((section) => ({
       heading: section.heading,
@@ -53,6 +54,9 @@ function docText(document) {
     `URL: ${document.url}`,
     `Category: ${document.category}`,
   ];
+  if (Array.isArray(document.keywords) && document.keywords.length) {
+    lines.push("Keywords", ...document.keywords.map(plain));
+  }
 
   for (const [key, value] of Object.entries(document.facts || {})) {
     if (Array.isArray(value)) {
@@ -181,6 +185,55 @@ async function main() {
       ],
     }),
     doc({
+      slug: "autocount-pos",
+      title: routeById["autocount-pos"].title,
+      description: routeById["autocount-pos"].description,
+      route: routeById["autocount-pos"].route,
+      category: routeById["autocount-pos"].category,
+      image: `${siteUrl}/images/products/autocount-pos-showcase.webp`,
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "Windows",
+      keywords: [
+        "AutoCount POS Malaysia",
+        "POS system Malaysia",
+        "retail POS Malaysia",
+        "F&B POS Malaysia",
+        "AutoCount Accounting POS integration",
+        "barcode scanner POS",
+        "receipt printer POS",
+        "branch outlet POS",
+      ],
+      facts: {
+        whatsapp: "+60 17-905 2323",
+        supportedBusinesses: ["Retail shop", "F&B outlet", "Branch outlet", "Counter sales"],
+        integrations: ["AutoCount Accounting", "Inventory and stock control", "Receipt printer", "Barcode scanner", "Cash drawer"],
+        supportRegion: "Malaysia, with local support from KSL Business Solutions in Pahang.",
+      },
+      faqs: [
+        {
+          question: "What is AutoCount POS used for?",
+          answer: "AutoCount POS is used for front counter sales, cashier billing, barcode scanning, receipt printing, payment collection, stock control, and syncing sales data back to AutoCount Accounting.",
+        },
+        {
+          question: "Is AutoCount POS suitable for retail and F&B businesses in Malaysia?",
+          answer: "Yes. AutoCount POS supports retail counters, F&B outlets, and branch operations with front-end cashier tools and backend accounting, stock, and reporting workflows.",
+        },
+        {
+          question: "Can KSL help install AutoCount POS?",
+          answer: "Yes. KSL Business Solutions can advise on editions and modules, prepare the setup, and help with installation, training, and practical support.",
+        },
+      ],
+      sections: [
+        { heading: "Overview", body: productItems.find((item) => item.name === "AutoCount POS")?.desc || "" },
+        { heading: "Best fit", body: [
+          "Retail shops that need fast cashier checkout, receipt printing, barcode scanning, and stock control.",
+          "F&B outlets that need a practical POS counter workflow with AutoCount backend reporting.",
+          "Businesses with multiple outlets that need sales, stock movement, and payment data connected to accounting.",
+        ] },
+        { heading: "Implementation support", body: "KSL helps Malaysian SMEs choose the correct POS backend, front-end counter license, add-on modules, and implementation plan for real business operations." },
+      ],
+    }),
+    doc({
       slug: "feedme-pos",
       title: routeById["feedme-pos"].title,
       description: routeById["feedme-pos"].description,
@@ -272,7 +325,7 @@ async function main() {
         usage: "Opens signed quotation PDF links generated from quotation JSON payloads.",
       },
       sections: [
-        { heading: "Quotation workflow", body: "KS Omni can generate an official PDF quotation link that users can open, download, or share from ksleow.vercel.app." },
+        { heading: "Quotation workflow", body: "KS Omni can generate an official PDF quotation link that users can open, download, or share from ksleow.com.my." },
       ],
     }),
   ];
@@ -301,7 +354,7 @@ async function main() {
     "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
     "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">",
     ...index.map((item) => `  <url><loc>${item.url}</loc><changefreq>${item.changefreq}</changefreq><priority>${item.priority}</priority></url>`),
-    "  <url><loc>https://ksleow.vercel.app/kb/index.json</loc><changefreq>daily</changefreq><priority>0.7</priority></url>",
+    `  <url><loc>${siteUrl}/kb/index.json</loc><changefreq>daily</changefreq><priority>0.7</priority></url>`,
     "</urlset>",
   ].join("\n");
 
@@ -310,7 +363,7 @@ async function main() {
     "User-agent: *",
     "Allow: /",
     "Allow: /kb/",
-    "Sitemap: https://ksleow.vercel.app/sitemap.xml",
+    `Sitemap: ${siteUrl}/sitemap.xml`,
     "",
   ].join("\n"));
 
@@ -320,7 +373,7 @@ async function main() {
     "This website provides information about K.S. Leow Group services, AutoCount Accounting, AutoCount CloudAccounting, AutoCount plugins, Sales2DO, and related business software support.",
     "",
     "## Preferred Knowledge Base",
-    "- Index: https://ksleow.vercel.app/kb/index.json",
+    `- Index: ${siteUrl}/kb/index.json`,
     ...index.map((item) => `- ${item.title}: ${item.kbText}`),
     "",
     "## Crawling Guidance",

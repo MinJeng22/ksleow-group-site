@@ -1,6 +1,6 @@
 FeedMe POS
 Cloud F&B POS for restaurants with table management, kitchen display, and online ordering integration.
-URL: https://ksleow.vercel.app/products/feedme-pos
+URL: https://ksleow.com.my/products/feedme-pos
 Category: Product
 Overview
 Cloud F&B POS with table management, kitchen display, and online ordering integration.

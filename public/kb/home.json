@@ -2,7 +2,7 @@
   "id": "home",
   "title": "K.S. Leow Group",
   "description": "K.S. Leow Group official website for accounting, taxation, company secretarial, AutoCount software, IT, training, and business workflow services in Pahang.",
-  "url": "https://ksleow.vercel.app/",
+  "url": "https://ksleow.com.my/",
   "route": "/",
   "category": "Company",
   "source": "site-content",
@@ -11,7 +11,7 @@
       "AutoCount Accounting: Malaysia's leading desktop accounting software. Full SST and e‑Invoice ready.",
       "FeedMe POS: Cloud F&B POS with table management, kitchen display, and online ordering integration.",
       "AutoCount CloudAccounting: Browser‑based accounting with e‑Invoice, AI SmartScan, bank connection, and anytime access.",
-      "AutoCount POS: POS integrated with AutoCount Accounting. Real‑time inventory and sales reporting.",
+      "AutoCount POS: AutoCount POS Malaysia for retail, F&B, branch outlets, barcode scanning, receipt printing, stock control, and AutoCount Accounting integration.",
       "ServerLink: Secure, fast, and reliable remote access solution for your business software.",
       "AutoCount Cloud Payroll: Automated payroll compliant with EPF, SOCSO, PCB, and EIS. Payslips in minutes.",
       "AutoCount OneSale: Omnichannel sales management seamlessly integrated with AutoCount."

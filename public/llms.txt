@@ -3,16 +3,17 @@
 This website provides information about K.S. Leow Group services, AutoCount Accounting, AutoCount CloudAccounting, AutoCount plugins, Sales2DO, and related business software support.
 
 ## Preferred Knowledge Base
-- Index: https://ksleow.vercel.app/kb/index.json
-- K.S. Leow Group: https://ksleow.vercel.app/kb/home.txt
-- AutoCount Accounting 2.2: https://ksleow.vercel.app/kb/autocount-accounting.txt
-- AutoCount CloudAccounting: https://ksleow.vercel.app/kb/autocount-cloud-accounting.txt
-- FeedMe POS: https://ksleow.vercel.app/kb/feedme-pos.txt
-- AutoCount Plugin: https://ksleow.vercel.app/kb/autocount-plugin.txt
-- Sales2DO AutoCount Plugin: https://ksleow.vercel.app/kb/sales2do.txt
-- KS Omni AI Assistant: https://ksleow.vercel.app/kb/ks-omni.txt
-- Company Gallery: https://ksleow.vercel.app/kb/gallery.txt
-- Quotation PDF Viewer: https://ksleow.vercel.app/kb/quotation.txt
+- Index: https://ksleow.com.my/kb/index.json
+- K.S. Leow Group: https://ksleow.com.my/kb/home.txt
+- AutoCount Accounting 2.2: https://ksleow.com.my/kb/autocount-accounting.txt
+- AutoCount CloudAccounting: https://ksleow.com.my/kb/autocount-cloud-accounting.txt
+- AutoCount POS Malaysia: https://ksleow.com.my/kb/autocount-pos.txt
+- FeedMe POS: https://ksleow.com.my/kb/feedme-pos.txt
+- AutoCount Plugin: https://ksleow.com.my/kb/autocount-plugin.txt
+- Sales2DO AutoCount Plugin: https://ksleow.com.my/kb/sales2do.txt
+- KS Omni AI Assistant: https://ksleow.com.my/kb/ks-omni.txt
+- Company Gallery: https://ksleow.com.my/kb/gallery.txt
+- Quotation PDF Viewer: https://ksleow.com.my/kb/quotation.txt
 
 ## Crawling Guidance
 Use the /kb/*.json or /kb/*.txt files for clean structured content. Use the public web pages for user-facing presentation and context.

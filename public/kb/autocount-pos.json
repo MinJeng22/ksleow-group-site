@@ -1,0 +1,75 @@
+{
+  "id": "autocount-pos",
+  "title": "AutoCount POS Malaysia",
+  "description": "AutoCount POS Malaysia for retail, F&B, and branch outlets, integrated with AutoCount Accounting, stock control, receipt printers, barcode scanners, and local implementation support.",
+  "url": "https://ksleow.com.my/products/autocount-pos",
+  "route": "/products/autocount-pos",
+  "category": "Product",
+  "source": "site-content",
+  "image": "https://ksleow.com.my/images/products/autocount-pos-showcase.webp",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Windows",
+  "keywords": [
+    "AutoCount POS Malaysia",
+    "POS system Malaysia",
+    "retail POS Malaysia",
+    "F&B POS Malaysia",
+    "AutoCount Accounting POS integration",
+    "barcode scanner POS",
+    "receipt printer POS",
+    "branch outlet POS"
+  ],
+  "faqs": [
+    {
+      "question": "What is AutoCount POS used for?",
+      "answer": "AutoCount POS is used for front counter sales, cashier billing, barcode scanning, receipt printing, payment collection, stock control, and syncing sales data back to AutoCount Accounting."
+    },
+    {
+      "question": "Is AutoCount POS suitable for retail and F&B businesses in Malaysia?",
+      "answer": "Yes. AutoCount POS supports retail counters, F&B outlets, and branch operations with front-end cashier tools and backend accounting, stock, and reporting workflows."
+    },
+    {
+      "question": "Can KSL help install AutoCount POS?",
+      "answer": "Yes. KSL Business Solutions can advise on editions and modules, prepare the setup, and help with installation, training, and practical support."
+    }
+  ],
+  "facts": {
+    "whatsapp": "+60 17-905 2323",
+    "supportedBusinesses": [
+      "Retail shop",
+      "F&B outlet",
+      "Branch outlet",
+      "Counter sales"
+    ],
+    "integrations": [
+      "AutoCount Accounting",
+      "Inventory and stock control",
+      "Receipt printer",
+      "Barcode scanner",
+      "Cash drawer"
+    ],
+    "supportRegion": "Malaysia, with local support from KSL Business Solutions in Pahang."
+  },
+  "sections": [
+    {
+      "heading": "Overview",
+      "body": [
+        "AutoCount POS Malaysia for retail, F&B, branch outlets, barcode scanning, receipt printing, stock control, and AutoCount Accounting integration."
+      ]
+    },
+    {
+      "heading": "Best fit",
+      "body": [
+        "Retail shops that need fast cashier checkout, receipt printing, barcode scanning, and stock control.",
+        "F&B outlets that need a practical POS counter workflow with AutoCount backend reporting.",
+        "Businesses with multiple outlets that need sales, stock movement, and payment data connected to accounting."
+      ]
+    },
+    {
+      "heading": "Implementation support",
+      "body": [
+        "KSL helps Malaysian SMEs choose the correct POS backend, front-end counter license, add-on modules, and implementation plan for real business operations."
+      ]
+    }
+  ]
+}

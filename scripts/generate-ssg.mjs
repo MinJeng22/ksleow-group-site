@@ -48,6 +48,7 @@ const root = process.cwd();
 const distDir = path.join(root, "dist");
 const kbDir = path.join(root, "public", "kb");
 const siteName = "K.S. Leow Group";
+const siteUrl = process.env.SITE_URL || "https://ksleow.com.my";
 
 function escapeHtml(value) {
   return String(value ?? "")
@@ -63,18 +64,49 @@ function injectHead(html, doc) {
     : `${doc.title} | ${siteName}`;
   const description = doc.description || `${doc.title} from ${siteName}`;
   const canonical = doc.url;
+  const absoluteUrl = (value) => {
+    if (!value) return `${siteUrl}/images/branding/ksl-logo-circle.webp`;
+    return String(value).startsWith("http") ? value : `${siteUrl}${value}`;
+  };
+  const pageImage = absoluteUrl(doc.image);
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": doc.category === "Product" ? "SoftwareApplication" : "WebPage",
     name: doc.title,
     description,
     url: canonical,
+    image: pageImage,
+    inLanguage: "en-MY",
     provider: {
       "@type": "Organization",
       name: siteName,
-      url: "https://ksleow.vercel.app",
+      url: siteUrl,
     },
   };
+  if (doc.category === "Product") {
+    jsonLd.applicationCategory = doc.applicationCategory || "BusinessApplication";
+    jsonLd.operatingSystem = doc.operatingSystem || "Web, Windows";
+    jsonLd.areaServed = { "@type": "Country", name: "Malaysia" };
+  }
+  if (Array.isArray(doc.keywords) && doc.keywords.length) {
+    jsonLd.keywords = doc.keywords.join(", ");
+  }
+
+  const graph = [jsonLd];
+  if (Array.isArray(doc.faqs) && doc.faqs.length) {
+    graph.push({
+      "@type": "FAQPage",
+      mainEntity: doc.faqs.map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: item.answer,
+        },
+      })),
+    });
+  }
+  const structuredData = graph.length > 1 ? { "@context": "https://schema.org", "@graph": graph } : jsonLd;
 
   let next = html
     .replace(/<title>.*?<\/title>/s, `<title>${escapeHtml(title)}</title>`)
@@ -82,12 +114,19 @@ function injectHead(html, doc) {
 
   const tags = [
     `<link rel="canonical" href="${escapeHtml(canonical)}" />`,
+    Array.isArray(doc.keywords) && doc.keywords.length ? `<meta name="keywords" content="${escapeHtml(doc.keywords.join(", "))}" />` : "",
     `<meta property="og:title" content="${escapeHtml(title)}" />`,
     `<meta property="og:description" content="${escapeHtml(description)}" />`,
     `<meta property="og:url" content="${escapeHtml(canonical)}" />`,
+    `<meta property="og:site_name" content="${escapeHtml(siteName)}" />`,
+    `<meta property="og:image" content="${escapeHtml(pageImage)}" />`,
     `<meta property="og:type" content="website" />`,
-    `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`,
-  ].join("\n    ");
+    `<meta name="twitter:card" content="summary_large_image" />`,
+    `<meta name="twitter:title" content="${escapeHtml(title)}" />`,
+    `<meta name="twitter:description" content="${escapeHtml(description)}" />`,
+    `<meta name="twitter:image" content="${escapeHtml(pageImage)}" />`,
+    `<script type="application/ld+json">${JSON.stringify(structuredData)}</script>`,
+  ].filter(Boolean).join("\n    ");
 
   next = next.replace("</head>", `    ${tags}\n  </head>`);
   return next;
