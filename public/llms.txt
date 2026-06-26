@@ -1,10 +1,10 @@
 # K.S. Leow Group
 
-This website provides information about K.S. Leow Group services, AutoCount Accounting, AutoCount CloudAccounting, AutoCount plugins, Sales2DO, and related business software support.
+This website provides information about K.S. Leow Group one-stop business and technology services, including auditing, corporate management, IT hardware, web development, accounting software, POS software, training, and support.
 
 ## Preferred Knowledge Base
 - Index: https://ksleow.com.my/kb/index.json
-- K.S. Leow Group | AutoCount & Business Software Malaysia: https://ksleow.com.my/kb/home.txt
+- K.S. Leow Group | Business & Tech Solutions in Malaysia: https://ksleow.com.my/kb/home.txt
 - AutoCount Accounting 2.2: https://ksleow.com.my/kb/autocount-accounting.txt
 - AutoCount CloudAccounting: https://ksleow.com.my/kb/autocount-cloud-accounting.txt
 - AutoCount POS Malaysia: https://ksleow.com.my/kb/autocount-pos.txt

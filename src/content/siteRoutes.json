@@ -2,8 +2,8 @@
   {
     "id": "home",
     "route": "/",
-    "title": "K.S. Leow Group | AutoCount & Business Software Malaysia",
-    "description": "K.S. Leow Group helps Malaysian SMEs with AutoCount Accounting, POS, CloudAccounting, tax, accounting, company secretarial, IT support and training.",
+    "title": "K.S. Leow Group | Business & Tech Solutions in Malaysia",
+    "description": "K.S. Leow Group offers comprehensive business solutions: auditing, corporate management, IT hardware, web development, and accounting & POS software training.",
     "category": "Company",
     "priority": "1.0",
     "changefreq": "weekly"
