@@ -834,7 +834,7 @@ export default function AutoCountPOSPage({ onContact }) {
         <section id="editions" className="ac-section-tight product-app-section product-app-section-ice product-app-section-from-paper product-app-section-to-warm" style={{ overflow: "visible" }}>
           <div className="content-wrap">
             <SectionIntro
-              eyebrow="Editions, Pricing & Backend Modules"
+              eyebrow="Backend Editions, Pricing & Modules"
               title="POS Basic and POS Standard"
               text="Start with the edition that fits your outlet, then add backend accounting modules, users, or e-invoice items when required."
             />
