@@ -377,7 +377,7 @@ export default function FeedMePOSPage() {
 
       <EnquireNowCTA
         heading="Ready to Run Your Restaurant on FeedMe?"
-        body="Talk to KSL Business Solutions for pricing, hardware bundles, on‑site setup, and training across Pahang."
+        body="Talk to KS Support Team for pricing, hardware bundles, on‑site setup, and training across Pahang."
         buttons={[{ label: "Enquire Now", href: WA_LINK, className: "btn-ghost-base btn-ghost-dark" }]}
       />
 

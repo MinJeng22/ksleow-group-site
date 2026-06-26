@@ -832,7 +832,7 @@ export default function AutoCountPOSPage({ onContact }) {
 
         <EnquireNowCTA
           heading="Ready to build your POS setup?"
-          body="Talk to KSL for an AutoCount POS quotation, module advice, and counter implementation plan."
+          body="Talk to KS Support Team for an AutoCount POS quotation, module advice, and counter implementation plan."
           buttons={[{ label: "Contact Sales", href: WA_LINK, className: "btn-ghost-base btn-ghost-dark" }]}
         />
 

@@ -757,7 +757,7 @@ export default function AutoCountCloudAccountingPage() {
       <WhyChooseUs section={getSection(CLOUD_SECTIONS, "why-ksl")} sectionFrom="var(--ks-page-cloud)" sectionTo="var(--ks-page-warm)" />
       <EnquireNowCTA 
         heading="Move accounting work into the cloud with proper guidance."
-        body="KSL can help you choose the right edition, start the free trial, and prepare the account book for daily use."
+        body="KS Support Team can help you choose the right edition, start the free trial, and prepare the account book for daily use."
         buttons={[{ label: "Enquire Now", href: WA_LINK, className: "btn-ghost-base btn-ghost-dark" }]}
       />
 
