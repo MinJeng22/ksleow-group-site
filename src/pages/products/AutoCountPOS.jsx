@@ -7,6 +7,7 @@ import WhyChooseUs from "../../components/WhyChooseUs.jsx";
 import {
   IconDollar,
   IconGrid,
+  IconLedger,
   IconStar,
   IconTrophy,
   IconDatabase,
@@ -17,6 +18,8 @@ import FeatureShowcase from "../../components/FeatureShowcase.jsx";
 import { CompareFeatureCell } from "../../components/CompareTable.jsx";
 import AutoCountTrialModal from "../../components/AutoCountTrialModal.jsx";
 import { runWithProgressFeedback } from "../../utils/routeTransitions.js";
+import posReleases from "../../content/autocountPosReleases.json";
+import { CopyReleaseButton, HighlightText, ReleaseNumber, ShareLinkButton, writeClipboard } from "../../components/ReleaseTools.jsx";
 
 const POS_ACCENT = "#e49e25";
 const POS_NAVY = "#2f315a";
@@ -31,8 +34,11 @@ const POS_SECTIONS = [
   { id: "features", label: "Advantages", icon: IconStar, color: POS_ACCENT },
   { id: "editions", label: "Backend", icon: IconDatabase, color: POS_NAVY },
   { id: "frontend", label: "Front End", icon: IconRegister, color: POS_NAVY },
+  { id: "releases", label: "Release Notes", icon: IconLedger, color: "#b97812" },
   { id: "why-ksl", label: "Why Choose Us", icon: IconTrophy, color: POS_ACCENT },
 ];
+
+const POS_RELEASES = posReleases;
 
 const FEATURES = [
   {
