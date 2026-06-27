@@ -92,14 +92,18 @@ function ProductCard({ product, productIndex, order, hovered, revealed, animateR
     onPreload?.(product.route, priority);
   };
 
-  const handleOpen = () => {
+  const handleOpen = (e) => {
     if (!clickable) return;
+    if (e && e.preventDefault) e.preventDefault();
     handlePreload("high");
     onOpen(product.route);
   };
 
+  const CardWrapper = clickable ? 'a' : 'div';
+
   return (
-    <div
+    <CardWrapper
+      href={clickable ? product.route : undefined}
       onMouseEnter={() => handlePreload("low")}
       onFocus={() => handlePreload("low")}
       onPointerDown={() => handlePreload("high")}
@@ -110,13 +114,15 @@ function ProductCard({ product, productIndex, order, hovered, revealed, animateR
       onKeyDown={(event) => {
         if (!clickable || (event.key !== "Enter" && event.key !== " ")) return;
         event.preventDefault();
-        handleOpen();
+        handleOpen(event);
       }}
       role={clickable ? "button" : undefined}
       tabIndex={clickable ? 0 : undefined}
       className="product-card"
       style={{
         position: "relative",
+        textDecoration: "none",
+        color: "inherit",
         borderRadius: 0, overflow: "hidden",
         border: "none",
         background: "#ffffff",
@@ -225,7 +231,7 @@ function ProductCard({ product, productIndex, order, hovered, revealed, animateR
           </div>
         )}
       </div>
-    </div>
+    </CardWrapper>
   );
 }
 

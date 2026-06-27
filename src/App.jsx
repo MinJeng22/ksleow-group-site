@@ -128,8 +128,8 @@ export function AppContent() {
   useEffect(() => {
     const currentRoute = siteRoutes.find((r) => r.route === location.pathname);
     if (currentRoute) {
-      document.title = currentRoute.route === "/" 
-        ? "Business Solutions | K.S. Leow Group"
+      document.title = currentRoute.route === "/"
+        ? currentRoute.title
         : `${currentRoute.title} | K.S. Leow Group`;
     }
   }, [location.pathname]);

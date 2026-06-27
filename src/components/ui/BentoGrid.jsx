@@ -338,9 +338,9 @@ function ArrowIcon({ direction }) {
 
 export function BentoCard({ item, index, layoutClass = "", image, onOpen, onPreload, variant = "grid" }) {
   const isEmpty = item?.isEmpty;
-  const linkHref = item?.href || item?.cta?.href;
+  const linkHref = item?.route || item?.href || item?.cta?.href;
   const linkTarget = item?.target || item?.cta?.target || "_self";
-  const clickable = !isEmpty && !!(item?.route || item?.modal || linkHref);
+  const clickable = !isEmpty && !!(item?.modal || linkHref);
   const shapeClass = index === 0 || index === 3 ? " is-tall" : " is-wide";
 
   const handleOpen = (e) => {

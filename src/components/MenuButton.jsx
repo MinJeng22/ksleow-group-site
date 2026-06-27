@@ -1029,10 +1029,14 @@ export default function MenuButton({ onOpenSearch, hideBar }) {
             </button>
             <div className={`menu-column-body${expandedMobile.includes(ci) ? " is-expanded" : ""}`}>
               {column.items.map((item, ii) => (
-                <button
+                <a
                   key={ii}
+                  href={item.path || (item.scrollTo ? `/${item.scrollTo}` : '#')}
                   className={`menu-sub-item${item.path === pathname ? " is-active" : ""}`}
-                  onClick={() => handleMenuAction(item)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleMenuAction(item);
+                  }}
                   onMouseEnter={() => preloadMenuItem(item)}
                   onPointerDown={() => preloadMenuItem(item, "high")}
                   onFocus={() => preloadMenuItem(item)}
@@ -1040,7 +1044,7 @@ export default function MenuButton({ onOpenSearch, hideBar }) {
                 >
                   <span className="menu-sub-icon"><NavIcon name={item.icon} size={14} /></span>
                   <span className="menu-sub-label">{item.label}</span>
-                </button>
+                </a>
               ))}
             </div>
           </div>
