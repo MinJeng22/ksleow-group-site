@@ -1,0 +1,18 @@
+{
+  "id": "autocount-hrms",
+  "title": "AutoCount HRMS",
+  "description": "Automated payroll compliant with EPF, SOCSO, PCB, and EIS.",
+  "url": "https://ksleow.com.my/products/autocount-hrms",
+  "route": "/products/autocount-hrms",
+  "category": "Product",
+  "source": "site-content",
+  "facts": {},
+  "sections": [
+    {
+      "heading": "Features",
+      "body": [
+        "Automated payroll compliant with EPF, SOCSO, PCB, and EIS."
+      ]
+    }
+  ]
+}

@@ -264,8 +264,42 @@ async function main() {
       description: routeById["feedme-pos"].description,
       route: routeById["feedme-pos"].route,
       category: routeById["feedme-pos"].category,
+      facts: {},
       sections: [
-        { heading: "Overview", body: productItems.find((item) => item.name === "FeedMe POS")?.desc || "" },
+        { heading: "Target market", body: "Restaurants, cafes, F&B outlets requiring robust table management and kitchen display." },
+      ],
+    }),
+    doc({
+      slug: "serverlink",
+      title: routeById["serverlink"].title,
+      description: routeById["serverlink"].description,
+      route: routeById["serverlink"].route,
+      category: routeById["serverlink"].category,
+      facts: {},
+      sections: [
+        { heading: "Target market", body: "Businesses needing secure, fast, and reliable remote access to desktop software." },
+      ],
+    }),
+    doc({
+      slug: "autocount-hrms",
+      title: routeById["autocount-hrms"].title,
+      description: routeById["autocount-hrms"].description,
+      route: routeById["autocount-hrms"].route,
+      category: routeById["autocount-hrms"].category,
+      facts: {},
+      sections: [
+        { heading: "Features", body: "Automated payroll compliant with EPF, SOCSO, PCB, and EIS." },
+      ],
+    }),
+    doc({
+      slug: "autocount-onesale",
+      title: routeById["autocount-onesale"].title,
+      description: routeById["autocount-onesale"].description,
+      route: routeById["autocount-onesale"].route,
+      category: routeById["autocount-onesale"].category,
+      facts: {},
+      sections: [
+        { heading: "Features", body: "Omnichannel sales management seamlessly integrated with AutoCount." },
       ],
     }),
     doc({

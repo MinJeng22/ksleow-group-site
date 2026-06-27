@@ -65,6 +65,45 @@
     "kbText": "https://ksleow.com.my/kb/feedme-pos.txt"
   },
   {
+    "id": "serverlink",
+    "title": "ServerLink",
+    "description": "Secure, fast, and reliable remote access solution for your business software.",
+    "url": "https://ksleow.com.my/products/serverlink",
+    "route": "/products/serverlink",
+    "category": "Product",
+    "changefreq": "monthly",
+    "priority": "0.6",
+    "image": "",
+    "kbJson": "https://ksleow.com.my/kb/serverlink.json",
+    "kbText": "https://ksleow.com.my/kb/serverlink.txt"
+  },
+  {
+    "id": "autocount-hrms",
+    "title": "AutoCount HRMS",
+    "description": "Automated payroll compliant with EPF, SOCSO, PCB, and EIS.",
+    "url": "https://ksleow.com.my/products/autocount-hrms",
+    "route": "/products/autocount-hrms",
+    "category": "Product",
+    "changefreq": "monthly",
+    "priority": "0.6",
+    "image": "",
+    "kbJson": "https://ksleow.com.my/kb/autocount-hrms.json",
+    "kbText": "https://ksleow.com.my/kb/autocount-hrms.txt"
+  },
+  {
+    "id": "autocount-onesale",
+    "title": "AutoCount OneSale",
+    "description": "Omnichannel sales management seamlessly integrated with AutoCount.",
+    "url": "https://ksleow.com.my/products/autocount-onesale",
+    "route": "/products/autocount-onesale",
+    "category": "Product",
+    "changefreq": "monthly",
+    "priority": "0.6",
+    "image": "",
+    "kbJson": "https://ksleow.com.my/kb/autocount-onesale.json",
+    "kbText": "https://ksleow.com.my/kb/autocount-onesale.txt"
+  },
+  {
     "id": "autocount-plugin",
     "title": "AutoCount Plugin",
     "description": "AutoCount Accounting plugin collection including KSL-built plugins and selected dealer plugins.",

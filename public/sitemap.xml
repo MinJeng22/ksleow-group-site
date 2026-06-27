@@ -5,6 +5,9 @@
   <url><loc>https://ksleow.com.my/products/autocount-cloud-accounting</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://ksleow.com.my/products/autocount-pos</loc><changefreq>weekly</changefreq><priority>0.8</priority><image:image><image:loc>https://ksleow.com.my/images/products/autocount-pos-showcase.webp</image:loc><image:title>AutoCount POS Malaysia</image:title></image:image></url>
   <url><loc>https://ksleow.com.my/products/feedme-pos</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ksleow.com.my/products/serverlink</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://ksleow.com.my/products/autocount-hrms</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://ksleow.com.my/products/autocount-onesale</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://ksleow.com.my/apps/autocount-plugin</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://ksleow.com.my/apps/sales2do</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://ksleow.com.my/omni</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>

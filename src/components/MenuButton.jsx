@@ -21,12 +21,12 @@ const MEGA_MENU = [
     title: "Products",
     items: [
       { label: "AutoCount Accounting",      path: "/products/autocount-accounting", icon: "monitor" },
-      { label: "FeedMe POS",                scrollTo: "#products", icon: "fork" },
+      { label: "FeedMe POS",                path: "/products/feedme-pos", icon: "fork" },
       { label: "AutoCount CloudAccounting", path: "/products/autocount-cloud-accounting", icon: "cloud" },
-      { label: "AutoCount POS",             scrollTo: "#products", icon: "cash-register" },
-      { label: "ServerLink",                scrollTo: "#products", icon: "laptop" },
-      { label: "AutoCount HRMS",            scrollTo: "#products", icon: "users" },
-      { label: "AutoCount OneSale",         scrollTo: "#products", icon: "smartphone" },
+      { label: "AutoCount POS",             path: "/products/autocount-pos", icon: "cash-register" },
+      { label: "ServerLink",                path: "/products/serverlink", icon: "laptop" },
+      { label: "AutoCount HRMS",            path: "/products/autocount-hrms", icon: "users" },
+      { label: "AutoCount OneSale",         path: "/products/autocount-onesale", icon: "smartphone" },
     ],
   },
   {
@@ -542,6 +542,7 @@ const STYLES = `
   font-weight: 600;
   color: rgba(47, 49, 90, 0.7);
   text-align: left;
+  text-decoration: none !important;
   transition: all 0.2s ease;
   -webkit-tap-highlight-color: transparent;
   line-height: 1.35;

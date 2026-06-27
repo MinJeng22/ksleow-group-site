@@ -2,5 +2,5 @@ FeedMe POS
 Cloud F&B POS for restaurants with table management, kitchen display, and online ordering integration.
 URL: https://ksleow.com.my/products/feedme-pos
 Category: Product
-Overview
-Cloud F&B POS with table management, kitchen display, and online ordering integration.
+Target market
+Restaurants, cafes, F&B outlets requiring robust table management and kitchen display.

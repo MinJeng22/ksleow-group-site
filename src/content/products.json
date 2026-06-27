@@ -19,7 +19,7 @@
       "background": "/images/products/feedme-pos-showcase.webp",
       "placeholder": "🍽️",
       "gradient": "linear-gradient(135deg, rgb(255, 238, 222) 0%, rgb(254, 207, 175) 100%)",
-      "route": ""
+      "route": "/products/feedme-pos"
     },
     {
       "name": "AutoCount CloudAccounting",
@@ -46,7 +46,7 @@
       "background": "/images/products/serverlink-showcase.webp",
       "placeholder": "🌐",
       "gradient": "rgb(235, 235, 235)",
-      "route": ""
+      "route": "/products/serverlink"
     },
     {
       "name": "AutoCount Cloud Payroll",
@@ -55,7 +55,7 @@
       "background": "/images/products/autocount-hrms.webp",
       "placeholder": "☁️",
       "gradient": "rgb(168, 198, 232)",
-      "route": ""
+      "route": "/products/autocount-hrms"
     },
     {
       "name": "AutoCount OneSale",
@@ -64,7 +64,7 @@
       "background": "/images/products/autocount-onesale.webp",
       "placeholder": "🛍️",
       "gradient": "rgb(255, 240, 240)",
-      "route": ""
+      "route": "/products/autocount-onesale"
     }
   ]
 }

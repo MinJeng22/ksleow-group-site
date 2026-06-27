@@ -88,5 +88,32 @@
     "category": "Company",
     "priority": "0.6",
     "changefreq": "monthly"
+  },
+  {
+    "id": "serverlink",
+    "route": "/products/serverlink",
+    "title": "ServerLink",
+    "description": "Secure, fast, and reliable remote access solution for your business software.",
+    "category": "Product",
+    "priority": "0.6",
+    "changefreq": "monthly"
+  },
+  {
+    "id": "autocount-hrms",
+    "route": "/products/autocount-hrms",
+    "title": "AutoCount HRMS",
+    "description": "Automated payroll compliant with EPF, SOCSO, PCB, and EIS.",
+    "category": "Product",
+    "priority": "0.6",
+    "changefreq": "monthly"
+  },
+  {
+    "id": "autocount-onesale",
+    "route": "/products/autocount-onesale",
+    "title": "AutoCount OneSale",
+    "description": "Omnichannel sales management seamlessly integrated with AutoCount.",
+    "category": "Product",
+    "priority": "0.6",
+    "changefreq": "monthly"
   }
 ]
