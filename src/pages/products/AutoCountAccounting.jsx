@@ -1060,7 +1060,7 @@ export default function AutoCountAccountingPage({ onContact }) {
 
       <EnquireNowCTA
         heading="Ready to get started with AutoCount?"
-        body="KS Support Team provides full AutoCount implementation, training, and support across Pahang."
+        body="KS Support Team provides full AutoCount implementation, training, and support across Malaysia."
         buttons={[{ label: "Enquire Now", href: WA_LINK, className: "btn-ghost-base btn-ghost-dark" }]}
       />
 
