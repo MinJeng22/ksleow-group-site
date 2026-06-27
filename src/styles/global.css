@@ -26,8 +26,8 @@
   --btn-px-sm: 0.78rem;
   --btn-px-md: 1.45rem;
   --btn-px-lg: 2rem;
-  --section-py: 12rem;
-  --section-py-sm: 9rem;
+  --section-py: 6rem;
+  --section-py-sm: 4rem;
   --card-pad: 1.35rem;
   --media-radius: 16px;
   --icon-md: 46px;
@@ -513,8 +513,8 @@ textarea {
 @media (min-width: 768px) and (max-width: 1200px) {
   :root {
     --px: clamp(4.5rem, 10vw, 8rem);
-    --section-py: 9rem;
-    --section-py-sm: 6.5rem;
+    --section-py: 5rem;
+    --section-py-sm: 3.5rem;
   }
 
   .product-app-section {
@@ -527,8 +527,8 @@ textarea {
   :root {
     --content-max-w: 1560px;
     --px: clamp(120px, 11vw, 180px);
-    --section-py: 13rem;
-    --section-py-sm: 9.5rem;
+    --section-py: 6.8rem;
+    --section-py-sm: 4.6rem;
   }
 
   .product-app-section {
@@ -558,8 +558,8 @@ textarea {
   :root {
     --content-max-w: 1880px;
     --px: clamp(140px, 12vw, 200px);
-    --section-py: 14rem;
-    --section-py-sm: 10rem;
+    --section-py: 6.4rem;
+    --section-py-sm: 4.5rem;
   }
 
   .product-app-section {
