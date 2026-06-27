@@ -4,7 +4,7 @@ This website provides information about K.S. Leow Group one-stop business and te
 
 ## Preferred Knowledge Base
 - Index: https://ksleow.com.my/kb/index.json
-- K.S. Leow Group | Business & Tech Solutions in Malaysia: https://ksleow.com.my/kb/home.txt
+- Tax, Audit, Accounting & POS Solutions | K.S. Leow Group: https://ksleow.com.my/kb/home.txt
 - AutoCount Accounting 2.2: https://ksleow.com.my/kb/autocount-accounting.txt
 - AutoCount CloudAccounting: https://ksleow.com.my/kb/autocount-cloud-accounting.txt
 - AutoCount POS Malaysia: https://ksleow.com.my/kb/autocount-pos.txt
