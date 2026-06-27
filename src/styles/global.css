@@ -3165,14 +3165,8 @@ body.has-active-modal .back-to-top-glass {
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
+.product-page > *:not(.product-hero) {
+  background-color: var(--white);
+  position: relative;
+  z-index: 1;
+}

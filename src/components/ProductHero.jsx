@@ -81,13 +81,14 @@ export default function ProductHero({
         fetchpriority="high"
         draggable={false}
         style={{
-          position: "absolute",
-          inset: 0,
+          position: "fixed",
+          top: 0,
+          left: 0,
           width: "100%",
-          height: "100%",
+          height: "100vh",
           objectFit: "cover",
           objectPosition: "center center",
-          zIndex: 0,
+          zIndex: -2,
         }}
       />
 
@@ -102,10 +103,10 @@ export default function ProductHero({
 
       {/* Dark overlay — keeps white copy legible against the photo */}
       <div aria-hidden="true" style={{
-        position: "absolute", inset: 0,
+        position: "fixed", top: 0, left: 0, width: "100%", height: "100vh",
         background: `rgba(0,0,0,${overlayOpacity})`,
         pointerEvents: "none",
-        zIndex: 0,
+        zIndex: -1,
       }} />
 
       <div className="content-wrap" style={{ position: "relative", zIndex: 1 }}>
