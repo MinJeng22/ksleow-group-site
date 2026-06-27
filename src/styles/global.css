@@ -26,8 +26,8 @@
   --btn-px-sm: 0.78rem;
   --btn-px-md: 1.45rem;
   --btn-px-lg: 2rem;
-  --section-py: 10rem;
-  --section-py-sm: 8rem;
+  --section-py: 12rem;
+  --section-py-sm: 9rem;
   --card-pad: 1.35rem;
   --media-radius: 16px;
   --icon-md: 46px;
@@ -43,7 +43,7 @@
   --ks-page-ink: #2f315a;
 
   /* Desktop: tight padding */
-  --px: 13vw;
+  --px: 16vw;
   --content-max-w: 1440px;
 }
 
@@ -512,9 +512,9 @@ textarea {
 
 @media (min-width: 768px) and (max-width: 1200px) {
   :root {
-    --px: clamp(3.5rem, 8vw, 7rem);
-    --section-py: 7rem;
-    --section-py-sm: 5.5rem;
+    --px: clamp(4.5rem, 10vw, 8rem);
+    --section-py: 9rem;
+    --section-py-sm: 6.5rem;
   }
 
   .product-app-section {
@@ -526,9 +526,9 @@ textarea {
 @media (min-width: 1600px) {
   :root {
     --content-max-w: 1560px;
-    --px: clamp(90px, 9vw, 150px);
-    --section-py: 11rem;
-    --section-py-sm: 8.5rem;
+    --px: clamp(120px, 11vw, 180px);
+    --section-py: 13rem;
+    --section-py-sm: 9.5rem;
   }
 
   .product-app-section {
@@ -557,9 +557,9 @@ textarea {
 @media (min-width: 1900px) {
   :root {
     --content-max-w: 1880px;
-    --px: clamp(90px, 8.5vw, 160px);
-    --section-py: 11.5rem;
-    --section-py-sm: 9rem;
+    --px: clamp(140px, 12vw, 200px);
+    --section-py: 14rem;
+    --section-py-sm: 10rem;
   }
 
   .product-app-section {
