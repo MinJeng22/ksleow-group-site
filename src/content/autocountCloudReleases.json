@@ -3,7 +3,7 @@
     "version": "1.1.80",
     "rev": "Release 80",
     "date": "2026-03-10",
-    "postedLabel": "3 months ago",
+    "postedLabel": "4 months ago",
     "features": [
       "Support SST Treatment for Rental and Leasing Services"
     ],
@@ -145,7 +145,7 @@
     "version": "1.1.74",
     "rev": "Release 74",
     "date": "2025-10-14",
-    "postedLabel": "8 months ago",
+    "postedLabel": "9 months ago",
     "features": [
       "Cloud Accounting Release Note - April to May 2021",
       "Cloud Accounting Release Note - June 2021",
@@ -216,7 +216,7 @@
     "version": "1.1.72",
     "rev": "Release 72",
     "date": "2025-08-12",
-    "postedLabel": "10 months ago",
+    "postedLabel": "11 months ago",
     "features": [
       "Added hint text message when selecting ‘Individual’, ‘Foreign Business’, or ‘Government’",
       "Enhanced the Tax Entity page with ‘Local Business’ and ‘Foreign Business’ radio selections",
@@ -610,7 +610,7 @@
     "version": "1.1.57",
     "rev": "Release 57",
     "date": "2024-09-25",
-    "postedLabel": "over 1 year ago",
+    "postedLabel": "almost 2 years ago",
     "features": [
       "Support to edit fields that are not related to e-Invoice submission",
       "Support Print Document at Consolidated e-Invoice",
@@ -629,7 +629,7 @@
     "version": "1.1.56",
     "rev": "Release 56",
     "date": "2024-09-25",
-    "postedLabel": "over 1 year ago",
+    "postedLabel": "almost 2 years ago",
     "features": [
       "Rename \"LHDN Validated Link\" to \"e-Invoice Validation QR\"",
       "Redesign transaction draft watermark wording to be lighter and smaller",
@@ -646,7 +646,7 @@
     "version": "1.1.55",
     "rev": "Release 55",
     "date": "2024-09-25",
-    "postedLabel": "over 1 year ago",
+    "postedLabel": "almost 2 years ago",
     "features": [
       "Support to submit Invoice and Credit Note as consolidate in corresponding to the implementation of Relaxation period",
       "Enhance listing to include e-Invoice UUID field",
@@ -848,7 +848,7 @@
     "version": "1.1.37",
     "rev": "Release 37",
     "date": "2023-09-22",
-    "postedLabel": "over 2 years ago",
+    "postedLabel": "almost 3 years ago",
     "features": [],
     "fixes": [],
     "highlights": [],
@@ -858,7 +858,7 @@
     "version": "1.1.36",
     "rev": "Release 36",
     "date": "2023-09-22",
-    "postedLabel": "over 2 years ago",
+    "postedLabel": "almost 3 years ago",
     "features": [],
     "fixes": [],
     "highlights": [],
