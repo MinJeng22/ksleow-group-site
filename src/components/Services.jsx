@@ -89,7 +89,7 @@ function BadgeRow({ badge, onImage = false, forceWhiteLabel = false }) {
 }
 
 /* ── Flip card ── */
-function ServiceCard({ service }) {
+function ServiceCard({ service, index = 0 }) {
   const [flipped, setFlipped] = useState(false);
   const [flipDirection, setFlipDirection] = useState(1);
   const [isHovered, setIsHovered] = useState(false);
@@ -206,7 +206,16 @@ function ServiceCard({ service }) {
   }
 
     return (
-      <div id={`service-${service.key}`} ref={cardRef} className="service-card-shell" style={{ perspective: "1200px", height: 290 }}>
+      <div
+        id={`service-${service.key}`}
+        ref={cardRef}
+        className="service-card-shell"
+        style={{
+          perspective: "1200px",
+          height: 290,
+          "--service-reveal-delay": `${Math.min(index * 120, 720)}ms`,
+        }}
+      >
       <div style={{
         position: "relative", width: "100%", height: "100%",
         transformStyle: "preserve-3d",
@@ -562,10 +571,54 @@ function ContactLine({ icon, label, isSingleItem }) {
 }
 
 export default function Services() {
+  const gridRef = useRef(null);
+  const [revealReady, setRevealReady] = useState(false);
+  const [cardsInView, setCardsInView] = useState(false);
+
+  useEffect(() => {
+    const node = gridRef.current;
+    setRevealReady(true);
+
+    if (!node || typeof IntersectionObserver === "undefined") {
+      setCardsInView(true);
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          setCardsInView(true);
+          observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.18, rootMargin: "0px 0px -10% 0px" }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <>
       <style>{`
         @keyframes cardFlip { from { opacity: 0; } to { opacity: 1; } }
+        #services .service-cards-reveal .service-card-shell {
+          opacity: 0;
+          transform: translate3d(0, 34px, 0) scale(0.985);
+          filter: blur(8px);
+          transition:
+            opacity 980ms cubic-bezier(0.16, 1, 0.3, 1),
+            transform 1120ms cubic-bezier(0.16, 1, 0.3, 1),
+            filter 900ms cubic-bezier(0.16, 1, 0.3, 1);
+          transition-delay: var(--service-reveal-delay, 0ms);
+          will-change: opacity, transform, filter;
+        }
+        #services .service-cards-reveal.is-in-view .service-card-shell {
+          opacity: 1;
+          transform: translate3d(0, 0, 0) scale(1);
+          filter: blur(0);
+        }
         #services .services-bg-fade {
           background: linear-gradient(
             to bottom,
@@ -589,6 +642,20 @@ export default function Services() {
               rgba(245,245,248,0) 43%,
               rgba(245,245,248,0) 100%
             );
+          }
+        }
+        @media (max-width: 640px) {
+          #services .service-cards-reveal .service-card-shell {
+            transform: translate3d(0, 26px, 0) scale(0.99);
+            transition-duration: 900ms, 1000ms, 820ms;
+          }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          #services .service-cards-reveal .service-card-shell {
+            opacity: 1;
+            transform: none;
+            filter: none;
+            transition: none;
           }
         }
       `}</style>
@@ -623,9 +690,13 @@ export default function Services() {
           <p className="ks-body-text" style={{ marginBottom: "3rem" }}>
             {servicesContent.intro}
           </p>
-          <div className="services-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 500px))", justifyContent: "center", gap: "1.1rem" }}>
-            {SERVICES.map(s => (
-              <ServiceCard key={s.key} service={s} />
+          <div
+            ref={gridRef}
+            className={`services-grid${revealReady ? " service-cards-reveal" : ""}${cardsInView ? " is-in-view" : ""}`}
+            style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 500px))", justifyContent: "center", gap: "1.1rem" }}
+          >
+            {SERVICES.map((s, index) => (
+              <ServiceCard key={s.key} service={s} index={index} />
             ))}
           </div>
         </div>
