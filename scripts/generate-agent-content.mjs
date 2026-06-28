@@ -43,7 +43,7 @@ function doc({ slug, title, description, route, category, sections = [], facts =
     id: slug,
     title,
     description,
-    url: `${siteUrl}${route}`,
+    url: route === "/" ? siteUrl : `${siteUrl}${route}/`,
     route,
     category,
     source,
