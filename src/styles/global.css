@@ -2309,85 +2309,121 @@ a.contact-directory-value:hover {
 @keyframes serviceCardReveal {
   0% {
     opacity: 0;
-    transform: translate3d(0, 42px, 0) scale(0.975);
-    filter: blur(10px);
+    transform: translate3d(0, 34px, 0) scale(0.982);
   }
   52% {
     opacity: 1;
-    filter: blur(2px);
   }
   100% {
     opacity: 1;
     transform: translate3d(0, 0, 0) scale(1);
-    filter: blur(0);
   }
 }
 
-#services .service-cards-reveal .service-card-shell {
+#services .service-card-reveal {
   opacity: 0;
-  transform: translate3d(0, 42px, 0) scale(0.975);
-  filter: blur(10px);
-  will-change: opacity, transform, filter;
+  transform: translate3d(0, 34px, 0) scale(0.982);
+  will-change: opacity, transform;
 }
 
-#services .service-cards-reveal.is-in-view .service-card-shell {
-  animation: serviceCardReveal 1080ms cubic-bezier(0.16, 1, 0.3, 1) both;
+#services .service-card-reveal.is-in-view {
+  animation: serviceCardReveal 920ms cubic-bezier(0.16, 1, 0.3, 1) both;
   animation-delay: var(--service-reveal-delay, 0ms);
 }
 
 @media (max-width: 640px) {
-  #services .service-cards-reveal .service-card-shell {
-    transform: translate3d(0, 34px, 0) scale(0.985);
+  #services .service-card-reveal {
+    transform: translate3d(0, 26px, 0) scale(0.99);
   }
 
-  #services .service-cards-reveal.is-in-view .service-card-shell {
-    animation-duration: 980ms;
-    animation-delay: var(--service-reveal-mobile-delay, var(--service-reveal-delay, 0ms));
+  #services .service-card-reveal.is-in-view {
+    animation-duration: 760ms;
+    animation-delay: 0ms;
   }
 }
 
-@keyframes ksTitleReveal {
+@keyframes ksTitleLetterReveal {
   0% {
-    opacity: 0;
-    transform: translate3d(0, 24px, 0) scale(0.985);
-    filter: blur(8px);
-  }
-  58% {
-    opacity: 1;
-    filter: blur(1.5px);
+    opacity: 0.18;
+    transform: translate3d(0, 1.08em, 0) rotate(4deg);
   }
   100% {
     opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1);
-    filter: blur(0);
+    transform: translate3d(0, 0, 0) rotate(0deg);
   }
 }
 
-.js-reveal-ready .ks-section-title:not(.ks-title-in-view),
+@keyframes ksMetaReveal {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.js-reveal-ready .ks-section-title:not(.ks-title-split),
 .js-reveal-ready .ks-eyebrow:not(.ks-title-in-view),
 .js-reveal-ready .ks-section-eyebrow:not(.ks-title-in-view) {
   opacity: 0;
-  transform: translate3d(0, 24px, 0) scale(0.985);
-  filter: blur(8px);
 }
 
-.js-reveal-ready .ks-section-title.ks-title-in-view,
+.ks-section-title.ks-title-split {
+  opacity: 1;
+}
+
+.ks-title-word {
+  display: inline-flex;
+  overflow: hidden;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+
+.ks-title-letter-mask {
+  display: inline-block;
+  line-height: 1.18;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+.ks-title-letter {
+  display: inline-block;
+  opacity: 0.18;
+  transform: translate3d(0, 1.08em, 0) rotate(4deg);
+  transform-origin: 50% 85%;
+  will-change: opacity, transform;
+}
+
+.ks-section-title.ks-title-in-view .ks-title-letter {
+  animation: ksTitleLetterReveal 620ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--ks-letter-delay, 0ms);
+}
+
 .js-reveal-ready .ks-eyebrow.ks-title-in-view,
 .js-reveal-ready .ks-section-eyebrow.ks-title-in-view {
-  animation: ksTitleReveal 920ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: ksMetaReveal 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
   animation-delay: var(--ks-title-delay, 0ms);
-  will-change: opacity, transform, filter;
+  will-change: opacity, transform;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .js-reveal-ready .ks-section-title,
   .js-reveal-ready .ks-eyebrow,
   .js-reveal-ready .ks-section-eyebrow,
-  #services .service-cards-reveal .service-card-shell {
+  #services .service-card-reveal {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
     filter: none !important;
+  }
+
+  .ks-title-letter {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 

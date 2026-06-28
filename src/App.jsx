@@ -45,7 +45,9 @@ function useSectionTitleReveal() {
 
     document.documentElement.classList.add("js-reveal-ready");
 
-    const selector = ".ks-section-title, .ks-eyebrow, .ks-section-eyebrow";
+    const titleSelector = ".ks-section-title";
+    const metaSelector = ".ks-eyebrow, .ks-section-eyebrow";
+    const selector = `${titleSelector}, ${metaSelector}`;
     const observed = new WeakSet();
     const observer = new IntersectionObserver(
       (entries) => {
@@ -58,9 +60,52 @@ function useSectionTitleReveal() {
       { threshold: 0.18, rootMargin: "0px 0px -8% 0px" }
     );
 
+    const splitTitle = (node) => {
+      if (node.dataset.ksTitleSplit === "true") return;
+      const originalText = (node.dataset.ksTitleOriginal || node.textContent || "").replace(/\s+/g, " ").trim();
+      if (!originalText) return;
+
+      node.dataset.ksTitleOriginal = originalText;
+      node.dataset.ksTitleSplit = "true";
+      node.setAttribute("aria-label", originalText);
+      node.textContent = "";
+
+      let letterIndex = 0;
+      originalText.split(/(\s+)/).forEach((token) => {
+        if (!token) return;
+        if (/^\s+$/.test(token)) {
+          node.appendChild(document.createTextNode(" "));
+          return;
+        }
+
+        const word = document.createElement("span");
+        word.className = "ks-title-word";
+        word.setAttribute("aria-hidden", "true");
+
+        Array.from(token).forEach((char) => {
+          const mask = document.createElement("span");
+          mask.className = "ks-title-letter-mask";
+
+          const letter = document.createElement("span");
+          letter.className = "ks-title-letter";
+          letter.textContent = char;
+          letter.style.setProperty("--ks-letter-delay", `${Math.min(letterIndex * 18, 420)}ms`);
+
+          mask.appendChild(letter);
+          word.appendChild(mask);
+          letterIndex += 1;
+        });
+
+        node.appendChild(word);
+      });
+    };
+
     const watchTitle = (node) => {
       if (!(node instanceof Element) || observed.has(node)) return;
       node.classList.add("ks-title-reveal");
+      if (node.matches(titleSelector)) {
+        splitTitle(node);
+      }
       node.style.setProperty(
         "--ks-title-delay",
         node.classList.contains("ks-section-title") ? "100ms" : "30ms"

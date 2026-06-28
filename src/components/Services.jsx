@@ -96,6 +96,7 @@ function ServiceCard({ service, index = 0 }) {
   const [isDelayedHover, setIsDelayedHover] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isInView, setIsInView] = useState(false);
+  const [hasRevealed, setHasRevealed] = useState(false);
   const cardRef = useRef(null);
   const contact = SERVICE_CONTACTS[service.key] || {};
   const office  = (service.officeKey && OFFICES[service.officeKey]) || null;
@@ -165,15 +166,23 @@ function ServiceCard({ service, index = 0 }) {
 
   useEffect(() => {
     const node = cardRef.current;
-    if (!node || typeof IntersectionObserver === "undefined") return;
+    if (!node || typeof IntersectionObserver === "undefined") {
+      setIsInView(true);
+      setHasRevealed(true);
+      return undefined;
+    }
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           setIsInView(entry.isIntersecting);
-          if (!entry.isIntersecting) setFlipped(false);
+          if (entry.isIntersecting) {
+            setHasRevealed(true);
+          } else {
+            setFlipped(false);
+          }
         });
       },
-      { threshold: 0.5 }
+      { threshold: 0.42, rootMargin: "0px 0px -8% 0px" }
     );
     observer.observe(node);
 
@@ -209,12 +218,11 @@ function ServiceCard({ service, index = 0 }) {
       <div
         id={`service-${service.key}`}
         ref={cardRef}
-        className="service-card-shell"
+        className={`service-card-shell service-card-reveal${hasRevealed ? " is-in-view" : ""}`}
         style={{
           perspective: "1200px",
           height: 290,
-          "--service-reveal-delay": `${Math.min(index * 120, 720)}ms`,
-          "--service-reveal-mobile-delay": `${Math.min(index * 230, 1380)}ms`,
+          "--service-reveal-delay": `${Math.min(index * 95, 570)}ms`,
         }}
       >
       <div style={{
@@ -572,32 +580,6 @@ function ContactLine({ icon, label, isSingleItem }) {
 }
 
 export default function Services() {
-  const gridRef = useRef(null);
-  const [cardsInView, setCardsInView] = useState(false);
-
-  useEffect(() => {
-    const node = gridRef.current;
-
-    if (!node || typeof IntersectionObserver === "undefined") {
-      setCardsInView(true);
-      return undefined;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          setCardsInView(true);
-          observer.unobserve(entry.target);
-        });
-      },
-      { threshold: 0.18, rootMargin: "0px 0px -10% 0px" }
-    );
-
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <>
       <style>{`
@@ -660,8 +642,7 @@ export default function Services() {
             {servicesContent.intro}
           </p>
           <div
-            ref={gridRef}
-            className={`services-grid service-cards-reveal${cardsInView ? " is-in-view" : ""}`}
+            className="services-grid"
             style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 500px))", justifyContent: "center", gap: "1.1rem" }}
           >
             {SERVICES.map((s, index) => (
