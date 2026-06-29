@@ -182,7 +182,7 @@ function ServiceCard({ service, index = 0 }) {
           }
         });
       },
-      { threshold: 0.08, rootMargin: "0px 0px -12% 0px" }
+      { threshold: 0.01, rootMargin: "0px 0px 22% 0px" }
     );
     observer.observe(node);
 
