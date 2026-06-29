@@ -171,6 +171,8 @@ function ServiceCard({ service, index = 0 }) {
       setHasRevealed(true);
       return undefined;
     }
+    const mql = window.matchMedia("(max-width: 1024px)");
+    setIsMobile(mql.matches);
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -182,13 +184,14 @@ function ServiceCard({ service, index = 0 }) {
           }
         });
       },
-      { threshold: 0.01, rootMargin: "0px 0px 22% 0px" }
+      {
+        threshold: 0.01,
+        rootMargin: mql.matches ? "0px 0px 85% 0px" : "0px 0px 22% 0px",
+      }
     );
     observer.observe(node);
 
-    const mql = window.matchMedia("(max-width: 1024px)");
     const mqlHandler = (e) => setIsMobile(e.matches);
-    setIsMobile(mql.matches);
     mql.addEventListener("change", mqlHandler);
 
     return () => {
