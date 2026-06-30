@@ -126,10 +126,10 @@
         }
       ],
       "backgroundImage": "/images/services/webinar.webp",
-      "badgeLabel": "",
+      "badgeLabel": "Certified By",
       "desc": "Live webinars and on‑demand training on accounting, tax, and business software.",
       "title": "Webinar & Workshops",
-      "badgeType": "none",
+      "badgeType": "certified",
       "key": "webinar"
     }
   ]
