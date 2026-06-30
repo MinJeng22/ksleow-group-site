@@ -1,6 +1,6 @@
 KS Omni AI Assistant
 K.S. Leow Group AI Assistant for web chat, WhatsApp handoff, document/image support, quotation workflows, and customer self-service.
-URL: https://ksleow.com.my/omni
+URL: https://ksleow.com.my/omni/
 Category: AI Assistant
 assistantName: K.S. Leow Group AI Assistant
 supportedChannels: Web chat; WhatsApp handoff

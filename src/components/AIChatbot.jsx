@@ -152,7 +152,7 @@ export default function AIChatbot({ app }) {
           left:   isCompactViewport ? 0 : "auto",
           top:    isCompactViewport ? 0 : "auto",
           zIndex: 600,
-          width:  isCompactViewport ? "100vw" : "min(380px, calc(100vw - 32px))",
+          width:  isCompactViewport ? "100%" : "min(380px, calc(100% - 32px))",
           height: isCompactViewport ? "100svh" : "min(560px, calc(100vh - 120px))",
           background: "#ffffff",
           borderRadius: isCompactViewport ? 0 : 20,

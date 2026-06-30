@@ -1,6 +1,6 @@
 AutoCount POS Malaysia
 AutoCount POS Malaysia for retail, F&B, and branch outlets, integrated with AutoCount Accounting, stock control, receipt printers, barcode scanners, and local implementation support.
-URL: https://ksleow.com.my/products/autocount-pos
+URL: https://ksleow.com.my/products/autocount-pos/
 Category: Product
 Keywords
 AutoCount POS Malaysia

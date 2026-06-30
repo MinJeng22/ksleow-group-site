@@ -12,8 +12,8 @@ const OFFICES = Object.fromEntries(
 /* Normalise CMS shape (badgeType + badgeLabel + logos) into the
  * { dealer | certified } shape the existing render code expects. */
 const SERVICES = (servicesContent.items || []).map(s => {
-  const badge = s.badgeLabel && s.logos
-    ? { label: s.badgeLabel, logos: s.logos.map(l => ({ ...l, h: l.h || 60, hoverSrc: l.hoverSrc || null, hoverH: l.hoverH || null })) }
+  const badge = s.logos && s.logos.length > 0
+    ? { label: s.badgeLabel || "", logos: s.logos.map(l => ({ ...l, h: l.h || 60, hoverSrc: l.hoverSrc || null, hoverH: l.hoverH || null })) }
     : null;
   return {
     key: s.key,
@@ -25,6 +25,7 @@ const SERVICES = (servicesContent.items || []).map(s => {
     hideBadge: !!s.hideBadge,
     ...(s.badgeType === "dealer"    && badge ? { dealer:    badge } : {}),
     ...(s.badgeType === "certified" && badge ? { certified: badge } : {}),
+    ...(s.badgeType === "none"      && badge ? { generic:   badge } : {}),
   };
 });
 
@@ -39,13 +40,15 @@ function BadgeRow({ badge, onImage = false, forceWhiteLabel = false }) {
 
   return (
     <div className="service-badge-row" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.4rem", width: "100%" }}>
-      <div className="service-badge-label" style={{
-        fontSize: "0.58rem", fontWeight: 700, letterSpacing: "0.1em",
-        textTransform: "uppercase", color: labelColor, textAlign: "center",
-        transition: "color 0.3s ease",
-      }}>
-        {badge.label}
-      </div>
+      {badge.label && (
+        <div className="service-badge-label" style={{
+          fontSize: "0.58rem", fontWeight: 700, letterSpacing: "0.1em",
+          textTransform: "uppercase", color: labelColor, textAlign: "center",
+          transition: "color 0.3s ease",
+        }}>
+          {badge.label}
+        </div>
+      )}
       <div className="service-badge-logos" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0" }}>
         {showPlaceholder ? (
           /* Placeholder slots until real logos are added */
@@ -139,7 +142,7 @@ function ServiceCard({ service, index = 0 }) {
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=140x140&margin=2&bgcolor=ffffff&color=2f315a&data=${encodeURIComponent(waLink)}`;
 
   const isWebinar = service.key === "webinar";
-  const showBadge = !isWebinar && !service.hideBadge;
+  const showBadge = !service.hideBadge;
   const hasFrontBackground = false;
 
   useEffect(() => {
@@ -208,7 +211,7 @@ function ServiceCard({ service, index = 0 }) {
 
   const isActive = service.backgroundImage && isDelayedHover;
 
-  let activeBadge = service.dealer || service.certified;
+  let activeBadge = service.dealer || service.certified || service.generic;
   if (isActive && activeBadge) {
     activeBadge = { ...activeBadge, logos: activeBadge.logos.map(l => ({ 
       ...l, 

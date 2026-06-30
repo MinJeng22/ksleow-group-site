@@ -43,7 +43,7 @@
   --ks-page-ink: #2f315a;
 
   /* Desktop: tight padding */
-  --px: 16vw;
+  --px: 16%;
   --content-max-w: 1440px;
 }
 
@@ -512,7 +512,7 @@ textarea {
 
 @media (min-width: 768px) and (max-width: 1200px) {
   :root {
-    --px: clamp(4.5rem, 10vw, 8rem);
+    --px: clamp(4.5rem, 10%, 8rem);
     --section-py: 5rem;
     --section-py-sm: 3.5rem;
   }
@@ -526,7 +526,7 @@ textarea {
 @media (min-width: 1600px) {
   :root {
     --content-max-w: 1560px;
-    --px: clamp(120px, 11vw, 180px);
+    --px: clamp(120px, 11%, 180px);
     --section-py: 6.8rem;
     --section-py-sm: 4.6rem;
   }
@@ -557,7 +557,7 @@ textarea {
 @media (min-width: 1900px) {
   :root {
     --content-max-w: 1880px;
-    --px: clamp(140px, 12vw, 200px);
+    --px: clamp(140px, 12%, 200px);
     --section-py: 6.4rem;
     --section-py-sm: 4.5rem;
   }
@@ -1300,7 +1300,7 @@ textarea {
 /* ── Tablet (768–1024) — moderate side breathing room without wasting space ── */
 @media (max-width: 1024px) {
   :root {
-    --px: clamp(50px, 8vw, 80px);
+    --px: clamp(50px, 8%, 80px);
     --text-xs: 0.70rem;
     --text-sm: 0.80rem;
     --text-base: 0.90rem;
@@ -1352,7 +1352,7 @@ textarea {
 /* ── Small tablet (640–900) ── */
 @media (max-width: 900px) {
   :root {
-    --px: clamp(40px, 7vw, 64px);
+    --px: clamp(40px, 7%, 64px);
     --text-body: 0.9rem;
     --section-py: 3rem;
     --section-py-sm: 2rem;
@@ -1917,7 +1917,7 @@ body.partner-modal-open .mobile-float-bar {
     linear-gradient(145deg, rgba(255,255,255,0.96), rgba(245,245,248,0.94));
   flex-direction: column;
   max-height: 92vh;
-  width: min(840px, 92vw);
+  width: min(840px, 92%);
 }
 
 .partner-modal-body.contact-directory-body {
@@ -2018,7 +2018,7 @@ a.contact-directory-value:hover {
   .partner-modal-shell {
     flex-direction: row;
     height: 460px;
-    width: min(840px, 92vw);
+    width: min(840px, 92%);
   }
 
   .partner-modal-banner-frame {
@@ -2051,7 +2051,7 @@ a.contact-directory-value:hover {
 
   .partner-modal-shell.contact-directory-shell {
     height: 460px;
-    width: min(840px, 92vw);
+    width: min(840px, 92%);
   }
 }
 
@@ -2134,7 +2134,7 @@ a.contact-directory-value:hover {
 .products-section .products-carousel-shell {
   --products-gap: clamp(0.7rem, 1vw, 0.95rem);
   --products-edge-peek: calc(var(--products-gap) * -1);
-  --container-w: min(100vw - var(--px) * 2, var(--content-max-w) - var(--px) * 2);
+  --container-w: min(100% - var(--px) * 2, var(--content-max-w) - var(--px) * 2);
   --products-card-width: calc((var(--container-w) - var(--products-gap) * 3) / 4);
   width: 100%;
   padding: 0;

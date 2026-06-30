@@ -1,6 +1,6 @@
 Company Gallery
 K.S. Leow Group activity and team building photo gallery for company events, training days, celebrations, and team moments.
-URL: https://ksleow.com.my/gallery
+URL: https://ksleow.com.my/gallery/
 Category: Company
 categories: All: all; Activities: activity; Team Building: team-building
 albums: Company Activity, category activity, location K.S. Leow Group, Add company activity photos, captions, and album details from Decap CMS.

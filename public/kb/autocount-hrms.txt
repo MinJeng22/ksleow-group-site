@@ -1,6 +1,6 @@
 AutoCount HRMS
 Automated payroll compliant with EPF, SOCSO, PCB, and EIS.
-URL: https://ksleow.com.my/products/autocount-hrms
+URL: https://ksleow.com.my/products/autocount-hrms/
 Category: Product
 Features
 Automated payroll compliant with EPF, SOCSO, PCB, and EIS.

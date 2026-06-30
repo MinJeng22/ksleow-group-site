@@ -1,6 +1,6 @@
 AutoCount Plugin
 AutoCount Accounting plugin collection including KSL-built plugins and selected dealer plugins.
-URL: https://ksleow.com.my/apps/autocount-plugin
+URL: https://ksleow.com.my/apps/autocount-plugin/
 Category: App
 plugins: Sales2DO (Built by KSL, KSL Business Solutions): Generate Delivery Orders directly from existing Invoices or Cash Sales, with smart quantity control for partial and fully delivered documents.
 AutoCount Plugin

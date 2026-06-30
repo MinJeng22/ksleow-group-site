@@ -453,7 +453,7 @@ export default function OurTeam() {
           .team-lead {
             margin: 0 auto;
             max-width: 560px;
-            width: min(86vw, 560px);
+            width: min(86%, 560px);
           }
           .team-lead-card {
             border-radius: 24px;
