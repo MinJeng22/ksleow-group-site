@@ -2578,12 +2578,14 @@ a.contact-directory-value:hover {
   border-color: #25D366;
   color: #ffffff;
 }
-.ks-btn-hrms { background: #8e44ad; border-color: #8e44ad; color: #fff; }
-.ks-btn-hrms:hover { background: #9b59b6; border-color: #9b59b6; }
-.ks-btn-onesale { background: #1bb4a6; border-color: #1bb4a6; color: #fff; }
-.ks-btn-onesale:hover { background: #26c6da; border-color: #26c6da; }
-.ks-btn-serverlink { background: #d32f2f; border-color: #d32f2f; color: #fff; }
-.ks-btn-serverlink:hover { background: #e53935; border-color: #e53935; }
+.ks-btn-hrms { background: #22a4dc; border-color: #22a4dc; color: #fff; }
+.ks-btn-hrms:hover { background: #1f94c6; border-color: #1f94c6; }
+.ks-btn-onesale { background: #fe624d; border-color: #fe624d; color: #fff; }
+.ks-btn-onesale:hover { background: #e55845; border-color: #e55845; }
+.ks-btn-serverlink { background: #00b3fe; border-color: #00b3fe; color: #fff; }
+.ks-btn-serverlink:hover { background: #00a1e5; border-color: #00a1e5; }
+.ks-btn-feedme { background: #c9a84c; border-color: #c9a84c; color: #1e2040; }
+.ks-btn-feedme:hover { background: #b59744; border-color: #b59744; color: #1e2040; }
 
 .ks-btn-facebook {
   background: #1877F2;

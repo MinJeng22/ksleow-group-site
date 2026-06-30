@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import Footer from "../../components/Footer";
 import SectionSidebar from "../../components/SectionSidebar.jsx";
 import { PinnedHeroStage } from "../../components/PinnedHeroPage.jsx";
+import ProductHero from "../../components/ProductHero.jsx";
 import { PageSectionDivider, getSection } from "../../components/PageSections.jsx";
 import { IconLayers, IconLink, IconHandshake, IconStar } from "../../components/SectionDivider.jsx";
 import EnquireNowCTA from "../../components/EnquireNowCTA.jsx";
@@ -135,7 +136,7 @@ function Spotlight({ eyebrow, title, body, bullets, imageSide = "right" }) {
 /* ══════════════════════════════════════════════════════════════
  * Page
  * ══════════════════════════════════════════════════════════════ */
-export default function FeedMePOSPage() {
+export default function FeedMePOSPage({ onContact }) {
   useFavicon(FEEDME_LOGO);
   useEffect(() => { window.scrollTo({ top: 0, behavior: "instant" }); }, []);
 
@@ -146,61 +147,15 @@ export default function FeedMePOSPage() {
 
       {/* ── Hero ── */}
       <PinnedHeroStage>
-        <div className="product-hero" style={{ background: "#2f315a", paddingTop: "7rem", paddingBottom: "5rem" }}>
-          <div className="content-wrap">
-          <div className="product-hero-row" style={{ display: "flex", alignItems: "center", gap: "2.5rem", flexWrap: "wrap" }}>
-            <div className="product-hero-textgroup" style={{ display: "flex", alignItems: "flex-start", gap: "2rem", flex: 1, minWidth: 280 }}>
-              <div className="product-hero-mobile-topline">
-                <div className="product-hero-icon product-hero-icon-mobile" style={{ width: "var(--icon-lg)", height: "var(--icon-lg)", borderRadius: "var(--media-radius)", background: "#ffffff", border: "1px solid rgba(255,255,255,0.15)", display: "none", alignItems: "center", justifyContent: "center", flexShrink: 0, overflow: "hidden" }}>
-                  <img src={FEEDME_LOGO} alt="FeedMe POS" style={{ width: "100%", height: "100%", objectFit: "contain", padding: 10 }} />
-                </div>
-              </div>
-              {/* Logo chip */}
-              <div className="product-hero-icon product-hero-icon-desktop" style={{ width: "var(--icon-lg)", height: "var(--icon-lg)", borderRadius: "var(--media-radius)", background: "#ffffff", border: "1px solid rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, overflow: "hidden" }}>
-                <img src={FEEDME_LOGO} alt="FeedMe POS" style={{ width: "100%", height: "100%", objectFit: "contain", padding: 10 }} />
-              </div>
-
-              <div style={{ flex: 1, minWidth: 240 }}>
-                <div className="product-hero-eyebrow" style={{ fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: "0.5rem" }}>
-                  Software We Specialize In
-                </div>
-                <h1 className="product-hero-title" style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", fontWeight: 700, color: "#ffffff", lineHeight: 1.15, marginBottom: "1rem" }}>
-                  FeedMe POS
-                </h1>
-                <p className="product-hero-body" style={{ fontSize: "1rem", color: "rgba(255,255,255,0.65)", lineHeight: 1.78, maxWidth: 600, marginBottom: "1.5rem" }}>
-                  Cloud-based F&amp;B point-of-sale built for cafés, restaurants, and food courts.
-                  Table management, kitchen display, online ordering, and member loyalty —
-                  all in one tablet-friendly system that syncs straight to AutoCount Accounting.
-                </p>
-                <div className="product-hero-btns" style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-                  {/* Demo Now — inert for now (will be wired to a Calendly / form later) */}
-                  <button
-                    type="button"
-                    aria-disabled="true"
-                    style={{ background: "#c9a84c", color: "#1e2040", padding: "0.75rem 2rem", borderRadius: 50, fontSize: "0.9rem", fontWeight: 700, border: "none", cursor: "pointer", fontFamily: "inherit", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "0.5rem" }}
-                  >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-                      <polygon points="5 3 19 12 5 21 5 3" />
-                    </svg>
-                    Start Free Trial
-                  </button>
-                  <a
-                    href={WA_LINK} target="_blank" rel="noreferrer"
-                    style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,0.1)", color: "#ffffff", border: "1px solid rgba(255,255,255,0.25)", padding: "0.75rem 2rem", borderRadius: 50, fontSize: "0.9rem", fontWeight: 500, textDecoration: "none", transition: "background 0.2s" }}
-                    onMouseOver={e => e.currentTarget.style.background = "rgba(255,255,255,0.18)"}
-                    onMouseOut ={e => e.currentTarget.style.background = "rgba(255,255,255,0.1)"}
-                  >WhatsApp Us</a>
-                </div>
-              </div>
-            </div>
-
-            {/* Right: lifestyle showcase photo */}
-            <div className="product-hero-image" style={{ flex: "0 1 460px", maxWidth: 500, borderRadius: 18, overflow: "hidden", boxShadow: "0 24px 72px rgba(0,0,0,0.35)" }}>
-              <img src={HERO_PHOTO} alt="FeedMe POS in use at a restaurant" style={{ width: "100%", height: "auto", display: "block" }} />
-            </div>
-          </div>
-          </div>
-        </div>
+        <ProductHero
+          eyebrow="Software We Specialize In"
+          title="FeedMe POS"
+          body="Cloud-based F&B point-of-sale built for cafés, restaurants, and food courts. Table management, kitchen display, online ordering, and member loyalty — all in one tablet-friendly system that syncs straight to AutoCount Accounting."
+          iconSrc={FEEDME_LOGO}
+          backgroundImage={HERO_PHOTO}
+          primaryCta={{ label: "Start Free Trial", onClick: onContact, className: "ks-btn-feedme" }}
+          secondaryCta={{ label: "WhatsApp Us", href: WA_LINK, target: "_blank" }}
+        />
       </PinnedHeroStage>
 
       <main className="pinned-page-content product-app-content">
