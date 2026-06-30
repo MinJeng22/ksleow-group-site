@@ -2,7 +2,7 @@
   "id": "gallery",
   "title": "Company Gallery",
   "description": "K.S. Leow Group activity and team building photo gallery for company events, training days, celebrations, and team moments.",
-  "url": "https://ksleow.com.my/gallery",
+  "url": "https://ksleow.com.my/gallery/",
   "route": "/gallery",
   "category": "Company",
   "source": "site-content",

@@ -151,18 +151,20 @@ html.is-immersive-home body {
 
 .is-immersive-home .home-careers-footer-panel {
   background: #1a1c35;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .is-immersive-home .home-careers-footer-panel > .home-section {
   background: #f4f6fb !important;
-  flex: 1 1 auto;
+  flex: 0 0 clamp(300px, 38vh, 380px);
+  padding-bottom: clamp(1.25rem, 2.6vh, 2rem) !important;
+  padding-top: clamp(1.25rem, 2.6vh, 2rem) !important;
 }
 
 .is-immersive-home .home-careers-footer-panel footer {
   align-items: center;
   display: flex;
-  flex: 0 1 auto;
+  flex: 1 1 auto;
   margin-top: 0 !important;
   padding-bottom: clamp(1.6rem, 3.8vh, 3rem) !important;
   padding-top: clamp(1.6rem, 3.8vh, 3rem) !important;
@@ -211,6 +213,7 @@ html.is-immersive-home body {
 @media (max-width: 767px) {
   html.is-immersive-home {
     overscroll-behavior-y: auto;
+    scroll-behavior: auto;
     scroll-snap-type: none;
   }
 
@@ -299,6 +302,12 @@ html.is-immersive-home body {
   .is-immersive-home .home-careers-footer-panel footer {
     padding-bottom: 4.5rem !important;
     padding-top: 4.5rem !important;
+  }
+
+  .is-immersive-home .home-careers-footer-panel > .home-section,
+  .is-immersive-home .home-careers-footer-panel footer,
+  .is-immersive-home .home-careers-footer-panel > div:last-child {
+    flex: none;
   }
 }
 

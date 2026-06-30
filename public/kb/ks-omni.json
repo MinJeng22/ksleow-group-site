@@ -2,7 +2,7 @@
   "id": "ks-omni",
   "title": "KS Omni AI Assistant",
   "description": "K.S. Leow Group AI Assistant for web chat, WhatsApp handoff, document/image support, quotation workflows, and customer self-service.",
-  "url": "https://ksleow.com.my/omni",
+  "url": "https://ksleow.com.my/omni/",
   "route": "/omni",
   "category": "AI Assistant",
   "source": "site-content",

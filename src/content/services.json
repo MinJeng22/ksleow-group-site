@@ -116,7 +116,7 @@
       ]
     },
     {
-      "hideBadge": true,
+      "hideBadge": false,
       "officeKey": null,
       "logos": [
         {

@@ -2,7 +2,7 @@
   "id": "autocount-plugin",
   "title": "AutoCount Plugin",
   "description": "AutoCount Accounting plugin collection including KSL-built plugins and selected dealer plugins.",
-  "url": "https://ksleow.com.my/apps/autocount-plugin",
+  "url": "https://ksleow.com.my/apps/autocount-plugin/",
   "route": "/apps/autocount-plugin",
   "category": "App",
   "source": "site-content",

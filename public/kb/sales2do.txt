@@ -1,6 +1,6 @@
 Sales2DO AutoCount Plugin
 Sales2DO copies Invoice or Cash Sale documents to Delivery Order with outstanding quantity checking and delivery workflow controls.
-URL: https://ksleow.com.my/apps/sales2do
+URL: https://ksleow.com.my/apps/sales2do/
 Category: App
 whatsapp: +60 17-905 2323
 download: /downloads/app/Sales2DO.app

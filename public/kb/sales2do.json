@@ -2,7 +2,7 @@
   "id": "sales2do",
   "title": "Sales2DO AutoCount Plugin",
   "description": "Sales2DO copies Invoice or Cash Sale documents to Delivery Order with outstanding quantity checking and delivery workflow controls.",
-  "url": "https://ksleow.com.my/apps/sales2do",
+  "url": "https://ksleow.com.my/apps/sales2do/",
   "route": "/apps/sales2do",
   "category": "App",
   "source": "site-content",

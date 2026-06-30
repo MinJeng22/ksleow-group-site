@@ -288,7 +288,7 @@ const STYLES = `
   }
   @media (max-width: 360px) {
     .mobile-float-bar {
-      max-width: calc(100vw - 72px);
+      max-width: calc(100% - 72px);
       gap: 2px;
       padding: 3px;
     }
@@ -361,7 +361,7 @@ const STYLES = `
   .menu-panel {
     top: 4.55rem;
     right: 2rem;
-    width: min(660px, calc(100vw - 48px));
+    width: min(660px, calc(100% - 48px));
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 12px;
@@ -589,7 +589,7 @@ const STYLES = `
   .menu-panel {
     top: 4.2rem;
     right: 1.2rem;
-    width: min(620px, calc(100vw - 32px));
+    width: min(620px, calc(100% - 32px));
     padding: 14px;
   }
   .menu-sub-item {

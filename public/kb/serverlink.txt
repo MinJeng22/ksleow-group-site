@@ -1,6 +1,6 @@
 ServerLink
 Secure, fast, and reliable remote access solution for your business software.
-URL: https://ksleow.com.my/products/serverlink
+URL: https://ksleow.com.my/products/serverlink/
 Category: Product
 Target market
 Businesses needing secure, fast, and reliable remote access to desktop software.

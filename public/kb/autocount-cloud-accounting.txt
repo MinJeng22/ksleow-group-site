@@ -1,6 +1,6 @@
 AutoCount CloudAccounting
 Browser‑based AutoCount CloudAccounting with e‑Invoice, AI SmartScan, bank connection, and anytime access.
-URL: https://ksleow.com.my/products/autocount-cloud-accounting
+URL: https://ksleow.com.my/products/autocount-cloud-accounting/
 Category: Product
 officialProductUrl: https://www.autocountsoft.com/pro-cloud-acc.html
 officialApiUrl: https://accounting-api.autocountcloud.com/documentation/

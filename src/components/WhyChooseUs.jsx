@@ -114,7 +114,7 @@ export default function WhyChooseUs({ section, sectionFrom = "var(--ks-page-clou
             .ac-awards-container-new {
               mask-image: none;
               -webkit-mask-image: none;
-              max-width: min(1480px, calc(100vw - clamp(3rem, 7vw, 8rem)));
+              max-width: min(1480px, calc(100% - clamp(3rem, 7vw, 8rem)));
               margin-left: auto;
               margin-right: auto;
               overflow: visible;
@@ -165,7 +165,7 @@ export default function WhyChooseUs({ section, sectionFrom = "var(--ks-page-clou
           }
           @media (min-width: 1600px) {
             .ac-awards-container-new {
-              max-width: min(1560px, calc(100vw - clamp(7rem, 10vw, 14rem)));
+              max-width: min(1560px, calc(100% - clamp(7rem, 10vw, 14rem)));
               padding-top: 1.45rem;
               padding-bottom: 1.45rem;
             }
@@ -178,7 +178,7 @@ export default function WhyChooseUs({ section, sectionFrom = "var(--ks-page-clou
           }
           @media (min-width: 1900px) {
             .ac-awards-container-new {
-              max-width: min(1680px, calc(100vw - clamp(10rem, 14vw, 22rem)));
+              max-width: min(1680px, calc(100% - clamp(10rem, 14vw, 22rem)));
             }
             .ac-awards-item {
               height: clamp(172px, 7.2vw, 195px);
