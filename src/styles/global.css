@@ -2578,6 +2578,12 @@ a.contact-directory-value:hover {
   border-color: #25D366;
   color: #ffffff;
 }
+.ks-btn-hrms { background: #8e44ad; border-color: #8e44ad; color: #fff; }
+.ks-btn-hrms:hover { background: #9b59b6; border-color: #9b59b6; }
+.ks-btn-onesale { background: #1bb4a6; border-color: #1bb4a6; color: #fff; }
+.ks-btn-onesale:hover { background: #26c6da; border-color: #26c6da; }
+.ks-btn-serverlink { background: #d32f2f; border-color: #d32f2f; color: #fff; }
+.ks-btn-serverlink:hover { background: #e53935; border-color: #e53935; }
 
 .ks-btn-facebook {
   background: #1877F2;

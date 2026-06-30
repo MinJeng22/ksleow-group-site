@@ -177,12 +177,12 @@ export default function FeedMePOSPage() {
                   <button
                     type="button"
                     aria-disabled="true"
-                    style={{ background: "#c9a84c", color: "#1e2040", padding: "0.75rem 2rem", borderRadius: 50, fontSize: "0.9rem", fontWeight: 700, border: "none", cursor: "default", fontFamily: "inherit", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "0.5rem" }}
+                    style={{ background: "#c9a84c", color: "#1e2040", padding: "0.75rem 2rem", borderRadius: 50, fontSize: "0.9rem", fontWeight: 700, border: "none", cursor: "pointer", fontFamily: "inherit", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "0.5rem" }}
                   >
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
                       <polygon points="5 3 19 12 5 21 5 3" />
                     </svg>
-                    Request Demo
+                    Start Free Trial
                   </button>
                   <a
                     href={WA_LINK} target="_blank" rel="noreferrer"
