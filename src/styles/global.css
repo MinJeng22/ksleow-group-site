@@ -42,8 +42,8 @@
   --ks-page-ice: #f2f8ff;
   --ks-page-ink: #2f315a;
 
-  /* Desktop: tight padding */
-  --px: 16%;
+  /* Desktop: moderate padding */
+  --px: clamp(80px, 8%, 140px);
   --content-max-w: 1440px;
 }
 
@@ -526,7 +526,7 @@ textarea {
 @media (min-width: 1600px) {
   :root {
     --content-max-w: 1560px;
-    --px: clamp(120px, 11%, 180px);
+    --px: clamp(120px, 9%, 180px);
     --section-py: 6.8rem;
     --section-py-sm: 4.6rem;
   }
@@ -557,7 +557,7 @@ textarea {
 @media (min-width: 1900px) {
   :root {
     --content-max-w: 1880px;
-    --px: clamp(140px, 12%, 200px);
+    --px: clamp(140px, 10%, 200px);
     --section-py: 6.4rem;
     --section-py-sm: 4.5rem;
   }
