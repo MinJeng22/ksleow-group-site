@@ -23,7 +23,7 @@ const MEGA_MENU = [
       { label: "AutoCount Accounting",      path: "/products/autocount-accounting", icon: "monitor" },
       { label: "FeedMe POS",                path: "/products/feedme-pos", icon: "fork" },
       { label: "AutoCount CloudAccounting", path: "/products/autocount-cloud-accounting", icon: "cloud" },
-      { label: "AutoCount POS",             path: "/products/autocount-pos", icon: "cash-register" },
+      { label: "AutoCount POS",             path: "", icon: "cash-register" },
       { label: "ServerLink",                path: "/products/serverlink", icon: "laptop" },
       { label: "AutoCount HRMS",            path: "/products/autocount-hrms", icon: "users" },
       { label: "AutoCount OneSale",         path: "/products/autocount-onesale", icon: "smartphone" },

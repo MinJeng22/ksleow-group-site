@@ -102,11 +102,16 @@ export default function ServiceContactModal({ service, onClose }) {
               fontWeight: 600, fontSize: "0.88rem",
               textDecoration: "none", textAlign: "center", fontFamily: "inherit",
               transition: "opacity 0.2s",
+              display: "flex", alignItems: "center", justifyContent: "center", gap: "0.3rem"
             }}
             onMouseOver={e => e.currentTarget.style.opacity = "0.88"}
             onMouseOut={e => e.currentTarget.style.opacity = "1"}
           >
             WhatsApp — {phone}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M7 17 17 7" />
+              <path d="M9 7h8v8" />
+            </svg>
           </a>
 
           <a
@@ -117,11 +122,16 @@ export default function ServiceContactModal({ service, onClose }) {
               fontWeight: 600, fontSize: "0.88rem",
               textDecoration: "none", textAlign: "center", fontFamily: "inherit",
               transition: "background 0.2s",
+              display: "flex", alignItems: "center", justifyContent: "center", gap: "0.3rem"
             }}
             onMouseOver={e => e.currentTarget.style.background = "#3d4075"}
             onMouseOut={e => e.currentTarget.style.background = "#2f315a"}
           >
             Email Us
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M7 17 17 7" />
+              <path d="M9 7h8v8" />
+            </svg>
           </a>
         </div>
 

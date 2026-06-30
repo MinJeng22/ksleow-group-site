@@ -19,6 +19,7 @@ import { Img } from "./Media.jsx";
  *   overlayOpacity  0–1, defaults to 0.6                       (number?)
  *   primaryCta      { label, href?, onClick?, disabled?, download?, icon? }
  *   secondaryCta    { label, href, target? }
+ *   tertiaryCta     { label, href, target? }
  * ══════════════════════════════════════════════════════════════ */
 
 const DEFAULT_BG = "/images/products/autocount-accounting-hero.webp";
@@ -58,6 +59,7 @@ export default function ProductHero({
   overlayOpacity = 0.6,
   primaryCta,
   secondaryCta,
+  tertiaryCta,
 }) {
 
   return (
@@ -145,6 +147,7 @@ export default function ProductHero({
               <div className="product-hero-btns" style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
                 {primaryCta && <PrimaryButton cta={primaryCta} />}
                 {secondaryCta && <SecondaryButton cta={secondaryCta} />}
+                {tertiaryCta && <SecondaryButton cta={tertiaryCta} />}
               </div>
             </div>
           </div>
@@ -179,9 +182,13 @@ function PrimaryButton({ cta }) {
         target={cta.target}
         rel={cta.target === "_blank" ? "noreferrer" : undefined}
         className={"ks-btn ks-btn-primary " + (cta.className || "")}
+        style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem" }}
       >
         {icon}
         {cta.label}
+        {(!cta.href.startsWith("/") && !cta.href.startsWith("#")) && (
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17 17 7" /><path d="M9 7h8v8" /></svg>
+        )}
       </a>
     );
   }
@@ -202,8 +209,12 @@ function SecondaryButton({ cta }) {
       className="btn-ghost-base btn-ghost-light"
       target={cta.target}
       rel={cta.target === "_blank" ? "noreferrer" : undefined}
+      style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem" }}
     >
       {cta.label}
+      {(!cta.href.startsWith("/") && !cta.href.startsWith("#")) && (
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17 17 7" /><path d="M9 7h8v8" /></svg>
+      )}
     </a>
   );
 }

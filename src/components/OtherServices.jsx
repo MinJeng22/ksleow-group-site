@@ -120,6 +120,7 @@ function PartnerModal({
               >
                 {action.icon}
                 {action.label}
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: "4px" }}><path d="M7 17 17 7" /><path d="M9 7h8v8" /></svg>
               </a>
             ))}
           </div>

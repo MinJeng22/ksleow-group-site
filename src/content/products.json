@@ -37,7 +37,7 @@
       "background": "/images/products/autocount-pos-showcase.webp",
       "placeholder": "🖥️",
       "gradient": "rgb(244, 234, 207)",
-      "route": "/products/autocount-pos"
+      "route": ""
     },
     {
       "name": "ServerLink",
