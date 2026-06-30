@@ -284,67 +284,31 @@ html.is-immersive-home body {
     min-height: 100svh;
   }
 
-  .is-immersive-home .home-content-layer > .home-section {
-    padding-bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px)) !important;
-    padding-top: calc(1.25rem + env(safe-area-inset-top, 0px)) !important;
-  }
-
-  .is-immersive-home .home-combined-panel {
-    padding: 0 !important;
-  }
-
-  .is-immersive-home .home-combined-panel > .home-section {
-    overflow: visible;
+  .is-immersive-home .home-content-layer > .home-section:not(.home-combined-panel) {
     padding-bottom: var(--section-py) !important;
     padding-top: var(--section-py) !important;
   }
 
-  .is-immersive-home .home-stats-services-panel > .stats-section {
-    flex-basis: auto;
+  .is-immersive-home .home-combined-panel {
+    background: transparent !important;
+    padding: 0 !important;
   }
 
-  .is-immersive-home .ks-section-title-lg {
-    font-size: clamp(1.32rem, 5vw, 1.86rem) !important;
+  .is-immersive-home .home-stats-services-panel::before,
+  .is-immersive-home .home-stats-services-panel::after {
+    display: none;
   }
 
-  .is-immersive-home .ks-body-text {
-    font-size: 0.84rem !important;
-    line-height: 1.58 !important;
-  }
-
-  .is-immersive-home #services .services-grid {
-    grid-template-columns: 1fr !important;
-    gap: 0.8rem !important;
-  }
-
-  .is-immersive-home #services .services-grid > div {
-    height: 250px !important;
-  }
-
-  .is-immersive-home #services .service-card-shell {
-    scroll-margin-top: 0;
-  }
-
-  .is-immersive-home #services .ks-body-text,
-  .is-immersive-home .products-section .ks-body-text {
-    margin-bottom: 1.15rem !important;
-  }
-
-  .is-immersive-home .products-header {
-    margin-bottom: 1.1rem !important;
-  }
-
-  .is-immersive-home .products-section {
-    --products-carousel-h: min(340px, 43svh);
-  }
-
-  .is-immersive-home .other-services-section .section-header,
-  .is-immersive-home .other-services-section [class*="section-header"] {
-    margin-bottom: 1.15rem !important;
-  }
-
-  .is-immersive-home .careers-btns {
-    justify-content: flex-start !important;
+  .is-immersive-home .home-combined-panel > .home-section {
+    background: inherit;
+    display: block;
+    flex: none;
+    height: auto;
+    min-height: 0 !important;
+    overflow: visible;
+    padding-bottom: var(--section-py) !important;
+    padding-top: var(--section-py) !important;
+    width: 100%;
   }
 
   .is-immersive-home .home-careers-footer-panel footer {
