@@ -21,7 +21,7 @@
     "category": "Product",
     "changefreq": "weekly",
     "priority": "0.8",
-    "image": "",
+    "image": "/images/products/autocount-accounting-icon.webp",
     "kbJson": "https://ksleow.com.my/kb/autocount-accounting.json",
     "kbText": "https://ksleow.com.my/kb/autocount-accounting.txt"
   },
@@ -34,7 +34,7 @@
     "category": "Product",
     "changefreq": "weekly",
     "priority": "0.8",
-    "image": "",
+    "image": "/images/products/cloudaccounting-icon.webp",
     "kbJson": "https://ksleow.com.my/kb/autocount-cloud-accounting.json",
     "kbText": "https://ksleow.com.my/kb/autocount-cloud-accounting.txt"
   },
@@ -47,7 +47,7 @@
     "category": "Product",
     "changefreq": "weekly",
     "priority": "0.8",
-    "image": "https://ksleow.com.my/images/products/autocount-pos-showcase.webp",
+    "image": "/images/products/autocount-pos.webp",
     "kbJson": "https://ksleow.com.my/kb/autocount-pos.json",
     "kbText": "https://ksleow.com.my/kb/autocount-pos.txt"
   },
@@ -60,7 +60,7 @@
     "category": "Product",
     "changefreq": "weekly",
     "priority": "0.8",
-    "image": "",
+    "image": "/images/products/feedme-icon.webp",
     "kbJson": "https://ksleow.com.my/kb/feedme-pos.json",
     "kbText": "https://ksleow.com.my/kb/feedme-pos.txt"
   },
@@ -73,7 +73,7 @@
     "category": "Product",
     "changefreq": "monthly",
     "priority": "0.6",
-    "image": "",
+    "image": "/images/products/serverlink-icon.png",
     "kbJson": "https://ksleow.com.my/kb/serverlink.json",
     "kbText": "https://ksleow.com.my/kb/serverlink.txt"
   },
@@ -86,7 +86,7 @@
     "category": "Product",
     "changefreq": "monthly",
     "priority": "0.6",
-    "image": "",
+    "image": "/images/products/hrms-icon.webp",
     "kbJson": "https://ksleow.com.my/kb/autocount-hrms.json",
     "kbText": "https://ksleow.com.my/kb/autocount-hrms.txt"
   },
@@ -99,7 +99,7 @@
     "category": "Product",
     "changefreq": "monthly",
     "priority": "0.6",
-    "image": "",
+    "image": "/images/products/onesales-icon.webp",
     "kbJson": "https://ksleow.com.my/kb/autocount-onesale.json",
     "kbText": "https://ksleow.com.my/kb/autocount-onesale.txt"
   },
@@ -112,7 +112,7 @@
     "category": "App",
     "changefreq": "weekly",
     "priority": "0.8",
-    "image": "",
+    "image": "/images/products/ac-plugin-icon.webp",
     "kbJson": "https://ksleow.com.my/kb/autocount-plugin.json",
     "kbText": "https://ksleow.com.my/kb/autocount-plugin.txt"
   },
@@ -125,7 +125,7 @@
     "category": "App",
     "changefreq": "weekly",
     "priority": "0.8",
-    "image": "",
+    "image": "/images/products/ac-plugin-icon.webp",
     "kbJson": "https://ksleow.com.my/kb/sales2do.json",
     "kbText": "https://ksleow.com.my/kb/sales2do.txt"
   },

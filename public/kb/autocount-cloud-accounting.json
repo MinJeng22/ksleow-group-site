@@ -68,5 +68,6 @@
         "1.1.80 Release 80 Date: 2026-03-10 Features: Support SST Treatment for Rental and Leasing Services Fixes: Fix hitting “Value was either too large or too small for an Int64” error when create Consolidated e-Invoice; Fix object reference error at Journal Entry Listing Report; Fix object reference error when copy from Payment Voucher at Self-Bill; Fix database timeout error in Bank Transactions; Fix object reference error when save Stock Opening Balance; Fix database timeout error in Invoice Listing Report; Fix database timeout error in Sales Price History Highlights: 1. Support SST Treatment for Rental and Leasing Services; A new SST tax code SVR-6 has been introduced to support 6% Service Tax for Rental or Leasing Services, with 2% service tax exemption based on the latest SST treatment.; This enhancement ensures correct invoice display, SST reporting, and e-Invoice submission mapping.; 1.1 Added New Tax Code SVR-6; A new tax code SVR-6 has been introduced in Tax Code Maintenance > Configure Malaysia SST > Output Tax.; 1.2 Invoice Display Enhancement; When using the SVR-6 tax code, the invoice will continue to display 6% SST at both the invoice line level and invoice summary.; System will automatically calculate the 2% exempted service tax amount and make it available as a new field that can be displayed on the invoice. Source: https://help.accounting.autocountcloud.com/support/discussions/topics/69000713314"
       ]
     }
-  ]
+  ],
+  "image": "/images/products/cloudaccounting-icon.webp"
 }

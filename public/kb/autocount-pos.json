@@ -6,7 +6,7 @@
   "route": "/products/autocount-pos",
   "category": "Product",
   "source": "site-content",
-  "image": "https://ksleow.com.my/images/products/autocount-pos-showcase.webp",
+  "image": "/images/products/autocount-pos.webp",
   "applicationCategory": "BusinessApplication",
   "operatingSystem": "Windows",
   "keywords": [
