@@ -63,7 +63,7 @@ function injectHead(html, doc) {
   const description = doc.description || `${doc.title} from ${siteName}`;
   const canonical = doc.url;
   const absoluteUrl = (value) => {
-    if (!value) return `${siteUrl}/images/branding/ksleow-search-card.webp`;
+    if (!value) return `${siteUrl}/favicon.png`;
     return String(value).startsWith("http") ? value : `${siteUrl}${value}`;
   };
   const pageImage = absoluteUrl(doc.image);
@@ -143,8 +143,6 @@ function injectHead(html, doc) {
     `<meta property="og:url" content="${escapeHtml(canonical)}" />`,
     `<meta property="og:site_name" content="${escapeHtml(siteName)}" />`,
     `<meta property="og:image" content="${escapeHtml(pageImage)}" />`,
-    `<meta property="og:image:width" content="1200" />`,
-    `<meta property="og:image:height" content="1200" />`,
     `<meta property="og:image:alt" content="${escapeHtml(`${siteName} business and technology solutions`)}" />`,
     `<meta property="og:type" content="website" />`,
     `<meta name="twitter:card" content="summary_large_image" />`,
