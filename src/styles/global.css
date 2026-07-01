@@ -2135,7 +2135,7 @@ a.contact-directory-value:hover {
   container-type: inline-size;
   --products-gap: clamp(0.7rem, 1vw, 0.95rem);
   --products-edge-peek: calc(var(--products-gap) * -1);
-  --container-w: min(100cqw, var(--content-max-w) - var(--px) * 2);
+  --container-w: 100cqw;
   --products-card-width: calc((var(--container-w) - var(--products-gap) * 3) / 4);
   width: 100%;
   padding: 0;
