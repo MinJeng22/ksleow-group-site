@@ -92,20 +92,13 @@ export default function ContactModal({ open, onClose }) {
         </button>
 
         <div className="partner-modal-body contact-directory-body">
-          <div style={{ marginBottom: "2rem" }}>
-            <h2 id="contact-directory-title" className="partner-modal-title" style={{ marginBottom: "0.25rem" }}>Contact Us</h2>
+          <div style={{ marginBottom: "2rem", display: "flex", alignItems: "baseline", flexWrap: "wrap", gap: "0.75rem" }}>
+            <h2 id="contact-directory-title" className="partner-modal-title" style={{ margin: 0 }}>Contact Us</h2>
             <p style={{ 
               fontSize: "0.95rem", 
               color: "var(--text-secondary)", 
-              margin: 0,
-              display: "flex",
-              alignItems: "center",
-              gap: "0.5rem"
+              margin: 0
             }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10"/>
-                <polyline points="12 6 12 12 16 14"/>
-              </svg>
               {CONTACT.hours}
             </p>
           </div>
