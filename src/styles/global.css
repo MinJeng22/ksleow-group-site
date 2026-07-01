@@ -3319,16 +3319,25 @@ body.has-active-modal .back-to-top-glass {
   z-index: 1;
 }
 
+.products-section .product-card-media {
+  isolation: isolate;
+  padding-bottom: 56%;
+}
+
 /* Responsive padding for Product Cards on mobile/tablet to prevent logos from appearing too large */
 @media (max-width: 900px) {
   .product-card {
     --card-logo-padding: 22%;
-    --card-media-ratio: 21 / 10;
+  }
+  .products-section .product-card-media {
+    padding-bottom: 46%;
   }
 }
 @media (max-width: 640px) {
   .product-card {
     --card-logo-padding: 26%;
-    --card-media-ratio: 8 / 3;
+  }
+  .products-section .product-card-media {
+    padding-bottom: 38%;
   }
 }

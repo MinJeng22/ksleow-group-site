@@ -144,10 +144,8 @@ function ProductCard({ product, productIndex, order, hovered, revealed, animateR
         <div
           className="product-card-media"
           style={{
-            width: "100%",
-            aspectRatio: "var(--card-media-ratio, 16 / 9)",
-          position: "relative",
-          overflow: "hidden",
+            position: "relative",
+            overflow: "hidden",
           outline: (product.img || product.background) ? "none" : "2px dashed rgba(255,255,255,0.15)",
           outlineOffset: -6,
           perspective: "800px",
