@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "ksleow-group-site",
+  "name": "ksleow",
   "compatibility_date": "2026-06-16",
   "workers_dev": true,
   "preview_urls": false,
